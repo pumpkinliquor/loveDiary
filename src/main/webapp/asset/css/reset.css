@@ -1,0 +1,295 @@
+@charset "UTF-8";
+/** @Ncomz common  V 0.7.1 | @Ncomz Design -  @mo @joo **/
+/*@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);*/
+
+
+/* HTML5 reset css Document */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address,
+cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i,
+dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section,
+summary, time, mark, audio, video{ margin:0;padding:0;border:0;outline:0;background:transparent;-webkit-text-size-adjust:none; }
+
+fieldset,img{border:0 none}
+dl,li,menu,ol,ul{list-style:none;}
+blockquote,q{quotes:none}
+blockquote:after,blockquote:before,q:after,q:before{content:'';content:none}
+button,input,select,textarea{vertical-align:middle}
+button{border:0 none;background-color:transparent;cursor:pointer}
+
+input:checked[type=checkbox]{background-color:#666;-webkit-appearance:checkbox}
+input[type=button],input[type=email],input[type=password],input[type=reset],input[type=search],input[type=submit],input[type=tel],input[type=text]{-webkit-appearance:none;border-radius:0}
+
+a{color:#333;text-decoration:none}
+a:visited, a:hover, a:active {color:#333; text-decoration:none}
+
+address,caption,cite,code,dfn,em,var{font-style:normal;font-weight:400}
+button::-moz-focus-inner{border:0;padding:0}
+
+html {font-size:13px;}
+body {font-size:13px; color:#000000; -webkit-text-size-adjust:none; background-color:#ffffff; min-width:870px; min-height:700px;}
+body {font-family:"Nanum Gothic", Dotum,돋움, AppleSDGothicNeo, sans-serif;}
+
+input,textarea,select,button,table,h1,h2,h3,h4,h5,h6 {font-weight:300; color:#222222; font-size:100%;}
+
+em,i,address {font-style:normal; font-weight:normal;}
+legend{*width:0; display:none;}
+caption{ display:none; }
+input,textarea,select,button,table{ font-size:inherit;font-family:inherit;line-height:inherit; }
+table{border-collapse:collapse;border-spacing:0;}
+textarea {resize:none; }
+
+input, textarea, button, select { outline:none; }
+input,textarea,button {-webkit-border-radius:0; border-radius:0; } /*-webkit-appearance:none;*/
+
+* {box-sizing:border-box;}
+/*
+::-webkit-scrollbar {width:10px; height:8px;}
+::-webkit-scrollbar-button{}
+
+::-webkit-scrollbar-track {background-color:#f1f1f1; border:none;  box-shadow:0; border-radius:0px;}
+::-webkit-scrollbar-track:horizontal {border-top:1px solid #fff;}
+::-webkit-scrollbar-thumb {background-color:rgba(0,0,0,0.2); border-radius:0px; border:0px solid #aaa;}
+::-webkit-scrollbar-corner{}
+::-webkit-scrollbar-thumb:hover {background-color:rgba(0,0,0,0.4);}
+
+::-webkit-scrollbar {width:10px;}
+*/
+/* ie용 */
+body {
+ scrollbar-face-color: #b0b0b0;
+ scrollbar-highlight-color: #a3a3a3;
+ scrollbar-shadow-color: #a3a3a3;
+ scrollbar-3dlight-color: #a3a3a3;
+ scrollbar-arrow-color: #aaa;
+ scrollbar-track-color: #e0e0e0;
+ scrollbar-darkshadow-color: #e0e0e0;
+}
+
+/*global*/
+.hide {display:none !important;}
+.mt10 {margin-top:10px;}
+
+.hidden {display:none;}
+
+.tr {text-align:right}
+.trbtn {text-align:right;margin-left:-10px;}
+.tl {text-align:left}
+.tc {text-align:center}
+
+.tri {text-align:right !important;}
+.tli {text-align:left !important;}
+.tci {text-align:center !important;}
+
+
+/* 폰트색상 */
+.c0  {color:#000;}
+.c2  {color:#222;}
+.c3  {color:#333 !important;}
+.c4  {color:#444;}
+.c5  {color:#555;}
+.c6  {color:#666;}
+.c8  {color:#888;}
+.c9  {color:#999;}
+.cf  {color:#fff;}
+.cg1 {color:#69696a;}
+.cg2 {color:#ababab;}
+.cyellow {color:#fdaf17;}
+.cg3 {color:#848484;}
+.cg4 {color:#727272;}
+.cg5 {color:#b3b7bc;}
+.cred {color:#DF2519;}
+.cblue {color:#2176C6;}
+.cblue1 {color:#4e70a5;}
+.cblue2 {color:#0f61ac;}
+.cpink {color:#f9587d}
+.cgold {color:#b8883c;}
+.cgreen {color:#758d0a;}
+.cbrown {color:#9F2C00;}
+
+
+/* 폰트속성 */
+.nb {font-weight:normal;}
+.b {font-weight:bold;}
+.fs {font-size:90%}
+.fb {font-size:120%;}
+.f11 {font-size:11px;}
+.f12 {font-size:12px;}
+.f13 {font-size:13px;}
+.f14 {font-size:14px;}
+.f15 {font-size:14px;}
+.f16 {font-size:16px;}
+.f18 {font-size:18px;}
+.f20 {font-size:20px;}
+.f22 {font-size:22px;}
+.f24 {font-size:24px;}
+.f26 {font-size:26px;}
+
+/*도움말 공통*/
+.tip{font-size:11px;letter-spacing:-1px;color:#b8a173;line-height:130%;}
+
+/*줄간격*/
+.lh180 {line-height:180%;}
+.lh170 {line-height:160%;}
+.lh150 {line-height:150%;}
+.lh140 {line-height:140%;}
+.lh130 {line-height:130%;}
+.lh120{line-height:120%;}
+.lh110{line-height:110%;}
+
+/*영문,숫자*/
+.en {font-size:90%;font-family:Verdana;}
+
+/*회색조*/
+.gray { filter: Gray; }
+
+
+/* 패딩 5,10단위만 지정함*/
+.pda0  {padding:0 !important;}
+.pd0  {padding:0 !important;}
+.pda5  {padding:5px !important;}
+.pda10 {padding:10px !important;}
+.pda20 {padding:20px !important;}
+.pda30 {padding:30px !important;}
+.pda40 {padding:40px !important;}
+.pda50 {padding:50px !important;}
+
+.pdt0  {padding-top:0 !important;}
+.pdt5  {padding-top:5px !important;}
+.pdt7  {padding-top:7px !important;}
+.pdt10 {padding-top:10px !important;}
+.pdt20 {padding-top:20px !important;}
+.pdt30 {padding-top:30px !important;}
+.pdt40 {padding-top:40px !important;}
+.pdt50 {padding-top:50px !important;}
+
+.pdb0  {padding-bottom:0 !important;}
+.pdb5  {padding-bottom:5px !important;}
+.pdb10 {padding-bottom:10px !important;}
+.pdb20 {padding-bottom:20px !important;}
+.pdb30 {padding-bottom:30px !important;}
+.pdb40 {padding-bottom:40px !important;}
+.pdb50 {padding-bottom:50px !important;}
+
+.pdl0  {padding-left:0 !important;}
+.pdl5  {padding-left:5px !important;}
+.pdl10 {padding-left:10px !important;}
+.pdl20 {padding-left:20px !important;}
+.pdl30 {padding-left:30px !important;}
+.pdl40 {padding-left:40px !important;}
+.pdl50 {padding-left:50px !important;}
+
+.pdr0  {padding-right:0 !important;}
+.pdr5  {padding-right:5px !important;}
+.pdr10 {padding-right:10px !important;}
+.pdr20 {padding-right:20px !important;}
+.pdr30 {padding-right:30px !important;}
+.pdr40 {padding-right:40px !important;}
+.pdr50 {padding-right:50px !important;}
+
+.pdtb0  {padding-top:0 !important;padding-bottom:0 !important;}
+.pdtb5  {padding-top:5px !important;padding-bottom:5px !important;}
+.pdtb10 {padding-top:10px !important;padding-bottom:10px !important;}
+.pdtb20 {padding-top:20px !important;padding-bottom:20px !important;}
+.pdtb30 {padding-top:30px !important;padding-bottom:30px !important;}
+.pdtb40 {padding-top:40px !important;padding-bottom:40px !important;}
+.pdtb50 {padding-top:50px !important;padding-bottom:50px !important;}
+
+.pdtb0  {padding-left:0 !important;padding-right:0 !important;}
+.pdlr5  {padding-left:5px !important;padding-right:5px !important;}
+.pdlr10 {padding-left:10px !important;padding-right:10px !important;}
+.pdlr20 {padding-left:20px !important;padding-right:20px !important;}
+.pdlr30 {padding-left:30px !important;padding-right:30px !important;}
+.pdlr40 {padding-left:40px !important;padding-right:40px !important;}
+.pdlr50 {padding-left:50px !important;padding-right:50px !important;}
+
+
+
+/*마진*/
+.mga0 {margin:0 auto !important;}
+.mg0a {margin:0 auto !important;}
+.mga5 {margin:5px auto;}
+.mga10 {margin:10px auto;}
+.mga20 {margin:20px auto;}
+.mga30 {margin:30px auto;}
+.mga40 {margin:40px auto;}
+.mga50 {margin:50px auto;}
+
+.mgb0 {margin-bottom:0px !important;}
+.mgb5 {margin-bottom:5px !important;}
+.mgb10 {margin-bottom:10px !important;}
+.mgb15 {margin-bottom:15px !important;}
+.mgb20 {margin-bottom:20px !important;}
+.mgb25 {margin-bottom:25px !important;}
+.mgb30 {margin-bottom:30px !important;}
+.mgb40 {margin-bottom:40px !important;}
+.mgb50 {margin-bottom:50px !important;}
+
+.mgt0 {margin-top:0 !important;}
+.mgt5 {margin-top:5px !important;}
+.mgt10 {margin-top:10px !important;}
+.mgt15 {margin-top:15px !important;}
+.mgt20 {margin-top:20px !important;}
+.mgt25 {margin-top:25px !important;}
+.mgt30 {margin-top:30px !important;}
+.mgt40 {margin-top:40px !important;}
+.mgt50 {margin-top:50px !important;}
+
+.mgl0 {margin-left:0 !important;}
+.mgl5 {margin-left:5px !important;}
+.mgl10 {margin-left:10px !important;}
+.mgl15 {margin-left:15px !important;}
+.mgl20 {margin-left:20px !important;}
+.mgl25 {margin-left:25px !important;}
+.mgl30 {margin-left:30px !important;}
+.mgl50 {margin-left:50px !important;}
+
+.mgr0 {margin-right:0 !important;}
+.mgr5 {margin-right:5px !important;}
+.mgr10 {margin-right:10px !important;}
+.mgr15 {margin-right:15px !important;}
+.mgr20 {margin-right:20px !important;}
+.mgr25 {margin-right:25px !important;}
+.mgr30 {margin-right:30px !important;}
+.mgr40 {margin-right:40px !important;}
+.mgr50 {margin-right:50px !important;}
+
+.mg0 {margin:0 !important;}
+.mg5 {margin:5px !important;}
+.mg10 {margin:10px !important;}
+.mg15 {margin:15px !important;}
+.mg20 {margin:20px !important;}
+.mg25 {margin:25px !important;}
+.mg30 {margin:30px !important;}
+.mg40 {margin:40px !important;}
+.mg50 {margin:50px !important;}
+
+/* border */
+
+.bda0{border:none !important;}
+.bdt0{border-top:none !important;}
+.bdt1{border-top:1px solid #ededed !important;}
+.bdt2{border-top:2px solid #ededed !important;}
+.bdb0{border-bottom:none !important;}
+.bdl0{border-left:none !important;}
+.bdr0{border-right:none !important;}
+.bda1{border:1px solid #efefef}
+.bda2{border:2px solid #efefef}
+.bda3{border:3px solid #efefef}
+.bda4{border:4px solid #efefef}
+.bda4{border:5px solid #efefef}
+.bdb1{border-bottom:1px solid #efefef}
+.bdb2{border-bottom:2px solid #efefef}
+.bdb3{border-bottom:3px solid #efefef}
+.bdb4{border-bottom:4px solid #efefef}
+.bdb4{border-bottom:5px solid #efefef}
+
+/* toast */
+.toast{position:fixed;list-style:none;padding:0;top:0;z-index:999999;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;line-height:20px;top:150px;}
+.toast li{margin:10px 0 0 0;display:block;background-color:#fcf8e3;color:#c09853;border:1px solid #fbeed5;padding:5px 10px;border-radius:4px;-webkit-border-radius:4px;text-shadow:0 1px 0 rgba(255,255,255,0.5);box-shadow:0 2px 5px rgba(0,0,0,.15);-webkit-box-shadow:0 2px 5px rgba(0,0,0,.15)}
+.toast li:first-child{margin-top:0}
+.toast li.danger{color:#b94a48;background-color:#f2dede;border-color:#eed3d7}
+.toast li.info{color:#3a87ad;background-color:#d9edf7;border-color:#bce8f1}
+.toast li.success{color:#468847;background-color:#dff0d8;border-color:#d6e9c6}
+.toast button.close{background:none;border:none;font-weight:bold;font-size:20px;line-height:20px;float:right;padding:0;margin:0 0 0 5px;color:rgba(0,0,0,.25);cursor:pointer}
+.toast h1,.toast h2,.toast h3,.toast h4{display:inline}

@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontLearnDAO">
+	
+	<!-- 각 분류별 기본문제 출제 -->
+	<select id="selectBasicQuestionList" parameterType="aigoLearnEntity" resultType="aigoLearnEntity">
+		/* FrontLearnDAO.selectBasicQuestionList */
+		select
+			qstinfo.*
+		from (
+			select
+				@rownum := @rownum+1 as rownum
+				, qst.*
+			from (
+				select
+					aq.*
+					, aa.acv_name
+					, saf.saf_path
+					, saf.saf_file
+					, answer.pass_yn
+					, answer.ans_value
+					, ac.aca_name
+					, al.lev_name
+					, cas.sub_name
+				from cb_aigo_question as aq
+				left join (
+					select
+						amal.qst_id
+						, amal.ans_id
+						, amal.ans_value
+						, ifnull(amal.pass_yn,'n') as pass_yn
+					from cb_aigo_my_answer_list as amal
+					
+					where amal.ans_id in ( 
+						select
+							max(ans.ans_id) as ans_id
+						from cb_aigo_my_answer_list as ans
+						where ans.mem_id = #{memId}
+						group by ans.qst_id
+					)
+				) as answer
+					on aq.qst_id = answer.qst_id
+				left join cb_aigo_achievement as aa
+					on aa.acv_id = aq.acv_id
+					and aa.lev_id = aq.lev_id
+					and aa.sub_id = aq.sub_id
+				left join plus_site_attach_file as saf
+					on saf.saf_bbs = #{fileCategory}
+					and saf.seq = aq.qst_id
+				left join cb_aigo_category as ac
+					on ac.aca_id = aq.aca_id
+				left join cb_aigo_level as al
+					on aq.lev_id = al.lev_id
+				left join cb_aigo_subject as cas
+					on aq.sub_id = cas.sub_id
+				where aq.sub_id = #{subId}
+					and aq.lev_id = #{levId}
+					AND aq.acv_id = #{acvId}
+					AND aq.aca_id in
+					<foreach collection="arrCategories" item="arr" open="(" close=")" separator=",">
+					 	#{arr}
+					</foreach>
+					<if test="arrExceptCategories != null ">
+					AND aq.sub_aca_id not in
+					<foreach collection="arrExceptCategories" item="arr" open="(" close=")" separator=",">
+					 	#{arr}
+					</foreach>
+					</if>
+				order by ac.aca_learn_order asc, aq.qst_order asc
+			) as qst, (select @rownum:=0) as temp
+		) as qstinfo
+		where (qstinfo.ans_value is null || qstinfo.ans_value = '')
+			<if test="currentQuestionNumber != null and currentQuestionNumber != '' ">
+			and rownum <![CDATA[>=]]> #{currentQuestionNumber}
+			</if>
+		limit 1
+	</select>
+	
+	<!-- 유사문제 푼 정보 조회 -->
+	<select id="selectSubQuestionInfo" parameterType="aigoLearnEntity" resultType="aigoLearnEntity">
+		/* FrontLearnDAO.selectSubQuestionInfo */
+		select
+			count(aq.qst_id) as total_qst_cnt
+			, count(answer.ans_value) as user_ans_cnt
+		from cb_aigo_question as aq
+		left join (
+			select
+				amal.qst_id
+				, amal.ans_id
+				, amal.ans_value
+				, ifnull(amal.pass_yn,'n') as pass_yn
+			from cb_aigo_my_answer_list as amal
+			where amal.ans_id in ( 
+				select
+					max(ans.ans_id) as ans_id
+				from cb_aigo_my_answer_list as ans
+				where ans.mem_id = 47
+				group by ans.qst_id
+			)
+		) as answer
+			on aq.qst_id = answer.qst_id
+		where aq.sub_id = #{subId}
+			and aq.lev_id = #{levId}
+			and aq.acv_id = #{acvId}
+			and aq.sub_aca_id = #{subAcaId}
+	</select>
+	
+	<!-- 각 분류별 유사문제 출제 -->
+	<select id="selectSubQuestionList" parameterType="aigoLearnEntity" resultType="aigoLearnEntity">
+		/* FrontLearnDAO.selectSubQuestionList */
+		select
+			qstinfo.*
+		from (
+			select
+				@rownum := @rownum+1 as rownum
+				, qst.*
+			from (
+				select
+					aq.*
+					, aa.acv_name
+					, saf.saf_path
+					, saf.saf_file
+					, answer.pass_yn
+					, answer.ans_value
+					, ac.aca_name
+					, al.lev_name
+					, cas.sub_name
+				from cb_aigo_question as aq
+				left join (
+					select
+						amal.qst_id
+						, amal.ans_id
+						, amal.ans_value
+						, ifnull(amal.pass_yn,'n') as pass_yn
+					from cb_aigo_my_answer_list as amal
+					where amal.ans_id in ( 
+						select
+							max(ans.ans_id) as ans_id
+						from cb_aigo_my_answer_list as ans
+						where ans.mem_id = 47
+						group by ans.qst_id
+					)
+				) as answer
+					on aq.qst_id = answer.qst_id
+				left join cb_aigo_achievement as aa
+					on aa.acv_id = aq.acv_id
+					and aa.lev_id = aq.lev_id
+					and aa.sub_id = aq.sub_id
+				left join plus_site_attach_file as saf
+					on saf.saf_bbs = 'qst'
+					and saf.seq = aq.qst_id
+				left join cb_aigo_category as ac
+					on ac.aca_id = aq.aca_id
+				left join cb_aigo_level as al
+					on aq.lev_id = al.lev_id
+				left join cb_aigo_subject as as
+					on aq.sub_id = cas.sub_id
+				where aq.sub_id = #{subId}
+					and aq.lev_id = #{levId}
+					and aq.acv_id = #{acvId}
+					and aq.sub_aca_id = #{subAcaId}
+				order by ac.aca_learn_order asc, aq.qst_order asc
+			) as qst, (select @rownum:=0) as temp
+		) as qstinfo
+		where (qstinfo.ans_value is null || qstinfo.ans_value = '')
+		limit 1
+	</select>
+	
+	<!-- 홈 카운트 조회 -->
+	<select id="selectHomeCnt" parameterType="map" resultType="camelMap">
+		/* FrontLearnDAO.selectLearnDetail*/
+		SELECT AT.* FROM (
+			SELECT A.*, B.*, C.*, D.*, E.*, F.* FROM (
+				SELECT COUNT(*) AS true_cnt FROM (
+					SELECT qst_id FROM cb_aigo_my_answer_list WHERE 1=1
+					AND pass_yn = 'y' AND use_yn = 'y' AND mem_id = #{memId}
+					GROUP BY qst_id
+				) TRUE_CNT
+			) A /* 사용자 맞춘 개수 */
+		    , (
+				SELECT COUNT(*) AS false_cnt FROM (
+					SELECT qst_id FROM cb_aigo_my_answer_list WHERE 1=1
+					AND pass_yn = 'n' AND use_yn = 'y' AND mem_id = #{memId}
+					GROUP BY qst_id
+				) FALSE_CNT
+			) B /* 사용자 틀린 개수 */
+		    , (
+				SELECT COUNT(*) AS test_cnt FROM (
+					SELECT qst_id FROM cb_aigo_my_answer_list WHERE 1=1
+					AND use_yn = 'y' AND mem_id = #{memId}
+					GROUP BY qst_id
+				) TEST_CNT
+			) C /* 모든 문제 개수 */
+		    , (
+				SELECT COUNT(*) AS app_person_cnt FROM cb_member WHERE 1=1
+			) D /* 앱 설치회원 인원수 */
+		    , (
+				SELECT COUNT(*) AS test_ready_cnt FROM cb_aigo_question WHERE 1=1
+		        AND qst_id not in (SELECT qst_id FROM cb_aigo_my_answer_list WHERE 1=1 AND use_yn='y' AND mem_id = #{memId})
+		    ) E /* 푼 문제 제외한 모든 문제 개수 */
+		    , (
+		    	SELECT DATE_FORMAT(udt_date, '%Y%m%d') AS last_test_dt FROM cb_aigo_my_answer_list WHERE 1=1
+		    	AND use_yn = 'y' ORDER BY udt_date DESC
+		    	LIMIT 1
+		    ) F
+		) AT
+	</select>
+	
+	<select id="selectPassYList" parameterType="map" resultType="camelMap">
+		SELECT AT.* FROM (
+			SELECT A.* FROM (
+				SELECT TRUE_CNT.qst_id, Q.qst_name
+					, C.aca_name, C.aca_id
+		            , A.acv_id, A.acv_name
+		            , U.unit_id, U.unit_name
+		            , S.sub_id, S.sub_name
+		            , pass_yn, rn, all_true_cnt, all_false_cnt, all_test_cnt  FROM (
+					SELECT qst_id, pass_yn, @psyn := pass_yn, @rn := CASE WHEN @psyn = pass_yn THEN @rn + 1 ELSE 1 END rn
+					, NVL(
+						(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND pass_yn = 'n' AND use_yn = 'y' GROUP BY qst_id
+			            ), 0
+		            ) as all_false_cnt /* 모든 사용자 틀린 개수 */
+		            , NVL(
+		            	(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND pass_yn = 'y' AND use_yn = 'y' GROUP BY qst_id
+		            	), 0
+		            ) as all_true_cnt /* 모든 사용자 맞춘 개수 */
+		            , NVL(
+		            	(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND use_yn = 'y' GROUP BY qst_id
+		            	), 0
+		            ) as all_test_cnt /* 모든 사용자 푼 개수 */
+		            FROM (SELECT qst_id, pass_yn
+		            	FROM cb_aigo_my_answer_list r WHERE 1=1
+						AND mem_id = #{memId} AND use_yn = 'y' AND pass_yn = 'y'
+						GROUP BY qst_id, mem_id
+						ORDER BY udt_date DESC
+		            ) aa
+		            , (SELECT @psyn := '', @rn := 0) bb
+				) TRUE_CNT
+		        INNER JOIN cb_aigo_question Q ON TRUE_CNT.qst_id = Q.qst_id
+		        LEFT JOIN cb_aigo_category C ON Q.aca_id = C.aca_id
+		        LEFT JOIN cb_aigo_achievement A ON Q.acv_id = A.acv_id AND Q.sub_id = A.sub_id AND Q.lev_id = A.lev_id
+		        LEFT JOIN cb_aigo_unit U ON Q.unit_id = U.unit_id AND Q.sub_id = U.unit_id
+		        LEFT JOIN cb_aigo_subject S ON Q.sub_id = S.sub_id
+		        WHERE rn <![CDATA[<=]]> 3
+			) A
+		) AT
+	</select>
+
+	<select id="selectPassNList" parameterType="map" resultType="camelMap">
+		SELECT AT.* FROM (
+			SELECT A.* FROM (
+				SELECT FALSE_CNT.qst_id, Q.qst_name, FALSE_CNT.false_dt
+					, C.aca_name, C.aca_id
+		            , A.acv_id, A.acv_name
+		            , U.unit_id, U.unit_name
+		            , S.sub_id, S.sub_name
+		            , pass_yn, rn, all_true_cnt, all_false_cnt, all_test_cnt  FROM (
+					SELECT qst_id, pass_yn, @psyn := pass_yn, false_dt
+					, @rn := CASE WHEN @psyn = pass_yn THEN @rn + 1 ELSE 1 END rn
+		            , NVL(
+						(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND pass_yn = 'n' AND use_yn = 'y' GROUP BY qst_id
+			            ), 0
+		            ) as all_false_cnt /* 모든 사용자 틀린 개수 */
+		            , NVL(
+		            	(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND pass_yn = 'y' AND use_yn = 'y' GROUP BY qst_id
+		            	), 0
+		            ) as all_true_cnt /* 모든 사용자 맞춘 개수 */
+		            , NVL(
+		            	(SELECT COUNT(*) FROM cb_aigo_my_answer_list WHERE 1=1 
+							AND qst_id = aa.qst_id AND use_yn = 'y' GROUP BY qst_id
+		            	), 0
+		            ) as all_test_cnt /* 모든 사용자 푼 개수 */
+		            FROM (SELECT qst_id, pass_yn, udt_date as false_dt
+		            	FROM cb_aigo_my_answer_list r WHERE 1=1
+						AND mem_id = #{memId} AND pass_yn = 'n' AND use_yn = 'y'
+						GROUP BY qst_id, mem_id
+						ORDER BY udt_date DESC
+		            ) aa
+		            , (SELECT @psyn := '', @rn := 0) bb
+				) FALSE_CNT
+		        INNER JOIN cb_aigo_question Q ON FALSE_CNT.qst_id = Q.qst_id
+		        LEFT JOIN cb_aigo_category C ON Q.aca_id = C.aca_id
+		        LEFT JOIN cb_aigo_achievement A ON Q.acv_id = A.acv_id AND Q.sub_id = A.sub_id AND Q.lev_id = A.lev_id
+		        LEFT JOIN cb_aigo_unit U ON Q.unit_id = U.unit_id AND Q.sub_id = U.unit_id
+		        LEFT JOIN cb_aigo_subject S ON Q.sub_id = S.sub_id
+		        WHERE rn <![CDATA[<=]]> 3
+			) A
+		) AT
+	</select>
+	
+	<select id="selectGreatList" parameterType="map" resultType="camelMap">
+		SELECT * FROM (
+			SELECT a.* FROM (
+				SELECT a.* FROM (
+					SELECT a.test_cnt, a.true_cnt, (a.true_cnt / a.test_cnt) AS per
+							, a.sub_id, s.sub_name
+							, a.unit_id, u.unit_name FROM (
+						/* 중복제거 먼저 */
+						SELECT a.mem_id, q.sub_id, q.unit_id
+								, (
+									SELECT ROW_NUMBER() OVER (ORDER BY qst_id ASC) FROM aigo.cb_aigo_my_answer_list WHERE 1=1
+									AND mem_id = #{memId} AND use_yn = 'y'
+									GROUP BY qst_id, mem_id
+									ORDER BY ROW_NUMBER() OVER (ORDER BY qst_id ASC) DESC LIMIT 1
+								) AS test_cnt /* 푼 문제 */
+								, (
+									SELECT ROW_NUMBER() OVER (ORDER BY qst_id ASC) FROM aigo.cb_aigo_my_answer_list WHERE 1=1
+									AND mem_id = #{memId} AND use_yn = 'y' AND pass_yn = 'y'
+									GROUP BY qst_id, mem_id
+									ORDER BY ROW_NUMBER() OVER (ORDER BY qst_id ASC) DESC LIMIT 1
+								) AS true_cnt /* 맞춘 문제 */
+								, q.lev_id, q.acv_id, q.aca_id FROM aigo.cb_aigo_my_answer_list a
+		                INNER JOIN aigo.cb_aigo_question q ON a.qst_id = q.qst_id
+		                WHERE 1=1
+		                AND a.mem_id = #{memId} AND a.use_yn = 'y'
+		                GROUP BY a.mem_id
+		            ) a
+		            INNER JOIN aigo.cb_aigo_subject s ON a.sub_id = s.sub_id
+					LEFT JOIN aigo.cb_aigo_unit u ON a.unit_id = u.unit_id
+		            WHERE 1=1
+		            AND a.test_cnt <![CDATA[>=]]> 5
+		            GROUP BY a.mem_id
+		        ) a
+		    ) a
+		    ORDER BY a.per DESC, a.test_cnt DESC
+		) a
+		LIMIT 5
+	</select>
+	
+	<select id="selectAllPassList" parameterType="map" resultType="camelMap">
+		SELECT a.* FROM (
+			SELECT a.test_cnt, a.true_cnt, (a.true_cnt / a.test_cnt) as per
+					, a.qst_id, q.qst_name 
+		            , c.aca_id, c.aca_name 
+		            , ach.acv_id, ach.acv_name 
+		            , u.unit_id, u.unit_name 
+		            , s.sub_id, s.sub_name FROM (
+				SELECT 
+					(
+						SELECT ROW_NUMBER() OVER (ORDER BY qst_id ASC) FROM aigo.cb_aigo_my_answer_list WHERE 1=1
+						AND use_yn = 'y' AND qst_id = a.qst_id
+						ORDER BY ROW_NUMBER() OVER (ORDER BY qst_id ASC) DESC LIMIT 1
+					) AS test_cnt /* 푼 문제 */
+					, (
+						SELECT ROW_NUMBER() OVER (ORDER BY qst_id ASC) FROM aigo.cb_aigo_my_answer_list WHERE 1=1
+						AND use_yn = 'y' AND qst_id = a.qst_id AND pass_yn = 'y'
+						ORDER BY ROW_NUMBER() OVER (ORDER BY qst_id ASC) DESC LIMIT 1
+					) AS true_cnt /* 맞춘 문제 */
+					, a.qst_id
+				FROM aigo.cb_aigo_my_answer_list a
+		        INNER JOIN aigo.cb_aigo_question q ON a.qst_id = q.qst_id
+		        WHERE 1=1
+				AND a.pass_yn = 'y' AND a.use_yn = 'y' GROUP BY a.qst_id ORDER BY a.mem_id
+			) a
+		    INNER JOIN aigo.cb_aigo_question q ON a.qst_id = q.qst_id
+			LEFT JOIN aigo.cb_aigo_category c ON q.aca_id = c.aca_id
+			LEFT JOIN aigo.cb_aigo_achievement ach ON q.acv_id = ach.acv_id AND q.sub_id = ach.sub_id AND q.lev_id = ach.lev_id
+			LEFT JOIN aigo.cb_aigo_unit u ON q.unit_id = u.unit_id AND q.sub_id = u.unit_id
+			LEFT JOIN aigo.cb_aigo_subject s ON q.sub_id = s.sub_id
+		) a
+		<choose>
+			<when test='"d".equals(sort)'>
+				ORDER BY a.per DESC, a.qst_id, a.test_cnt DESC
+			</when>
+			<otherwise>
+				ORDER BY a.per ASC, a.qst_id, a.test_cnt DESC
+			</otherwise>
+		</choose>
+		LIMIT 3
+	</select>
+	
+	<select id="selectUnitTestList" parameterType="map" resultType="camelMap">
+		SELECT a.unit_id, a.unit_name, a.sub_id, a.sub_name, a.mem_id, a.test_cnt, count(q.qst_id) AS all_test_cnt
+			FROM (
+				SELECT u.unit_id, u.unit_name, s.sub_id, s.sub_name, b.mem_id, count(b.mem_id) AS test_cnt
+				FROM aigo.cb_aigo_unit u
+				LEFT JOIN (
+					SELECT a.mem_id, q.unit_id, q.qst_id
+					FROM aigo.cb_aigo_my_answer_list a
+					LEFT JOIN aigo.cb_aigo_question q ON a.qst_id = q.qst_id
+					GROUP BY a.qst_id, a.mem_id
+				) b ON u.unit_id=b.unit_id AND b.mem_id = #{memId}
+				LEFT JOIN aigo.cb_aigo_subject s ON u.sub_id = s.sub_id
+				GROUP BY u.unit_id, b.mem_id
+				HAVING count(b.mem_id) <![CDATA[<=]]> 5
+		) a
+		LEFT JOIN aigo.cb_aigo_question q ON a.unit_id = q.unit_id
+		GROUP BY a.unit_id, a.mem_id
+	</select>
+</mapper>

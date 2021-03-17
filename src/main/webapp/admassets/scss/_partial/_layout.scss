@@ -1,0 +1,9 @@
+.content-wrapper{
+  padding:rem(50) rem(100);
+  background: none;
+}
+@media screen and (max-width: 991px) {
+  .content-wrapper{
+    padding: 0;
+  }
+}

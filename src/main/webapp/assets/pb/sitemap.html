@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>sitemap</title>
+  <link rel="stylesheet" href="assets/css/style_m.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <style>
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      background:#fff;
+    }
+    
+    .sitemap-menu {
+      position: absolute;
+      display: inline-block;
+      overflow-y: scroll;
+      padding-top: 58px;
+      width: 280px;
+      box-sizing: border-box;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .sitemap-menu::-webkit-scrollbar {
+      width: 5px;
+    }
+    
+    .sitemap-menu::-webkit-scrollbar-thumb {
+      background-color: #eee;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .sitemap-menu.mobile {
+      display: none;
+    }
+    
+    .viewersize {
+      position: fixed;
+      padding: 10px 0px;
+      background: #3f6b9d;
+      border-radius: 5px;
+      width: 230px;
+      margin: 10px;
+      left: 0;
+      top: 0;
+      color: #fff;
+      z-index: 10;
+      cursor: pointer;
+    }
+    
+    .sitemap-menu .tabs-btn {
+      padding: 0 10px 10px;
+      ;
+    }
+    
+    .sitemap-menu .tabs-btn li {
+      display: inline-block;
+      margin: 0 5px 5px 0;
+      text-align: center;
+      padding: 5px 10px;
+      background: #aaa;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 13px;
+    }
+    
+    .sitemap-menu .tabs-btn li:last-child {
+      margin-right: 0;
+    }
+    
+    .sitemap-menu .tabs-btn li.on {
+      background: #328ff6;
+    }
+    
+    .sitemap-menu .tabs-btn li a {
+      display: block;
+    }
+    
+    .range-wrap {
+      display: none;
+    }
+    
+    .range-wrap.on {
+      display: block;
+    }
+    
+    .range-wrap .range {
+      margin-bottom: 20px;
+    }
+    
+    .range-wrap .range h4 {
+      padding: 10px;
+      font-size: 15px;
+      padding: 10px 10px 20px;
+      color: #6363ab;
+    }
+    
+    .range-wrap .range>ul {
+      border-top: 1px solid #ddd;
+      background: #eeffff;
+      margin-bottom: 20px;
+    }
+    
+    .range-wrap:nth-of-type(2) .range>ul {
+      background: #fff2f2
+    }
+    
+    .range-wrap:nth-of-type(3) .range>ul {
+      background: #f4efff;
+    }
+    
+    .range-wrap .range li {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      color: #666;
+      font-size: 13px;
+    }
+    
+    .range-wrap .range li:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+    
+    .range-wrap .range li .sub-title {
+      display: block;
+    }
+    
+    .range-wrap .range li .btn-wrap {
+      float: right;
+      padding-top: 10px;
+    }
+    .range-wrap .range li .btn-wrap a{
+      font-size:14px;
+    }
+    
+    .range-wrap .range li .btn-wrap .new-win {
+      display: inline-block;
+      border: 1px solid #666;
+      padding: 3px;
+      font-size: 11px;
+    }
+    
+    .range-wrap .range li .btn-wrap a.on {
+      color: #f00;
+    }
+    
+    iframe {
+      width: calc(100% - 270px);
+      position: absolute;
+      left: 270px;
+      top: 0;
+      height: 100%;
+      box-sizing: border-box;
+      display: inline-block;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    iframe.mobile {
+      width: 360px;
+      height: 640px;
+      padding: 0;
+      overflow: scroll;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sitemap-menu">
+    <button class="viewersize">모바일size보기</button>
+    <!-- <ul class="tabs-btn">
+      <li class="on"><a href="javascript:void(0)">mobile</a></li>
+      <li><a href="javascript:void(0)">Web</a></li>
+    </ul> -->
+    <div class="range-wrap on">
+      <div class="range">
+        <ul>
+          <li>
+            <span class="sub-title">001-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/3p_사전질문_01.html" target="viewer">3p_사전질문_01.html</a>
+              <a href="pages/3p_사전질문_01.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">002-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/3p_사전질문_02.html" target="viewer">3p_사전질문_02.html</a>
+              <a href="pages/3p_사전질문_02.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">003-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/4p_사전질문_01.html" target="viewer">4p_사전질문_01.html</a>
+              <a href="pages/4p_사전질문_01.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">003-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/4p_사전질문_02.html" target="viewer">4p_사전질문_02.html</a>
+              <a href="pages/4p_사전질문_02.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">004-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/5p_사전질문_01.html" target="viewer">5p_사전질문_01.html</a>
+              <a href="pages/5p_사전질문_01.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">004-사전질문</span>
+            <div class="btn-wrap">
+              <a href="pages/5p_사전질문_02.html" target="viewer">5p_사전질문_02.html</a>
+              <a href="pages/5p_사전질문_02.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+
+          <li>
+            <span class="sub-title">005-회원가입</span>
+            <div class="btn-wrap">
+              <a href="pages/6p_회원가입.html" target="viewer">6p_회원가입.html</a>
+              <a href="pages/6p_회원가입.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">006-이메일로가입</span>
+            <div class="btn-wrap">
+              <a href="pages/7p_이메일로가입.html" target="viewer">7p_이메일로가입.html</a>
+              <a href="pages/7p_이메일로가입.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">007-이용약관</span>
+            <div class="btn-wrap">
+              <a href="pages/8p_이용약관.html" target="viewer">8p_이용약관.html</a>
+              <a href="pages/8p_이용약관.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">007-개인정보처리방침</span>
+            <div class="btn-wrap">
+              <a href="pages/8p_개인정보처리방침.html" target="viewer">8p_개인정보처리방침.html</a>
+              <a href="pages/8p_개인정보처리방침.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">007-마케팅활용동의</span>
+            <div class="btn-wrap">
+              <a href="pages/8p_마케팅활용동의.html" target="viewer">8p_마케팅활용동의.html</a>
+              <a href="pages/8p_마케팅활용동의.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+            <span class="sub-title">008-로그인</span>
+            <div class="btn-wrap">
+              <a href="pages/9p_로그인.html" target="viewer">9p_로그인.html</a>
+              <a href="pages/9p_로그인.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">008-비밀번호 찾기</span>
+            <div class="btn-wrap">
+              <a href="pages/9p_비밀번호찾기.html" target="viewer">9p_비밀번호찾기.html</a>
+              <a href="pages/9p_비밀번호찾기.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">008-비밀번호 찾기-인증코드입력</span>
+            <div class="btn-wrap">
+              <a href="pages/9p_비밀번호찾기_인증코드입력.html" target="viewer">9p_비밀번호찾기_인증코드입력.html</a>
+              <a href="pages/9p_비밀번호찾기_인증코드입력.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">009-비밀번호재설정</span>
+            <div class="btn-wrap">
+              <a href="pages/10p_비밀번호재설정.html" target="viewer">10p_비밀번호재설정.html</a>
+              <a href="pages/10p_비밀번호재설정.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">009-비밀번호재설정</span>
+            <div class="btn-wrap">
+              <a href="pages/10p_비밀번호재설정_입력창변화.html" target="viewer">10p_비밀번호재설정_입력창변화.html</a>
+              <a href="pages/10p_비밀번호재설정_입력창변화.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+           <span class="sub-title">010-메뉴레이어,알림함</span>
+            <div class="btn-wrap">
+              <a href="pages/11p_메뉴레이어.html" target="viewer">11p_메뉴레이어.html</a>
+              <a href="pages/11p_메뉴레이어.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+           <span class="sub-title">010-메뉴레이어,알림함</span>
+            <div class="btn-wrap">
+              <a href="pages/11p_알림함.html" target="viewer">11p_알림함.html</a>
+              <a href="pages/11p_알림함.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+           <span class="sub-title">011-개인정보 수정</span>
+            <div class="btn-wrap">
+              <a href="pages/12p_개인정보수정.html" target="viewer">12p_개인정보수정.html</a>
+              <a href="pages/12p_개인정보수정.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+           <span class="sub-title">011-개인정보 수정</span>
+            <div class="btn-wrap">
+              <a href="pages/12p_개인정보수정_팝업.html" target="viewer">12p_개인정보수정_팝업.html</a>
+              <a href="pages/12p_개인정보수정_팝업.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+           <span class="sub-title">012-설정</span>
+            <div class="btn-wrap">
+              <a href="pages/13p_설정.html" target="viewer">13p_설정.html</a>
+              <a href="pages/13p_설정.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+           <span class="sub-title">012-설정</span>
+            <div class="btn-wrap">
+              <a href="pages/13p_설정_WiFi팝업.html" target="viewer">13p_설정_WiFi팝업.html</a>
+              <a href="pages/13p_설정_WiFi팝업.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+            <span class="sub-title">013-모의진단</span>
+            <div class="btn-wrap">
+              <a href="pages/14p_모의진단_01.html" target="viewer">14p_모의진단_01.html</a>
+              <a href="pages/14p_모의진단_01.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+
+
+          <li>
+            <span class="sub-title">013-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/14p_모의진단_문제_리사이징.html" target="viewer">14p_모의진단_문제_리사이징.html</a>
+              <a href="pages/14p_모의진단_문제_리사이징.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">014-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/15p_모의진단_AI_Complete.html" target="viewer">15p_모의진단_AI_Complete.html</a>
+              <a href="pages/15p_모의진단_AI_Complete.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+            <span class="sub-title">016-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/17p_학습홈.html" target="viewer">17p_학습홈.html</a>
+              <a href="pages/17p_학습홈.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">016-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/19p_학습홈.html" target="viewer">19p_학습홈.html</a>
+              <a href="pages/19p_학습홈.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">016-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/20p_학습홈.html" target="viewer">20p_학습홈.html</a>
+              <a href="pages/20p_학습홈.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">016-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/21p_학습홈.html" target="viewer">21p_학습홈.html</a>
+              <a href="pages/21p_학습홈.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+            <span class="sub-title">029-개념학습 및 상세</span>
+            <div class="btn-wrap">
+              <a href="pages/22p_개념학습.html" target="viewer">22p_개념학습.html</a>
+              <a href="pages/22p_개념학습.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">029-개념학습 및 상세</span>
+            <div class="btn-wrap">
+              <a href="pages/22p_개념학습_상세.html" target="viewer">22p_개념학습_상세.html</a>
+              <a href="pages/22p_개념학습_상세.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <li>
+            <span class="sub-title">018-다시풀기</span>
+            <div class="btn-wrap">
+              <a href="pages/23p_다시풀기_리스트.html" target="viewer">23p_다시풀기_리스트.html</a>
+              <a href="pages/23p_다시풀기_리스트.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">018-다시풀기</span>
+            <div class="btn-wrap">
+              <a href="pages/23p_다시풀기_상세.html" target="viewer">23p_다시풀기_상세.html</a>
+              <a href="pages/23p_다시풀기_상세.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">019-다시풀기 문제페이지</span>
+            <div class="btn-wrap">
+              <a href="pages/24p_다시풀기_문제페이지.html" target="viewer">24p_다시풀기_문제페이지.html</a>
+              <a href="pages/24p_다시풀기_문제페이지.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">019-다시풀기 문제페이지</span>
+            <div class="btn-wrap">
+              <a href="pages/24p_다시풀기_문제페이지_문제필터.html" target="viewer">24p_다시풀기_문제페이지_문제필터.html</a>
+              <a href="pages/24p_다시풀기_문제페이지_문제필터.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">020-해설보기</span>
+            <div class="btn-wrap">
+              <a href="pages/25p_해설보기.html" target="viewer">25p_해설보기.html</a>
+              <a href="pages/25p_해설보기.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">020-개념보기</span>
+            <div class="btn-wrap">
+              <a href="pages/25p_개념보기.html" target="viewer">25p_개념보기.html</a>
+              <a href="pages/25p_개념보기.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">017-성취기준</span>
+            <div class="btn-wrap">
+              <a href="pages/26p_성취기준.html" target="viewer">26p_성취기준.html</a>
+              <a href="pages/26p_성취기준.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">021-학습목표</span>
+            <div class="btn-wrap">
+              <a href="pages/27p_학습목표.html" target="viewer">27p_학습목표.html</a>
+              <a href="pages/27p_학습목표.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">022-출제경향</span>
+            <div class="btn-wrap">
+              <a href="pages/28p_출제경향.html" target="viewer">28p_출제경향.html</a>
+              <a href="pages/28p_출제경향.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+
+
+          <li>
+            <span class="sub-title">023-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/29p_문제풀이공통.html" target="viewer">29p_문제풀이공통.html</a>
+              <a href="pages/29p_문제풀이공통.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">023-학습 홈</span>
+            <div class="btn-wrap">
+              <a href="pages/29p_문제풀이공통_tap.html" target="viewer">29p_문제풀이공통_tap.html</a>
+              <a href="pages/29p_문제풀이공통_tap.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+          <!-- <li>
+            <span class="sub-title">026-종합리포트</span>
+            <div class="btn-wrap">
+              <a href="pages/39p_종합리포트.html" target="viewer">39p_종합리포트.html</a>
+              <a href="pages/39p_종합리포트.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li> -->
+
+          <li>
+            <span class="sub-title">027-문항상세분석</span>
+            <div class="btn-wrap">
+              <a href="pages/42p_문항상세분석_01.html" target="viewer">42p_문항상세분석_01.html</a>
+              <a href="pages/42p_문항상세분석_01.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">027-문항상세분석</span>
+            <div class="btn-wrap">
+              <a href="pages/42p_문항상세분석_01_선택창.html" target="viewer">42p_문항상세분석_01_선택창.html</a>
+              <a href="pages/42p_문항상세분석_01_선택창.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+          <li>
+            <span class="sub-title">027-문항상세분석</span>
+            <div class="btn-wrap">
+              <a href="pages/42p_문항상세분석_02.html" target="viewer">42p_문항상세분석_02.html</a>
+              <a href="pages/42p_문항상세분석_02.html" target="_blank" class="new-win">새창</a>
+            </div> 
+          </li>
+
+
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <iframe src="" name="viewer" class="" style="overflow:hidden;"></iframe>
+
+  <script>
+    // link
+    var links = $('.range a');
+    for (i = 0; i < links.length; i++) {
+      links[i].addEventListener("click", function() {
+        for (i = 0; i < links.length; i++) {
+          links[i].classList.remove('on');
+
+        }
+        this.classList.add('on');
+      })
+
+    }
+    // tab
+    $('.tabs-btn a').click(function() {
+      $(this).parent('li').addClass('on').siblings().removeClass('on');
+      var index = $(this).parent('li').index();
+      $('.range-wrap').eq(index).addClass('on').siblings().removeClass('on');;
+    });
+
+    $('.viewersize').click(function() {
+
+      $('iframe').toggleClass('mobile');
+    });
+
+
+    $('.title.lg').click(function() {
+      $(this).toggleClass('on');
+      $(this).next("div.range").slideToggle();
+    });
+    $('.title.lg').click();
+  </script>
+</body>
+
+</html>

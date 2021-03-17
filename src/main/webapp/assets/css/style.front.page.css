@@ -1,0 +1,12 @@
+
+#contents .boxContents{min-width:100%;height:100%;padding:0 0 40px 0; }
+
+/* 서브_타이틀 */
+#contents .titleArea{position:relative;height:69px;padding:0 30px;border-bottom:1px solid #b5bfcc;background:#f6f7f8;}
+#contents .titleArea h1{padding:28px 0 0 0;color:#0c0d0d;font-size:18px;}
+#contents .titleArea .location{position:absolute;top:18px;right:30px;color:#8a8b8d;overflow:hidden;}
+#contents .titleArea .location li{float:left;font-size:11px;}
+#contents .titleArea .location li.first{padding:0 0 0 15px;background:url('/images/common/icon_home.gif') no-repeat 0 1px;}
+#contents .titleArea .location li.last{padding:1px 0 0 0;}
+#contents .titleArea .location li a{color:#8a8b8d;font-size:11px;text-decoration:underline;}
+#contents .titleArea .location li span{padding:0 6px;}

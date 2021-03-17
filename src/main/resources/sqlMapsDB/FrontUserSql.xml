@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontUserDAO">
+
+	<!-- 회원정보 조회 -->
+	<select id="selectUserInfo" parameterType="userMemberEntity" resultType="HashMap">
+		/* FrontUserDAO.selectUserInfo*/
+		select
+			a.mem_userid
+			,a.mem_email
+			,a.mem_nickname
+			,a.mem_class
+			,a.mem_sub_id
+			,a.mem_phone
+			,a.mem_icon
+			,a.mem_level
+			,b.saf_path
+			,b.saf_file
+			,b.saf_seq
+			,c.cm_name
+			,d.sub_name
+		from cb_member a
+		left join plus_site_attach_file b
+		on a.mem_icon = b.seq
+		left join plus_code_master c
+		on a.mem_class = c.cm_code
+		left join cb_aigo_subject d
+		on a.mem_sub_id = d.sub_id
+		where 1=1
+		<if test="memId != null and memId != ''">
+			and a.mem_id = #{memId}
+		</if>
+		<if test="memUserid != null and memUserid != ''">
+			and a.mem_userid = #{memUserid}
+		</if>
+		<if test="memEmail != null and memEmail != ''">
+			and a.mem_email = #{memEmail}
+		</if>
+	</select>
+
+	<!-- 파일 SEQ 최대값 조회 -->
+	<select id="selectFileSeq" resultType="Integer">
+		/* FrontUserDAO.selectFileSeq */
+		select
+			max(seq) + 1
+		from
+			plus_site_attach_file
+	</select>
+
+	<!-- plus_site_attach_file 테이블의 seq값 저장 -->
+	<update id="updateIcon" parameterType="userMemberEntity">
+		/* FrontUserDAO.updateIcon */
+		update cb_member
+		set
+			mem_icon = #{memIcon}
+		where
+			mem_userid = #{memUserid}
+	</update>
+
+	<!-- plus_site_attach_file 테이블의 seq값 저장 -->
+	<update id="updateUserInfo" parameterType="userMemberEntity">
+		/* FrontUserDAO.updateUserInfo */
+		update cb_member
+		set
+			mem_temp_id = mem_temp_id
+		<if test="memNickname != null and memNickname != ''">
+			,mem_nickname = #{memNickname}
+		</if>
+		<if test="memPhone != null and memPhone != ''">
+			,mem_phone = #{memPhone}
+		</if>
+		<if test="memClass != null and memClass != ''">
+			,mem_class = #{memClass}
+		</if>
+		<if test="memSubId != null and memSubId != ''">
+			,mem_sub_id = #{memSubId}
+		</if>
+		where
+			mem_userid = #{memUserid}
+	</update>
+
+	<!-- 휴대폰번호 인증 > 인증코드 insert -->
+	<insert id="insertSmsAuthCode" parameterType="HashMap" useGeneratedKeys="true" keyProperty="masId" keyColumn="mas_id">
+		/* Login.insertAuthCode */
+		insert into cb_member_auth_sms
+		(
+			mem_id
+			, mas_key
+			, mas_type
+			, mas_generate_datetime
+			, mas_used
+			, mas_expired
+			, mas_expire_datatime
+		) values (
+			#{memId}
+			, #{masKey}
+			, #{masType}
+			, now()
+			, 'N'
+			, 'N'
+			, date_add(now(), interval 3 minute)
+		)
+	</insert>
+
+	<!-- 휴대폰번호 인증 > 유효한 인증번호인지 체크 -->
+	<select id="selectSmsAuthCode" parameterType="HashMap" resultType="HashMap">
+		/* FrontUserDAO.selectSmsAuthCode */
+		select
+			m.mem_id as memId
+			, mas.mas_id as masId
+			, m.mem_userid as memUserid
+		from
+			cb_member as m, cb_member_auth_sms as mas
+		where
+			m.mem_id = mas.mem_id
+			and mas.mas_expire_datatime > now()
+			and mas.mas_used = 'N'
+			and m.mem_userid = #{memUserid}
+			and mas.mas_key = #{masKey}
+	</select>
+
+	<!-- 휴대폰번호 인증 > 인증번호 사용 처리 -->
+	<update id="updateSmsAuthCode" parameterType="HashMap">
+		/* FrontUserDAO.updateSmsAuthCode */
+		update cb_member_auth_sms
+		set
+			mas_used = 'Y'
+			, mas_use_datetime = now()
+		where
+			mas_expired = 'N'
+			and mem_id = #{memId}
+			and mas_key = #{masKey}
+	</update>
+
+	<!-- 휴대폰번호 인증 > 인증 성공 시 해당 회원의 모든 인증번호 만료처리 -->
+	<update id="updateUnusedSmsAuthCode" parameterType="HashMap">
+		/* FrontUserDAO.updateUnusedSmsAuthCode */
+		update cb_member_auth_sms
+		set
+			mas_expired = 'Y'
+			, mas_expire_datatime = now()
+		where
+			mem_id = #{memId}
+	</update>
+
+	<!-- 학년 목록 조회 -->
+	<select id="selectLevelCode" parameterType="HashMap" resultType="HashMap">
+		/* FrontUserDAO.selectLevelCode */
+		select
+			cm_gubun
+			, cm_code
+			, cm_name
+		from
+			plus_code_master
+		where
+			cm_gubun = 'temp_class'
+			and cm_is_use = 'y';
+	</select>
+
+	<!-- 과목 목록 조회 -->
+	<select id="selectSubCode" parameterType="HashMap" resultType="HashMap">
+		/* FrontUserDAO.selectSubCode */
+		select
+			sub_id
+			, sub_name
+		from
+			cb_aigo_subject
+		where
+			use_yn ='y';
+	</select>
+
+	<!-- 회원정보에 사전진단 아이디 값 업데이트 -->
+	<update id="updateUserInfoTempId" parameterType="userMemberEntity">
+		/* FrontUserDAO.updateUserInfoTempId */
+		update cb_member
+		set
+			mem_temp_id = #{memTempId}
+		where
+			mem_id = #{memId}
+	</update>
+
+	<!-- 설정 정보 조회 -->
+	<select id="selectSettingInfo" parameterType="userMemberEntity" resultType="HashMap">
+		/* FrontUserDAO.selectSettingInfo */
+		select
+			aigo_alarm_mkt
+			,aigo_alarm_learn
+			,aigo_alarm_night
+			,aigo_alarm_date
+		from
+			cb_member
+		where
+			mem_userid = #{memUserid}
+	</select>
+
+	<!-- 설정 정보 저장 -->
+	<update id="updateSettingInfo" parameterType="userMemberEntity">
+		/* FrontUserDAO.updateSettingInfo */
+		update cb_member
+		set
+			aigo_alarm_date = sysdate()
+			<if test="aigoAlarmMkt != null and aigoAlarmMkt != ''">
+			,aigo_alarm_mkt = #{aigoAlarmMkt}
+			</if>
+			<if test="aigoAlarmLearn != null and aigoAlarmLearn != ''">
+			,aigo_alarm_learn = #{aigoAlarmLearn}
+			</if>
+			<if test="aigoAlarmNight != null and aigoAlarmNight != ''">
+			,aigo_alarm_night = #{aigoAlarmNight}
+			</if>
+		where
+			mem_userid = #{memUserid}
+	</update>
+
+	<!-- 설정 정보 변경 내역 저장 -->
+	<insert id="insertSettingLog" parameterType="userMemberEntity">
+		/* FrontUserDAO.insertSettingLog */
+		insert into cb_member_alarm_log
+		(
+			mem_id
+			,aigo_alarm_mkt
+			,aigo_alarm_learn
+			,aigo_alarm_night
+			,aigo_alarm_date
+		)
+		values
+		(
+			#{memId}
+			,ifnull(#{aigoAlarmMkt}, 'n')
+			,ifnull(#{aigoAlarmLearn}, 'n')
+			,ifnull(#{aigoAlarmNight}, 'n')
+			,sysdate()
+		)
+	</insert>
+
+</mapper>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+  <!-- Main Template -->
+  <definition name="mainTempDef"        template="/WEB-INF/pages/layouts/template/main.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/include/head.jsp"/>
+    <put-attribute name="header"        value="/WEB-INF/pages/layouts/include/header.jsp"/>
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/include/contents.jsp"/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/include/footer.jsp"/>
+  </definition>
+  <!-- Main Template End -->
+  <!-- FRONT Main Template -->
+  <definition name="frontMainDef"       template="/WEB-INF/pages/layouts/front/front.main.layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/front/front.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/front/front.menu.jsp"/>
+    <put-attribute name="mb_menu"       value="/WEB-INF/pages/layouts/front/front.mb_menu.jsp"/>
+    <put-attribute name="contents"      value=""/>
+    <put-attribute name="mb_contents"      value=""/>
+    <put-attribute name="bg"      		value=""/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/front/front.main.tail.jsp"/>
+  </definition>
+  <!-- FRONT Main Template End -->
+
+  <!-- FRONT Global Template -->
+  <definition name="frontDef"           template="/WEB-INF/pages/layouts/front/front.layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/front/front.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/front/front.menu.jsp"/>
+    <put-attribute name="mb_menu"       value="/WEB-INF/pages/layouts/front/front.mb_menu.jsp"/>
+    <put-attribute name="contents"      value=""/>
+    <put-attribute name="bg"      		value=""/>
+    <put-attribute name="mb_contents"   value=""/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/front/front.tail.jsp"/>
+    <put-attribute name="mb_footer"        value="/WEB-INF/pages/layouts/front/front.mb.tail.jsp"/>
+  </definition>
+  <!-- FRONT Global Template End -->
+
+  <!-- FRONT nobg Global Template -->
+  <definition name="frontDefNobg"       template="/WEB-INF/pages/layouts/front/front.nobg.layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/front/front.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/front/front.menu.jsp"/>
+    <put-attribute name="mb_menu"       value="/WEB-INF/pages/layouts/front/front.mb_menu.jsp"/>
+    <put-attribute name="contents"      value=""/>
+    <put-attribute name="mb_contents"   value=""/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/front/front.tail.jsp"/>
+    <put-attribute name="mb_footer"        value="/WEB-INF/pages/layouts/front/front.mb.tail.jsp"/>
+  </definition>
+  <!-- FRONT Global Template End -->
+
+  <!-- ADMIN Global Template -->
+  <definition name="adminDef"            template="/WEB-INF/pages/layouts/totaladmin/totaladmin.layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/totaladmin/totaladmin.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/totaladmin/totaladmin.menu.jsp"/>
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/totaladmin/totaladmin.contents.jsp"/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/totaladmin/totaladmin.tail.jsp"/>
+  </definition>
+  <!-- ADMIN Global Template End -->
+
+  <!-- ADMIN Global Template -->
+  <definition name="plusDef"            template="/WEB-INF/pages/layouts/plusadmin/plusadmin.layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/plusadmin/plusadmin.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/plusadmin/plusadmin.menu.jsp"/>
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/plusadmin/plusadmin.contents.jsp"/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/plusadmin/plusadmin.tail.jsp"/>
+  </definition>
+  <!-- ADMIN Global Template End -->
+
+  <!-- DFT Global Template -->
+  <definition name="dftDef"            template="/WEB-INF/pages/layouts/dft/layout.jsp">
+    <put-attribute name="head"          value="/WEB-INF/pages/layouts/dft/inc.head.jsp"/>
+    <put-attribute name="menu"          value="/WEB-INF/pages/layouts/dft/inc.menu.jsp"/>
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/dft/inc.contents.jsp"/>
+    <put-attribute name="footer"        value="/WEB-INF/pages/layouts/dft/inc.tail.jsp"/>
+  </definition>
+  <!-- DFT Global Template End -->
+
+  <!-- EMPTY Template -->
+  <definition name="emptyDef"           template="/WEB-INF/pages/layouts/template/empty.jsp">
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/include/contents.jsp"/>
+  </definition>
+  <!-- EMPTY Template End -->
+
+  <!-- 기타 레이아웃 -->
+  <definition name="/static/*"          extends="emptyDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/static/{1}.jsp"/>
+  </definition>
+  <!-- Excel Template -->
+  <definition name="excelTempDef"       template="/WEB-INF/pages/layouts/template/excel.jsp">
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/include/contents.jsp"/>
+  </definition>
+  <!-- Excel Template End -->
+
+  <!-- Popup Template -->
+  <definition name="popupTempDef"       template="/WEB-INF/pages/layouts/template/popup.jsp">
+    <put-attribute name="contents"      value="/WEB-INF/pages/layouts/include/contents.jsp"/>
+  </definition>
+  <!-- Popup Template End -->
+
+  <!-- user main -->
+  <definition name="/main"         extends="frontMainDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/front/main.jsp"/>
+  </definition>
+
+  
+  <definition name="/front/*"         extends="frontDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/front/{1}/{1}.jsp"/>
+  </definition>
+  
+  <definition name="/front/*/*"         extends="frontDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/front/{1}/{2}.jsp"/>
+  </definition>
+  
+  <definition name="/front/*/*/*"         extends="frontDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/front/{1}/{2}/{3}.jsp"/>
+  </definition>
+
+
+
+
+  <definition name="/front/empty/*/*"     extends="emptyDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/front/{1}/{2}.jsp"/>
+  </definition>
+  
+  <definition name="/totaladmin/*"         extends="adminDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/totaladmin/{1}.jsp"/>
+  </definition>
+  <definition name="/totaladmin/*/*"         extends="adminDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/totaladmin/{1}/{2}.jsp"/>
+  </definition>
+
+  <definition name="/plusadmin/*"         extends="plusDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/plusadmin/{1}.jsp"/>
+  </definition>
+  <definition name="/plusadmin/*/*"         extends="plusDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/plusadmin/{1}/{2}.jsp"/>
+  </definition>
+
+  <!-- empty 레이아웃 END -->
+
+  <!-- empty 레이아웃 -->
+  <definition name="/empty/*/*"         extends="emptyDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/{1}/{2}.jsp"/>
+  </definition>
+
+  <definition name="/emptyfront/*/*"         extends="emptyDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/{1}/{2}.jsp"/>
+  </definition>
+  <definition name="/emptyfront/*/*/*"         extends="emptyDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/views/{1}/{2}/{3}.jsp"/>
+  </definition>
+  <!-- empty 레이아웃 END -->
+
+  <!-- 엑셀 레이아웃 -->
+  <definition name="/excel/*/*"         extends="excelTempDef">
+    <put-attribute name="contents"      value="/WEB-INF/pages/excel/{1}/{2}.jsp"/>
+  </definition>
+  <!-- 엑셀 레이아웃 END -->
+
+  <!-- 기타 레이아웃 END -->
+
+  <!-- 메인 레이아웃 -->
+  <!--<definition name="/*/*"               extends="lgDef">-->
+    <!--<put-attribute name="contents"      value="/WEB-INF/pages/views/{1}/{2}.jsp"/>-->
+  <!--</definition>-->
+  <!-- 메인 레이아웃 END -->
+
+  <!-- smartEditor image popup -->
+  <definition name="smartEditor/popup/*" template="/WEB-INF/pages/layouts/smartEditor/editorPopupTemplate.jsp">
+    <put-attribute name="body"          value="/WEB-INF/pages/views/smartEditor/popup/{1}.jsp"/>
+  </definition>
+  <!-- smartEditor image popup END -->
+</tiles-definitions>

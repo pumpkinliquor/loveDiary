@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontQuestionAnswerDAO">
+	
+	<!-- 답안제출 > 답안 마스터 테이블 insert -->
+	<insert id="insertQuestionAnswerInfo" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="ansrId" keyColumn="ansr_id">
+		/* FrontQuestionAnswerDAO.insertQuestionAnswerInfo */
+		insert into cb_aigo_my_answer_info
+		(
+			use_yn
+			, s_cnt
+			, f_cnt
+			, mem_id
+			, reg_date
+			, reg_mem_id
+		) values (
+			#{useYn}
+			, #{sCnt}
+			, #{fCnt}
+			, #{memId}
+			, now()
+			, #{memId}
+		)
+		on duplicate key update
+			use_yn = #{useYn}, reg_mem_id = #{memId}, udt_date = now(), udt_mem_id = #{memId}
+	</insert>
+	
+	<!-- 답안제출 > 답안 테이블 insert -->
+	<insert id="insertQuestionAnswer" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="ansId" keyColumn="ans_id">
+		/* FrontQuestionAnswerDAO.insertQuestionAnswer */
+		insert into cb_aigo_my_answer_list
+		(
+			ansr_id
+			, qst_id
+			, ans_value
+			, qst_order
+			, ans_order
+			, pass_yn
+			, use_yn
+			, mem_id
+			, reg_date
+			, reg_mem_id
+		) values (
+			#{ansrId}
+			, #{qstId}
+			, #{ansValue}
+			, #{qstOrder}
+			, #{ansOrder}
+			, #{passYn}
+			, #{useYn}
+			, #{memId}
+			, now()
+			, #{memId}
+		)
+	</insert>
+	
+	<!-- 답안제출 > 답안 테이블 insert -->
+	<insert id="insertQuestionAnswerHistory" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="anshId" keyColumn="ansh_id">
+		/* FrontQuestionAnswerDAO.insertQuestionAnswerHistory */
+		insert into cb_aigo_my_answer_history
+		(
+			ans_id
+			, ansr_id
+			, qst_id
+			, ans_value
+			, qst_order
+			, ans_order
+			, pass_yn
+			, use_yn
+			, mem_id
+			, reg_date
+			, reg_mem_id
+		) values (
+			#{ansId}
+			, #{ansrId}
+			, #{qstId}
+			, #{ansValue}
+			, #{qstOrder}
+			, #{ansOrder}
+			, #{passYn}
+			, #{useYn}
+			, #{memId}
+			, now()
+			, #{memId}
+		)
+	</insert>
+	
+	<!-- 답안제출 > 답안 테이블 insert -->
+	<update id="updateQuestionAnswerInfo"  parameterType="aigoQuestionAnswerEntity">
+		/* FrontQuestionAnswerDAO.updateQuestionAnswerInfo */
+		update cb_aigo_my_answer_info
+		set 
+			s_cnt = s_cnt + #{sCnt}
+			, f_cnt = f_cnt + #{fCnt}
+			, udt_date = now()
+			, udt_mem_id = #{memId}
+		where
+			ansr_id = #{ansrId}
+			and mem_id = #{memId}
+	</update>
+	
+</mapper>

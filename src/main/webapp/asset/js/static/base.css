@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+/** 모든 여백 없앰 */
+div {
+	margin:0 auto;
+	padding:0;
+	}
+
+/* 테두리 없애기 */
+fieldset, img, abbr, acronym { border:0 none; }
+
+
+/* 링크 */
+a, a:link {
+	color:#4f4f4f;
+	text-decoration:underline;
+	cursor: pointer;
+}  
+a:visited {
+	color:#333333;
+	text-decoration:none;
+}
+a:hover {
+	color:#699cdb;
+	text-decoration:underline;
+}
+a:focus {
+	color:#f00;
+	text-decoration:underline;
+}
+a:active {
+	color:#f00;
+	text-decoration:none;
+}
+a.nounder {
+	text-decoration:none;
+}
+
+
+/* 이미지, 폼관련 요소 */
+img {
+	vertical-align:top;
+}
+label, select, input, textarea {
+	vertical-align:middle;
+}
+
+/* body 스타일 */
+body {
+	font-size:0.9em;
+	line-height: 1.5;
+}
+
+/* Spring validator 오류 메시지 */
+span[id$=".errors"] {
+	color:red;
+}
+
+
+/* text ellipsis */
+.txt-elip {
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	-ms-text-overflow:ellipsis;
+}
+
+.mouse-on {
+	background-color:#dddddd;
+}
+

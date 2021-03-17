@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>아이디발급</h2>
+
+			<table class="srchT">
+				<colgroup>
+					<col width="20%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">검색</th>
+						<td class="bbx">
+							<span class="tit">상태</span>
+							<div class="radio_wrap">
+								<div class="ipt_radio_div">
+									<input type="radio" id="srchAll" name="srch" checked="checked" />
+									<label for="srchAll">전체</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="srch1" name="srch" />
+									<label for="srch1">공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="srch2" name="srch" />
+									<label for="srch2">비공개</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ptx">
+							<div class="srch_div">
+								<select class="s_p1">
+									<option>이름</option>
+									<option>팀명</option>
+								</select>
+								<input type="text" name="" class="ipt1">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="tbl-st">
+				<colgroup>
+					<col width="7%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="15%">
+					<col width="10%">
+					<col width="10%">
+					<col width="*">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>이름</th>
+						<th>아이디</th>
+						<th>사업부</th>
+						<th>팀</th>
+						<th>외부접속</th>
+						<th>상태</th>
+						<th>등록/수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>9</td>
+						<td><a href="#" class="link"  onclick="modalOpen('pop01')">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>차단</td>
+						<td>공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>허용</td>
+						<td>비공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>7</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>차단</td>
+						<td>공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>허용</td>
+						<td>비공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>차단</td>
+						<td>공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>허용</td>
+						<td>비공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>차단</td>
+						<td>공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>허용</td>
+						<td>비공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td><a href="#" class="link">홍길동</a></td>
+						<td>admin</td>
+						<td>사업본부</td>
+						<td>신사업개발팀</td>
+						<td>차단</td>
+						<td>공개</td>
+						<td>이지현(admin)<br> <span class="f14">yyyy-mm-ddhh:mm:ss</span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				<a href="#" class="btn btn-offer">등록</a>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="modal-wrap pop01">
+    <div class="modal">
+      <div class="modal-header">
+        <h1>아이디 등록/수정</h1>
+      </div>
+      <div class="content">
+        <table class="popT">
+        	<colgroup>
+        		<col width="20%">
+        		<col width="30%">
+        		<col width="20%">
+        		<col width="30%">
+        	</colgroup>
+        	<tbody>
+        		<tr>
+        			<th>이름 <em class="point">*</em></th>
+        			<td colspan="3"><input type="text" class=""></td>
+        		</tr>
+        		<tr>
+        			<th>아이디 <em class="point">*</em></th>
+        			<td><input type="text" class=""></td>
+        			<th>비밀번호 <em class="point">*</em></th>
+        			<td><input type="password" class=""></td>
+        		</tr>
+        		<tr>
+        			<th>사업부</th>
+        			<td colspan="3"><input type="text" class=""></td>
+        		</tr>
+        		<tr>
+        			<th>소속팀</th>
+        			<td><input type="text" class=""></td>
+        			<th>직급</th>
+        			<td><input type="text" class=""></td>
+        		</tr>
+        		<tr>
+        			<th>IP</th>
+        			<td colspan="3">
+        				<input type="text" class="">
+        				<p class="alert_txt">숫자만 입력 가능합니다.</p>
+        			</td>
+        		</tr>
+        		<tr>
+        			<th>외부접속 <em class="point">*</em></th>
+        			<td colspan="3">
+        				<div class="radio_wrap connect">
+							<div class="ipt_radio_div">
+								<input type="radio" id="connectBlock" name="connect">
+								<label for="connectBlock">차단</label>
+							</div>
+							<div class="ipt_radio_div">
+								<input type="radio" id="connectpermit" name="connect">
+								<label for="connectpermit">허용</label>
+							</div>
+						</div>
+						<!-- 허용 시 -->
+						<p class="txt">외부접속 허용 사유를 입력해주세요.</p>
+						<textarea></textarea>
+						<!-- //허용 시 -->
+        			</td>
+        		</tr>
+        		<tr>
+        			<th>상태</th>
+        			<td colspan="3">
+        				<div class="radio_wrap connect">
+							<div class="ipt_radio_div">
+								<input type="radio" id="state0" name="state">
+								<label for="state0">비공개</label>
+							</div>
+							<div class="ipt_radio_div">
+								<input type="radio" id="state1" name="state">
+								<label for="state1">공개</label>
+							</div>
+						</div>
+        			</td>
+        		</tr>
+        		<tr>
+        			<th>등록/수정</th>
+        			<td colspan="3">
+        				이지현(admin)  yyyy-mm-dd   hh:mm:ss
+        			</td>
+        		</tr>
+        	</tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary fR">저장</button>
+      </div>
+      <a href="#" class="close-pop close-btn" onclick="modalClose();">&#10005;</a>
+    </div>
+  </div>
+<script type="text/javascript">
+ modalClose();
+
+</script>
+</body>
+</html>

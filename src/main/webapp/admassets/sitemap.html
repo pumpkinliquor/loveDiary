@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>천재교육 Aigo ADMIN sitemap</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;400&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  
+  <style>
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    a {
+      color: #333333;
+      text-decoration: none;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    .sitemap-menu {
+      position: absolute;
+      display: inline-block;
+      overflow-y: scroll;
+      /*padding-top: 58px;*/
+      width: 275px;
+      box-sizing: border-box;
+      height: 100%;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .sitemap-menu::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .sitemap-menu::-webkit-scrollbar-thumb {
+      background-color: #c3c1ca;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .sitemap-menu.mobile {
+      display: none;
+    }
+
+    .viewersize {
+      position: fixed;
+      padding: 10px 0px;
+      background: #3f6b9d;
+      border-radius: 5px;
+      width: 230px;
+      margin: 10px;
+      left: 0;
+      top: 0;
+      color: #fff;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .sitemap-menu .tabs-btn {
+      padding: 0 10px 10px;
+      ;
+    }
+
+    .sitemap-menu .tabs-btn li {
+      display: inline-block;
+      margin: 0 5px 5px 0;
+      text-align: center;
+      padding: 5px 10px;
+      background: #aaa;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .sitemap-menu .tabs-btn li:last-child {
+      margin-right: 0;
+    }
+
+    .sitemap-menu .tabs-btn li.on {
+      background: #328ff6;
+    }
+
+    .sitemap-menu .tabs-btn li a {
+      display: block;
+    }
+
+    .range-wrap {
+      display: none;
+    }
+
+    .range-wrap.on {
+      display: block;
+    }
+
+    .range-wrap .range {
+      margin-bottom: 20px;
+    }
+
+    .range-wrap .range h3 {
+      font-size: 20px;
+      padding: 0 10px;
+      color: #333333;
+    }
+
+    .range-wrap .range h4 {
+      font-size: 15px;
+      padding: 10px 10px 0;
+      color: #6363ab;
+    }
+
+    .range-wrap .range>ul {
+      border-top: 1px solid #ddd;
+      background: #f1eefe;
+      margin-bottom: 20px;
+      padding: 0;
+    }
+
+    .range-wrap:nth-of-type(2) .range>ul {
+      background: #fff2f2
+    }
+
+    .range-wrap:nth-of-type(3) .range>ul {
+      background: #f4efff;
+    }
+
+    .range-wrap .range li {
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      color: #666;
+      font-size: 13px;
+    }
+
+    .range-wrap .range li:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+    .range-wrap .range li .sub-title {
+      display: block;
+    }
+
+    .sub-title em {
+      color: red;
+    }
+
+    .sub-title span {
+      background-color: #33d033;
+      color: #ffffff;
+      font-size: 10px;
+      padding: 3px;
+      margin-right: 3px;
+    }
+
+    .range-wrap .range li .btn-wrap {
+      float: right;
+      padding-top: 10px;
+    }
+
+    .range-wrap .range li .btn-wrap .new-win {
+      display: inline-block;
+      border: 1px solid #666;
+      padding: 3px;
+      font-size: 11px;
+    }
+
+    .range-wrap .range li .btn-wrap a.on {
+      color: #f00;
+    }
+
+    iframe {
+      width: calc(100% - 270px);
+      position: absolute;
+      left: 270px;
+      top: 0;
+      height: 100%;
+      box-sizing: border-box;
+      display: inline-block;
+      border: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    iframe.mobile {
+      width: 414px;
+      height: 667px;
+      padding: 0;
+      overflow: scroll;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sitemap-menu">
+    <!-- <button class="viewersize">모바일size보기</button> -->
+   <!--  <ul class="tabs-btn">
+      <li><a href="javascript:void(0)">admin</a></li>
+      <li class="on"><a href="javascript:void(0)">KOR</a></li>
+      <li><a href="javascript:void(0)">ENG</a></li>
+    </ul> -->
+    <div class="range-wrap on">
+      <div class="range">
+        <h3>Aigo 관리자</h3>
+        <h4>메인</h4>
+        <ul>
+          <li>
+            <span class="sub-title">로그인</span>
+            <div class="btn-wrap">
+              <a href="admin_login.html" target="viewer">admin_login.html</a>
+              <a href="admin_login.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">메인</span>
+            <div class="btn-wrap">
+              <a href="pages/admin_index.html" target="viewer">pages/admin_index.html</a>
+              <a href="pages/admin_index.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+        </ul>
+
+        <h4>권한관리</h4>
+        <ul>
+          <li>
+            <span class="sub-title">아이디발급</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_AU_01.html" target="viewer">pages/AD_AU_01.html</a>
+              <a href="pages/AD_AU_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+           <li>
+            <span class="sub-title">팝업-아이디 등록/수정</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_AU_01_pop.html" target="viewer">pages/AD_AU_01_pop.html</a>
+              <a href="pages/AD_AU_01_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">권한설정(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_AU_02_01.html" target="viewer">pages/AD_AU_02_01.html</a>
+              <a href="pages/AD_AU_02_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">권한설정(작성)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_AU_02_02.html" target="viewer">pages/AD_AU_02_02.html</a>
+              <a href="pages/AD_AU_02_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+        </ul>
+
+        <h4>마스터관리</h4>
+        <ul>
+          <li>
+            <span class="sub-title">공통코드관리 - 과목코드</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_01.html" target="viewer">pages/AD_MA_01_01.html</a>
+              <a href="pages/AD_MA_01_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 과목 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_01_pop.html" target="viewer">pages/AD_MA_01_01_pop.html</a>
+              <a href="pages/AD_MA_01_01_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">공통코드관리 - 레벨관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_02.html" target="viewer">pages/AD_MA_01_02.html</a>
+              <a href="pages/AD_MA_01_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 레벨 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_02_pop.html" target="viewer">pages/AD_MA_01_02_pop.html</a>
+              <a href="pages/AD_MA_01_02_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">공통코드관리 - 문제분류 관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_03.html" target="viewer">pages/AD_MA_01_03.html</a>
+              <a href="pages/AD_MA_01_03.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 문제분류 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_03_pop.html" target="viewer">pages/AD_MA_01_03_pop.html</a>
+              <a href="pages/AD_MA_01_03_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">공통코드관리 - 단원분류 관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_04.html" target="viewer">pages/AD_MA_01_04.html</a>
+              <a href="pages/AD_MA_01_04.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 단원 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_04_pop.html" target="viewer">pages/AD_MA_01_04_pop.html</a>
+              <a href="pages/AD_MA_01_04_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">공통코드관리 - 성취기준 관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_05.html" target="viewer">pages/AD_MA_01_05.html</a>
+              <a href="pages/AD_MA_01_05.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 성취기준 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_05_pop.html" target="viewer">pages/AD_MA_01_05_pop.html</a>
+              <a href="pages/AD_MA_01_05_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">공통코드관리 - 개념요소 관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_06.html" target="viewer">pages/AD_MA_01_06.html</a>
+              <a href="pages/AD_MA_01_06.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 개념요소 등록/수정]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_01_06_pop.html" target="viewer">pages/AD_MA_01_06_pop.html</a>
+              <a href="pages/AD_MA_01_06_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <!-- <li>
+            <span class="sub-title">게시판관리</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_MA_02.html" target="viewer">pages/AD_MA_02.html</a>
+              <a href="pages/AD_MA_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li> -->
+        </ul>
+
+        <h4>회원관리</h4>
+        <ul>
+          <li>
+            <span class="sub-title">회원집계</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_ME_01.html" target="viewer">pages/AD_ME_01.html</a>
+              <a href="pages/AD_ME_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">회원조회 - 회원정보</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_ME_02_01.html" target="viewer">pages/AD_ME_02_01.html</a>
+              <a href="pages/AD_ME_02_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">회원조회 - 회원정보</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_ME_02_01_pop.html" target="viewer">pages/AD_ME_02_01_pop.html</a>
+              <a href="pages/AD_ME_02_01_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">회원조회 - 접속이력</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_ME_02_02.html" target="viewer">pages/AD_ME_02_02.html</a>
+              <a href="pages/AD_ME_02_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+        </ul>
+
+        <h4>학습관리</h4>
+        <ul>
+          <li>
+            <span class="sub-title">출제경향관리(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_01_01.html" target="viewer">pages/AD_LE_01_01.html</a>
+              <a href="pages/AD_LE_01_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">출제경향관리(작성)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_01_02.html" target="viewer">pages/AD_LE_01_02.html</a>
+              <a href="pages/AD_LE_01_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">문항관리 - 문항등록(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_01.html" target="viewer">pages/AD_LE_02_01.html</a>
+              <a href="pages/AD_LE_02_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">문항관리 - 문항등록(작성)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_02.html" target="viewer">pages/AD_LE_02_02.html</a>
+              <a href="pages/AD_LE_02_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 - 연결개념선택]</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_02_pop.html" target="viewer">pages/AD_LE_02_02_pop.html</a>
+              <a href="pages/AD_LE_02_02_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+
+          <!-- <li>
+            <span class="sub-title">문항관리 - 모의진단관리 - 1문항정보</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_03.html" target="viewer">pages/AD_LE_02_03.html</a>
+              <a href="pages/AD_LE_02_03.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">문항관리 - 모의진단관리 - 2통계치등록</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_04.html" target="viewer">pages/AD_LE_02_04.html</a>
+              <a href="pages/AD_LE_02_04.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">문항관리 - 모의진단관리 - 3채점현황</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_05.html" target="viewer">pages/AD_LE_02_05.html</a>
+              <a href="pages/AD_LE_02_05.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li> -->
+          <li>
+            <span class="sub-title">문항관리 - 모의진단관리 - 4진단총평관리(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_06.html" target="viewer">pages/AD_LE_02_06.html</a>
+              <a href="pages/AD_LE_02_06.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">문항관리 - 모의진단관리 - 4진단총평관리(작성)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_07.html" target="viewer">pages/AD_LE_02_07.html</a>
+              <a href="pages/AD_LE_02_07.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+
+          <li>
+            <span class="sub-title">문항관리 - 해설관리(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_08.html" target="viewer">pages/AD_LE_02_08.html</a>
+              <a href="pages/AD_LE_02_08.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">[팝업 문항관리 - 해설등록/수정</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_02_08_pop.html" target="viewer">pages/AD_LE_02_08_pop.html</a>
+              <a href="pages/AD_LE_02_08_pop.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">개념관리(목록)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_03_01.html" target="viewer">pages/AD_LE_03_01.html</a>
+              <a href="pages/AD_LE_03_01.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+          <li>
+            <span class="sub-title">개념관리(작성)</span>
+            <div class="btn-wrap">
+              <a href="pages/AD_LE_03_02.html" target="viewer">pages/AD_LE_03_02.html</a>
+              <a href="pages/AD_LE_03_02.html" target="_blank" class="new-win">새창</a>
+            </div>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+  <iframe src="" name="viewer" class="" style="overflow:hidden;"></iframe>
+
+  <script>
+    // link
+    var links = $('.range a');
+    for (i = 0; i < links.length; i++) {
+      links[i].addEventListener("click", function () {
+        for (i = 0; i < links.length; i++) {
+          links[i].classList.remove('on');
+
+        }
+        this.classList.add('on');
+      })
+
+    }
+    // tab
+    $('.tabs-btn a').click(function () {
+      $(this).parent('li').addClass('on').siblings().removeClass('on');
+      var index = $(this).parent('li').index();
+      $('.range-wrap').eq(index).addClass('on').siblings().removeClass('on');;
+    });
+
+    $('.viewersize').click(function () {
+
+      $('iframe').toggleClass('mobile');
+    });
+
+
+    $('.title.lg').click(function () {
+      $(this).toggleClass('on');
+      $(this).next("div.range").slideToggle();
+    });
+    $('.title.lg').click();
+  </script>
+</body>
+
+</html>

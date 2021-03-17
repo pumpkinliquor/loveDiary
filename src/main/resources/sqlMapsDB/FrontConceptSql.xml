@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontConceptDAO">
+
+	<!-- 성취기준 상세 조회 -->
+	<select id="selectConceptDetailList" parameterType="aigoConceptEntity" resultType="camelMap">
+		/* FrontAchieveDAO.selectConceptDetailList*/
+		select
+		a.acv_name, a.acv_id, a.sub_id, (select sub_name from cb_aigo_subject where 1=1
+		and sub_id = a.sub_id) as sub_name, c.cpt_name, c.cpt_id, b.not_text
+		from
+		cb_aigo_achievement a, cb_aigo_notion b, cb_aigo_concept c
+		where
+		a.acv_id = b.acv_id
+		and b.acv_id = c.acv_id
+		and a.use_yn ='Y'
+		and b.use_yn = 'Y'
+		and c.use_yn = 'Y'
+		and a.acv_id = #{acvId}
+		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(cptId)'>
+			and c.cpt_id = #{cptId}
+		</if>
+	</select>
+
+</mapper>

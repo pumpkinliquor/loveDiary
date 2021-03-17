@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>개념관리</h2>
+
+			<h3>표준분류</h3>
+			<table class="tbl-st writeT mb">
+	        	<colgroup>
+	        		<col width="17%">
+	        		<col width="*">
+	        		<col width="17%">
+	        		<col width="*">
+	        	</colgroup>
+	        	<tbody>
+	        		<tr>
+	        			<th>문항코드</th>
+	        			<td colspan="3" class="td_inblck">1234 <a href="#" class="btn btn-default">복제</a> <p class="point">※ 복제 시, 새로운 코드로 문항이 복제됩니다.</p></td>
+	        		</tr>
+	        		<tr>
+	        			<th>과목 <em class="point">*</em></th>
+	        			<td>
+	        				<select class="s_p2">
+	        					<option>과목</option>
+	        				</select>
+	        			</td>
+	        			<th>레벨 <em class="point">*</em></th>
+	        			<td>
+	        				<select class="s_p2">
+	        					<option>레벨</option>
+	        				</select>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>문제분류 <em class="point">*</em></th>
+	        			<td colspan="3">
+	        				<select class="s_p2">
+	        					<option>확인문제</option>
+	        				</select>
+	        				<select class="s_p2">
+	        					<option>유사2차</option>
+	        				</select>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>단원분류 <em class="point">*</em></th>
+	        			<td>
+	        				<select class="s_p2">
+	        					<option>지수함수</option>
+	        				</select>
+	        			</td>
+	        			<th>성취기준 <em class="point">*</em></th>
+	        			<td>
+	        				<select class="s_p2">
+	        					<option>로그의 뜻을 알기</option>
+	        				</select>
+	        			</td>
+	        		</tr>
+	        	</tbody>
+	        </table>
+
+	        <h3>내용입력</h3>
+	        <!-- 콘텐츠타입이 이미지 일 때 -->
+			<table class="tbl-st writeT mb">
+	        	<colgroup>
+	        		<col width="17%">
+	        		<col width="*">
+	        	</colgroup>
+	        	<tbody>
+	        		<tr>
+	        			<th>콘텐츠타입 <em class="point">*</em></th>
+	        			<td>
+	        				<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeImage0" name="contentType0" checked="checked">
+									<label for="typeImage0">이미지</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeText0" name="contentType0">
+									<label for="typeText0">텍스트</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeMedia0" name="contentType0">
+									<label for="typeMedia0">동영상</label>
+								</div>
+							</div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td colspan="2">
+	        				<div class="add_file_div">
+		        				<select class="s_p1">
+		        					<option>직접올리기</option>
+		        					<option selected="selected">경로입력</option>
+		        				</select>
+		        				<input type="text" name="" class="ipt2" value="/problem_images/revise.jpg">
+		        				<a href="#" class="btn add_file">추가</a>
+	        				</div>
+	        				<div class="add_file_div">
+		        				<select class="s_p1">
+		        					<option>직접올리기</option>
+		        					<option selected="selected">경로입력</option>
+		        				</select>
+		        				<input type="text" name="" class="ipt2" value="/problem_images/revise.jpg">
+		        				<a href="#" class="btn add_file">추가</a>
+	        				</div>
+	        				<div class="add_file_div">
+		        				<select class="s_p1">
+		        					<option selected="selected">직접올리기</option>
+		        					<option>경로입력</option>
+		        				</select>
+		        				<div class="filebox">
+		        					<label for="ex_filename" class="btn btn-st1">파일찾기</label>
+		        					<input class="upload-name" value="파일명" disabled="disabled">
+		        					<i class="fas fa-times fa-times2"></i>
+
+		        					<input type="file" id="ex_filename" class="upload-hidden">
+		        				</div>
+	        				</div>
+	        			</td>
+	        		</tr>
+	        	</tbody>
+	        </table>
+
+	         <!-- 콘텐츠타입이 텍스트 일 때 -->
+			<table class="tbl-st writeT mb">
+	        	<colgroup>
+	        		<col width="17%">
+	        		<col width="*">
+	        	</colgroup>
+	        	<tbody>
+	        		<tr>
+	        			<th>콘텐츠타입 <em class="point">*</em></th>
+	        			<td>
+	        				<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeImage1" name="contentType1">
+									<label for="typeImage1">이미지</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeText1" name="contentType1" checked="checked">
+									<label for="typeText1">텍스트</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeMedia1" name="contentType1">
+									<label for="typeMedia1">동영상</label>
+								</div>
+							</div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td colspan="2">
+	        				<div class="editor_div">에디터영역</div>
+	        			</td>
+	        		</tr>
+	        	</tbody>
+	        </table>
+
+	         <!-- 콘텐츠타입이 미디어 일 때 -->
+			<table class="tbl-st writeT mb">
+	        	<colgroup>
+	        		<col width="17%">
+	        		<col width="*">
+	        	</colgroup>
+	        	<tbody>
+	        		<tr>
+	        			<th>콘텐츠타입 <em class="point">*</em></th>
+	        			<td>
+	        				<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeImage2" name="contentType2">
+									<label for="typeImage2">이미지</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeText2" name="contentType2">
+									<label for="typeText2">텍스트</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="typeMedia2" name="contentType2" checked="checked">
+									<label for="typeMedia2">동영상</label>
+								</div>
+							</div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>썸네일 <em class="point">*</em></th>
+	        			<td>
+	        				<div class="add_file_div inlineB">
+		        				<div class="filebox">
+		        					<label for="ex_filename1" class="btn btn-st1">파일찾기</label>
+		        					<input class="upload-name" value="파일명" disabled="disabled">
+		        					<i class="fas fa-times fa-times2"></i>
+
+		        					<input type="file" id="ex_filename1" class="upload-hidden">
+		        				</div>
+		        				<p class="point">※ 이미지 사이즈 000*000</p>
+	        				</div>
+	        				<div class="thumb_img"><img src="../images/tmp_thumb.jpg"></div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>영상타이틀</th>
+	        			<td>
+	        				<input type="text" name="" placeholder="미입력시 개념요소명으로 노출됩니다"> 
+	        				<p class="point mt5">※ 공백포함 최대 00자</p>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>영상경로</th>
+	        			<td>
+	        				<input type="text" name="">
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>영상정보</th>
+	        			<td>
+							<div class="mb10">
+								<span class="tit">런타임</span>
+								<input type="text" name="" class="ipt_m">
+								<span class="point">※ hh:mm:ss 형식으로 입력</span>
+		                    </div>
+		                    <div>
+		                    	<span class="tit">화질</span>
+								<input type="text" name="" class="ipt_m">
+		                    </div>
+		                </td>
+	        		</tr>
+	        	</tbody>
+	        </table>
+
+	         <table class="tbl-st writeT mb">
+	        	<colgroup>
+	        		<col width="17%">
+	        		<col width="*">
+	        	</colgroup>
+	        	<tbody>
+	        		<tr>
+	        			<th>상태</th>
+	        			<td>
+	        				<div class="radio_wrap connect">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state0" name="state">
+									<label for="state0">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state1" name="state" checked="checked">
+									<label for="state1">공개</label>
+								</div>
+							</div>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<th>등록/수정</th>
+	        			<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+	        		</tr>
+	        	</tbody>
+	        </table>
+
+	        <div class="tbl-foot">
+				<a href="AD_LE_02_01.html" class="btn btn-list">목록</a>
+				<a href="#" class="btn btn-offer">저장</a>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ modalClose();
+  tabMenu();
+</script>
+
+</body>
+</html>

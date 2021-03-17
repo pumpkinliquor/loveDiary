@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+
+</head>
+
+<body class="study_body">
+<div class="wrapper">
+  <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1>레벨평가 상세 문항분석</h1>
+  </header>
+  <div class="container study_analysis">
+    <section class="contents">
+      <div class="tab_wrap">
+        <div class="tab_menu_wrap">
+          <div class="tab_menu" id="levelTab">
+            <button class="tab_m1 tab_m active" type="button">Level 1</button>
+            <button class="tab_m2 tab_m" type="button">Level 2</button>
+            <button class="tab_m3 tab_m" type="button">Level 3</button>
+            <button class="tab_m4 tab_m" type="button">Level 4</button>
+            <button class="tab_m5 tab_m" type="button">Level 5</button>
+          </div>
+        </div>
+        <div class="tab_cont_wrap" id="levelTabCont">
+          <div class="tab_cont1 tab_cont active">
+            <div class="tbl_wrap">
+            <table class="studyT">
+              <colgroup>
+                <col width="50px">
+                <col width="34px">
+                <col width="80px">
+                <col width="40px">
+                <col width="40px">
+                <col width="40px">
+                <col width="50px">
+                <col width="50px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="sticky-col first-col">
+                    <span class="txt">구분</span>
+                    <div class="sort_div">
+                      <span class="btn1 on"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                  <th class="sticky-col second-col">번호</th>
+                  <th>
+                    <span class="txt">개념요소</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                  <th>채점<br>결과</th>
+                  <th>
+                    <span class="txt">정답율</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2 on"></span>
+                    </div>
+                  </th>
+                  <th>
+                    <span class="txt">난이도</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+
+                  <th>가장빈번<br>한오답</th>
+                  <th>
+                    <span class="txt">상위50%<br>정답율</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>로그의정의</td>
+                  <td>O</td>
+                  <td>99%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>상용로그</td>
+                  <td>O</td>
+                  <td>23%</td>
+                  <td>A</td>
+                  <td>3</td>
+                  <td>70&</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">3</td>
+                  <td>로그의 정의, 상용로그</td>
+                  <td>O</td>
+                  <td>99%</td>
+                  <td>B</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">확인</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>상용로그</td>
+                  <td>O</td>
+                  <td>23%</td>
+                  <td>C</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>로그의 정의, 상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>D</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">3</td>
+                  <td>상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>3</td>
+                  <td>70%-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">4</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">5</td>
+                  <td>상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>3</td>
+                  <td>-</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+          </div>
+
+          <div class="tab_cont2 tab_cont">
+            <div class="tbl_wrap">
+            <table class="studyT">
+              <colgroup>
+                <col width="50px">
+                <col width="34px">
+                <col width="80px">
+                <col width="40px">
+                <col width="40px">
+                <col width="40px">
+                <col width="50px">
+                <col width="50px">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="sticky-col first-col">
+                    <span class="txt">구분</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                  <th class="sticky-col second-col">번호</th>
+                  <th>
+                    <span class="txt">개념요소</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                  <th>채점<br>결과</th>
+                  <th>
+                    <span class="txt">정답율</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                  <th>
+                    <span class="txt">난이도</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+
+                  <th>가장빈번<br>한오답</th>
+                  <th>
+                    <span class="txt">상위50%<br>정답율</span>
+                    <div class="sort_div">
+                      <span class="btn1"></span>
+                      <span class="btn2"></span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>로그의정의</td>
+                  <td>O</td>
+                  <td>99%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>상용로그</td>
+                  <td>O</td>
+                  <td>23%</td>
+                  <td>A</td>
+                  <td>3</td>
+                  <td>70&</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">기출</td>
+                  <td class="sticky-col second-col">3</td>
+                  <td>로그의 정의, 상용로그</td>
+                  <td>O</td>
+                  <td>99%</td>
+                  <td>B</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">확인</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>상용로그</td>
+                  <td>O</td>
+                  <td>23%</td>
+                  <td>C</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">1</td>
+                  <td>로그의 정의, 상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>D</td>
+                  <td>-</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">3</td>
+                  <td>상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>3</td>
+                  <td>70%-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">4</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>-</td>
+                </tr>
+                <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">5</td>
+                  <td>상용로그</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>3</td>
+                  <td>-</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>-</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>99%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>70%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>E</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+                 <tr>
+                  <td class="sticky-col first-col">주간평가</td>
+                  <td class="sticky-col second-col">2</td>
+                  <td>로그의정의</td>
+                  <td class="fc_R">X ④</td>
+                  <td>25%</td>
+                  <td>A</td>
+                  <td>2</td>
+                  <td>100%</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+          </div>
+
+          <div class="tab_cont3 tab_cont">
+          </div>
+
+          <div class="tab_cont4 tab_cont">
+          </div>
+
+          <div class="tab_cont5 tab_cont">
+          </div>
+          
+        </div>
+      </div>
+
+      <p class="txt_st1">※ 난이도는 A가 가장 어렵고 E가 가장 쉬운 문항을 의미합니다.</p>
+      
+    </section>
+  </div><!-- //container -->
+
+</div>
+
+<script type="text/javascript">
+  levelTab();
+</script>
+
+</body>
+
+</html>

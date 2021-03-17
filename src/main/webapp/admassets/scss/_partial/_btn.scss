@@ -1,0 +1,111 @@
+.fz-12{
+  font-size: 12px;
+}
+
+.btn-group{
+  margin-top:rem(30);
+  .btn{
+    &.white-btn{
+      background-color:$white;
+    }
+    &.gray-border-btn{
+      border:rem(1) solid $search-border;
+    }
+    &.m-0-3{
+      margin:0 3px;
+    }
+    &.m-l-3{
+      margin-left: 3px;
+    }
+  }
+  .btn2{
+    width: 180px;
+    height: 50px;
+    color:#fff;
+    line-height: 50px;
+    &:hover{
+      color:#fff;
+    }
+  }
+  .btn2 + .btn2{
+    margin-left: 10px;
+  }
+  // .btn-apply{
+  //   background: #007bff;
+  // }
+  // .btn-cancel{
+  //   background: #87888a;
+  // }
+}
+
+.btn-cancel{
+  width: rem(120);
+  height: rem(42);
+  border-radius: rem(6);
+  background: #333333;
+  color:#fff;
+  position: absolute; 
+  left: 0;
+  line-height: 1.75;
+  &:hover{
+    color:#fff;
+  }
+}
+.btn-offer{
+  width: rem(120);
+  height: rem(42);
+  border-radius: rem(6);
+  background: #17a2b8;
+  color:#fff;
+  position: absolute; 
+  right: 0;
+  line-height: 1.75;
+  &:hover{
+    color:#fff;
+  }
+}
+.btn-secondary{
+  &:hover{
+    background: #6c757d;
+  }
+}
+
+.btn-popup-cancel{
+  width: rem(80);
+  height: rem(42);
+  border-radius: rem(6);
+  background: #333333;
+  color:#fff;
+  &:hover{
+    color:#fff;
+  }
+}
+.btn-popup-offer{
+  width: rem(80);
+  height: rem(42);
+  border-radius: rem(6);
+  background: #17a2b8;
+  color:#fff;
+  &:hover{
+    color:#fff;
+  }
+}
+
+
+.input-group-append{
+  border:1px solid #ced4da;
+  box-sizing: border-box;
+  border-radius: 0 rem(3) rem(3) 0;
+}
+.input-group-sm > .input-group-append > .btn{
+  padding:0 0.5rem;
+}
+
+//체크박스 커스텀
+.custom-control-input:checked ~ .custom-control-label::before{
+  border-color: #17a2b8;
+  background-color: #17a2b8;
+}
+
+
+

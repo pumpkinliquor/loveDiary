@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <typeAlias type="com.plushih.common.ci.plusActiveRecord" alias="dbEntity"/>
+        <typeAlias type="com.plushih.common.ci.CamelMap" alias="camelMap"/>
+        <typeAlias type="com.plushih.entities.CodeMasterEntity" alias="codeMasterEntity"/>
+        <typeAlias type="com.plushih.entities.FieldIndexEntity" alias="fieldIndexEntity"/>
+        <typeAlias type="com.plushih.entities.UserMemberEntity" alias="userMemberEntity"/>
+        <typeAlias type="com.plushih.entities.AigoQuestionEntity" alias="aigoQuestionEntity"/>
+        <typeAlias type="com.plushih.entities.AigoQuestionAnswerEntity" alias="aigoQuestionAnswerEntity"/>
+        <typeAlias type="com.plushih.entities.AigoAchievementEntity" alias="aigoAchievementEntity"/>
+        <typeAlias type="com.plushih.entities.AigoConceptEntity" alias="aigoConceptEntity"/>
+        <typeAlias type="com.plushih.entities.AigoTendencyEntity" alias="aigoTendencyEntity"/>
+        <typeAlias type="com.plushih.entities.AigoLearnEntity" alias="aigoLearnEntity"/>
+
+        <typeAlias type="com.plushih.controllers.front.vo.PlusBbsVO" 		alias="plusBbsVO"/>
+        <typeAlias type="com.plushih.controllers.front.vo.RecruitVO" 		alias="recruitVO"/>
+        <typeAlias type="com.plushih.controllers.front.vo.ProductVO" 		alias="productVO"/>
+        
+        
+    </typeAliases>
+</configuration>

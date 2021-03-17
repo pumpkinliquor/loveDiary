@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>회원정보</h2>
+
+			<table class="srchT srch_id">
+				<colgroup>
+					<col width="20%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">회원계정</th>
+						<td>
+							<div class="srch_div">
+								<input type="text" name="" class="ipt1" value="abcdefg">
+								<button type="button" class="btn btn-default">아이디 찾기</button>
+							</div>
+							<button type="submit" class="btn btn-st1 btn_srch">검색</button>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+			<p class="point mb5">
+				* 아이디 클릭 시 상세 정보를 조회할 수 있습니다.  <br>
+				* 최종로그인일시 클릭 시 접속이력 조회로 이동합니다. <br>
+				* 구매이력 클릭 시 회원의 수강,구매 상세 정보를 조회할 수 있습니다.  
+			</p>
+
+			<table class="tbl-st2">
+				<colgroup>
+					<col width="4%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="10%">
+					<col width="5%">
+					<col width="5%">
+					<col width="8%">
+					<col width="*">
+					<col width="5%">
+					<col width="5%">
+					<col width="10%">
+					<col width="6%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>계정</th>
+						<th>닉네임</th>
+						<th>가입구분</th>
+						<th>최초설치일자</th>
+						<th>설치OS</th>
+						<th>앱버전</th>
+						<th>가입일자</th>
+						<th>최종 로그인일시</th>
+						<th>학년</th>
+						<th>레벨</th>
+						<th>마케팅 활용동의</th>
+						<th>탈퇴여부</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>9</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td>가나다라마바사</td>
+						<td>이메일</td>
+						<td>yyyy-mm-dd</td>
+						<td>aos8</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">N수</a></td>
+						<td><a href="#" class="link">1</a></td>
+						<td><b>Y</b><br>yyyy-mm-dd</td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td>가나다라마바사</td>
+						<td>카카오</td>
+						<td>yyyy-mm-dd</td>
+						<td>aos8</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">고3</a></td>
+						<td><a href="#" class="link">2</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr class="none">
+						<td>7</td>
+						<td>J*********</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td class="red">Y</td>
+					</tr>
+					<tr>
+						<td>6</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td></td>
+						<td>이메일</td>
+						<td>yyyy-mm-dd</td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">N수</a></td>
+						<td><a href="#" class="link">1</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td>가나다라마바사</td>
+						<td>카카오</td>
+						<td>yyyy-mm-dd</td>
+						<td>aos8</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">고3</a></td>
+						<td><a href="#" class="link">2</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td></td>
+						<td>이메일</td>
+						<td>yyyy-mm-dd</td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">N수</a></td>
+						<td><a href="#" class="link">1</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td>가나다라</td>
+						<td>카카오</td>
+						<td>yyyy-mm-dd</td>
+						<td>aos8</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">고3</a></td>
+						<td><a href="#" class="link">2</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td></td>
+						<td>이메일</td>
+						<td>yyyy-mm-dd</td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">N수</a></td>
+						<td><a href="#" class="link">1</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td><a href="#" class="link">jeehyun@ago.com</a></td>
+						<td>가나다</td>
+						<td>카카오</td>
+						<td>yyyy-mm-dd</td>
+						<td>aos8</td>
+						<td>1.0.0</td>
+						<td>yyyy-mm-dd</td>
+						<td>yyyy-mm-dd hh:mm:ss</td>
+						<td><a href="#" class="link">고3</a></td>
+						<td><a href="#" class="link">2</a></td>
+						<td><b>N</b></td>
+						<td>N</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal-wrap pop01 is-visible">
+    <div class="modal">
+      <div class="modal-header">
+        <h1>회원정보</h1>
+      </div>
+      <div class="content">
+      	<div class="tab_menu tab3">
+			<a href="#" class="tab tab_1 active">기본정보</a>
+			<a href="#" class="tab tab_2">모의진단</a>
+			<a href="#" class="tab tab_3">풀이이력</a>
+		</div>
+
+		<div class="tab_conts_wrap">
+			<div class="tab_cont1 tab_cont active">
+		      	<h2>기본정보</h2>
+		        <table class="popT2 mb">
+		        	<colgroup>
+		        		<col width="20%">
+		        		<col width="*">
+		        		<col width="20%">
+		        		<col width="*">
+		        	</colgroup>
+		        	<tbody>
+		        		<tr>
+		        			<th>아이디</th>
+		        			<td>jeehyun@ago.com</td>
+		        			<th>가입구분</th>
+		        			<td>이메일</td>
+		        		</tr>
+		        		<tr>
+		        			<th>닉네임</th>
+		        			<td>jeehyun@ago.com <a href="#" class="link">이력</a></td>
+		        			<th>레벨</th>
+		        			<td><a href="#" class="link">1</a></td>
+		        		</tr>
+		        		<tr>
+		        			<th>설치일자</th>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<th>가입일자</th>
+		        			<td>yyyy-mm-dd</td>
+		        		</tr>
+		        		<tr>
+		        			<th>최종로그인</th>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<th>학년</th>
+		        			<td>고3</td>
+		        		</tr>
+		        		<tr>
+		        			<th>설치 OS</th>
+		        			<td>Aos8</td>
+		        			<th>앱버전</th>
+		        			<td>1.0.1</td>
+		        		</tr>
+		        		<tr>
+		        			<th>마케팅 활용동의</th>
+		        			<td colspan="3"><b>Y</b> &nbsp;&nbsp;yyyy-mm-dd 00:00:00</td>
+		        		</tr>
+		        		<tr>
+		        			<th>푸시 설정</th>
+		        			<td colspan="3"><a href="#" class="link">설정 &gt;</a></td>
+		        		</tr>
+
+		        	</tbody>
+		        </table>
+
+		        <h2>결제정보</h2>
+		        <div>결제 내역(추후)</div>
+		    </div>
+
+		    <div class="tab_cont2 tab_cont">
+		    	<h2>모의진단</h2>
+		    	<table class="popT2 mb">
+		        	<colgroup>
+		        		<col width="20%">
+		        		<col width="*">
+		        		<col width="20%">
+		        		<col width="*">
+		        	</colgroup>
+		        	<tbody>
+		        		<tr>
+		        			<th>아이디</th>
+		        			<td>jeehyun@ago.com</td>
+		        			<th>가입구분</th>
+		        			<td>이메일</td>
+		        		</tr>
+		        		<tr>
+		        			<th>닉네임</th>
+		        			<td>jeehyun@ago.com <a href="#" class="link">이력</a></td>
+		        			<th>레벨</th>
+		        			<td><a href="#" class="link">1</a></td>
+		        		</tr>
+		        		<tr>
+		        			<th>모의진단 시작일시</th>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<th>모의진단 종료일시</th>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        		</tr>
+		        		<tr>
+		        			<th>진단결과</th>
+		        			<td colspan="3">풀이문제: 10개, 정답문제 8개<br>백분위 71%, 예상등급 6등급<br>레벨 1</td>
+		        		</tr>
+		        	</tbody>
+		        </table>
+
+		        <table class="popT1">
+		        	<colgroup>
+		        		<col width="8%">
+		        		<col width="11%">
+		        		<col width="11%">
+		        		<col width="*">
+		        		<col width="*">
+		        		<col width="13%">
+		        		<col width="10%">
+		        	</colgroup>
+		        	<thead>
+		        		<tr>
+		        			<th>화면표시 문항번호</th>
+		        			<th>문항코드</th>
+		        			<th>채점코드</th>
+		        			<th>풀이시작일시</th>
+		        			<th>풀이종료일시</th>
+		        			<th>풀이소요시간</th>
+		        			<th>채점결과</th>
+		        		</tr>
+		        	</thead>
+		        	<tbody>
+		        		<tr>
+		        			<td>1</td>
+		        			<td>Q001</td>
+		        			<td>test001</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>O</td>
+		        		</tr>
+		        		<tr>
+		        			<td>2</td>
+		        			<td>Q002</td>
+		        			<td>test002</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>3</td>
+		        			<td>Q003</td>
+		        			<td>test003</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>4</td>
+		        			<td>Q004</td>
+		        			<td>test004</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>5</td>
+		        			<td>Q005</td>
+		        			<td>test005</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>6</td>
+		        			<td>Q006</td>
+		        			<td>test006</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>O</td>
+		        		</tr>
+		        		<tr>
+		        			<td>7</td>
+		        			<td>Q007</td>
+		        			<td>test007</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>8</td>
+		        			<td>Q008</td>
+		        			<td>test008</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>9</td>
+		        			<td>Q009</td>
+		        			<td>test009</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+		        		<tr>
+		        			<td>10</td>
+		        			<td>Q010</td>
+		        			<td>test010</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>X</td>
+		        		</tr>
+
+		        	</tbody>
+		        </table>
+		   	</div>
+
+		   	<div class="tab_cont3 tab_cont">
+
+		    	<table class="popT2 mb">
+		        	<colgroup>
+						<col width="18%">
+						<col width="*">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th>기간</th>
+							<td>
+							 	<form>
+				                    <div class="date_div">
+				                      <input type="date" class="ipt_date" id=""><span>~</span>
+				                      <input type="date" class="ipt_date" id="">
+				                    </div>
+				                    <button type="submit" class="btn btn-default btn_srch">검색</button>
+			                    </form>
+							</td>
+						</tr>
+					</tbody>
+		        </table>
+
+		        <div class="report_link_div">
+		        	<a href="#">주간리포트 &gt;</a>
+		        	<a href="#">레벨평가리포트 &gt;</a>
+		        	<a href="#">종합리포트 &gt;</a>
+		        </div>
+
+		        <table class="popT1">
+		        	<colgroup>
+		        		<col width="5%">
+		        		<col width="10%">
+		        		<col width="10%">
+		        		<col width="10%">
+		        		<col width="10%">
+		        		<col width="10%">
+		        		<col width="12%">
+		        		<col width="12%">
+		        		<col width="10%">
+		        		<col width="10%">
+		        	</colgroup>
+		        	<thead>
+		        		<tr>
+		        			<th>번호</th>
+		        			<th>문항코드</th>
+		        			<th>채점코드</th>
+		        			<th>성취기준<br>코드</th>
+		        			<th>문제구분</th>
+		        			<th>풀이시작<br>일시</th>
+		        			<th>풀이종료<br>일시</th>
+		        			<th>풀이소요<br>시간</th>
+		        			<th>채점결과</th>
+		        			<th>화면표시<br>문항번호</th>
+		        		</tr>
+		        	</thead>
+		        	<tbody>
+		        		<tr>
+		        			<td>9</td>
+		        			<td>Q001</td>
+		        			<td>test001</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>yyyy-mm-dd 00:00:00</td>
+		        			<td>0:00:00</td>
+		        			<td>O</td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>8</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>7</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>6</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>5</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>4</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>3</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>2</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        		<tr>
+		        			<td>1</td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        			<td></td>
+		        		</tr>
+		        	</tbody>
+		        </table>
+		        <div class="tbl-foot">
+					<div class="paging">
+						<a href="#" class="prev">
+							<i class="fas fa-caret-left"></i>
+						</a>
+						<span class="on">1</span>
+						<a href="#">2</a>
+						<a href="#">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">10</a>
+						<a href="#" class="next">
+							<i class="fas fa-caret-right"></i>
+						</a>
+					</div>
+				</div>
+		   	</div>
+
+		</div><!-- //tab_conts_wrap -->
+
+      </div>
+
+      <a href="#" class="close-pop close-btn" onclick="modalClose();">&#10005;</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+ modalClose();
+ tabMenu();
+</script>
+
+</body>
+</html>

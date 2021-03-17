@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontLoginDAO">
+
+	<!-- 로그인 > 사용자 정보 조회 -->
+	<select id="selectLoginUserInfo" parameterType="userMemberEntity" resultType="userMemberEntity">
+		/* Login.selectLoginUserInfo */
+		select
+			mem_id
+			, mem_userid
+			, mem_email
+			, mem_password
+			, mem_username
+			, mem_nickname
+			, mem_level
+			, mem_point
+			, mem_homepage
+			, mem_phone
+			, mem_birthday
+			, mem_sex
+			, mem_zipcode	
+			, mem_address1
+			, mem_address2
+			, mem_address3
+			, mem_address4
+			, mem_receive_email
+			, mem_use_note
+			, mem_receive_sms
+			, mem_open_profile
+			, mem_denied
+			, mem_email_cert
+			, mem_register_datetime
+			, mem_register_ip
+			, mem_lastlogin_datetime
+			, mem_lastlogin_ip
+			, mem_is_admin
+			, mem_profile_content
+			, mem_adminmemo
+			, mem_following
+			, mem_followed
+			, mem_icon
+			, mem_photo
+			, mem_class
+			, mem_grade
+			, mem_sub_id
+			, mem_join_channel
+			, mem_temp_id
+		from
+			cb_member
+		where
+			mem_userid = #{memUserid}
+	</select>
+	
+	<!-- 로그인 > 회원 로그인 이력 저장 -->
+	<insert id="insertLoginHistory" parameterType="HashMap">
+		/* Login.insertLoginHistory */
+		insert into cb_member_login_log
+		(
+			mll_success
+			, mem_id
+			, mll_userid
+			, mll_datetime
+			, mll_ip
+			, mll_reason
+			, mll_useragent
+			, mll_url
+			, mll_referer
+		) values (
+			#{mllSuccess}
+			, #{memId}
+			, #{mllUserid}
+			, now()
+			, #{mllIp}
+			, #{mllReason}
+			, #{mllUseragent}
+			, #{mllUrl}
+			, #{mllReferer}
+		)
+	</insert>
+	
+	<!-- 아이디/비밀번호 찾기 > 인증코드 insert -->
+	<insert id="insertAuthCode" parameterType="HashMap" useGeneratedKeys="true" keyProperty="maeId" keyColumn="mae_id">
+		/* Login.insertAuthCode */
+		insert into cb_member_auth_email
+		(
+			mem_id
+			, mae_key
+			, mae_type
+			, mae_generate_datetime
+			, mae_used
+			, mae_expired
+			, mae_expire_datatime
+		) values (
+			#{memId}
+			, #{maeKey}
+			, #{maeType}
+			, now()
+			, 'N'
+			, 'N'
+			, date_add(now(), interval 30 minute)
+		)
+	</insert>
+	
+	<!-- 아이디/비밀번호 찾기 > 유효한 인증번호인지 체크 -->
+	<select id="selectAuthCode" parameterType="HashMap" resultType="HashMap">
+		/* Login.selectAuthCode */
+		select
+			m.mem_id as memId
+			, mae.mae_id as maeId
+			, m.mem_userid as memUserid
+		from
+			cb_member as m, cb_member_auth_email as mae
+		where
+			m.mem_id = mae.mem_id
+			and mae.mae_expire_datatime > now()
+			and mae.mae_used = 'N'
+			and m.mem_userid = #{memUserid}
+			and mae.mae_key = #{maeKey}
+	</select>
+	
+	<!-- 아이디/비밀번호 찾기 > 인증번호 사용 처리 -->
+	<update id="updateAuthCode" parameterType="HashMap">
+		/* Login.updateAuthCode */
+		update cb_member_auth_email
+		set
+			mae_used = 'Y'
+			, mae_use_datetime = now()
+		where
+			mae_expired = 'N'
+			and mem_id = #{memId}
+			and mae_key = #{maeKey}
+	</update>
+	
+	<!-- 아이디/비밀번호 찾기 > 인증 성공 시 해당 회원의 모든 인증번호 만료처리 -->
+	<update id="updateUnusedAuthCode" parameterType="HashMap">
+		/* Login.updateUnusedAuthCode */
+		update cb_member_auth_email
+		set
+			mae_expired = 'Y'
+			, mae_expire_datatime = now()
+		where	
+			mem_id = #{memId}
+	</update>
+	
+	<!-- 아이디/비밀번호 찾기 > 비밀번호 수정 -->
+	<update id="updatePassword" parameterType="userMemberEntity">
+		/* Login.updatePassword */
+		update cb_member
+		set
+			mem_password = #{memPasswordEnc}
+		where	
+			mem_userid = #{memUserid}
+	</update>
+	
+	<!-- 진단 참여여부 조회 -->
+	<select id="checkPreTestYn" parameterType="userMemberEntity" resultType="userMemberEntity">
+		/* Login.checkPreTestYn */
+		select
+			fur.mem_id
+			, ifnull(fur.fur_yn, 'N') as mem_fur_yn
+			, ifnull(con.con_yn, 'N') as mem_con_yn
+		from
+		(
+			select
+				u.mem_id
+				, ifnull(ati.temp_id,0) as temp_id
+				, case
+					when ifnull(ati.temp_id,0) <![CDATA[ > ]]> 0 then 'Y'
+				  else 'N' end as fur_yn
+				, case
+					when ati.temp_grade = 1 then 5
+					when ati.temp_grade = 2 then 4
+					when ati.temp_grade = 3 then 3
+					when ati.temp_grade = 4 then 2
+					when (ati.temp_grade <![CDATA[ >= ]]> 5 and ati.temp_grade <![CDATA[ <= ]]> 9) then 1
+				   else 0 end as fur_group
+			from
+			(
+				select
+					 m.mem_id
+					 , ifnull(m.mem_temp_id, 0) as mem_temp_id
+				from cb_member as m
+				where m.mem_id = #{memId}
+			) as u
+			left join cb_aigo_temp_info as ati
+				on u.mem_temp_id = ati.temp_id
+		) AS fur
+		left join
+		(
+			select
+				ans.reg_mem_id
+				, case
+					when count(fur.qst_id) = count(ans.qst_id) then 'Y'
+				  else 'n' end as con_yn
+			from
+			(
+				select
+					 cate.aca_id
+					 , cate.sub_aca_id
+					 , cate.lev_value
+					 , aq.qst_id
+				from
+				(
+					select
+						ac.parent_aca_id as aca_id
+						, ac.aca_id as sub_aca_id
+						, ac.aca_value as lev_value
+					from cb_aigo_category as ac
+					where ac.parent_aca_id = 1
+				) AS cate
+				inner join cb_aigo_question as aq
+					on cate.aca_id = aq.aca_id
+					and cate.sub_aca_id = aq.sub_aca_id
+				where cate.lev_value = #{memFurGroup}
+			) AS fur
+			left join cb_aigo_my_answer_list as ans
+				on ans.reg_mem_id = #{memId}
+				and fur.qst_id = ans.qst_id
+		) AS con
+		on fur.mem_id = con.reg_mem_id
+	</select>
+	
+	<!-- 아이디/비밀번호 찾기 > 비밀번호 수정 -->
+	<update id="updatePreTestInfo" parameterType="userMemberEntity">
+		/* Login.updatePreTestInfo */
+		update cb_member
+		set
+			mem_class = #{memClass}
+			, mem_grade = #{memGrade}
+		where	
+			mem_id = #{memId}
+	</update>
+</mapper>

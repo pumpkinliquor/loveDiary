@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plushih.daos.CiDAO">
+
+	<!-- Where 다음 쿼리연결 등 -->
+	<sql id="afterCache">
+
+		<if test="_group_by != null and _group_by!=''">
+			GROUP BY ${_group_by}
+		</if>
+		<if test="_order_by != null and _order_by!=''">
+			ORDER BY ${_order_by}
+		</if>
+		<if test="_limit != null and _limit!=''">
+			LIMIT ${_limit}
+		</if>
+
+		<if test="_having != null and _having!='' ">
+			HAVING ${_having}
+		</if>
+
+	</sql>
+	<!-- From ,Join 등 -->
+	<sql id="fromCache">
+		FROM ${_table}
+		<if test="_join != null">
+		<foreach collection="_join.entrySet()" item="on"  index="joinTable"  open="" close="" separator="">
+			${joinTable} ON ( ${on} )
+ 		</foreach>
+		</if>
+	</sql>
+	<!-- Where , Or등 -->
+	<sql id="whereCache">
+		where 1=1
+		<if test="_whereOne != null">
+		<foreach collection="_whereOne.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey}
+		</foreach>
+		</if>
+		<if test="_where != null">
+		<foreach collection="_where.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} =  #{whereValue}
+		</foreach>
+		</if>
+		<if test="_where_not != null">
+		<foreach collection="_where_not.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} <![CDATA[ <> ]]>  #{whereValue}
+		</foreach>
+		</if>
+		<if test="_lt != null">
+		<foreach collection="_lt.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} <![CDATA[ < ]]>  #{whereValue}
+		</foreach>
+		</if>
+		<if test="_lteq != null">
+		<foreach collection="_lteq.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} <![CDATA[ <= ]]>  #{whereValue}
+		</foreach>
+		</if>
+		<if test="_gt != null">
+		<foreach collection="_gt.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} <![CDATA[ > ]]>  #{whereValue}
+		</foreach>
+		</if>
+		<if test="_gteq != null">
+		<foreach collection="_gteq.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} <![CDATA[ >= ]]>  #{whereValue}
+		</foreach>
+		</if>
+
+		<if test="_or != null">
+		<foreach collection="_or.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		or	${whereKey} =  #{whereValue}
+		</foreach>
+		</if>
+
+		<if test="_blockor != null">
+		<foreach collection="_blockor.entrySet()" item="whereValue"  index="whereKey"  open="(" close=")" separator="  ">
+		or	${whereKey} =  ${whereValue}
+		</foreach>
+		</if>
+
+		<if test="_like != null">
+		<foreach collection="_like.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		and	${whereKey} like  ${whereValue}
+		</foreach>
+		</if>
+
+		<if test="_or_like != null">
+		<foreach collection="_or_like.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+		or	${whereKey} like  ${whereValue}
+		</foreach>
+		</if>
+		<if test="_where_in != null">
+		<foreach collection="_where_in.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+			<if test="whereValue != null">
+		and	${whereKey} in
+			<foreach collection="whereValue" item="item" index="index"   open="(" close=")" separator=",">
+            '${whereValue[index]}'
+        	</foreach>
+			</if>
+		</foreach>
+		</if>
+
+		<if test="_where_not_in != null">
+		<foreach collection="_where_not_in.entrySet()" item="whereValue"  index="whereKey"  open="" close="" separator="  ">
+			<if test="whereValue != null">
+		and	${whereKey} not in
+			<foreach collection="whereValue" item="item" index="index"   open="(" close=")" separator=",">
+            '${whereValue[index]}'
+        	</foreach>
+			</if>
+		</foreach>
+		</if>
+
+	</sql>
+	<!-- 카운트리턴 -->
+	<select id="getCount" parameterType="dbEntity" resultType="java.lang.Integer">
+		SELECT
+		COUNT(*) CNT
+		<include refid="fromCache"/>
+		<include refid="whereCache"/>
+	</select>
+
+	<!-- 시퀀스 리턴 -->
+	<select id="getSeq" parameterType="dbEntity" resultType="java.lang.Integer">
+		SELECT
+		${_select}
+		<include refid="fromCache"/>
+		<include refid="whereCache"/>
+	</select>
+
+	<!-- 리스트 리턴 -->
+	<select id="getList" parameterType="dbEntity"  resultType="camelMap">
+		SELECT
+		${_select}
+		<include refid="fromCache"/>
+		<include refid="whereCache"/>
+		<include refid="afterCache"/>
+	</select>
+
+	<!-- RowData 리턴 -->
+	<select id="getRow" parameterType="dbEntity"  resultType="camelMap">
+		SELECT
+		${_select}
+		<include refid="fromCache"/>
+		<include refid="whereCache"/>
+		<if test="_order_by != null and _order_by!=''">
+			ORDER BY ${_order_by}
+		</if>
+		limit 1
+	</select>
+
+	<!-- 테이블 컬럼정보 리턴 -->
+	<select id="get_full_field" parameterType="dbEntity"  resultType="camelMap">
+		SELECT
+        table_name
+        ,column_key
+        ,column_name
+        ,column_type
+        ,column_comment
+        ,column_default
+        ,data_type
+        ,(CASE
+        	WHEN INSTR(column_type, '(') <![CDATA[ > ]]> 0 THEN REPLACE(SUBSTR(column_type,INSTR(column_type, '(')+1),')','')
+else 0 END) as data_length
+        ,is_nullable
+        from information_schema.columns
+        where 1=1
+        AND table_name = #{_table}
+        AND TABLE_SCHEMA = 'aigo'
+        order by table_name,ordinal_position
+
+
+	</select>
+
+
+	<!-- 프라이머리정보리턴 리턴 -->
+	<select id="get_primary" parameterType="dbEntity"  resultType="fieldIndexEntity">
+		SELECT
+			TABLE_SCHEMA
+			, TABLE_NAME
+			, MAX(NON_UNIQUE) NON_UNIQUE
+			, INDEX_NAME
+			, GROUP_CONCAT(COLUMN_NAME SEPARATOR ',') AS COLUMN_NAMES
+		FROM
+			information_schema.STATISTICS tb_com_tree_code
+		WHERE 1 = 1
+			AND TABLE_NAME = #{_table}
+			AND TABLE_SCHEMA = 'aigo'
+			AND INDEX_NAME =  'PRIMARY'
+		GROUP BY TABLE_SCHEMA
+			, TABLE_NAME
+			, INDEX_NAME
+	</select>
+
+	<!-- 테이블 인덱스정보 리턴 -->
+	<select id="get_index" parameterType="dbEntity"  resultType="fieldIndexEntity">
+		SELECT
+			TABLE_SCHEMA
+			, TABLE_NAME
+			, MAX(NON_UNIQUE) NON_UNIQUE
+			, INDEX_NAME
+			, GROUP_CONCAT(COLUMN_NAME SEPARATOR ',') AS COLUMN_NAMES
+		FROM
+			information_schema.STATISTICS tb_com_tree_code
+		WHERE 1 = 1
+			AND TABLE_NAME = #{_table}
+			AND TABLE_SCHEMA = 'aigo'
+			AND INDEX_NAME !=  'PRIMARY'
+			AND NON_UNIQUE = 1
+		GROUP BY TABLE_SCHEMA
+			, TABLE_NAME
+			, INDEX_NAME
+
+
+	</select>
+
+	<!-- 테이블 유니크 리턴 -->
+	<select id="get_uniqe" parameterType="dbEntity"  resultType="fieldIndexEntity">
+
+		SELECT
+			TABLE_SCHEMA
+			, TABLE_NAME
+			, MAX(NON_UNIQUE) NON_UNIQUE
+			, INDEX_NAME
+			, GROUP_CONCAT(COLUMN_NAME SEPARATOR ',') AS COLUMN_NAMES
+		FROM
+			information_schema.STATISTICS tb_com_tree_code
+		WHERE 1 = 1
+			AND TABLE_NAME = #{_table}
+			AND TABLE_SCHEMA = 'aigo'
+			AND INDEX_NAME !=  'PRIMARY'
+			AND NON_UNIQUE = 0
+		GROUP BY TABLE_SCHEMA
+			, TABLE_NAME
+			, INDEX_NAME
+	</select>
+
+	<!-- 테이블 리스트 리턴 -->
+	<select id="get_tables" parameterType="dbEntity"  resultType="camelMap">
+		SELECT
+       table_schema, table_name,table_comment
+       FROM information_schema.tables
+       where table_schema = 'aigo'
+	</select>
+
+	<!-- 테이블 인서트 -->
+	<insert id="insert" parameterType="dbEntity" >
+
+		INSERT INTO ${_table} (
+
+			<if test="_values != null">
+			<foreach collection="_values.entrySet()" item="on"  index="fieldKey"  open="" close="" separator=",">
+				${fieldKey}
+			</foreach>
+			</if>
+		) VALUES (
+			<if test="_values != null">
+			<foreach collection="_values.entrySet()" item="fieldValue"  index="fieldKey"  open="" close="" separator=",">
+				#{fieldValue}
+			</foreach>
+			</if>
+		)
+		<selectKey keyProperty="insert_id" resultType="Integer" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<!-- 테이블 업데이트 -->
+	<update id="update" parameterType="dbEntity" >
+		UPDATE ${_table} SET
+
+		<if test="_values != null">
+		<foreach collection="_values.entrySet()" item="fieldValue"  index="fieldKey"  open="" close="" separator=",">
+			${fieldKey} = #{fieldValue}
+		</foreach>
+		</if>
+		<include refid="whereCache"/>
+	</update>
+
+
+	<!-- 테이블 쿼리실행 -->
+	<insert id="query" parameterType="dbEntity" >
+		${querySql}
+	</insert>
+
+	<!-- 테이블 업데이트 -->
+	<update id="history" parameterType="dbEntity" >
+		INSERT INTO ${_history}
+		(
+			<if test="_historyvalues != null">
+			<foreach collection="_historyvalues.entrySet()" item="fieldValue"  index="fieldKey"  open="" close="" separator=",">
+				${fieldKey}
+			</foreach>
+			</if>
+		)
+		select
+		<if test="_historyvalues != null">
+		<foreach collection="_historyvalues.entrySet()" item="fieldValue"  index="fieldKey"  open="" close="" separator=",">
+			${fieldValue}
+		</foreach>
+		</if>
+		from ${_table}
+		<include refid="whereCache"/>
+	</update>
+
+	<!-- 테이블 인서트 -->
+	<insert id="batch" parameterType="dbEntity" >
+		${batchSql}
+	</insert>
+
+	<!-- 테이블 삭제 -->
+	<delete id="delete" parameterType="dbEntity" >
+		DELETE FROM  ${_table}
+		<include refid="whereCache"/>
+	</delete>
+
+</mapper>

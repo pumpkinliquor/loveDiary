@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+ <mapper namespace="FrontProductDAO">
+ 	
+ 	<!-- 제품 리스트 -->
+ 	<select id="selectProductList" resultType="HashMap" parameterType="productVO">
+ 		select a.pd_seq 		as pdSeq 	  
+		     , a.lg_seq 		as lgSeq 		
+		     , a.pd_open 	    as pdOpen 	  
+		     , a.pd_ctg 		as pdCtg 		
+		     , a.pd_title 	    as pdTitle 		
+		     , a.pd_contents    as pdContents 
+		     , a.pd_view 	    as pdView 	  
+		     , a.pd_type 	    as pdType 	  
+		     , a.pd_link 	    as pdLink 	  
+		     , a.pd_tags 	    as pdTags 	  
+		     , a.pd_gb 		    as pdGb 		
+		     , a.pd_date 	    as pdDate 	  
+		     , a.reg_date 	    as regDate 		
+		     , a.reg_user_id    as regUserId  
+		     , a.upt_date 	    as uptDate 		
+		     , a.udt_user_id    as udtUserId  
+
+		  from plus_product a
+		  where 1=1
+		   <if test="pdCtg != null and pdCtg != ''.toString()">
+			   and a.pd_ctg = #{pdCtg}
+		   </if>
+		   <if test="lgSeq != null and lgSeq != ''.toString()">
+			   and a.lg_seq = #{lgSeq}
+		   </if>
+		   <if test="search != null and search != ''.toString()">
+			   and a.pd_title like '%' #{search} '%'
+		   </if>
+		   order by a.pd_type, a.reg_date desc
+		 limit #{listLength} offset ${startIdx}
+ 	</select>
+ 	
+ 	<!--  제품 개수 -->
+ 	<select id="selectProductCnt" resultType="Integer" parameterType="productVO">
+ 		select count(*)
+		  from plus_product
+		 where 1=1
+		  <if test="pdCtg != null and pdCtg != ''.toString()">
+			   and pd_ctg = #{pdCtg}
+		   </if>
+		   <if test="lgSeq != null and lgSeq != ''.toString()">
+			   and lg_seq = #{lgSeq}
+		   </if>
+		   <if test="search != null and search != ''.toString()">
+			   and pd_title like '%' #{search} '%'
+		   </if>
+ 	</select>
+ 	
+ 	<!-- 제품 뉴스 리스트 -->
+ 	<select id="selectProductNewsList" resultType="HashMap" parameterType="plusBbsVO">
+ 		select a.bb_seq 			as bbSeq     	
+			 , a.bi_seq 			as biSeq     	
+			 , a.bc_seq 			as bcSeq     	
+			 , a.cg_seq 			as cgSeq     	
+			 , a.lg_seq 			as lgSeq     	
+			 , a.bb_type 			as bbType    
+			 , a.bb_bbs 			as bbBbs     	
+			 , a.bb_open 			as bbOpen    
+			 , a.bb_delyn 			as bbDelyn   	
+			 , a.bb_title 			as bbTitle   	
+			 , a.bb_etc01 			as bbEtc01   	
+			 , a.bb_contents 		as bbContents
+			 , a.bb_view 			as bbView    
+			 , a.bb_date 			as bbDate    
+			 , date_format(a.reg_date , '%Y-%m-%d')	as regDate   	
+			 , a.reg_user_id 		as regUserId 
+			 , a.upt_date 			as uptDate   	
+			 , a.udt_user_id 		as udtUserId
+		  from plus_bbs a	
+		 where 1=1
+		 <if test="bbBbs != null and bbBbs != ''.toString()">
+		   and a.bb_bbs = #{bbBbs}
+		 </if>
+		   and a.bb_open = 'Y'
+     	   and a.bb_delyn = 'N' 
+     	   <if test="search != null and search != ''.toString()">
+			   and a.bb_title like '%' #{search} '%'
+		   </if>
+		 order by a.reg_date desc
+		 limit #{listLength} offset ${startIdx}
+ 	</select>
+ 	
+ 	<!--  제품 뉴스 개수 -->
+ 	<select id="selectProductNewsCnt" resultType="Integer" parameterType="plusBbsVO">
+ 		select count(*)
+		  from plus_bbs
+		 where 1=1
+		 <if test="bbBbs != null and bbBbs != ''.toString()">
+		   and bb_bbs = #{bbBbs}
+		 </if>
+		   and bb_open = 'Y'
+     	   and bb_delyn = 'N'
+     	   <if test="search != null and search != ''.toString()">
+			   and bb_title like '%' #{search} '%'
+		   </if>
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!--  제품뉴스 상세 -->
+ 	<select id="selectProductNewsDetail" resultType="plusBbsVO" parameterType="plusBbsVO">
+ 		select a.bb_seq 			as bbSeq     	
+			 , a.bi_seq 			as biSeq     	
+			 , a.bc_seq 			as bcSeq     	
+			 , a.cg_seq 			as cgSeq     	
+			 , a.lg_seq 			as lgSeq     	
+			 , a.bb_type 			as bbType    
+			 , a.bb_bbs 			as bbBbs     	
+			 , a.bb_open 			as bbOpen    
+			 , a.bb_delyn 			as bbDelyn   	
+			 , a.bb_title 			as bbTitle   	
+			 , a.bb_etc01 			as bbEtc01   	
+			 , a.bb_contents 		as bbContents
+			 , a.bb_view 			as bbView    
+			 , a.bb_date 			as bbDate    
+			 , date_format(a.reg_date , '%Y-%m-%d')	as regDate   	  	
+			 , a.reg_user_id 		as regUserId 
+			 , a.upt_date 			as uptDate   	
+			 , a.udt_user_id 		as udtUserId
+		  from plus_bbs a	
+		 where 1=1
+		   and a.bb_bbs = #{bbBbs}
+		   and a.bb_seq = #{bbSeq}
+ 	</select>
+ 	
+ 	<!--  제품뉴스 이전 -->
+ 	<select id="selectProductNewsPrevDetail" resultType="plusBbsVO" parameterType="plusBbsVO">
+ 		select a.bb_seq 			                as bbSeq 		
+		     , a.bb_title 		                    as bbTitle 		
+		  from plus_bbs a
+		 where 1=1
+		   and a.bb_bbs = #{bbBbs}
+		   and a.bb_seq <![CDATA[<]]> #{bbSeq}
+		  order by a.reg_date desc
+		 limit 1
+ 	</select>
+ 	
+ 	<!--  제품뉴스 다음 -->
+ 	<select id="selectProductNewsNextDetail" resultType="plusBbsVO" parameterType="plusBbsVO">
+ 		select a.bb_seq 			                as bbSeq 		
+		     , a.bb_title 		                    as bbTitle 		
+		  from plus_bbs a
+		 where 1=1
+		   and a.bb_bbs = #{bbBbs}
+		   and a.bb_seq <![CDATA[>]]> #{bbSeq}
+		   order by a.reg_date
+		  limit 1
+ 	</select>
+ 	 
+ </mapper>

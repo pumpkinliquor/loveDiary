@@ -1,0 +1,147 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+    <!-- 스케쥴러 -->
+    <!-- hsk3807 -->
+    <!-- <bean id="ApiService" class="com.plushih.common.scheduled.ApiScheduled" />-->
+
+    <task:annotation-driven/>
+
+
+    <context:component-scan base-package="com.plushih">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <aop:aspectj-autoproxy/>
+
+    <mvc:resources mapping="resources/**" location="resources/"/>
+    <!--<mvc:resources mapping="asset/**" location="asset/" />-->
+    <mvc:resources mapping="assets/**" location="assets/"/>
+    <mvc:resources mapping="img/**" location="img/"/>
+    <mvc:resources mapping="admassets/**" location="admassets/"/>
+    <mvc:resources mapping="aigoupload/**" location="aigoupload/"/>	<!-- 업로드 파일 접근 가능하도록 추가 -->
+<!--    <bean id="menuAspect" class="com.plushih.common.aop.MenuListAOP" />-->
+
+    <mvc:interceptors>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/"/>
+            <mvc:mapping path="/main"/>
+            <mvc:mapping path="/front/ajax/*"/>
+            <mvc:mapping path="/front/nobg/*"/>
+            <mvc:mapping path="/front/**"/>
+            <mvc:mapping path="/front/***"/>
+            <bean id="InterceptorRest" class="com.plushih.common.interceptor.InterceptorFront"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+
+            <mvc:mapping path="/totaladmin/ajax/*"/>
+            <mvc:mapping path="/totaladmin/**"/>
+            <mvc:mapping path="/totaladmin/***"/>
+            <bean id="InterceptorTotalAdmin" class="com.plushih.common.interceptor.InterceptorTotalAdmin"/>
+        </mvc:interceptor>
+        
+        <mvc:interceptor>
+            <mvc:mapping path="/plusadmin/ajax/*"/>
+            <mvc:mapping path="/plusadmin/ajax/**"/>
+            <mvc:mapping path="/plusadmin/**"/>
+            <mvc:mapping path="/plusadmin/***"/>
+            <bean id="InterceptorPlusAdmin" class="com.plushih.common.interceptor.InterceptorPlusAdmin"/>
+        </mvc:interceptor>
+        
+        <mvc:interceptor>
+            <mvc:mapping path="/static/ajax/*"/>
+            <mvc:mapping path="/guest/**"/>
+            <mvc:mapping path="/rest/api/*"/>
+            <bean id="InterceptorGuest" class="com.plushih.common.interceptor.InterceptorStatic"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- Message Source -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="basenames">
+            <list>
+                <value>classpath:messages/messages</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messages" class="com.plushih.common.messages.Messages">
+        <property name="messages" ref="messageSource"/>
+    </bean>
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+        <property name="defaultLocale" value="ko"/>
+    </bean>
+
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale"/>
+        </bean>
+    </mvc:interceptors>
+    <!-- Message Source End -->
+
+    <!-- Multipart upload resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="-1"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+    <!-- Multipart upload resolver End -->
+
+    <!-- Abstract View -->
+    <bean id="downloadView" class="com.plushih.common.abstractview.FileDownloadView"/>
+    <bean id="imageView" class="com.plushih.common.abstractview.ImageView"/>
+    <bean id="playerView" class="com.plushih.common.abstractview.PlayerView"/>
+    <!-- Abstract View End -->
+
+    <!-- View Resolver -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+        <property name="order" value="0"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+        <property name="order" value="1"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions" value="classpath:configs/tiles3-config.xml"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+        <property name="order" value="2"/>
+    </bean>
+    <!-- View Resolver End -->
+
+    <!-- external config import -->
+    <import resource="classpath:configs/properties/properties.xml"/>
+    <import resource="db-context.xml"/>
+    <import resource="mail-context.xml"/>
+    <!--<import resource="sap-context.xml" />-->
+    <!-- external config import End -->
+
+</beans>

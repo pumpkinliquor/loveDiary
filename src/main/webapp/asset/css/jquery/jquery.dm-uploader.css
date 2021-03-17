@@ -1,0 +1,71 @@
+/* 
+	Uploader: 
+	- These styles are the ones used on the examples. No needed to use it by any means.
+	- It disables user selection to avoid some weird visuals in some browsers
+	- It masks/hides the the file input behind a button
+ */
+.card-header {background:#e1edf7;border-bottom:2px #9fa5b1 solid;}
+.dm-uploader {
+	cursor: default;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.dm-uploader .btn {
+	position: relative;
+	overflow: hidden;
+}
+
+.dm-uploader .btn input[type="file"] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	border: solid transparent;
+	width: 100%;
+	opacity: .0;
+	filter: alpha(opacity= 0);
+	cursor: pointer;
+}
+.dm-uploader-rowx .row {
+	margin-bottom: 1rem;
+}
+.dm-uploader-rowx [class*="col-"] {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+.dm-uploader-rowx hr {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+.dm-uploader-rowx #files {
+    overflow-y: scroll !important;
+	height: 200px;
+    min-height: 200px;
+}
+.dm-uploader-rowx .preview-img {width:20px;height:20px;padding:2px;border:2px #0db3e9 solid;}
+@media (min-width: 768px) {
+	dm-uploader-rowx #files {
+		min-height: 0;
+	}
+}
+#debug {
+	overflow-y: scroll !important;
+	height: 180px;
+}
+
+.dm-uploader {
+	border: 0.25rem dashed #A5A5C7;
+	text-align: center;
+}
+.dm-uploader.active {
+	border-color: red;
+	border-style: solid;
+}
+
+.dm-uploader-rowx .media .fa {padding:3px !important;}

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontJoinDAO">
+	
+	<!-- 가입여부 체크 -->
+	<select id="selectMemberJoinCheck" parameterType="userMemberEntity" resultType="Integer">
+		/* FrontJoinDAO.selectMemberJoinCheck */
+		select
+			count(mem_id)
+		from cb_member
+		where mem_userid = #{memUserid}
+	</select>
+	
+	<!-- 아이디 중복 체크 -->
+	<select id="selectCheckIdCount" parameterType="HashMap" resultType="Integer">
+		/* FrontJoinDAO.selectCheckIdCount */
+		select
+			count(mem_id)
+		from cb_member
+		where mem_userid = #{memUserid}
+	</select>
+	
+	<!-- 회원가입 > 등록 -->
+	<insert id="insertMember" parameterType="userMemberEntity" useGeneratedKeys="true" keyProperty="memId" keyColumn="mem_id">
+		/* FrontJoinDAO.insertMember */
+		insert into cb_member
+		(
+			mem_userid
+			, mem_email
+			, mem_password
+			, mem_username
+			, mem_nickname
+			, mem_level
+			, mem_point
+			, mem_homepage
+			, mem_phone
+			, mem_birthday
+			, mem_sex
+			, mem_zipcode	
+			, mem_address1
+			, mem_address2
+			, mem_address3
+			, mem_address4
+			, mem_receive_email
+			, mem_use_note
+			, mem_receive_sms
+			, mem_open_profile
+			, mem_denied
+			, mem_email_cert
+			, mem_register_datetime
+			, mem_register_ip
+			, mem_lastlogin_datetime
+			, mem_lastlogin_ip
+			, mem_is_admin
+			, mem_profile_content
+			, mem_adminmemo
+			, mem_following
+			, mem_followed
+			, mem_icon
+			, mem_photo
+			, mem_class
+			, mem_grade
+			, mem_sub_id
+			, mem_temp_id
+		)values(
+			#{memUserid}
+			, #{memEmail}
+			, #{memPasswordEnc}
+			, #{memUsername}
+			, #{memNickname}
+			, #{memLevel}
+			, #{memPoint}
+			, #{memHomepage}
+			, #{memPhone}
+			, #{memBirthday}
+			, #{memSex}
+			, #{memZipcode}
+			, #{memAddress1}
+			, #{memAddress2}
+			, #{memAddress3}
+			, #{memAddress4}
+			, #{memReceiveEmail}
+			, #{memUseNote}
+			, #{memReceiveSms}
+			, #{memOpenProfile}
+			, #{memDenied}
+			, #{memEmailCert}
+			, now()
+			, #{memRegisterIp}
+			, #{memLastloginDatetime}
+			, #{memLastloginIp}
+			, #{memIsAdmin}
+			, #{memProfileContent}
+			, #{memAdminmemo}
+			, #{memFollowing}
+			, #{memFollowed}
+			, #{memIcon}
+			, #{memPhoto}
+			, #{memClass}
+			, #{memGrade}
+			, #{memSubId}
+			, #{memTempId}
+		)
+	</insert>
+	
+	<!-- 회원가입 > 약관동의 테이블 등록 -->
+	<insert id="insertAgreeInfo" parameterType="userMemberEntity">
+		/* FrontJoinDAO.insertAgreeInfo */
+		insert into cb_member_terms_agree
+		(
+			mem_id
+			, mta_terms_of_service
+			, mta_privacy_policy
+			, mta_marketing
+			, mta_register_datatime
+			, mta_register_ip
+		) values (
+			#{memId}
+			,#{mtaTermsOfService}
+			,#{mtaPrivacyPolicy}
+			,#{mtaMarketing}
+			,now()
+			,#{memRegisterIp}
+		)
+	</insert>
+</mapper>

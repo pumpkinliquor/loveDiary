@@ -1,0 +1,41 @@
+.content-tab{
+  margin-bottom: 50px;
+  ul{
+    overflow: hidden;
+    li{
+      float: left;
+
+      width: calc(100%/7);
+      height: 50px;
+      background: #f6f6f6;
+      border:1px solid #cbcbcb;
+      box-sizing: border-box;
+      margin-right: -1px;
+
+      text-align: center;
+      line-height: 50px;
+      a{
+        color: #54546a;
+      }
+      cursor:pointer;
+      &.current{
+        background: #17a2b8;
+        border:none;
+        a{
+          color:#fff;
+        }
+      }
+    }
+  }
+}
+
+// .content-cont{
+//   display:none;
+// }
+
+.content-cont{
+  display:none;
+  &.current{
+    display:block;
+  }
+}

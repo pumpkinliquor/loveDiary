@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontAchieveDAO">
+
+	<!-- 성취기준 리스트 조회 -->
+	<select id="selectAchieveList" parameterType="aigoAchievementEntity"
+		resultType="aigoAchievementEntity">
+		/* FrontAchieveDAO.selectAchieveList*/
+		select
+		acv.acv_id
+		, acv.acv_name
+		, count(acv.qst_id) as qst_cnt
+		, count(acv.ans_value) as ans_cnt
+		from (
+		select
+		aa.acv_id
+		, aa.acv_name
+		, aq.qst_id
+		, ama.ans_value
+		from cb_aigo_achievement as aa
+		inner join
+		cb_aigo_question as aq
+		on aq.sub_id = #{subId}
+		and aq.lev_id = #{levId}
+		and aa.lev_id = aq.lev_id
+		and aa.sub_id = aq.sub_id
+		and aa.acv_id = aq.acv_id
+		left join cb_aigo_my_answer_list as ama
+		on ama.mem_id = #{memId}
+		and aq.qst_id = ama.qst_id
+		and ama.ans_value is not null
+		) as acv
+		group by acv.acv_id, acv.acv_name
+	</select>
+
+	<!-- 성취기준 상세 조회 -->
+	<select id="selectAchieveDetail" parameterType="aigoAchievementEntity" resultType="aigoAchievementEntity">
+		/* FrontAchieveDAO.selectAchieveDetail*/
+		select
+		a.acv_name, a.acv_text, a.acv_id
+		from
+		cb_aigo_achievement a, cb_aigo_notion b
+		where
+		a.acv_id = b.acv_id
+		and a.use_yn ='Y'
+		and b.use_yn = 'Y'
+		and a.acv_id = #{acvId}
+	</select>
+
+</mapper>

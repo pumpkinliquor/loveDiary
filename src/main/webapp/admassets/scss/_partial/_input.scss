@@ -1,0 +1,49 @@
+.form-inline .form-control{
+  width: 250px;
+}
+.form-inline2{
+  width: 250px;
+}
+.form-inline3{
+  width: 200px;
+}
+.form-control-navbar + .input-group-append{
+  width: 40px;
+}
+.form-control{
+  &.input-error{
+    border:1px solid red;
+  }
+}
+.input-group{
+  &.half-width{
+    width: 50%;
+  }
+}
+.input-group-sm > .form-control:not(textarea){
+  height: 35px;
+}
+.input-group-sm > .input-group-append > .btn{
+  padding:0 0.75rem;
+}
+
+.container-fluid, .col-md-12{
+  padding-right: 0px;
+}
+
+label:not(.form-check-label):not(.custom-file-label){
+  font-weight: 300;
+}
+// .input-group{
+//   border:1px solid #ced4da;
+//   border-radius: 0.2rem;
+// }
+// .form-control{
+//   border:none;
+// }
+// // .form-control{
+// //   border-radius: .2rem;
+// // }
+.form-control:focus{
+  border:1px solid #17a2b8;
+}

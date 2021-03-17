@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>문항등록</h2>
+			<table class="srchT">
+				<colgroup>
+					<col width="150px">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">검색</th>
+						<td>
+							<div class="mb10">
+								<span class="tit">등록일</span>
+								<div class="date_div">
+			                      <input type="date" class="ipt_date" id=""><span>~</span>
+			                      <input type="date" class="ipt_date" id="">
+			                    </div>
+		                    </div>
+		                    <div>
+		                    	<span class="tit">상태</span>
+								<div class="radio_wrap">
+									<div class="ipt_radio_div">
+										<input type="radio" id="srch2" name="srch" />
+										<label for="srch2">비공개</label>
+									</div>
+									<div class="ipt_radio_div">
+										<input type="radio" id="srch1" name="srch" checked="checked" />
+										<label for="srch1">공개</label>
+									</div>
+								</div>
+		                    </div>
+		                </td>
+		            </tr>
+		            <tr>
+		            	<td>
+							<div class="srch_div mb10">
+								<select class="s_p1">
+									<option>레벨</option>
+									<option></option>
+								</select>
+								<select class="s_p1">
+									<option>과목</option>
+									<option></option>
+								</select>
+								<select class="s_p2">
+									<option>대단원</option>
+									<option></option>
+								</select>
+								<select class="s_p2">
+									<option>성취기준</option>
+									<option></option>
+								</select>
+							</div>
+							<div class="srch_div">
+								<select class="s_p1">
+									<option>검색구분</option>
+									<option>문항코드</option>
+									<option>해설코드</option>
+									<option>개념코드</option>
+								</select>
+								<input type="text" name="" class="ipt3">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table id="dataT" class="table table-bordered table-hover dataTable dtr-inline fs15">
+				<colgroup>
+					<col width="4%">
+					<col width="9%">
+					<col width="6.5%">
+					<col width="9%">
+					<col width="9%">
+
+					<col width="12%">
+					<col width="10%">
+					<col width="10%">
+					<col width="7%">
+					<col width="*">
+
+					<col width="9%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th class="sort_x">번호</th>
+						<th>문항코드</th>
+						<th>레벨</th>
+						<th>과목</th>
+						<th>문제분류</th>
+
+						<th>성취기준</th>
+						<th>연결해설</th>
+						<th>연결개념</th>
+						<th>상태</th>
+						<th class="sort_x">등록/수정</th>
+
+						<th>풀이회원</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>99</td>
+						<td><a href="#" class="link">Q1234</a></td>
+						<td>1</td>
+						<td>수학Ⅰ</td>
+						<td>레벨평가</td>
+
+						<td>지수의 뜻과 성질 이해하기</td>
+						<td><a href="#" class="link">A001</a></td>
+						<td><a href="#" class="link">123,456,789</a></td>
+						<td>공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+
+						<td><a href="#" class="link">99</a></td>
+					</tr>
+					<tr>
+						<td>98</td>
+						<td><a href="#" class="link">Q1234</a></td>
+						<td>2</td>
+						<td>수학Ⅰ</td>
+						<td>레벨평가</td>
+
+						<td>로그의 뜻과 성질이해하기</td>
+						<td><a href="#" class="link">등록</a></td>
+						<td><a href="#" class="link">-</a></td>
+						<td>대기</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+
+						<td><a href="#" class="link">99</a></td>
+					</tr>
+					<tr>
+						<td>97</td>
+						<td><a href="#" class="link">Q1234</a></td>
+						<td>3</td>
+						<td>수학Ⅰ</td>
+						<td>레벨평가</td>
+
+						<td>삼각함수와 그 성질 이해하기</td>
+						<td><a href="#" class="link">등록</a></td>
+						<td><a href="#" class="link">123</a></td>
+						<td>비공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+
+						<td><a href="#" class="link">99</a></td>
+					</tr>
+					<tr>
+						<td>96</td>
+						<td><a href="#" class="link">Q1234</a></td>
+						<td>3</td>
+						<td>수학Ⅰ</td>
+						<td>레벨평가</td>
+
+						<td>등차, 등비수열의 뜻을 알기</td>
+						<td><a href="#" class="link">등록</a></td>
+						<td><a href="#" class="link">-</a></td>
+						<td>공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+
+						<td><a href="#" class="link">99</a></td>
+					</tr>
+					<tr>
+						<td>95</td>
+						<td><a href="#" class="link">Q1234</a></td>
+						<td>3</td>
+						<td>수학Ⅰ</td>
+						<td>레벨평가</td>
+
+						<td>함수의 극한값 구하기</td>
+						<td><a href="#" class="link">등록</a></td>
+						<td><a href="#" class="link">-</a></td>
+						<td>공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+
+						<td><a href="#" class="link">99</a></td>
+					</tr>
+
+					
+				</tbody>
+			</table>
+
+	        <div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				<a href="#" class="btn btn-offer">등록</a>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ modalClose();
+</script>
+
+<script>
+  $(function () {
+    $('#dataT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+</body>
+</html>

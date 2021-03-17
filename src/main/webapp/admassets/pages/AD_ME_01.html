@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>회원집계</h2>
+
+			<table class="srchT">
+				<colgroup>
+					<col width="18%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>기간</th>
+						<td>
+						 	<form>
+			                    <div class="date_div">
+			                      <input type="date" class="ipt_date" id=""><span>~</span>
+			                      <input type="date" class="ipt_date" id="">
+			                    </div>
+			                    <button type="submit" class="btn btn-st1 btn_srch">검색</button>
+		                    </form>
+						</td>
+					</tr>
+					<tr>
+						<th>사용자</th>
+						<td>NN,NNN</td>
+					</tr>
+					<tr>
+						<th>신규설치자</th>
+						<td>NN,NNN</td>
+					</tr>
+					<tr>
+						<th>가입자</th>
+						<td>NN,NNN</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table id="dataT" class="table table-bordered table-hover dataTable dtr-inline">
+				<colgroup>
+					<col width="25%">
+					<col width="25%">
+					<col width="25%">
+					<col width="25%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>일자</th>
+						<th>사용자</th>
+						<th>설치자</th>
+						<th>가입자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>01월 01일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 02일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 03일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 04일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 05일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 06일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 07일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 08일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 09일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 10일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 11일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>01월 12일</td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					
+				</tbody>
+			</table>
+
+			<div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ modalClose();
+</script>
+
+<script>
+  $(function () {
+    $('#dataT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+</body>
+</html>

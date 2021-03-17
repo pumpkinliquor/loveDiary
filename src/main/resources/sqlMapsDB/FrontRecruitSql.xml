@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+ <mapper namespace="FrontRecruitDAO">
+ 	
+ 	<!--  채용메인 리스트 -->
+ 	<select id="selectRecruitList" resultType="HashMap" parameterType="recruitVO">
+ 		select a.rc_seq 			                as rcSeq 		
+		     , a.rc_open 		                    as rcOpen 		
+		     , a.lg_seq 			                as lgSeq 		
+		     , a.rc_type 		                    as rcType 		
+		     , a.rc_bbs 			                as rcBbs 		
+		     , a.rc_title 		                    as rcTitle 		
+		     , a.rc_occupation 	                    as rcOccupation 
+		     , a.rc_gb 			                    as rcGb 		
+		     , a.rc_work 		                    as rcWork 		
+		     , a.rc_juwork 		                    as rcJuwork 	
+		     , a.rc_capacity 	                    as rcCapacity 	
+		     , a.rc_udae 		                    as rcUdae 		
+		     , a.rc_howapply 	                    as rcHowapply 	
+		     , a.rc_link 		                    as rcLink 		
+		     , a.rc_step 		                    as rcStep 		
+		     , a.rc_area 		                    as rcArea 		
+		     , a.rc_etc 			                as rcEtc 		
+		     , a.rc_view 		                    as rcView 		
+		     , date_format(a.rc_sdate, '%Y.%m.%d')  as rcSdate 		  
+		     , date_format(a.rc_edate, '%Y.%m.%d')  as rcEdate
+		     , date_format(a.rc_sdate, '%Y%m%d%H%i%s')    as rcSdateYyyymmdd   
+   			 , date_format(a.rc_edate, '%Y%m%d%H%i%s')    as rcEdateYyyymmdd    		
+		     , a.rc_date 		                    as rcDate 		
+		     , a.reg_date 		                    as regDate 		
+		     , a.reg_user_id 	                    as regUserId 	
+		     , a.upt_date 		                    as uptDate 		
+		     , a.udtp_user_id                       as udtpUserId      
+		  from plus_recruit a
+		 where 1=1
+		   and a.rc_open = 'Y'
+		 order by a.rc_edate desc
+		 limit 5
+ 	</select>
+ 	
+ 	
+	<!--  현재 채용 건수 -->
+ 	<select id="selectCurrRecruitCnt" resultType="Integer">
+ 		select count(*)
+		  from plus_recruit
+		 where now() between rc_sdate and rc_edate
+		   and rc_open = 'Y'
+ 	</select>
+ 	
+ 	<!--  채용 공지 전체 리스트 -->
+ 	<select id="selectRecruitAllList" resultType="HashMap" parameterType="recruitVO">
+ 		select a.rc_seq 			                as rcSeq 		
+		     , a.rc_open 		                    as rcOpen 		
+		     , a.lg_seq 			                as lgSeq 		
+		     , a.rc_type 		                    as rcType 		
+		     , a.rc_bbs 			                as rcBbs 		
+		     , a.rc_title 		                    as rcTitle 		
+		     , a.rc_occupation 	                    as rcOccupation 
+		     , a.rc_gb 			                    as rcGb 		
+		     , a.rc_work 		                    as rcWork 		
+		     , a.rc_juwork 		                    as rcJuwork 	
+		     , a.rc_capacity 	                    as rcCapacity 	
+		     , a.rc_udae 		                    as rcUdae 		
+		     , a.rc_howapply 	                    as rcHowapply 	
+		     , a.rc_link 		                    as rcLink 		
+		     , a.rc_step 		                    as rcStep 		
+		     , a.rc_area 		                    as rcArea 		
+		     , a.rc_etc 			                as rcEtc 		
+		     , a.rc_view 		                    as rcView 		
+		     , date_format(a.rc_sdate, '%Y.%m.%d')  as rcSdate 		  
+		     , date_format(a.rc_edate, '%Y.%m.%d')  as rcEdate
+		     , date_format(a.rc_sdate, '%Y%m%d')    as rcSdateYyyymmdd   
+   			 , date_format(a.rc_edate, '%Y%m%d')    as rcEdateYyyymmdd    		
+		     , a.rc_date 		                    as rcDate 		
+		     , date_format(a.reg_date, '%Y.%m.%d')    as regDate 		
+		     , a.reg_user_id 	                    as regUserId 	
+		     , a.upt_date 		                    as uptDate 		
+		     , a.udtp_user_id                       as udtpUserId      
+		  from plus_recruit a
+		 where 1=1
+		   and a.rc_open = 'Y'
+		   <if test="search != null and search != ''.toString()">
+			   and a.rc_title like '%' #{search} '%'
+		   </if>
+		 order by a.reg_date desc
+		 limit #{listLength} offset ${startIdx}
+ 	</select>
+ 	
+ 	<!--  채용 공지 전체 건수 -->
+ 	<select id="selectRecruitAllCnt" resultType="Integer" parameterType="recruitVO">
+ 		select count(*)
+		  from plus_recruit
+		 where 1=1
+		   and rc_open = 'Y'
+		   <if test="search != null and search != ''.toString()">
+			   and rc_title like '%' #{search} '%'
+		   </if>
+ 	</select>
+ 	
+ 	<!--  채용 공지 상세 -->
+ 	<select id="selectrecRuitNoticeDetail" resultType="recruitVO" parameterType="recruitVO">
+ 		select a.rc_seq 			                as rcSeq 		
+		     , a.rc_open 		                    as rcOpen 		
+		     , a.lg_seq 			                as lgSeq 		
+		     , a.rc_type 		                    as rcType 		
+		     , a.rc_bbs 			                as rcBbs 		
+		     , a.rc_title 		                    as rcTitle 		
+		     , a.rc_occupation 	                    as rcOccupation 
+		     , a.rc_gb 			                    as rcGb 		
+		     , a.rc_work 		                    as rcWork 		
+		     , a.rc_juwork 		                    as rcJuwork 	
+		     , a.rc_capacity 	                    as rcCapacity 	
+		     , a.rc_udae 		                    as rcUdae 		
+		     , a.rc_howapply 	                    as rcHowapply 	
+		     , a.rc_link 		                    as rcLink 		
+		     , a.rc_step 		                    as rcStep 		
+		     , a.rc_area 		                    as rcArea 		
+		     , a.rc_etc 			                as rcEtc 		
+		     , a.rc_view 		                    as rcView 		
+		     , date_format(a.rc_sdate, '%Y.%m.%d %T')  as rcSdate 		  
+		     , date_format(a.rc_edate, '%Y.%m.%d %T')  as rcEdate
+		     , date_format(a.rc_sdate, '%Y%m%d%H%i%s')    as rcSdateYyyymmdd   
+   			 , date_format(a.rc_edate, '%Y%m%d%H%i%s')    as rcEdateYyyymmdd    		
+		     , a.rc_date 		                    as rcDate 		
+		     , date_format(a.reg_date, '%Y.%m.%d')    as regDate 		
+		     , a.reg_user_id 	                    as regUserId 	
+		     , a.upt_date 		                    as uptDate 		
+		     , a.udtp_user_id                       as udtpUserId      
+		  from plus_recruit a
+		 where 1=1
+		   and a.rc_open = 'Y'
+		   and a.rc_seq = #{rcSeq}
+ 	</select>
+ 	
+ 	<!--  채용 공지 이전 -->
+ 	<select id="selectrecRuitNoticePrevDetail" resultType="recruitVO" parameterType="recruitVO">
+ 		select a.rc_seq 			                as rcSeq 		
+		     , a.rc_title 		                    as rcTitle 		
+		  from plus_recruit a
+		 where 1=1
+		   and a.rc_open = 'Y'
+		   and a.rc_seq <![CDATA[<]]> #{rcSeq}
+		 order by rc_seq desc
+		 limit 1
+ 	</select>
+ 	
+ 	<!--  채용 공지 다음 -->
+ 	<select id="selectrecRuitNoticeNextDetail" resultType="recruitVO" parameterType="recruitVO">
+ 		select a.rc_seq 			                as rcSeq 		
+		     , a.rc_title 		                    as rcTitle 		
+		  from plus_recruit a
+		 where 1=1
+		   and a.rc_open = 'Y'
+		   and a.rc_seq <![CDATA[>]]> #{rcSeq}
+		  order by rc_seq
+		  limit 1
+ 	</select>
+ 	
+ 	<!-- 채용FAQ 리스트 -->
+ 	<select id="selectRecruitFaqList" resultType="HashMap" parameterType="plusBbsVO">
+ 		select a.bb_seq 			as bbSeq     	
+			 , a.bi_seq 			as biSeq     	
+			 , a.bc_seq 			as bcSeq     	
+			 , a.cg_seq 			as cgSeq     	
+			 , a.lg_seq 			as lgSeq     	
+			 , a.bb_type 			as bbType    
+			 , a.bb_bbs 			as bbBbs     	
+			 , a.bb_open 			as bbOpen    
+			 , a.bb_delyn 			as bbDelyn   	
+			 , a.bb_title 			as bbTitle   	
+			 , a.bb_etc01 			as bbEtc01   	
+			 , a.bb_contents 		as bbContents
+			 , a.bb_view 			as bbView    
+			 , a.bb_date 			as bbDate    
+			 , a.reg_date 			as regDate   	
+			 , a.reg_user_id 		as regUserId 
+			 , a.upt_date 			as uptDate   	
+			 , a.udt_user_id 		as udtUserId
+		  from plus_bbs a	
+		 where 1=1
+		 <if test="bbBbs != null and bbBbs != ''.toString()">
+		   and a.bb_bbs = #{bbBbs}
+		 </if>
+		   and a.bb_open = 'Y'
+     	   and a.bb_delyn = 'N' 
+     	   <if test="search != null and search != ''.toString()">
+			   and a.bb_title like '%' #{search} '%'
+		   </if>
+		 order by a.reg_date desc
+		 limit #{listLength} offset ${startIdx}
+ 	</select>
+ 	
+ 	<!--  채용FAQ 개수 -->
+ 	<select id="selectRecruitFaqCnt" resultType="Integer" parameterType="plusBbsVO">
+ 		select count(*)
+		  from plus_bbs
+		 where 1=1
+		 <if test="bbBbs != null and bbBbs != ''.toString()">
+		   and bb_bbs = #{bbBbs}
+		 </if>
+		   and bb_open = 'Y'
+     	   and bb_delyn = 'N'
+     	   <if test="search != null and search != ''.toString()">
+			   and bb_title like '%' #{search} '%'
+		   </if>
+ 	</select>
+ 
+ </mapper>

@@ -1,0 +1,108 @@
+.input-wrap{
+  position: relative;
+
+  + .input-wrap{
+    margin-top: rem(5);
+  }
+  &.custom{
+    label{
+      position: relative;
+      padding-left: 1.5625rem;
+      margin-left: 0.625rem;
+      cursor: pointer;
+      line-height: 1.4375‬rem;
+    }
+  }
+  .file-wrap{
+    width: 260px;
+    // border:1px solid #ced4da;
+    // border-radius: 0.25rem;
+    //padding: 5px;
+    input[type="file"]{
+      position: absolute;
+      width: 0.0625rem;
+      height: 0.0625rem;
+      padding: 0;
+      margin: -0.0625rem;;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      border:0;
+    }
+    label{
+      display: inline-block; 
+
+      padding: .35em .5em; 
+      margin-bottom: 0;
+      background-color: #333333;
+      border-radius:0.25rem;
+
+      color: #ffffff; 
+      font-size: inherit;
+      line-height: normal;
+      vertical-align: middle;   
+          
+      cursor: pointer; 
+      &.file-bg{
+        background: #17a2b8;
+      }
+    }
+    .upload-name{
+      width: 186px;
+      display: inline-block; 
+      padding: .275em .5em; /* label의 패딩값과 일치 */ 
+      font-size: inherit; 
+      font-family: inherit; 
+      line-height: normal;
+      vertical-align: middle; 
+      border:1px solid #ced4da;
+      border-radius: 0.25rem;
+      // padding: 5px;
+
+      // background-color: #f5f5f5; 
+      // border: rem(1) solid #ebebeb; 
+      // border-bottom-color: #e2e2e2; 
+      // border-radius: .25em;
+      -webkit-appearance: none; /* 네이티브 외형 감추기 */ 
+      -moz-appearance: none; 
+      appearance: none;
+    }
+    .upload-name01, .upload-name02, .upload-name03, .upload-name04, .upload-name05{
+      width: 169px;
+      display: inline-block; 
+      padding: .275em .5em; /* label의 패딩값과 일치 */ 
+      font-size: inherit; 
+      font-family: inherit; 
+      line-height: normal;
+      vertical-align: middle; 
+      border:1px solid #ced4da;
+      border-radius: 0.25rem;
+    }
+  }
+  .file-wrap2{
+    width: 330px;
+  }
+}
+.fa-times{
+  margin-left: 0px;
+  cursor:pointer;
+}
+.fa-times2{
+  margin-left: 0px;
+  margin-top: -45px;
+  cursor:pointer;
+}
+.fa-times3{
+  margin-top: -25px;
+}
+.fa-times4{
+  margin-top: -43px;
+}
+
+
+.file-img{
+  margin-left: 30px;
+}
+.file-error{
+  font-size: rem(14);
+  color:#999;
+}

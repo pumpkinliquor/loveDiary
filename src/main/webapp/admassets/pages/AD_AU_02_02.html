@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리</p>
+		    	</a>
+		    </li>
+		     <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리</p>
+		    	</a>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>권한설정</h2>
+
+
+			<table class="tbl-st mb">
+				<colgroup>
+					<col width="12%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>아이디</th>
+						<td class="td_left"><input type="text" value="admin" class="ipt_30"></td>
+					</tr>
+				</tbody>
+			</table>		
+
+			<table class="tbl-st tbl-border mb">
+				<colgroup>
+					<col width="12%">
+					<col width="13%">
+					<col width="15%">
+					<col width="20%">
+					<col width="20%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th colspan="5" class="bg1 blx">권한설정</th>
+					</tr>
+					<tr>
+						<th class="blx">대메뉴</th>
+						<th>중메뉴</th>
+						<th>소메뉴</th>
+						<th>상태</th>
+						<th>읽기/쓰기</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="blx">권한관리</td>
+						<td>권한관리</td>
+						<td></td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state0" name="stateA" checked="checked">
+									<label for="state0">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state1" name="stateA">
+									<label for="state1">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth0" name="authA" checked="checked">
+									<label for="auth0">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth1" name="authA">
+									<label for="auth1">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td></td>
+						<td>아이디발급</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state3" name="stateB" checked="checked">
+									<label for="state3">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state4" name="stateB">
+									<label for="state4">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth3" name="authB" checked="checked">
+									<label for="auth3">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth4" name="authB">
+									<label for="auth4">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td></td>
+						<td>권한설정</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state5" name="stateC" checked="checked">
+									<label for="state5">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state6" name="stateC">
+									<label for="state6">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth5" name="authC" checked="checked">
+									<label for="auth5">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth6" name="authC">
+									<label for="auth6">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx">마스터관리</td>
+						<td>영역마스터</td>
+						<td></td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state7" name="stateD" checked="checked">
+									<label for="state7">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state8" name="stateD">
+									<label for="state8">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth7" name="authD" checked="checked">
+									<label for="auth7">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth8" name="authD">
+									<label for="auth8">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td>컨텐츠마스터</td>
+						<td>메타코드관리</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state9" name="stateE" checked="checked">
+									<label for="state9">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state10" name="stateE">
+									<label for="state10">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth9" name="authE" checked="checked">
+									<label for="auth9">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth10" name="authE">
+									<label for="auth10">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td>게시판마스터</td>
+						<td></td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state11" name="stateF" checked="checked">
+									<label for="state11">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state12" name="stateF">
+									<label for="state12">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth11" name="authF" checked="checked">
+									<label for="auth11">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth12" name="authF">
+									<label for="auth12">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx">회원관리</td>
+						<td>회원집계</td>
+						<td></td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state13" name="stateG" checked="checked">
+									<label for="state13">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state14" name="stateG">
+									<label for="state14">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth13" name="authG" checked="checked">
+									<label for="auth13">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth14" name="authG">
+									<label for="auth14">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td>회원조회</td>
+						<td></td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state15" name="stateH" checked="checked">
+									<label for="state15">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state16" name="stateH">
+									<label for="state16">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth15" name="authH" checked="checked">
+									<label for="auth15">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth16" name="authH">
+									<label for="auth16">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="blx"></td>
+						<td></td>
+						<td>회원정보</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="state17" name="stateI" checked="checked">
+									<label for="state17">비공개</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="state18" name="stateI">
+									<label for="state18">공개</label>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth17" name="authI" checked="checked">
+									<label for="auth17">읽기</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="auth18" name="authI">
+									<label for="auth18">쓰기</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="tbl-st">
+				<colgroup>
+					<col width="12%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>등록/수정</th>
+						<td class="td_left">이지현(admin)  yyyy-mm-dd     hh:mm:ss</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="tbl-foot">
+				<a href="AD_AU_02_1.html" class="btn btn-list">목록</a>
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				<a href="#" class="btn btn-offer">저장</a>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ modalClose();
+
+</script>
+</body>
+</html>

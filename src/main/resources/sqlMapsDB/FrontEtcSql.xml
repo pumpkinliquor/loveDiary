@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+ <mapper namespace="FrontEtcDAO">
+ 	<!-- FAQ 리스트 -->
+ 	<select id="selectFaqList" resultType="HashMap" parameterType="plusBbsVO">
+ 		select a.bb_seq 			as bbSeq     	
+			 , a.bi_seq 			as biSeq     	
+			 , a.bc_seq 			as bcSeq     	
+			 , a.cg_seq 			as cgSeq     	
+			 , a.lg_seq 			as lgSeq     	
+			 , a.bb_type 			as bbType    
+			 , a.bb_bbs 			as bbBbs     	
+			 , a.bb_open 			as bbOpen    
+			 , a.bb_delyn 			as bbDelyn   	
+			 , a.bb_title 			as bbTitle   	
+			 , a.bb_etc01 			as bbEtc01   	
+			 , a.bb_contents 		as bbContents
+			 , a.bb_view 			as bbView    
+			 , a.bb_date 			as bbDate    
+			 , a.reg_date 			as regDate   	
+			 , a.reg_user_id 		as regUserId 
+			 , a.upt_date 			as uptDate   	
+			 , a.udt_user_id 		as udtUserId
+		  from plus_bbs a	
+		 where 1=1
+		 <if test="bbBbs != null and bbBbs != ''.toString()">
+		   and a.bb_bbs = #{bbBbs}
+		 </if>
+		   and a.bb_open = 'Y'
+     	   and a.bb_delyn = 'N' 
+		 order by a.reg_date desc
+ 	</select>
+ </mapper>

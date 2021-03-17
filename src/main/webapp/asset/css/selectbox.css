@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+.sbHolder {height:21px;  position:relative}
+.sbToggle {background:url(../img/btn/select-icons.gif) no-repeat right 0; display:block; position:absolute; right:0; top:0; width:16px; height:21px;}
+.sbSelector {display:block; height:21px; width:75px; left:0; position:absolute; top:0; overflow:hidden; line-height:22px; font-size:11px;}
+.sbOptions{
+	background:#fff;
+	border: solid 1px #d2d2d2;
+	list-style: none;
+	left: -1px;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 30px;
+	width:88px;
+	z-index: 1;
+	overflow-y: auto;
+}
+.sbOptions li{
+	padding: 0 7px;
+}
+
+.product-list-box div ul.sbOptions li {margin-right:0;}
+.product-list-box div ul.sbOptions li:first-child a {border-top:0}
+
+.sbOptions a{
+	border-top: solid 1px #e7e7e7;
+	display: block;
+	outline: none;
+	padding: 5px 0 5px 3px;
+	font-size:11px;
+}
+.sbOptions a:link, .sbOptions a:visited{
+	color: #666;
+	text-decoration: none;
+}
+.sbOptions li.last a{
+	border-bottom: none;
+}
+.sbOptions .sbDisabled{
+	border-bottom: dotted 1px #515151;
+	color: #666;
+	display: block;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbGroup{
+	border-bottom: dotted 1px #515151;
+	color: #666;
+	display: block;
+	font-weight: bold;
+	padding: 7px 0 7px 3px;
+}
+.sbOptions .sbSub{
+	padding-left: 17px;
+}
