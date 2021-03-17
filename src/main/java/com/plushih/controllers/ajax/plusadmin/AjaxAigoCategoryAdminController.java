@@ -63,7 +63,7 @@ public class AjaxAigoCategoryAdminController extends CoreController {
         plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
         //commonResultEntity = categoryService.getcategoryList(db);
         List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
-        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,sub.aca_id sub_aca_id,sub.aca_name sub_aca_name");
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,sub.aca_id sub_aca_id,sub.aca_name sub_aca_name,sub.aca_key sub_aca_key");
         dbEntity.from("cb_aigo_category bb");
         dbEntity.join("cb_aigo_category sub","sub.parent_aca_id = bb.aca_id and sub.parent_aca_id !=0 ","left");
         dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
@@ -88,6 +88,93 @@ public class AjaxAigoCategoryAdminController extends CoreController {
             res.setResultList(dataHashList);
 
             
+            Debug.log(dataHashList.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logEnd(fullName);
+        return res;
+    }
+
+    /**
+     * 사업장관리
+     * @param request
+     * @param response
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/categoryCheck", method = {RequestMethod.POST})
+    public @ResponseBody String categoryCheck (HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
+        //commonResultEntity = categoryService.getcategoryList(db);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,sub.aca_id sub_aca_id,sub.aca_name sub_aca_name");
+        dbEntity.from("cb_aigo_category bb");
+        dbEntity.join("cb_aigo_category sub","sub.parent_aca_id = bb.aca_id and sub.parent_aca_id !=0 ","left");
+        dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
+        dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
+
+        dbEntity.not("bb.aca_id",dbEntity.input.get_post("acaId"));
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("acaName"))){
+            dbEntity.like("bb.aca_name",dbEntity.input.get_post("acaName"));
+        }
+
+
+
+        //dbEntity.order("reg_date","desc");
+        dbEntity.order("bb.aca_id desc");
+
+        String res = "";
+        try {
+
+            int cnount = commonService.getCount(dbEntity);
+            if(cnount>0){
+               res = "분류명이 중복됩니다.";
+            } else {
+                Boolean checkCount=false;
+                if(!StringUtils.isEmpty(dbEntity.input.get_post("subData"))) {
+                    String subData = dbEntity.input.get_post("subData");
+
+                    if(subData.length()>10){
+
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<ArrayList<Map<String,String>>>(){}.getType();
+                        List<Map<String,String>> categoryList =gson.fromJson(subData,listType);
+
+                        for(Map<String,String> row : categoryList){
+
+                            dbEntity.clearWhere();
+
+                            if(row.get("subAcaId")==null){
+                                row.put("subAcaId","0");
+                            }
+                            dbEntity.not("bb.aca_id",row.get("subAcaId"));
+                            if(!StringUtils.isEmpty(row.get("subAcaName"))){
+                                dbEntity.like("bb.aca_name",row.get("subAcaName"));
+                            }
+                            cnount = commonService.getCount(dbEntity);
+                            if(cnount>0){
+                                checkCount =true;
+                                res = "2차분류명 ("+ row.get("subAcaName")+")이 중복됩니다.";
+                            }
+
+                        }
+                    }
+
+                }
+                if(checkCount==true){
+
+                } else {
+
+                    res = "true";
+                }
+            }
+
+
             Debug.log(dataHashList.toString());
         } catch (Exception e) {
             e.printStackTrace();
@@ -194,9 +281,12 @@ public class AjaxAigoCategoryAdminController extends CoreController {
      * @return
      */
     @RequestMapping(value =  "/categoryExcute", method = {RequestMethod.POST})
-    public @ResponseBody CommonResultEntity bbsExcute (@ModelAttribute AigoCategoryEntity aigoCategoryEntity, @RequestParam(required = false, value = "dataJson", defaultValue = "[]") String dataJson, MultipartHttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+    public @ResponseBody CommonResultEntity bbsExcute (@RequestParam(required = false, value = "dataJson", defaultValue = "[]") String dataJson, MultipartHttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
         String fullName = getFunction();
         logStart(fullName);
+
+        AigoCategoryEntity aigoCategoryEntity = new AigoCategoryEntity();
+
 
 //        Cache cache = new Cache();
 //        String rules = cache.get_cache("category.bbs");
@@ -210,12 +300,16 @@ public class AjaxAigoCategoryAdminController extends CoreController {
         CommonResultEntity commonResultEntity = new CommonResultEntity();
         String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
         plusActiveRecord db =new plusActiveRecord(functionName,request);
+        aigoCategoryEntity.setAcaId(Integer.parseInt(String.valueOf(db.input.get_post("acaId"))));
         Integer insertID = categoryService.setCategoryExcute(db,aigoCategoryEntity);
+
+
 
 
 
         if(!StringUtils.isEmpty(dataJson)){
             if(dataJson.length()>10){
+                //dataJson = dataJson.replace(":null",":0");
                 Gson gson = new Gson();
                 Type listType = new TypeToken<ArrayList<AigoCategoryEntity>>(){}.getType();
                 List<AigoCategoryEntity> categoryList =gson.fromJson(dataJson,listType);
@@ -240,13 +334,22 @@ public class AjaxAigoCategoryAdminController extends CoreController {
                     db.add("use_yn",categoryEntity.getUseYn());
                     if(db.flag.equals(plusQueryBuilder.queryType.INSERT)){
                         commonService.setInsert(db);
+
+                        db.add("aca_key","ACA"+StringUtils.zeroFill(String.valueOf(db.insert_id),5));
+                        db.where("aca_id",String.valueOf(db.insert_id));
+                        commonService.setUpdate(db);
                     } else {
                         if(categoryEntity.getAcaId()!=null){
                             db.where("aca_id",categoryEntity.getAcaId()+"");
+                            db.add("aca_key","ACA"+StringUtils.zeroFill(String.valueOf(categoryEntity.getAcaId()),5));
                             commonService.setUpdate(db);
                         } else {
                             db._values.remove("aca_id");
                             commonService.setInsert(db);
+
+                            db.add("aca_key","ACA"+StringUtils.zeroFill(String.valueOf(db.insert_id),5));
+                            db.where("aca_id",String.valueOf(db.insert_id));
+                            commonService.setUpdate(db);
                         }
 
                     }

@@ -69,8 +69,11 @@ public class AjaxAigoAchievementAdminController extends CoreController {
         dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
 
 
-        if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
-            dbEntity.like("acv_name",dbEntity.input.getSearchString());
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("searchString"))){
+            dbEntity.like("bb.acv_name",dbEntity.input.get_post("searchString"));
+        }
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("subId"))){
+            dbEntity.like("bb.sub_id",dbEntity.input.get_post("subId"));
         }
         //dbEntity.order("reg_date","desc");
         dbEntity.order("bb.acv_id desc");
@@ -85,6 +88,57 @@ public class AjaxAigoAchievementAdminController extends CoreController {
             res.setRecordsTotal(cnount);
             res.setRecordsFiltered(cnount);
             res.setResultList(dataHashList);
+
+
+            Debug.log(dataHashList.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logEnd(fullName);
+        return res;
+    }
+    
+    /**
+     * 사업장관리
+     * @param request
+     * @param response
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/acvCheck", method = {RequestMethod.POST})
+    public @ResponseBody String acvCheck (HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
+        //commonResultEntity = subjectService.getsubjectList(db);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,b.sub_name,c.lev_name");
+        dbEntity.from("cb_aigo_achievement bb");
+        dbEntity.join("cb_aigo_subject b","bb.sub_id=b.sub_id","left");
+        dbEntity.join("cb_aigo_level c","bb.lev_id=c.lev_id","left");
+        dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
+        dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
+
+
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("acvName"))){
+            dbEntity.like("acv_name",dbEntity.input.get_post("acvName"));
+        }
+        dbEntity.not("acv_id",dbEntity.input.get_post("acvId"));
+        //dbEntity.order("reg_date","desc");
+
+
+        String res = "";
+        List<AigoSubjectEntity> dataList = null;
+        try {
+
+            int cnount = commonService.getCount(dbEntity);
+            if(cnount>0){
+               res = "성취기준명이 중복입니다.";
+            } else {
+               res = "true";
+            }
 
 
             Debug.log(dataHashList.toString());

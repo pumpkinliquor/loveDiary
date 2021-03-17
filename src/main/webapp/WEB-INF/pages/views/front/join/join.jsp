@@ -7,7 +7,7 @@
 		<header class="header">
 			<a href="#!" class="btn_allmenu">전체메뉴</a>
 			<h1>회원가입</h1>
-			<p class="top_txt">Aigo 계정을 만들고<br>좀 더 정밀한 진단을 받아보세요.</p>
+			<%--<p class="top_txt">Aigo 계정을 만들고<br>좀 더 정밀한 진단을 받아보세요.</p>--%>
 		</header>
 		<div class="container join join-email">
 			<section class="contents">
@@ -39,7 +39,7 @@
 
 				<div class="txt_btm">
 					<p>이미 가입하셨나요?</p>
-					<a href="#!" onclick="goLoginPage();">로그인 후 맞춤문제를 확인하세요</a>
+					<a href="#!" onclick="goLoginPage();">로그인</a>
 				</div>
 			</section>
 		</div><!-- //container -->

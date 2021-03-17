@@ -2,23 +2,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <style>
-    .tbxxx {font-size:10px !important;}
-    .tbxxx * {font-size:10px !important;}
+/*     .tbxxx {font-size:10px !important;} */
+/*     .tbxxx * {font-size:10px !important;} */
+/*     .btn_st1.on {background:#ff0} */
 </style>
 <body class="question_body">
 <div class="wrapper">
     <header class="header">
         <h1 class="logo">AIGo</h1>
-        <strong class="progressing">AI Progressing…</strong>
+<!--         <strong class="progressing typing ai_text">AI Progressing…</strong> -->
+		<div class="typewriter">
+			<h1 class="progressing">AI Progressing...</h1>
+		</div>
     </header>
-    <div class="container">
-        <div class="question_conts">
+    <div class="container btm0">
+        <div class="question_conts question_common1">
             <h2 class="q_number">01.</h2>
-            <div class="q_sec" style="position: relative">
-                <img class="q_img" src="/assets/images/_tmp/img_question_1.jpg" alt="문제 이미지">
-                <textarea class="dlog" style="position: absolute;left:20px;top:0px;z-index:10;height:99%;width:100%;font-size:10px;">
-                </textarea>
-
+            <div class="q_sec">
+                <img class="q_img" src="" alt="문제 이미지">
+<%--                <textarea class="dlog" style="position: absolute;right:10px;top:0px;z-index:10;height:99%;width:50%;font-size:10px;opacity:0.5">--%>
+<%--                </textarea>--%>
             </div>
             <div class="dontknow">
                 <a href="#" class="fR btn btn_st1">잘 모르겠어요</a>
@@ -34,21 +37,23 @@
                 </dl>
                 <dl>
                     <dt>예상 등급</dt>
-                    <dd><em class="grade">3</em>등급</dd>
+                    <dd><em class="grade">3등급</em></dd>
                 </dl>
             </div>
         </section>
 
         <section class="answer_submit_cont">
-            <div class="number_div">
+            <div class="number_div qstType S">
                 <button type="button">1</button>
                 <button type="button">2</button>
                 <button type="button">3</button>
                 <button type="button">4</button>
                 <button type="button">5</button>
             </div>
-            <button type="submit" class="btn btn_submit" />
-            답안제출</input>
+            <div class="text_div qstType A">
+                <input type="text" name="" class="ipt_answer" placeholder="정답을 입력하세요">
+            </div>
+            <button type="submit" class="btn btn_submit">답안제출</button>
         </section>
     </div><!-- //container -->
 
@@ -56,14 +61,33 @@
 
 
 <script type="text/javascript">
-
+    //${temp_id};
     function getRandomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    var meGrade = parseInt('${tempGrade}'||'5'); //getRandomInt(1,5);// getRandomInt(1,5);
+    if($.trim('${temp_id}')!='0'&& '${temp_id}'!=''){
+        $.call('/front/ajax/aigo/furs/checkState',{},function(r){
+            if(r.resultData){
+
+                if($.trim(r.resultData['aiComplit'])==''){
+                    meGrade = r.resultData['tempGrade'];
+                    alert('사전질문을 완료 하지 않으셨습니다\n사전질문을 완료후 이용해주시기 바랍니다.');
+                    location.herf='/front/furs/step03';
+                    return false;
+                } else {
+                    location.herf='/front/main';
+                }
+            }
+        })
+
+    }
+
     function clog(msg){
         console.log(msg);
         $('.dlog').val(msg+'\r\n'+$('.dlog').val());
     }
 
     //numSelect();
+    var currQst = {};
     var userI = 0;
     var userLevelI = 0;
     var userData = [];
@@ -138,21 +162,63 @@
         return rCount;
     }
 
-    function qstSet(data, num) {
+    function qstSet(data, num,eq) {
+        currQst = data[eq];
+        console.log(currQst);
+        if(currQst.hasOwnProperty("filelist")){
+            console.log(currQst.filelist);
+            $(".q_img").attr("src", "/common/siteImgView?safSeq=" + currQst.filelist.safSeq);
+        }
+        $('.qstType').hide();
+        if(currQst['qstType']=='S'){
+            if(currQst['qstTypeNum']=='5'){
+                $('.answer_submit_cont .number_div button').css('width','20%');
+                $('.answer_submit_cont .number_div button:last').show();
+            } else if(currQst['qstTypeNum']=='4'){
+                $('.answer_submit_cont .number_div button:last').hide();
+                $('.answer_submit_cont .number_div button').css('width','25%');
+            }
+        }
+        $('.qstType.'+currQst['qstType']).show();
+        $('.q_number').html(plus.lpad((eq + 1),2,'0') +'. '+(currQst['qstName']=='NULL'?'모의진단문제':currQst['qstName']) +":<span style=\"font-size:10px !important;\">"+currQst['qstKey']+':'+currQst.filelist.safOrFile+'</span>' );
+        if(!$('.eieiei').length){
+            $('.q_number').append(plus.makeElement('span',' level:'+currQst['levValue'],{'class':'eieiei','style':"font-size:10px !important;"}))
+        } else {
+            $('.eieiei').html('level:'+currQst['levValue'])
+        }
+        //현재문제업데이트
 
-        $('.q_number').html(((num + 1) > 9 ? '0' + (num + 1) : (num + 1)));
+        if(changeLevel == "5") { $('.grade').html("1등급"); }
+        else if(changeLevel == "4") { $('.grade').html("2등급"); }
+        else if(changeLevel == "3") { $('.grade').html("3등급");  }
+        else if(changeLevel == "2") { $('.grade').html("4등급");  }
+        else if(changeLevel == "1") { $('.grade').html("6등급 이하");  }
+
+        //$('.grade').html(currQst['levValue']);
+        console.log('currQst==',eq,currQst['qstType'],currQst);
+        $('.ipt_answer').val('');
+
     }
 
     var myqst = [[], [], []];
-    var qst = [
+    var myqstlist = [];
+    var lastTime = (new Date()).format('yyyy-MM-dd HH:mm:ss');
 
-        [['O', 'O', 'O', 'O', 'O', 'O', 'O'], ['O', 'O', 'X'], ['O', 'O', 'O', 'X', 'X']],
-        [['O', 'O', 'O', 'O', 'O', 'O', 'O'], ['O', 'X', 'X'], ['X', 'X']],
-        [['O', 'O', 'O', 'X', 'X', 'X', 'X'], ['X', 'X']],
-        [['O', 'O', 'O', 'X', 'X', 'O', 'X'], ['X', 'O', 'O'], ['X', 'X']],
-    ];
     var maxCount = 13;
-    $(document).ready(function() {
+    var changeLevel =0;
+    $(document).ready(function() {	
+		console.log('${temp_id}');
+		
+		// 주관식 답안 입력 시 잘 모르겠어요 버튼 클릭 해제
+		$('.ipt_answer').on('keyup', function(){
+			$('.btn_st1').removeClass('on');
+		});
+		
+	    if($.trim('${temp_id}')=='0' || '${temp_id}'==''){
+	        alert('로그인 또는 사전질문후 이용부탁드립니다.');
+	        location.href='/front/main';
+	    }
+    
         $('.tbxxx tr').each(function(){
             console.log($(this).text());
             if(!$.trim($(this).text())){
@@ -160,7 +226,7 @@
             }
         })
 
-        var meGrade = getRandomInt(1,5);// getRandomInt(1,5);
+
         var meLevel = 0;
         if (meGrade >= 6 && meGrade <= 9) {
             meLevel = 1;
@@ -173,15 +239,22 @@
         } else if (meGrade >= 1 && meGrade <= 1) {
             meLevel = 5;
         }
-        var changeLevel = meLevel;
-        //console.log('현재 등급은 ' + meGrade + '이며 출제그룹은 ' + meLevel + '에서 시작');
+        changeLevel = meLevel;
+        console.log('현재 등급은 ' + meGrade + '이며 출제그룹은 ' + meLevel + '에서 시작');
         clog('현재 등급은 ' + meGrade + '이며 출제그룹은 ' + meLevel + '에서 시작');
         var moJinData = moJin[meLevel];
 
         $('.btn_st1').click(function() {
+//             if($(this).is('.on')){
+//                 $(this).removeClass('on');
+//             } else {
+//                 $(this).addClass('on');
+//             }
             $('div.number_div').find('button').removeClass('on');
+
         })
         $('.number_div button').click(function() {
+            $('.btn_st1').removeClass('on');
             $(this).closest('div').find('button').removeClass('on');
             $(this).addClass('on');
         })
@@ -189,29 +262,54 @@
         var classKey = '';
         $('.btn_submit').click(function() {
             var qstValue = '';
-            if ($(this).closest('div').find('button.on').length > 0) {
-                qstValue = $(this).closest('div').find('button.on').html();
-            } else if ($('.btn_st1.on').length > 0) {
-                qstValue = $('.btn_st1.on').html();
+            if ($('.btn_st1.on').length > 0) {
+                qstValue = '-';
             }
-            if(qstValue=='1'){
-                qstValue ='O';
+            else {
+
+                if(currQst['qstType']=='S'){
+                    if ($(this).closest('div').find('button.on').length > 0) {
+                        qstValue = $(this).closest('div').find('button.on').html();
+                    }
+                } else {
+                    qstValue = $.trim($('.ipt_answer').val());
+                }
+                if($.trim(qstValue)==''){
+                    alert('답안을 선택 또는 입력하지 않으셨습니다.');
+                    return false;
+                }
+            }
+            var oxQustValue = '';
+            if($.trim(currQst['qstValue'])==qstValue){
+                oxQustValue ='O';
             } else {
-                qstValue = 'X';
+                oxQustValue = 'X';
             }
+
             var moJinData = moJin[meLevel];
 
 
 
-            clog('정답 :  '+qstValue);
+            clog('정답 :  '+oxQustValue);
 
+            $(this).closest('div').find('button.on').removeClass("on");
+            $('.btn_st1.on').removeClass("on");
 
+            console.log(currQst);
+            var currQst2 = {};
+            currQst2['qstId'] = currQst['qstId']+'';
+            currQst2['qstKey'] = currQst['qstKey']+'';
+
+            myqstlist.push($.extend({},currQst2,{'oxQustValue':oxQustValue,'qstValue':qstValue,inTime:lastTime,outTime:(new Date()).format('yyyy-MM-dd HH:mm:ss')}));
+            lastTime = (new Date()).format('yyyy-MM-dd HH:mm:ss');;
             //## 7문제까지는 1단계
             if (userI < 7) {
 
-                myqst[0].push(qstValue);
+                myqst[0].push(oxQustValue);
+
                 //1단계 문제풀이
                 var rCount = oxCount(myqst[0], 'O');
+                var xCount = oxCount(myqst[0], 'X');
 
                 if((userI+1)==7){
 
@@ -226,6 +324,8 @@
                     clog('문제풀이 7문제중 정답카운트 ' + rCount + ' 개   classKey==' + classKey + ' moJinData[classKey] = '+  moJinData[classKey]);
                     if(moJinData[classKey]=='CLOSE'){
                         alert('진단끝>>>>>>>('+(changeLevel)+')' );
+                        plus.formSubmit('/front/furs/complete', {grade:changeLevel,rCount:(rCount),xCount:(xCount),myqstlist:JSON.stringify(myqstlist)});
+                        //location.href = '/front/furs/complete?grade='+changeLevel+'&rCount='+(rCount)+'&xCount='+xCount;
                         clog('레벨('+(changeLevel)+') 진단이 끝나요>>>>>>>');
                         //console.log('다음레벨('+(changeLevel)+') 문제에서 끝나요>>>>>>>');
                         return false;
@@ -256,15 +356,17 @@
 
 
                 //2단계 문제풀이
+                var oCount = rCount= oxCount(myqst[0], 'O');
+                var xCount = oxCount(myqst[0], 'X');
+                //2단계 문제풀이
                 var o2Count = oxCount(myqst[1], 'O');
                 var x2Count = oxCount(myqst[1], 'X');
 
                 //정답과 오답수를 합친다 2보다클때 정답2개이상 오답이 2개가넘지않을때
-                //
                 if(o2Count+x2Count>=2 && o2Count+x2Count>=3){
-                    myqst[2].push(qstValue);
+                    myqst[2].push(oxQustValue);
                 } else {
-                    myqst[1].push(qstValue);
+                    myqst[1].push(oxQustValue);
                 }
 
                 //2단계 문제풀이
@@ -282,6 +384,7 @@
                         changeLevel++;
                         $('.grade').html(changeLevel);
                         clog('다음레벨('+(changeLevel)+') 문제를 풀어요>>>>>>>');
+
                     } else {
                       //레벨 1은 무시
                       if(meLevel>1 ){
@@ -292,20 +395,30 @@
                         clog('문제풀이[중반] ('+(o2Count+x2Count)+')문제중 정답카운트 ' + o2Count + ' 개  changeLevel = '+(changeLevel)+' classKey==' + classKey );
                         var moJinData = moJin[meLevel];
                         if(moJinData[classKey]=='CLOSE'){
-                            alert('끝나브렀어요1');
+                            //alert('끝나브렀어요1');
 
-                            clog('최종레벨=='+ moJinValue[meLevel][classKey] )
+                            clog('최종레벨=='+ moJinValue[meLevel][classKey] );
+                            if(changeLevel>5){
+                                changeLevel =5;
+                            }
+                            plus.formSubmit('/front/furs/complete', {grade:changeLevel,rCount:(rCount+o2Count),xCount:(xCount+x2Count+rCount+o2Count),myqstlist:JSON.stringify(myqstlist)});
+                            //location.href = '/front/furs/complete?grade='+changeLevel+'&rCount='+(rCount+o2Count)+'&xCount='+(xCount+x2Count+rCount+o2Count);
                         }
                       }
                     }
                 } else if(o2Count+x2Count>=2 &&  x2Count>=2 && (o3Count+x3Count)==0 ){
-                    alert('진단끝>>>>>>>('+(changeLevel)+')' );
+                    //alert('진단끝>>01>>>>>('+(changeLevel)+')' );
                     clog('레벨('+(changeLevel)+') 문제에서 끝나요>>>>>>>');
                     $('.grade').html(changeLevel);
-
+                    if(changeLevel>5){
+                        changeLevel =5;
+                    }
+                    //location.href = '/front/furs/complete?grade='+changeLevel+'&rCount='+(rCount+o2Count)+'&xCount='+(xCount+x2Count+rCount+o2Count);
+                    plus.formSubmit('/front/furs/complete', {grade:changeLevel,rCount:(rCount+o2Count),xCount:(xCount+x2Count+rCount+o2Count),myqstlist:JSON.stringify(myqstlist)});
                     var moJinData = moJin[meLevel];
                     if(moJinData[classKey]=='CLOSE'){
-                        alert('끝나브렀어요2');
+                        //alert('끝나브렀어요2');
+
                         clog('최종레벨=='+ moJinValue[changeLevel][classKey] )
                     }
                 }
@@ -314,12 +427,23 @@
                 if(o3Count+x3Count>=2 &&  o3Count>=2 && x3Count<2){
 
                     changeLevel++
-                    alert('진단끝>>>>>>>('+(changeLevel)+')' );
+                    //alert('진단끝>>02>>>>>('+(changeLevel)+')' );
+                    if(changeLevel>5){
+                        changeLevel =5;
+                    }
+                    plus.formSubmit('/front/furs/complete', {grade:changeLevel,rCount:(rCount+o2Count+o3Count),xCount:(xCount+x2Count+x3Count+rCount+o2Count+o3Count),myqstlist:JSON.stringify(myqstlist)});
+
+                    //location.href = '/front/furs/complete?grade='+changeLevel+'&rCount='+(rCount+o2Count+o3Count)+'&xCount='+(xCount+x2Count+x3Count+rCount+o2Count+o3Count);
                     $('.grade').html(changeLevel);
                     clog('레벨('+(changeLevel)+') 문제에서 끝나요>>>>>>>');
                 }
-                else if(o3Count+x3Count>=2 &&  o3Count>=2){
-                    alert('진단끝>>>>>>>('+(changeLevel)+')' );
+                else if(o3Count+x3Count>=2 &&  x3Count>=2 && o3Count<2){
+                    //alert('진단끝>>03>>>>>('+(changeLevel)+')' );
+                    if(changeLevel>5){
+                        changeLevel =5;
+                    }
+                    plus.formSubmit('/front/furs/complete', {grade:changeLevel,rCount:(rCount+o2Count+o3Count),xCount:(xCount+x2Count+x3Count+rCount+o2Count+o3Count),myqstlist:JSON.stringify(myqstlist)});
+                    //location.href = '/front/furs/complete?grade='+changeLevel+'&rCount='+(rCount+o2Count+o3Count)+'&xCount='+(xCount+x2Count+x3Count+rCount+o2Count+o3Count);
                     $('.grade').html(changeLevel);
                     clog('레벨('+(changeLevel)+') 문제에서 끝나요>>>>>>>');
                 }
@@ -330,12 +454,15 @@
             console.log(userI, myqst);
             $('.bar').width(parseInt((userI / maxCount * 100)) + '%');
             $('.text').text('진단 진행률 ' + parseInt(((userI / maxCount) * 100)) + '%');
-            qstSet(realData[changeLevel], userLevelI);
+
+            console.log('qstData[changeLevel]',changeLevel);
+            qstSet(qstData[changeLevel], userLevelI,userI);
             return false;
         });
-        $.call('/front/ajax/aigo/firs/questionList', {}, function(r) {
+        $.call('/front/ajax/aigo/furs/questionList', {}, function(r) {
 
             realData = r.resultList;
+            ///console.log('qstData=',qstData);
             $.each(realData, function(k, v) {
 
                 var cjGroup = $.trim(v['subAcaName']).replace('출제그룹', '');
@@ -347,9 +474,10 @@
                     qstData[cjGroup] = [];
                 }
                 qstData[cjGroup].push(v);
+
             })
-            console.log(qstData);
-            qstSet(realData[meLevel], userI);
+            //console.log('qstData=',qstData);
+            qstSet(qstData[meLevel], userLevelI,userI);
 
 
             // $.each(r.resultList,function(k,v){

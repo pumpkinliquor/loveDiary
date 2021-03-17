@@ -17,6 +17,44 @@ public class MenuAdmUsersEntity extends PlusEntity implements Serializable{
 	private String maIsUse;
 	private String maIcon;
 	private String regDate;
+	private String regSysdate;
+	private String udtSysdate;
+	private String useYn;
+	private String mgGrant;
+
+	public String getMgGrant() {
+		return mgGrant;
+	}
+
+	public void setMgGrant(String mgGrant) {
+		this.mgGrant = mgGrant;
+	}
+
+	@Override
+	public String getUseYn() {
+		return useYn;
+	}
+
+	@Override
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
+
+	public String getRegSysdate() {
+		return regSysdate;
+	}
+
+	public void setRegSysdate(String regSysdate) {
+		this.regSysdate = regSysdate;
+	}
+
+	public String getUdtSysdate() {
+		return udtSysdate;
+	}
+
+	public void setUdtSysdate(String udtSysdate) {
+		this.udtSysdate = udtSysdate;
+	}
 
 	public Integer getMaSeq() {
 		return maSeq;
@@ -114,8 +152,9 @@ public class MenuAdmUsersEntity extends PlusEntity implements Serializable{
 		this.regDate = regDate;
 	}
 
+
 	@Override
 	public String toString() {
-		return "MenuAdmUsersEntity[maSeq="+maSeq+",maParent="+maParent+",maCode="+maCode+",maLevel="+maLevel+",maModule="+maModule+",maName="+maName+",maNavi="+maNavi+",maPath="+maPath+",maSort="+maSort+",maIsUse="+maIsUse+",maIcon="+maIcon+",regDate="+regDate+"]";
+		return "MenuAdmUsersEntity[maSeq="+maSeq+",maParent="+maParent+",maCode="+maCode+",maLevel="+maLevel+",maModule="+maModule+",maName="+maName+",maNavi="+maNavi+",maPath="+maPath+",maSort="+maSort+",maIsUse="+maIsUse+",maIcon="+maIcon+",regDate="+regDate+",useYn="+useYn+"]";
 	}
 }

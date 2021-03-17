@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontAlarmDAO">
+	<sql id="selectAlarmSql">
+		select * from (
+			select n.not_id, n.mem_id, n.not_title, n.not_message, n.not_url
+				, @diffTime := sec_to_time(TIMESTAMPDIFF(second, n.reg_sysdate, now())) as diff_time
+                , case when substring(@diffTime, 1, 2) != '00' and substring(@diffTime, 1, instr(@diffTime, ':') - 1) <![CDATA[<]]> 24 then concat(cast(substring(@diffTime, 1, 2) as integer), '시간 전')
+						when substring(@diffTime, 1, 2) = '00' and substring(@diffTime, 4, 2) != '00' and substring(@diffTime, 1, instr(@diffTime, ':') - 1) <![CDATA[<]]> 24 then concat(cast(substring(@diffTime, 4, 2) as integer), '분 전')
+						when substring(@diffTime, 1, 2) = '00' and substring(@diffTime, 4, 2) = '00' and substring(@diffTime, 7, 2) != '00' and substring(@diffTime, 1, instr(@diffTime, ':') - 1) <![CDATA[<]]> 24 then concat(cast(substring(@diffTime, 7, 2) as integer), '초 전')
+						else date_format(n.reg_sysdate, '%Y-%m-%d')
+					end diff_str
+				, case when n.not_read_datetime is null then 'n' else 'y' end not_read_yn
+			from (
+				select * from cb_member where 1=1 and mem_id = #{memId}
+            ) a
+            inner join cb_notification n on a.mem_id = n.mem_id
+            where 1=1
+            order by n.reg_sysdate desc
+        ) a
+        limit 50
+	</sql>
+	
+	<!-- 알람 조회 -->
+	<select id="selectAlarmList" parameterType="map" resultType="camelMap">
+		/* FrontAlarmDAO.selectAlarmList*/
+		<include refid="selectAlarmSql" />
+	</select>
+	
+	<update id="readAlarm" parameterType="map">
+		/* FrontAlarmDAO.readAlarm */
+		update cb_notification
+			set not_read_datetime = now()
+		where 1=1 and not_id = #{notId}
+	</update>
+	
+	<select id="notReadAlarmCnt" parameterType="map" resultType="int">
+		/* FrontAlarmDAO.readAlarm */
+		select count(*) from (
+			<include refid="selectAlarmSql" />
+		) a
+		where 1=1 and a.not_read_yn = 'n'
+	</select>
+	
+</mapper>

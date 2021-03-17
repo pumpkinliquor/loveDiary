@@ -18,9 +18,16 @@
   </header>
   <div class="container cont_box settings">
     <div class="contents">
-      <div>
-	      <h2>앱설정</h2>
-	      <ul>
+    	<h2>계정정보</h2>
+		<ul class="set_my_info">
+			<li><a href="/front/user/userEdit">개인정보 수정</a></li>
+			<li><a href="/front/pay/history">구매내역</a></li>
+			<li><a href="/front/user/leave">탈퇴신청</a></li>
+<!-- 			<li><a href="#!" onclick="alert('서비스 준비중입니다.');">탈퇴신청</a></li> -->
+		</ul>
+<!--       <div> -->
+<!-- 	      <h2>앱설정</h2> -->
+<!-- 	      <ul> -->
 	        <!-- <li class="settings_div">
 	          <p class="txt">미디어 재생 Wi-Fi 환경에서만 사용</p>
 	          <div class="onoffswitch">
@@ -35,12 +42,12 @@
 	            <label for="set2"><span></span></label>
 	          </div>
 	        </li> -->
-	        <li class="settings_div">
-	          <p class="txt">글꼴크기</p>
-	          <a href="#" class="fR btn">설정하기</a>
-	        </li>
-	      </ul>
-      </div>
+<!-- 	        <li class="settings_div"> -->
+<!-- 	          <p class="txt">글꼴크기</p> -->
+<!-- 	          <a href="#" class="fR btn">설정하기</a> -->
+<!-- 	        </li> -->
+<!-- 	      </ul> -->
+<!--       </div> -->
 
       <h2>알림설정</h2>
       <ul>
@@ -88,9 +95,9 @@
       </div>
 
       <ul class="foot_m">
-        <li><a href="8p_이용약관.html">이용약관</a></li>
-        <li><a href="8p_개인정보처리방침.html">개인정보 처리방침</a></li>
-        <li><a href="#">로그아웃</a></li>
+        <li><a href="/front/terms/termsOfService">이용약관</a></li>
+        <li><a href="/front/terms/privacyPolicy">개인정보 처리방침</a></li>
+        <li><a href="#!" onclick="logout();">로그아웃</a></li>
       </ul>
     </div>
   </div><!-- //container -->

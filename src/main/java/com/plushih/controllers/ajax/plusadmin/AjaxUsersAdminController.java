@@ -41,7 +41,6 @@ public class AjaxUsersAdminController extends AjaxCodeController {
     private CommonService commonService;
 
 
-
     /**
      * 사용자관리
      * @param localeParam
@@ -49,7 +48,7 @@ public class AjaxUsersAdminController extends AjaxCodeController {
      */
     @RequestMapping(value =  "/useraction", method = {RequestMethod.POST})
     public @ResponseBody
-    CommonResultEntity userExcute (UserMasterEntity userMasterEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
+    CommonResultEntity useraction (UserMasterEntity userMasterEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
         String fullName = getFunction();
         logStart(fullName);
         CommonResultEntity commonResultEntity = new CommonResultEntity();
@@ -83,4 +82,226 @@ public class AjaxUsersAdminController extends AjaxCodeController {
     }
 
 
+    /**
+     * 사용자관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userList", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userList (HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+        //List<UserMasterEntity> userList = adminUsersService.getUserMasterList(db,new UserMasterEntity());
+        //commonService.getList(db);
+        CommonResultEntity res = new CommonResultEntity();
+        db.select("a.um_seq"
+        +" , a.bi_seq"
+        +" , a.ug_seq"
+        +" , a.ab_seq"
+        +" , a.um_id"
+        +" , a.um_name"
+        +" , a.um_hp"
+        +" , a.um_tel"
+        +" , a.um_email"
+        +" , a.um_um_addr"
+        +" , a.um_zipcode"
+        +" , a.um_company"
+        +" , a.um_company_sub"
+        +" , a.um_sort"
+        +" , a.um_jichek"
+        +" , a.um_jicgup"
+        +" , a.um_work"
+        +" , a.um_type"
+        +" , a.um_in_date"
+        +" , a.um_out_date"
+        +" , a.um_img"
+        +" , a.um_etc"
+        +" , a.um_step"
+        +" , a.reg_date "
+        +" ,(case when b.bi_name is null then '미정' else b.bi_name end) as   bi_name"
+        +" ,(case when d.ug_name is null then '미정' else d.ug_name end) as   ug_name");
+        db.from("plus_user_master a");
+        db.join("plus_business_info b","a.bi_seq=b.bi_seq","left");
+//        db.join("plus_assets_building c","a.ab_seq=c.ab_seq","left");
+        db.join("plus_user_group d","a.ug_seq=d.ug_seq","left");
+        db.order("a.um_seq desc");
+
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        try {
+            dataHashList = commonService.getList(db);
+            int cnount = commonService.getCount(db);
+            res.setDraw(db.draw);
+            res.setRecordsTotal(cnount);
+            res.setRecordsFiltered(cnount);
+            res.setResultList(dataHashList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //commonResultEntity.setResultList(userList);
+        CoreController.logEnd(fullName);
+        return res;
+    }
+
+
+    /**
+     * 사용자그룹관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/usergrouplist", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userGroup (UserGroupEntity userGroupEntity, HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+//        List<UserGroupEntity> userList = adminUsersService.getUserGroupList(db,userGroupEntity);
+//        commonResultEntity.setResultList(userList);
+//        CoreController.logEnd(fullName);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        db.select("bb.*");
+        db.from("plus_user_group bb");
+        //db.where("rc_bbs");
+        if(!StringUtils.isEmpty(db.input.getSearchString())){
+            db.like("ug_name",db.input.getSearchString());
+        }
+        db.order("ug_order","desc");
+        db.limit(1000);
+
+        CommonResultEntity res = new CommonResultEntity();
+
+        try {
+            dataHashList = commonService.getList(db);
+
+            int cnount = commonService.getCount(db);
+            res.setDraw(db.draw);
+            res.setRecordsTotal(cnount);
+            res.setRecordsFiltered(cnount);
+            res.setResultList(dataHashList);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        CoreController.logEnd(fullName);
+        return res;
+    }
+
+    /**
+     * 사용자그룹관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userPermission", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userPermission (UserGroupEntity userGroupEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+//        List<UserGroupEntity> userList = adminUsersService.getUserGroupList(db,userGroupEntity);
+//        commonResultEntity.setResultList(userList);
+//        CoreController.logEnd(fullName);
+//        return commonResultEntity;
+
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        db.select("bb.*");
+        db.from("plus_user_group bb");
+        db._limit=null;
+        //db.where("rc_bbs");
+        if(!StringUtils.isEmpty(db.input.getSearchString())){
+            db.like("ug_name",db.input.getSearchString());
+        }
+        db.order("ug_order","desc");
+
+        CommonResultEntity res = new CommonResultEntity();
+
+        try {
+            dataHashList = commonService.getList(db);
+
+            int cnount = commonService.getCount(db);
+            res.setDraw(db.draw);
+            res.setRecordsTotal(cnount);
+            res.setRecordsFiltered(cnount);
+            res.setResultList(dataHashList);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+        CoreController.logEnd(fullName);
+        return res;
+    }
+
+
+    /**
+     * 사용자관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userExcute", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userExcute (UserMasterEntity userMasterEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+        Integer umSeq = adminUsersService.setUserExcute(db,userMasterEntity);
+        commonResultEntity = db.getOut();
+        CoreController.logEnd(fullName);
+        return commonResultEntity;
+    }
+
+
+    /**
+     * 사용자그룹관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userGroupExcute", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userGroupExcute (UserGroupEntity userGroupEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+        Integer ugSeq = adminUsersService.setUserGroupExcute(db,userGroupEntity);
+        CoreController.logEnd(fullName);
+        commonResultEntity = db.getOut();
+        return commonResultEntity;
+    }
+
+    /**
+     * 사용자그룹관리
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userPermissionExcute", method = {RequestMethod.POST})
+    public @ResponseBody
+    CommonResultEntity userPermissionExcute (UserGroupEntity userGroupEntity,HttpServletRequest request, HttpServletResponse response,  Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord db =new plusActiveRecord(functionName,request);
+
+
+        if(db.input.post("updateGroup")==null) return commonResultEntity;
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<HashMap<String,String>> userGroupList = mapper.readValue(db.input.post("updateGroup"), new TypeReference<List<HashMap<String,String>>>(){});
+        HashMap<String,String> addRow=  new HashMap<String,String>();
+        addRow.put("upd_date", DateUtils.getDate2String(new Date()));
+
+        db.batchItem(userGroupList,addRow);
+        adminUsersService.setUserPermissionExcute(db);
+        commonResultEntity = db.getOut();
+        CoreController.logEnd(fullName);
+        return commonResultEntity;
+    }
 }

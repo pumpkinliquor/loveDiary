@@ -3,24 +3,209 @@
 
 <mapper namespace="FrontConceptDAO">
 
-	<!-- 성취기준 상세 조회 -->
+	<!-- 개념관리 리스트조회 -->
 	<select id="selectConceptDetailList" parameterType="aigoConceptEntity" resultType="camelMap">
-		/* FrontAchieveDAO.selectConceptDetailList*/
+		/* FrontConceptDAO.selectConceptDetailList*/
+		SELECT 
+		    a.acv_name,
+		    a.acv_id,
+		    a.sub_id,
+		    (SELECT
+					cpt_id
+				FROM
+					cb_aigo_concept
+				WHERE
+					1 = 1 AND acv_id = a.acv_id AND cpt_id <![CDATA[<]]> b.cpt_id ORDER BY cpt_id DESC LIMIT 1) AS prev_cpt_id,
+			(SELECT
+					cpt_id
+				FROM
+					cb_aigo_concept
+				WHERE
+					1 = 1 AND acv_id = a.acv_id AND cpt_id <![CDATA[>]]> b.cpt_id ORDER BY cpt_id ASC LIMIT 1) AS next_cpt_id,
+		    (SELECT 
+		            sub_name
+		        FROM
+		            cb_aigo_subject
+		        WHERE
+		            1 = 1 AND sub_id = a.sub_id) AS sub_name,
+		    b.cpt_name,
+		    b.cpt_id,
+		    c.not_id,
+		    d.unit_name
+		FROM
+		    cb_aigo_achievement a
+		        LEFT JOIN
+		    cb_aigo_concept b ON a.acv_id = b.acv_id AND a.use_yn = 'Y'
+		        LEFT JOIN
+		    cb_aigo_notion c ON b.acv_id = c.acv_id AND b.use_yn = 'Y'
+		        AND c.use_yn = 'Y'
+		        AND b.cpt_id = c.cpt_id
+		        LEFT JOIN
+		    cb_aigo_unit d ON a.unit_id = d.unit_id AND d.use_yn = 'y'
+		WHERE
+		    1 = 1
+	    <if test='@com.plushih.common.utils.SqlValid@isNotEmpty(acvId)'>
+			and a.acv_id = #{acvId}
+		</if>
+		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(cptId)'>
+			and b.cpt_id = #{cptId}
+		</if>
+		order by b.cpt_id
+	</select>
+	
+	<select id="selectConceptNext" parameterType="aigoConceptEntity" resultType="camelMap">
+		/* FrontConceptDAO.selectConceptNext*/
 		select
 		a.acv_name, a.acv_id, a.sub_id, (select sub_name from cb_aigo_subject where 1=1
-		and sub_id = a.sub_id) as sub_name, c.cpt_name, c.cpt_id, b.not_text
+		and sub_id = a.sub_id) as sub_name, b.cpt_name, b.cpt_id, c.not_id, d.unit_name
 		from
-		cb_aigo_achievement a, cb_aigo_notion b, cb_aigo_concept c
-		where
-		a.acv_id = b.acv_id
-		and b.acv_id = c.acv_id
-		and a.use_yn ='Y'
-		and b.use_yn = 'Y'
-		and c.use_yn = 'Y'
-		and a.acv_id = #{acvId}
-		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(cptId)'>
-			and c.cpt_id = #{cptId}
+		cb_aigo_achievement a
+        left join cb_aigo_concept b on a.acv_id = b.acv_id and a.use_yn ='Y'
+        left join cb_aigo_notion c on b.acv_id = c.acv_id and b.use_yn = 'Y' and c.use_yn = 'Y' and b.cpt_id = c.cpt_id
+        left join cb_aigo_unit d on a.unit_id = d.unit_id and d.use_yn = 'y'
+		where 1=1
+		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(acvId)'>
+			and a.acv_id = #{acvId}
 		</if>
+		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(cptId)'>
+			and b.cpt_id = #{cptId}
+		</if>
+		order by b.cpt_id
+	</select>
+	
+	<!-- 개념관리 상세  -->
+	<select id="selectNotionDetailInfo" parameterType="map" resultType="aigoNotionEntity">
+		/* FrontAchieveDAO.selectNotionDetailInfo*/
+		select not_id, not_text, not_type, not_play_name, not_play_path
+			, not_play_runtime, not_play_rate, acv_id
+		from cb_aigo_notion where 1=1
+		and use_yn = 'y'
+		<if test='@com.plushih.common.utils.SqlValid@isNotEmpty(notId)'>
+		and not_id = #{notId}
+		</if>
+	</select>
+	
+	<!-- 개념요소 상세 조회 -->
+	<select id="fromReviewConceptDetail" parameterType="map" resultType="camelMap">
+		/* FrontAchieveDAO.fromReviewConceptDetail*/
+		select * from (
+			select a.qst_id, a.sub_id, a.sub_name, a.lev_id, a.acv_id, a.acv_name
+				, a.all_true_cnt, a.all_test_cnt, a.all_cpt_id
+				, @val := round((a.all_true_cnt / a.all_test_cnt) * 100, 1) as valPer
+				, case when @val <![CDATA[<=]]> 25 then 'A'
+					when @val <![CDATA[>]]> 25 and @val <![CDATA[<=]]> 50 then 'B'
+					when @val <![CDATA[>]]> 50 and @val <![CDATA[<=]]> 75 then 'C'
+					when @val <![CDATA[>]]> 75 and @val <![CDATA[<=]]> 90 then 'D'
+					when @val <![CDATA[>]]> 90 and @val <![CDATA[<=]]> 100 then 'E'
+				end lev_name
+				, (a.all_true_cnt / a.all_test_cnt) as per, a.cmtr_id
+			from (
+				select a.qst_id, a.sub_id, a.sub_name, a.acv_id, a.acv_name, a.cmtr_id, a.cmtr_name, a.lev_id
+					, (select count(m.qst_id) from cb_aigo_my_answer_list m where 1=1 and a.qst_id = m.qst_id and m.use_yn = 'y') as all_test_cnt
+					, (select count(m.qst_id) from cb_aigo_my_answer_list m where 1=1 and a.qst_id = m.qst_id and m.use_yn = 'y' and m.pass_yn = 'y') as all_true_cnt
+                    , a.all_cpt_id
+				from (
+					select distinct q.qst_id, q.sub_id, s.sub_name, q.lev_id
+						, q.acv_id, ach.acv_name, q.cmtr_id, ct.cmtr_name
+						, case when q.qst_rel_not_id = 'NULL' then null else q.qst_rel_not_id end all_cpt_id
+					from cb_aigo_question q
+					left join cb_aigo_subject s on q.sub_id = s.sub_id and s.use_yn = 'y'
+					left join cb_aigo_achievement ach on q.acv_id = ach.acv_id and q.sub_id = ach.sub_id and q.lev_id = ach.lev_id and ach.use_yn = 'y' 
+					left join cb_aigo_commentary ct on q.cmtr_id = ct.cmtr_id and q.qst_id = ct.qst_id and ct.use_yn = 'y'
+					where 1=1 and q.qst_id = #{qstId} and q.use_yn = 'y'
+				) a
+			) a
+		) a
+	</select>
+	
+	<!-- 개념관리 컨텐츠 조회 -->
+	<resultMap id="notionResultMap" type="aigoNotionEntity">
+		<result property="notId"			column="not_id"/>
+		<result property="subId"			column="sub_id"/>
+		<result property="acaId"			column="aca_id"/>
+		<result property="subAcaId"			column="sub_aca_id"/>
+		<result property="acvId"			column="acv_id"/>
+		<result property="cptId"			column="cpt_id"/>
+		<result property="notKey"			column="not_key"/>
+		<result property="notName"			column="not_name"/>
+		<result property="notType"			column="not_type"/>
+		<result property="notOrder"			column="not_order"/>
+		<result property="notText"			column="not_text"/>
+		<result property="notPlayName"		column="not_play_name"/>
+		<result property="notPlayPath"		column="not_play_path"/>
+		<result property="notPlayRuntime"	column="not_play_runtime"/>
+		<result property="notPlayRate"		column="not_play_rate"/>
+		<result property="useYn"			column="use_yn"/>
+		<result property="regDate"			column="reg_date"/>
+		<result property="regUmSeq"			column="reg_um_seq"/>
+		<result property="udtDate"			column="udt_date"/>
+		<result property="udtUmSeq"			column="udt_um_seq"/>
+		<result property="regSysdate"		column="reg_sysdate"/>
+		<result property="udtSysdate"		column="udt_sysdate"/>
+		<result property="cptName"	    	column="cpt_name"/>
+		<result property="qstKey"	    	column="qst_key"/>
+		<result property="qstId"	    	column="qst_id"/>
+		<collection property="fileList"	column="not_id" javaType="java.util.ArrayList" ofType="siteAttachFileEntity" select="selectNotionFileList"/>
+	</resultMap>
+	<select id="selectNotionInfo" parameterType="aigoNotionEntity" resultMap="notionResultMap">
+		/* FrontConceptDAO.selectNotionInfo */
+		select
+			an.not_id
+			, an.sub_id
+			, an.aca_id
+			, an.sub_aca_id
+			, an.acv_id
+			, an.cpt_id
+			, an.not_key
+			, an.not_name
+			, an.not_type
+			, an.not_order
+			, an.not_text
+			, an.not_play_name
+			, an.not_play_path
+			, an.not_play_runtime
+			, an.not_play_rate
+			, an.use_yn
+			, an.reg_date
+			, an.reg_um_seq
+			, an.udt_date
+			, an.udt_um_seq
+			, an.reg_sysdate
+			, an.udt_sysdate
+			, (select cpt_name from cb_aigo_concept where cpt_id = an.not_id) cpt_name
+		from cb_aigo_notion as an
+		where an.sub_id = #{subId}
+			and an.acv_id = #{acvId}
+			and an.use_yn = 'y'
+			<choose>
+				<when test="qstKey != null and qstKey != '' ">
+					and FIND_IN_SET(an.not_id , (select qst_rel_not_id from cb_aigo_question where qst_key = #{qstKey} ))
+				</when>
+				<otherwise>
+					and FIND_IN_SET(an.not_id , (select qst_rel_not_id from cb_aigo_question where qst_id = #{qstId} ))
+				</otherwise>
+			</choose>
+		order by an.reg_date desc
+	</select>
+	<select id="selectNotionFileList" resultType="siteAttachFileEntity">
+		/* FrontConceptDAO.selectNotionFileList */
+		select
+			saf.saf_seq
+			, saf.seq
+			, saf.saf_bbs
+			, saf.saf_type
+			, saf.saf_or_file
+			, saf.saf_file
+			, saf.saf_path
+			, saf.saf_code
+			, saf.saf_desc
+			, saf.reg_date
+			, saf.reg_sysdate
+			, saf.udt_sysdate
+		from plus_site_attach_file as saf
+		where
+			saf.seq = #{notId}
+			and saf.saf_bbs = 'NOT'
 	</select>
 
 </mapper>

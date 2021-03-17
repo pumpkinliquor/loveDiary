@@ -1,7 +1,17 @@
 package com.plushih.services.front;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.plushih.common.ci.plusActiveRecord;
@@ -14,13 +24,6 @@ import com.plushih.entities.BbsTempFileEntity;
 import com.plushih.entities.common.CommonRuntimeException;
 import com.plushih.entities.file.SavedFileEntity;
 import com.plushih.services.ci.CiServiceImpl;
-import jdk.internal.org.objectweb.asm.TypeReference;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.util.*;
 
 @Service("FileUploadService")
 public class FileUploadServiceImpl  extends CiServiceImpl implements FileUploadService {
@@ -121,6 +124,7 @@ public class FileUploadServiceImpl  extends CiServiceImpl implements FileUploadS
       //Debug.log(new Gson().toJson(savedFileEntity));
 
       /** 파일 DB에 저장 */
+      System.out.println("key >>>>> " + seq);
       this.setAttachFile(savedFileEntity, fileBbs, Default.FileType.FILE, seq, fileKey);
     } catch (Exception e) {
       throw new CommonRuntimeException("file upload error");

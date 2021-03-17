@@ -72,7 +72,7 @@
 					<tbody>
 					<tr class="EDIT hidden">
 						<th>성취기준코드</th>
-						<td><b class="acvId">AA002</b></td>
+						<td><b class="acvKey">AA002</b></td>
 					</tr>
 					<tr>
 						<th>레벨 <em class="point">*</em></th>
@@ -137,7 +137,18 @@ $(document).ready(function(){
         var rules = {
             levId:{required:true}
             ,subId:{required:true}
-            ,acvName:{required:true}
+            ,acvName:{required:true,remote: {
+			url: "/plusadmin/ajax/aigo/acvCheck",
+			type: "post",
+			  data: {
+			  acvName: function() {
+				return $( "#acvName" ).val();
+			  },
+			  acvId: function() {
+				return $( "#acvId" ).val();
+			  }
+			}
+		  }}
         };
         pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
@@ -175,7 +186,7 @@ $(document).ready(function(){
         }
 
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'acvId','title':'성취기준코드'});
+        gridColumn.push({'data':'acvKey','title':'성취기준코드'});
         gridColumn.push({'data':'levName','title':'레벨명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'subName','title':'과목명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'acvName','title':'성취기준이름','class':'tl',render:plus.renderer.clickbox});

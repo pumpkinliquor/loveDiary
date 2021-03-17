@@ -26,6 +26,7 @@ public class MailUtils {
   public void setMailSender ( final JavaMailSender mailSenderParam ) {
 
     mailSender = mailSenderParam;
+
   }
 
   public VelocityEngineFactory getVelocityEngine () {
@@ -55,10 +56,11 @@ public class MailUtils {
 
     MimeMessage message = mailSender.createMimeMessage();
 
-    String mailBody = VelocityEngineUtils.mergeTemplateIntoString( velocityEngine.createVelocityEngine(),
-                                                                   mailSendEntityParam.getEmailForm(),
-                                                                   mailEncoding,
-                                                                   emailData ); 
+//    String mailBody = VelocityEngineUtils.mergeTemplateIntoString( velocityEngine.createVelocityEngine(),
+//                                                                   mailSendEntityParam.getEmailForm(),
+//                                                                   mailEncoding,
+//                                                                   emailData );
+    String mailBody = mailSendEntityParam.getEmailForm();
     MimeMessageHelper messageHelper = new MimeMessageHelper( message, true, mailEncoding );
     messageHelper.setSubject( mailSendEntityParam.getSubject() );
     messageHelper.setTo( mailSendEntityParam.getRecipient() );

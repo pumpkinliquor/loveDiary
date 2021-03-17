@@ -6,16 +6,19 @@
 	<!-- 성취기준 상세 조회 -->
 	<select id="selectTendencyDetail" parameterType="aigoTendencyEntity" resultType="camelMap">
 		/* FrontTendencyDAO.selectTendencyDetail*/
-		select
-		d.acv_name, a.ten_text, a.acv_id, a.sub_id, a.ten_id
-		from aigo.cb_aigo_tendency a
-		left join aigo.cb_aigo_subject b ON ( a.sub_id=b.sub_id )
-		left join aigo.cb_aigo_level c ON ( a.lev_id=c.lev_id )
-		left join aigo.cb_aigo_achievement d ON ( a.acv_id = d.acv_id )
-		left join aigo.plus_user_master rum ON ( a.reg_um_seq = rum.um_seq )
-		left join aigo.plus_user_master uum ON ( a.udt_um_seq = uum.um_seq )
-		where 1 = 1
-        and a.acv_id = #{acvId}
+		select a.acv_name, a.ten_text, a.acv_id, a.sub_id, a.ten_id, f.saf_seq from (
+			select
+			d.acv_name, a.ten_text, a.acv_id, a.sub_id, a.ten_id
+			from cb_aigo_tendency a
+			left join cb_aigo_subject b ON ( a.sub_id=b.sub_id ) and b.use_yn = 'y'
+			left join cb_aigo_level c ON ( a.lev_id=c.lev_id ) and c.use_yn = 'y'
+			left join cb_aigo_achievement d ON ( a.acv_id = d.acv_id ) and d.use_yn = 'y'
+			left join plus_user_master rum ON ( a.reg_um_seq = rum.um_seq )
+			left join plus_user_master uum ON ( a.udt_um_seq = uum.um_seq )
+			where 1 = 1
+	        and a.acv_id = #{acvId}
+	    ) a
+		left join aigo.plus_site_attach_file f on a.ten_id = f.seq and f.saf_bbs = 'TEN'
 	</select>
 
 </mapper>

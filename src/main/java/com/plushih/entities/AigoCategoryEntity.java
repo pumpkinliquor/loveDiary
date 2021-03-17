@@ -15,7 +15,6 @@ public class AigoCategoryEntity  extends PlusEntity implements Serializable{
 	private String acaName;
 	private String acaValue;
 	private Integer acaOrder;
-	private String useYn;
 	private String regDate;
 	private Integer regUmSeq;
 	private String udtDate;
@@ -45,8 +44,6 @@ public class AigoCategoryEntity  extends PlusEntity implements Serializable{
 	public String getUseYn(){ return useYn; }
 	public void setUseYn(String useYn){ this.useYn = useYn; }
 
-	public String getRegDate(){ return regDate; }
-	public void setRegDate(String regDate){ this.regDate = regDate; }
 
 	public Integer getRegUmSeq(){ return regUmSeq; }
 	public void setRegUmSeq(Integer regUmSeq){ this.regUmSeq = regUmSeq; }

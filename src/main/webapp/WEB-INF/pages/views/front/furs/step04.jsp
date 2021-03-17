@@ -10,14 +10,11 @@
         <p>수능 수학 선택과목은?</p>
       </div>
       <ul class="q_choice ACTIVESUB">
-        <li><button data="4">확률과 통계</button></li>
-        <li><button data="5">미적분</button></li>
-        <li><button data="3">기하</button></li>
       </ul>
     </div>
     <div class="btm_btn_div">
-      <a href="#" class="prev"><span>이전</span></a>
-      <a href="#" class="next disabled"><span>다음</span></a>
+      <a href="javascript:;" class="prev"><span>이전</span></a>
+<!--       <a href="javascript:;" class="next disabled"><span>다음</span></a> -->
     </div>
   </div>
 </div>
@@ -39,7 +36,12 @@
             if($(this).is('.disabled')){
                 return false;
             }
-            $.call('/front/ajax/aigo/firs/step04',{sub_id:$('.q_choice .on').attr('data')},function(r){
+            $.post('/front/ajax/aigo/furs/step04',{sub_id:$('.q_choice .on').attr('data')},function(r){
+                location.href= '/front/furs/step05';
+            });
+        });
+        $('.q_choice button').click(function(){
+            $.post('/front/ajax/aigo/furs/step04',{sub_id:$(this).attr('data')},function(r){
                 location.href= '/front/furs/step05';
             });
         })

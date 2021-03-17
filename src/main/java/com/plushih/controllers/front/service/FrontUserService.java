@@ -93,5 +93,33 @@ public interface FrontUserService {
 	 * @Description	: 설정 정보 저장
 	 */
 	public CommonResultEntity updateSettingInfo(HttpServletRequest request, UserMemberEntity userMemberEntity, CommonResultEntity commonResultEntity) throws Exception;
+	
+	/**
+	 * @ClassName	: FrontUserService.java
+	 * @Method		: selectLearnAchieveData
+	 * @Date		: 2021. 3. 5. 
+	 * @author		: dev.yklee
+	 * @Description	: 사용자정보 > 학습 관련 성취도 데이터 조회
+	 */
+	public Map<String, Object> selectLearnAchieveData(Map<String, Object> paramMap) throws Exception;
+	
+	/**
+	 * @ClassName	: FrontUserService.java
+	 * @Method		: checkUserAccount
+	 * @Date		: 2021. 3. 12. 
+	 * @author		: dev.yklee
+	 * @Description	: 회원탈퇴 > 계정 확인
+	 */
+	public String checkUserAccount(UserMemberEntity userMemberEntity) throws Exception;
+	
+	/**
+	 * @ClassName	: FrontUserService.java
+	 * @Method		: selectUserLearnSummary
+	 * @Date		: 2021. 3. 15. 
+	 * @author		: dev.yklee
+	 * @Description	: 회원탈퇴 > 유저 학습정보 요약
+	 */
+	public Map<String, Object> selectUserLearnSummary(Map<String, Object> paramMap) throws Exception;
+	
 
 }

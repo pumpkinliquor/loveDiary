@@ -35,7 +35,8 @@ public class FrontTendencyServiceImpl implements FrontTendencyService {
 			aigoTendencyEntity.setSubId(Code.Aigo.MATH_I);
 			
 			// 결과 Set
-			resultMap.put("detail", commonDao.selectOne("FrontTendencyDAO.selectTendencyDetail", aigoTendencyEntity));
+			resultMap.put("detail", commonDao.selectList("FrontTendencyDAO.selectTendencyDetail", aigoTendencyEntity));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

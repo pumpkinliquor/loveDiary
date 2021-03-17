@@ -1,15 +1,22 @@
 package com.plushih.controllers.front.service.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.plushih.common.ci.Debug;
+import com.plushih.common.utils.MailUtils;
+import com.plushih.entities.common.MailSendEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import com.plushih.common.constant.Code;
@@ -20,6 +27,7 @@ import com.plushih.common.utils.NumberUtils;
 import com.plushih.common.utils.StringUtils;
 import com.plushih.controllers.front.service.FrontLoginService;
 import com.plushih.daos.CommonDao;
+import com.plushih.entities.AigoLearnHistoryEntity;
 import com.plushih.entities.UserMemberEntity;
 
 @SuppressWarnings("unchecked")
@@ -72,17 +80,23 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 				}else{
 					/** 회원정보 Sesssion에 저장 */
 					returnUser.setMemUserid(loginId);
-					
+
+					Debug.log("String.valueOf(checkUserInfo.getMemId())=="+String.valueOf(checkUserInfo.getMemId()));
+					Debug.log("String.valueOf(checkUserInfo.getSafBbs())=="+String.valueOf(checkUserInfo.getSafBbs()));
+					Debug.log("String.valueOf(checkUserInfo.getSafSeq())=="+String.valueOf(checkUserInfo.getSafSeq()));
 					HttpSession session = request.getSession(true);
 					session.setAttribute(LoginSession.ID, checkUserInfo.getMemUserid());
-					session.setAttribute(LoginSession.SEQ, checkUserInfo.getMemId());
+					session.setAttribute(LoginSession.SEQ, String.valueOf(checkUserInfo.getMemId()));
 					session.setAttribute(LoginSession.NICK_NAME, checkUserInfo.getMemNickname());
+					session.setAttribute(LoginSession.SAF_BBS, String.valueOf(checkUserInfo.getSafBbs()));
+					session.setAttribute(LoginSession.SAF_SEQ, String.valueOf(checkUserInfo.getSafSeq()));
 					session.setAttribute(LoginSession.IP, request.getRemoteAddr());
 					session.setAttribute(LoginSession.SUBJECT_ID, checkUserInfo.getMemSubId());
 					session.setAttribute(LoginSession.EMAIL, checkUserInfo.getMemEmail());
-//					session.setAttribute(LoginSession.LEVEL, checkUserInfo.getMemLevel());
-					session.setAttribute(LoginSession.LEVEL, 4);	// 임시 세팅
-					
+					session.setAttribute(LoginSession.LEVEL, checkUserInfo.getMemLevel());
+					session.setAttribute(LoginSession.INFO, checkUserInfo);
+					session.setAttribute(LoginSession.JOIN_CHANNEL, checkUserInfo.getMemJoinChannel());
+
 					String tempId = "0";
 					String tempClass = "0";
 					int tempGrade = 0;
@@ -102,7 +116,7 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 					userMemberEntity.setMemTempId(checkUserInfo.getMemTempId());
 					userMemberEntity.setMemGrade(checkUserInfo.getMemGrade());
 					
-					// 사전진단 선택 등급별 그룹핑 (모의진단 문제 출제 그룹)
+					// 사전질문 선택 등급별 그룹핑 (모의진단 문제 출제 그룹)
 					if (Code.Aigo.DEFAULT_TEMP_GRADE != userMemberEntity.getMemGrade())  {
 						if (userMemberEntity.getMemGrade() == Code.Aigo.GRADE_1) {
 							userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_5);
@@ -116,11 +130,14 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 							userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_1);
 						}
 					}
-					// 사전진단 및 모의진단 이력 조회
-					checkUserInfo = (UserMemberEntity) commonDao.selectOne("FrontLoginDAO.checkPreTestYn", userMemberEntity);
+					// 사전질문 및 모의진단 이력 조회
+//					checkUserInfo = (UserMemberEntity) commonDao.selectOne("FrontLoginDAO.checkPreTestYn", userMemberEntity);
 					
-					
-					// 1. DB 내 사전진단 참여기록이 없는 사용자
+					session.setAttribute(LoginSession.TEMP_ID, checkUserInfo.getMemTempId());
+					session.setAttribute(LoginSession.TEMP_CLASS, checkUserInfo.getMemClass());
+					session.setAttribute(LoginSession.TEMP_GRADE, checkUserInfo.getMemGrade());
+					session.setAttribute(LoginSession.TEMP_SUBJECT, checkUserInfo.getMemSubId());
+					// 1. DB 내 사전질문 참여기록이 없는 사용자
 					if(Code.Login.DEFAULT_TEMP_ID.equals(userMemberEntity.getMemTempId()) ) {
 						// 1-1. 세션에 참여한 기록이 있을 경우 - 세션 정보로 DB 업데이트 필수
 						// 랜딩 페이지 : 모의진단 시작 페이지
@@ -132,19 +149,21 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 							commonDao.update("FrontLoginDAO.updatePreTestInfo", userMemberEntity);
 							
 						// 1-2. 세션에 참여한 기록이 없을 경우
-						// 랜딩 페이지 : 사전진단 페이지
+						// 랜딩 페이지 : 사전질문 페이지
 						} else {
 							returnUser.setLoginStateCode(Code.Login.SUCCESS_FUR);			// 로그인 결과코드 세팅
 						}
-					// 2. DB에 사전진단 참여기록이 있음
+					// 2. DB에 사전질문 참여기록이 있음
 					} else {
 						session.setAttribute(LoginSession.TEMP_ID, checkUserInfo.getMemTempId());
 						session.setAttribute(LoginSession.TEMP_CLASS, checkUserInfo.getMemClass());
 						session.setAttribute(LoginSession.TEMP_GRADE, checkUserInfo.getMemGrade());
+						session.setAttribute(LoginSession.TEMP_SUBJECT, checkUserInfo.getMemSubId());
 						
 						// 2-1. 모의진단을 완료한 사용자
 						// 랜딩페이지 : 학습 홈
-						if(Default.YES.equals(checkUserInfo.getMemConYn())) {
+//						if(Default.YES.equals(checkUserInfo.getMemConYn())) {
+						if(checkUserInfo.getMemLevel() > 0) {
 							returnUser.setLoginStateCode(Code.Login.SUCCESS_LEARN);			// 로그인 결과코드 세팅
 						
 						// 2-2. 모의진단 진행하지 않은 사용자
@@ -156,8 +175,16 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 					
 					historyMap.put("mllSuccess", Default.YES);
 					// 회원정보 세션 set
+					
+					// 레벨평가 이력정보 Set
+					AigoLearnHistoryEntity learnHistoryMap = new AigoLearnHistoryEntity();
+					learnHistoryMap.setMemId(StringUtils.nvl(checkUserInfo.getMemId(), "0"));
+					learnHistoryMap.setThiTestType(Code.Aigo.QST_TYPE_LEVEL);
+					List<AigoLearnHistoryEntity> levelTestHistory = commonDao.selectList("FrontLearnDAO.selectLearnHistory", learnHistoryMap);
+					session.setAttribute("levelTestHistory", levelTestHistory);
 				}
-				
+				userMemberEntity.setMemLastloginIp(request.getRemoteAddr());
+				commonDao.update("FrontLoginDAO.updateLastLoginInfo", userMemberEntity);
 				// 로그인 이력 등록
 				historyMap.put("memId", checkUserInfo.getMemId());
 				historyMap.put("mllUserid", userMemberEntity.getMemUserid());
@@ -173,6 +200,152 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 			}
 		}
 		
+		return returnUser;
+	}
+
+	/**
+	 * @ClassName	: LoginServiceImpl.java
+	 * @Method		: loginProc
+	 * @Date		: 2020. 12. 31.
+	 * @author		: dev.yklee
+	 * @Description	: 로그인 처리
+	 */
+	@Override
+	public UserMemberEntity loginProcForMemId(HttpServletRequest request, HttpServletResponse response, UserMemberEntity userMemberEntity) throws Exception{
+
+		UserMemberEntity returnUser = new UserMemberEntity();
+		UserMemberEntity checkUserInfo = new UserMemberEntity();
+
+		Map<String, Object> historyMap = new HashMap<String, Object>();
+		historyMap.put("mllSuccess", Default.NO);
+
+		String memId = StringUtils.nvl(String.valueOf(userMemberEntity.getMemId()), "");
+
+		/** 1. ID가 NULL인 경우 */
+		if("".equals(memId)){
+			// ERROR(아이디 필요)
+			returnUser.setLoginStateCode(Code.Login.ID_INVALID);
+		}else{
+			/** 3. ID, PWD 모두 NULL이 아닌경우 */
+			// 파라미터 세팅 후 입력받은 값으로 사용자 정보 조회 */
+			checkUserInfo = (UserMemberEntity) commonDao.selectOne("FrontLoginDAO.selectLoginUserInfoForMemId", userMemberEntity);
+
+			if(checkUserInfo != null){
+				// 비밀번호가 틀린 경우
+				/** 회원정보 Sesssion에 저장 */
+				returnUser.setMemUserid(checkUserInfo.getMemUserid());
+				returnUser.setMemId(checkUserInfo.getMemId());
+
+				Debug.log("String.valueOf(checkUserInfo.getMemId())=="+String.valueOf(checkUserInfo.getMemId()));
+				HttpSession session = request.getSession(true);
+				session.setAttribute(LoginSession.ID, checkUserInfo.getMemUserid());
+				session.setAttribute(LoginSession.SEQ, String.valueOf(checkUserInfo.getMemId()));
+				session.setAttribute(LoginSession.NICK_NAME, checkUserInfo.getMemNickname());
+				session.setAttribute(LoginSession.IP, request.getRemoteAddr());
+				session.setAttribute(LoginSession.SUBJECT_ID, checkUserInfo.getMemSubId());
+				session.setAttribute(LoginSession.EMAIL, checkUserInfo.getMemEmail());
+				session.setAttribute(LoginSession.LEVEL, checkUserInfo.getMemLevel());
+				session.setAttribute(LoginSession.TEMP_ID, checkUserInfo.getMemTempId());
+				session.setAttribute(LoginSession.INFO, checkUserInfo);
+
+				String tempId = "0";
+				String tempClass = "0";
+				int tempGrade = 0;
+
+				if(!StringUtils.isEmpty(session.getAttribute(LoginSession.TEMP_ID))) {
+					tempId = String.valueOf(session.getAttribute(LoginSession.TEMP_ID));
+				}
+				if(!StringUtils.isEmpty(session.getAttribute(LoginSession.TEMP_CLASS))) {
+					tempClass = String.valueOf(session.getAttribute(LoginSession.TEMP_CLASS));
+				}
+				if(!StringUtils.isEmpty(session.getAttribute(LoginSession.TEMP_GRADE))) {
+					tempGrade = NumberUtils.stringToInt(String.valueOf(session.getAttribute(LoginSession.TEMP_GRADE))) ;
+				}
+
+				// 회원 Seq Set
+				userMemberEntity.setMemId(checkUserInfo.getMemId());
+				userMemberEntity.setMemTempId(checkUserInfo.getMemTempId());
+				userMemberEntity.setMemGrade(checkUserInfo.getMemGrade());
+
+				// 사전질문 선택 등급별 그룹핑 (모의진단 문제 출제 그룹)
+				if (Code.Aigo.DEFAULT_TEMP_GRADE != userMemberEntity.getMemGrade())  {
+					if (userMemberEntity.getMemGrade() == Code.Aigo.GRADE_1) {
+						userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_5);
+					} else if (userMemberEntity.getMemGrade() == Code.Aigo.GRADE_2) {
+						userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_4);
+					} else if (userMemberEntity.getMemGrade() == Code.Aigo.GRADE_3) {
+						userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_3);
+					} else if (userMemberEntity.getMemGrade() == Code.Aigo.GRADE_4) {
+						userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_2);
+					} else {
+						userMemberEntity.setMemFurGroup(Code.Aigo.CON_GROUP_1);
+					}
+				}
+//				// 사전질문 및 모의진단 이력 조회
+//				UserMemberEntity userTestHistory = (UserMemberEntity) commonDao.selectOne("FrontLoginDAO.checkPreTestYn", userMemberEntity);
+				session.setAttribute(LoginSession.TEMP_ID, checkUserInfo.getMemTempId());
+				session.setAttribute(LoginSession.TEMP_CLASS, checkUserInfo.getMemClass());
+				session.setAttribute(LoginSession.TEMP_GRADE, checkUserInfo.getMemGrade());
+				session.setAttribute(LoginSession.TEMP_SUBJECT, checkUserInfo.getMemSubId());
+				// 1. DB 내 사전질문 참여기록이 없는 사용자
+				if(Code.Login.DEFAULT_TEMP_ID.equals(userMemberEntity.getMemTempId()) ) {
+					// 1-1. 세션에 참여한 기록이 있을 경우 - 세션 정보로 DB 업데이트 필수
+					// 랜딩 페이지 : 모의진단 시작 페이지
+					if(!Code.Login.DEFAULT_TEMP_ID.equals(tempId)) {
+						returnUser.setLoginStateCode(Code.Login.SUCCESS_CON);			// 로그인 결과코드 세팅
+						userMemberEntity.setMemTempId(tempId);
+						userMemberEntity.setMemClass(tempClass);
+						userMemberEntity.setMemGrade(tempGrade);
+						commonDao.update("FrontLoginDAO.updatePreTestInfo", userMemberEntity);
+
+					// 1-2. 세션에 참여한 기록이 없을 경우
+					// 랜딩 페이지 : 사전질문 페이지
+					} else {
+						returnUser.setLoginStateCode(Code.Login.SUCCESS_FUR);			// 로그인 결과코드 세팅
+					}
+				// 2. DB에 사전질문 참여기록이 있음
+				} else {
+					session.setAttribute(LoginSession.TEMP_ID, checkUserInfo.getMemTempId());
+					session.setAttribute(LoginSession.TEMP_CLASS, checkUserInfo.getMemClass());
+					session.setAttribute(LoginSession.TEMP_GRADE, checkUserInfo.getMemGrade());
+					session.setAttribute(LoginSession.TEMP_SUBJECT, checkUserInfo.getMemSubId());
+					
+					// 2-1. 모의진단을 완료한 사용자
+					// 랜딩페이지 : 학습 홈
+//					if(Default.YES.equals(checkUserInfo.getMemConYn())) {
+					if(checkUserInfo.getMemLevel() > 0) {
+						returnUser.setLoginStateCode(Code.Login.SUCCESS_LEARN);			// 로그인 결과코드 세팅
+						
+					// 2-2. 모의진단 진행하지 않은 사용자
+					// 랜딩페이지 : 모의진단 시작 페이지
+					} else {
+						returnUser.setLoginStateCode(Code.Login.SUCCESS_CON);			// 로그인 결과코드 세팅
+					}
+				}
+
+				userMemberEntity.setMemLastloginIp(request.getRemoteAddr());
+				commonDao.update("FrontLoginDAO.updateLastLoginInfo", userMemberEntity);
+
+				historyMap.put("mllSuccess", Default.YES);
+				// 회원정보 세션 set
+
+				// 로그인 이력 등록
+				historyMap.put("memId", returnUser.getMemId());
+				historyMap.put("mllUserid", returnUser.getMemUserid());
+				historyMap.put("mllIp", request.getRemoteAddr());
+				historyMap.put("mllReason", returnUser.getLoginStateCode());
+				historyMap.put("mllUseragent", request.getHeader("user-agent"));
+				historyMap.put("mllUrl", StringUtils.nvl(String.valueOf(request.getRequestURL()), Default.Site.SERVER_DOMAIN));
+				historyMap.put("mllReferer", request.getHeader("referer"));
+				commonDao.insert("FrontLoginDAO.insertLoginHistory", historyMap);
+
+
+
+			}else{
+				returnUser.setLoginStateCode(Code.Login.ID_NULL);
+			}
+		}
+
 		return returnUser;
 	}
 	
@@ -208,6 +381,37 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 					resultCode = Code.Result.FAIL_03;		// 인증번호 생성에 실패
 				} else {
 					// 이메일 발송 처리 로직 추가한 후 처리결과에 따라 SUCC 코드 세팅
+					MailUtils mailUtils = new MailUtils();
+
+					JavaMailSenderImpl sender = new JavaMailSenderImpl();
+					sender.setHost("smtp.naver.com");
+					sender.setPort(587);
+
+					sender.setUsername("aigomath2022");
+					sender.setPassword("1q2w3e4r@");
+
+					Properties props = sender.getJavaMailProperties();
+					props.put("mail.transport.protocol", "smtp");
+					props.put("mail.smtp.auth", "true");
+					props.put("mail.smtp.starttls.enable", "true");
+					props.put("mail.debug", "true");
+					mailUtils.setMailSender(sender);
+
+					MailSendEntity mailSendEntity= new MailSendEntity();
+					mailSendEntity.setSender("aigomath2022@naver.com");
+					mailSendEntity.setSenderName("LD관리자");
+					mailSendEntity.setRecipient(new String[]{checkUserInfo.getMemUserid()});
+					mailSendEntity.setSubject("Aigo 비밀번호 설정 인증코드");
+					mailSendEntity.setEmailForm("Aigo 비밀번호 설정 인증코드가 도착했습니다.\n" +
+							"이 코드를 사용하여 암호를 재 설정 하세요\n<br/>\n\n" +
+							"\nAigo 비밀번호 인증코드" +
+							" " + authCode);
+					try {
+						mailUtils.sendMail(mailSendEntity);
+					} catch (MessagingException e) {
+						e.printStackTrace();
+					}
+
 					resultCode = Code.Result.SUCC;
 				}
 			}
@@ -261,10 +465,6 @@ public class FrontLoginServiceImpl implements FrontLoginService {
 	 * @Description	: 
 	 */
 	public String updatePassword (HttpServletRequest request, UserMemberEntity user) throws Exception {
-		
-		HttpSession session = request.getSession(true);
-		
-		user.setMemUserid(LoginSession.getLoginId(session));
 		
 		String resultCode = "";
 		

@@ -71,7 +71,7 @@
 					<tbody>
 					<tr class="EDIT hidden">
 						<th>과목코드</th>
-						<td><b class="subId">00001</b></td>
+						<td><b class="subKey">00001</b></td>
 					</tr>
 					<tr>
 						<th>과목명 <em class="point">*</em></th>
@@ -155,6 +155,7 @@ $(document).ready(function(){
         var tableElement =pageContentLast.find('table');
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
+        $('.error').html('');
 
 
     }
@@ -185,7 +186,7 @@ $(document).ready(function(){
           return div.prop('outerHTML')
         }
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'subId','title':'과목코드'});
+        gridColumn.push({'data':'subKey','title':'과목코드'});
         gridColumn.push({'data':'subName','title':'과목명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
         gridColumn.push({'data':'userActive','title':'사용자노출',code:plus.codes['USE_YN'],render:plus.renderer.code});

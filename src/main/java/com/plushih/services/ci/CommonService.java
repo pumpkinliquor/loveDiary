@@ -11,9 +11,14 @@ import java.util.Map;
 
 public interface CommonService extends CiService{
 
+	public Map<String, Object> cmmFileList(Map<String, Object> paramMap) throws Exception;
+	
+	public Map<String, Object> userInfo(Object paramMap) throws Exception;
+
 
 //    public CommonResultEntity getList(plusActiveRecord dbEntity) throws Exception ;
 //    public CommonResultEntity getRow(plusActiveRecord dbEntity) throws Exception ;
 //    public CommonResultEntity getRow(plusActiveRecord dbEntity) throws Exception ;
+	
 
 }

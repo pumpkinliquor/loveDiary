@@ -157,6 +157,7 @@ public class AjaxBbsAdminController extends CoreController {
 
             MultipartFile fileInfo = (MultipartFile) df.getFirst();
             if (fileInfo.getSize() > 0) {
+            	System.out.println("fileInfo >>> " + fileInfo);
                 fileUploadService.uploadFile(fileInfo, 0, "/"+bbsEntity.getBbBbs(), bbsEntity.getBbBbs(), insertID, key);
             }
         }

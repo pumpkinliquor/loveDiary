@@ -8,6 +8,7 @@
 				<colgroup>
 <%--					<col width="5%">--%>
 					<col width="10%">
+					<col width="10%">
 					<col width="*">
 					<col width="5%">
 					<col width="25%">
@@ -16,6 +17,7 @@
 					<tr>
 <%--						<th></th>--%>
 						<th>레벨코드</th>
+						<th>레벨</th>
 						<th>레벨명</th>
 						<th>상태</th>
 						<th>등록/수정</th>
@@ -66,7 +68,14 @@
 					<tbody>
 					<tr class="EDIT hidden">
 						<th>레벨코드</th>
-						<td><b class="levId">00002</b></td>
+						<td><b class="levKey">00002</b></td>
+					</tr>
+					<tr>
+						<th>레벨</th>
+						<td>
+							<div class="radio_wrap rdo_wrap1 code LEV1-5" type="select" data="levOrder">
+							</div>
+						</td>
 					</tr>
 					<tr>
 						<th>레벨명 <em class="point">*</em></th>
@@ -79,6 +88,7 @@
 							</div>
 						</td>
 					</tr>
+
 					<tr class="EDIT hidden">
 						<th>등록/수정</th>
 						<td class="show_iddate">
@@ -102,25 +112,54 @@ var gridElement =null,gridColumn =[];
 $(document).ready(function(){
     /* 코드 사용 */
     /* 코드 사용 */
-    $.call('/ajax/codeList',{codes:'BI,USE_YN'},function(r){
-        $.extend(plus.codes,r.codes);
-    });
-    $.each(plus.codes,function(k,v){
-      $('.code.'+k).addCodeItem(v)
-    });
+    setLev();
 
     /* tab 생성후 초기이벤트*/
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
-            levName:{required:true}
+            levOrder:{required:true,remote: {
+				url: "/plusadmin/ajax/aigo/levelValueCheck",
+				type: "post",
+				data: {
+
+				  levId: function() {
+					return $( "#levId" ).val();
+				  },
+				  levValue: function() {
+					return $( "#levValue" ).val();
+				  },
+				  useYn: function() {
+					return $( ".code.USE_YN :radio:checked" ).val();
+				  }
+				}
+			}},
+        	levName:{required:true,remote: {
+			url: "/plusadmin/ajax/aigo/levelNameCheck",
+			type: "post",
+			data: {
+			  levName: function() {
+				return $( "#levName" ).val();
+			  },
+			  levId: function() {
+				return $( "#levId" ).val();
+			  },
+			  levValue: function() {
+				return $( "#levValue" ).val();
+			  },
+			  useYn: function() {
+				return $( ".code.USE_YN :radio:checked" ).val();
+			  }
+			}
+		  }}
             ,useYn:{required:true}
         };
+        console.log("룰스 >>>>> " , rules);
         pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
 
-
+//         setLev();
     }
 
     //페이지 래디 정의
@@ -149,7 +188,8 @@ $(document).ready(function(){
           return div.prop('outerHTML')
         }
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'levId','title':'레벨코드'});
+        gridColumn.push({'data':'levKey','title':'레벨코드'});
+        gridColumn.push({'data':'levValue','title':'레벨'});
         gridColumn.push({'data':'levName','title':'레벨명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
         gridColumn.push({'data':'regDate','title':'등록/수정',render:plus.renderer.iddate});
@@ -168,7 +208,8 @@ $(document).ready(function(){
             $('#wrapList').hide();
             rowData['start']=info['start']
             rowData['length']=info['length']
-
+			
+            console.log("rowData >>>> ",rowData);
             plus.frontPage.popup($('#wrapEdit'),rowData,'EDIT');
 
         });
@@ -185,7 +226,7 @@ $(document).ready(function(){
     /* 등록 버튼*/
     $('.btnReg').click(function(){
       $('#wrapList').hide();
-      plus.frontPage.popup($('#wrapEdit'), {levId:'0','start':0,length:0,levName:'',useYn:'y'},'NEW');
+      plus.frontPage.popup($('#wrapEdit'), {levId:'0','start':0,length:0,levValue:1,levName:'',useYn:'y'},'NEW');
     });
     /* 삭제 버튼*/
     $('.btnDelete').click(function(){
@@ -223,6 +264,16 @@ $(document).ready(function(){
       }
       console.log(fileOne);
     });
+    
+    function setLev() {
+    	$.call('/ajax/codeList',{codes:'BI,USE_YN'},function(r){
+            $.extend(plus.codes,r.codes);
+        });
+        plus.codes['LEV1-5'] = {'1':'1','2':'2','3':'3','4':'4','5':'5'};
+        $.each(plus.codes,function(k,v){
+          $('.code.'+k).addCodeItem(v)
+        });
+    }
 
 
 });

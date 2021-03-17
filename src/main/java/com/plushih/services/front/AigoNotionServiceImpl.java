@@ -79,9 +79,14 @@ public class AigoNotionServiceImpl extends CiServiceImpl implements AigoNotionSe
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
+
+                dbEntity.where("not_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("not_key","NOT"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("not_key","NOT"+StringUtils.zeroFill(String.valueOf(aigoNotionEntity.getNotId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
 //                if(dbEntity.input.get("bbSeq")!=null){

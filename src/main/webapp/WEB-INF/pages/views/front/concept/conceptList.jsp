@@ -22,17 +22,18 @@
 			<a href="#" class="btn_allmenu">전체메뉴</a>
 			<h1>개념학습</h1>
 		</header>
-		<div class="container">
-			<div class="study_conts">
+		<div class="container btm0">
+			<div class="study_conts scroll_y">
 				<c:set var="subName" value="${resultMap.resultData.detailList[0].subName }" />
 				<c:set var="acvName" value="${resultMap.resultData.detailList[0].acvName }" />
+				<c:set var="unitName" value="${resultMap.resultData.detailList[0].unitName }" />
 				<h2>${subName }</h2>
-				<h3>대단원명</h3>
+				<h3>${unitName }</h3>
 				<h4>${acvName }</h4>
 				<div class="study_subject">
 					<c:forEach var="dtlList" items="${resultMap.resultData.detailList }">
 						<div class="title">
-							<a href="javascirpt:" onclick="goConceptDetail('${dtlList.cptId}', '${dtlList.acvId }'); return false;">${dtlList.cptName }</a>
+							<a href="javascirpt:" onclick="goConceptDetail('${dtlList.cptId}', '${dtlList.acvId }', '${dtlList.notId }'); return false;">${dtlList.cptName }</a>
 						</div>
 					</c:forEach>
 				</div>
@@ -47,13 +48,14 @@
 	qCardSlider();
 
 	$(document).ready(function() {
-		console.log("${resultMap.resultData.detailList}")
+		
 	});
 
-	function goConceptDetail(cptId, acvId) {
+	function goConceptDetail(cptId, acvId, notId) {
 		$.formSubmit("/front/concept/conceptDetail", $.extend(null, {
 			"cptId" : cptId,
-			"acvId" : acvId
+			"acvId" : acvId,
+			"notId" : notId
 		}), {
 			method : 'post'
 		});

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <h2>회원집계</h2>
+
 <table class="srchT">
 	<colgroup>
 		<col width="18%">
@@ -13,10 +14,12 @@
 			<td>
 			 	<form>
 					<div class="date_div">
-						<input type="date" class="ipt_date" id="sdate" name="sdate" value="" /><span>~</span>
-						<input type="date" class="ipt_date" id="edate" name="edate" value="" />
+						<span class="ipt_dates"><input type="date" class="ipt_date" id="sdate" name="sdate" value="" /></span><span>~</span>
+						<span class="ipt_dates"><input type="date" class="ipt_date" id="edate" name="edate" value="" /></span>
 					</div>
+
 					<button type="button" class="btn btn-st1 btn_srch btnSearch">검색</button>
+					<input type="hidden" name="order" id="order" value="calendar.date desc">
 				</form>
 			</td>
 		</tr>
@@ -43,10 +46,10 @@
 	</colgroup>
 	<thead>
 		<tr>
-			<th>일자</th>
-			<th>사용자</th>
-			<th>설치자</th>
-			<th>가입자</th>
+			<th>일자 </th>
+			<th>사용자 </th>
+			<th>설치자 </th>
+			<th>가입자 </th>
 		</tr>
 	</thead>
 	<tbody>
@@ -96,7 +99,19 @@ $(document).ready(function(){
 	$('.btnSearch').click(function(){
 		var searchParam = $('.srchT').domJson();
 		gridElement = plus.makeGrid('.gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberUsedDataList', searchParam, 'resultList'), {pageLength : 50, attr : '속성'});
+
 	});
+
+	plus.event.gridComplet=function(){
+		$('.sbtn').on('click', function () {
+			$('.sbtn').removeClass('on');
+			$(this).addClass('on');
+
+
+			$('#order').val($(this).attr('data'));
+			$('.btnSearch').click();
+		});
+	}
 	
 	var searchParam = $('.srchT').domJson();
 
@@ -107,12 +122,12 @@ $(document).ready(function(){
 		$('.totalJoinCount').html(r.resultValue['totalJoinCount']);
 	});
 	
-	gridColumn.push({'data':'basedate',		'title':'일자' });
-	gridColumn.push({'data':'userCount',	'title':'사용자'});
-	gridColumn.push({'data':'insCount',		'title':'설치자'});
-	gridColumn.push({'data':'joinCount',	'title':'가입자'});
+	gridColumn.push({'data':'basedate',		'title':'일자<a href="#" class="sbtn" data="calendar.date asc">▲</a><a href="#" class="sbtn" data="calendar.date desc">▼</a>' });
+	gridColumn.push({'data':'userCount',	'title':'사용자<a href="#" class="sbtn" data="user_count asc">▲</a><a href="#" class="sbtn" data="user_count desc">▼</a>' });
+	gridColumn.push({'data':'insCount',		'title':'설치자<a href="#" class="sbtn" data="appins.ins_count asc">▲</a><a href="#" class="sbtn" data="appins.ins_count desc">▼</a>' });
+	gridColumn.push({'data':'joinCount',	'title':'가입자<a href="#" class="sbtn" data="joinuser.join_user_count asc">▲</a><a href="#" class="sbtn" data="joinuser.join_user_count desc">▼</a>' });
 	gridElement = plus.makeGrid('.gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberUsedDataList', searchParam, 'resultList'), {pageLength : 50, attr : '속성'});
-	
+
 });
 
 </script>

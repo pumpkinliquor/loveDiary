@@ -104,7 +104,39 @@ public class UsersServiceImpl extends CiServiceImpl implements UsersService {
      */
     @Override
     public UserMasterEntity getUserInfo(plusActiveRecord dbEntity,UserMasterEntity userMasterEntity) throws Exception {
-        dbEntity.select("um.*");
+        dbEntity.select("um_seq"+
+            ", bi_seq"+
+            ", ug_seq"+
+            ", ab_seq"+
+            ", gb_seq"+
+            ", um_pw"+
+            ", um_id"+
+            ", um_name"+
+            ", ifnull(um_hp,'') um_hp "+
+            ", ifnull(um_tel,'') um_tel"+
+            ", ifnull(um_email,'') um_email"+
+            ", ifnull(um_um_addr ,'') um_um_addr"+
+            ", ifnull(um_zipcode,'') um_zipcode"+
+            ", ifnull(um_company,'') um_company"+
+            ", ifnull(um_company_sub ,'') um_company_sub"+
+            ", ifnull(um_jichek,'') um_jichek"+
+            ", ifnull(um_jicgup,'') um_jicgup"+
+            ", ifnull(um_work,'') um_work"+
+            ", ifnull(um_type,'') um_type"+
+            ", ifnull(um_in_date,'') um_in_date"+
+            ", ifnull(um_out_date,'') um_out_date"+
+            ", ifnull(um_img,'') um_img"+
+            ", ifnull(um_etc,'') um_etc"+
+            ", ifnull(um_step,'') um_step"+
+            ", ifnull(use_yn,'n') use_yn"+
+            ", ifnull(reg_date,'') reg_date"+
+            ", ifnull(reg_um_seq,'0') reg_um_seq"+
+            ", ifnull(udt_date,'') udt_date"+
+            ", ifnull(udt_um_seq,'0') udt_um_seq"+
+            ", ifnull(sessionkey,'') sessionkey"+
+            ", ifnull(sessionlimit,'') sessionlimit"+
+            ", reg_sysdate"+
+            ", udt_sysdate");
         dbEntity.from("plus_user_master um");
         UserMasterEntity resultUserInfo = new UserMasterEntity();
         try {

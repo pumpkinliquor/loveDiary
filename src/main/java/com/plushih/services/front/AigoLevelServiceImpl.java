@@ -79,14 +79,16 @@ public class AigoLevelServiceImpl extends CiServiceImpl implements AigoLevelServ
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
+
+                dbEntity.where("lev_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("lev_key","LEV"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("lev_key","LEV"+StringUtils.zeroFill(String.valueOf(aigoLevelEntity.getLevId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
-//                if(dbEntity.input.get("bbSeq")!=null){
-//
-//                }
                 dbEntity.insert_id = aigoLevelEntity.getLevId();//bbsEntity.getBbSeq();
             }
 

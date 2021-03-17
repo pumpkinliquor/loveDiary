@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+
+<script src="../assets/js/script_m.js"></script>
+
+<style type="text/css">
+.typing-txt{display: none;}
+ul{list-style:none;}
+.typingg ul li{
+  display:block;
+}
+.typingg ul li.on {  
+  display: inline-block; 
+  animation-name: cursor; 
+  animation-duration: 0.3s; 
+  animation-iteration-count: infinite; 
+} 
+@keyframes cursor{ 
+  0%{border-right: 1px solid #fff} 
+  50%{border-right: 1px solid #000} 
+  100%{border-right: 1px solid #fff} 
+}
+
+</style>
+
+</head>
+
+<body class="pre_body1">
+<div class="wrapper bg_1">
+  <div class="pre_q_container">
+
+      <div id="typedtext">
+		<div class="typing-txt"> 
+			<ul>
+				<li>AI 진단으로 제공되는</li>
+				<li>지금 나에게 꼭 필요한 </li>
+				<li>최우선 순위의 수능 수학 문제찾기</li>
+			</ul>
+		</div> 
+		<div class="typingg">
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+
+	  </div> <!-- 수정0209 -->
+	  
+
+      <div class="start_btn_div">
+        <a href="#" class="btn_start"><span>시작하기</span></a> 
+      </div>
+
+     <p class="txt2">
+       <span>이미 가입하셨나요? </span>
+       <a href="#">로그인</a>
+     </p>
+
+  </div>
+</div>
+
+<script src="../assets/plugin/sonic.js"></script>
+
+<script>
+var circle = new Sonic({
+
+    width: 200,
+    height: 200,
+
+    stepsPerFrame: 1,
+    trailLength: .8,
+    pointDistance: .01,
+    fps: 50,
+
+    fillColor: '#0de8dd',
+
+    setup: function() {
+      this._.lineWidth = 10;
+    },
+
+
+    step: function(point, index) {
+
+      this._.beginPath();
+      this._.moveTo(point.x, point.y);
+      this._.arc(point.x, point.y, 15, 0, Math.PI*2, false);
+      this._.closePath();
+      this._.fill();
+
+    },
+
+    path: [
+      ['arc', 100, 100, 60, 0, 360]
+    ]
+});
+
+circle.play();
+
+document.body.appendChild(circle.canvas);
+</script>
+
+
+<script type="text/javascript">
+
+var typingBool = false; 
+var typingIdx=0; 
+var liIndex = 0;
+var liLength = $(".typing-txt>ul>li").length;
+
+// 타이핑될 텍스트를 가져온다 
+var typingTxt = $(".typing-txt>ul>li").eq(liIndex).text(); 
+typingTxt=typingTxt.split(""); // 한글자씩 자른다. 
+if(typingBool==false){ // 타이핑이 진행되지 않았다면 
+    typingBool=true; 
+    var tyInt = setInterval(typing,100); // 반복동작 
+} 
+
+function typing(){ 
+  $(".typingg ul li").removeClass("on");
+   $(".typingg ul li").eq(liIndex).addClass("on");
+  if(typingIdx<typingTxt.length){ // 타이핑될 텍스트 길이만큼 반복 
+	if ((typingIdx == 0) && (liIndex == 0) || (typingIdx == 1) && (liIndex == 0))
+	{
+		$(".typingg ul li").eq(0).append('<b>'+typingTxt[typingIdx]+'</b>');
+	} else {
+		$(".typingg ul li").eq(liIndex).append(typingTxt[typingIdx]); // 한글자씩 이어준다. 
+	}
+	typingIdx++; 
+
+   } else{ if(liIndex<liLength-1){
+     //다음문장으로  가기위해 인덱스를 1증가
+       liIndex++; 
+     //다음문장을 타이핑하기위한 셋팅
+        typingIdx=0;
+        typingBool = false; 
+        typingTxt = $(".typing-txt>ul>li").eq(liIndex).text(); 
+       
+     //다음문장 타이핑전 1초 쉰다
+         clearInterval(tyInt);
+          //타이핑종료
+     
+         setTimeout(function(){
+           //1초후에 다시 타이핑 반복 시작
+           tyInt = setInterval(typing,100);
+         },);
+        } else if(liIndex==liLength-1){
+          
+         //마지막 문장까지 써지면 반복종료
+           clearInterval(tyInt);
+        }
+    } 
+} 
+</script>
+
+</body>
+
+</html>

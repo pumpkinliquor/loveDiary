@@ -48,12 +48,12 @@ public class AigoCommentaryServiceImpl extends CiServiceImpl implements AigoComm
 		// 검색조건 처리
 		// 1. 날짜
 		 if(!StringUtils.isEmpty(dbEntity.input.get_post("sdate")) && !StringUtils.isEmpty(dbEntity.input.get_post("edate"))){
-             dbEntity.gteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("sdate"));
-             dbEntity.lteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("edate"));
+             dbEntity.gteq("substr(cac.reg_sysdate,1,10)",dbEntity.input.get_post("sdate"));
+             dbEntity.lteq("substr(cac.reg_sysdate,1,10)",dbEntity.input.get_post("edate"));
         } else if(!StringUtils.isEmpty(dbEntity.input.get_post("sdate"))){
-            dbEntity.gteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("sdate"));
+            dbEntity.gteq("substr(cac.reg_sysdate,1,10)",dbEntity.input.get_post("sdate"));
         } else if(!StringUtils.isEmpty(dbEntity.input.get_post("edate"))){
-            dbEntity.lteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("edate"));
+            dbEntity.lteq("substr(cac.reg_sysdate,1,10)",dbEntity.input.get_post("edate"));
 
         }
 		// 2. 상태
@@ -77,16 +77,16 @@ public class AigoCommentaryServiceImpl extends CiServiceImpl implements AigoComm
 		if(!StringUtils.isEmpty(dbEntity.input.get_post("searchType"))){
 			String searchTextType = dbEntity.input.get_post("searchType");
 			String searchText = dbEntity.input.get_post("searchString");
-			if("questionCode".equals(searchTextType)) {
-				dbEntity.like("caq.qst_key", searchText);
-			}else if("commentaryCode".equals(searchTextType)) {
-				dbEntity.like("cac.cmtr_key", searchText);
-			}else if("notionCode".equals(searchTextType)) {
-				dbEntity.like("not_key", searchText);
+			if("qstKey".equals(searchTextType)) {
+				dbEntity.where("caq.qst_key", searchText);
+			}else if("cmtrKey".equals(searchTextType)) {
+				dbEntity.where("cac.cmtr_key", searchText);
+			}else if("notKey".equals(searchTextType)) {
+				dbEntity.where("not_key", searchText);
 			}
 		}
 		// 정렬 설정
-		dbEntity.order("cac.reg_date", "desc");
+		dbEntity.order("cac.reg_sysdate", "desc");
 		
 		List<AigoCommentaryEntity> dataList = null;
 		try {
@@ -116,12 +116,25 @@ public class AigoCommentaryServiceImpl extends CiServiceImpl implements AigoComm
 			Debug.log("dbEntity.flag.=="+dbEntity.flag);
 			if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
 				setInsert(dbEntity);
+
+				dbEntity.add("cmtr_key","CMTR"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+				dbEntity.where("cmtr_id",String.valueOf(dbEntity.insert_id));
+				setUpdate(dbEntity);
 			}
 			else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+				dbEntity.add("cmtr_key","CMTR"+StringUtils.zeroFill(String.valueOf(aigoCommentaryEntity.getCmtrId()),5));
 				setUpdate(dbEntity);
 				Debug.log("dbEntity.input.get(\"cmtrId\")=="+dbEntity.input.get("cmtrId"));
 				dbEntity.insert_id = aigoCommentaryEntity.getCmtrId();//bbsEntity.getBbSeq();
 			}
+
+			dbEntity.clearWhere();
+			dbEntity._values.clear();;
+			dbEntity.from("cb_aigo_question");
+			dbEntity.where("qst_id",String.valueOf(aigoCommentaryEntity.getQstId()));
+			dbEntity.add("cmtr_id",String.valueOf(dbEntity.insert_id ));
+
+			setUpdate(dbEntity);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

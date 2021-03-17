@@ -2,6 +2,7 @@ package com.plushih.controllers.ajax;
 
 
 import com.plushih.common.ci.CoreController;
+import com.plushih.common.constant.Code;
 import com.plushih.common.constant.Default;
 import com.plushih.controllers.front.service.FrontJoinService;
 import com.plushih.entities.CommonResultEntity;
@@ -15,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,7 @@ public class AjaxJoinController extends CoreController {
 	 * @Method		: joinProc
 	 * @Date		: 2021. 1. 14. 
 	 * @author		: dev.yklee
-	 * @Description	: 회원가입 > 이메일로 회원가입
+	 * @Description	: 회원가입 처리
 	 */
 	@ResponseBody
 	@RequestMapping(value = {"/joinProc", "/joinProc/{lan}"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -50,12 +52,39 @@ public class AjaxJoinController extends CoreController {
 			, Locale localeParam ) throws Exception {
 		
 		userMemberEntity.setMemEmail(userMemberEntity.getMemUserid());
+		userMemberEntity.setMemJoinChannel(Code.Join.CHANNEL_EMAIL);
 		
-		// 회원가입 처리
+		// 결과 세팅
 		CommonResultEntity res = new CommonResultEntity();
 		res.setResultCode(frontJoinService.insertMember(request, userMemberEntity));
 		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
 		
 		return res;
+	}
+	
+	
+	/**
+	 * @ClassName	: FrontJoinController.java
+	 * @Method		: joinProc
+	 * @Date		: 2021. 1. 14. 
+	 * @author		: dev.yklee
+	 * @Description	: 회원가입 처리
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"/emailCheck", "/emailCheck/{lan}"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public boolean emailCheck(HttpServletRequest request
+			, @RequestParam Map<String, Object> emailCheck
+			, HttpServletResponse response
+			, @PathVariable Map<String, String> pathVariables
+			, UserMemberEntity userMemberEntity
+			, ModelMap model
+			, Locale localeParam ) throws Exception {
+		
+		boolean flag = true;
+		
+		// 결과 세팅
+		flag = frontJoinService.emailCheck(emailCheck);
+		
+		return flag;
 	}
 }

@@ -51,7 +51,9 @@ public class FrontLoginController extends CoreController {
 							, @PathVariable Map<String, String> pathVariables
 							, ModelMap model
 							, Locale localeParam ) throws Exception {
-		return "/front/login";
+		String path = "/front/login";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -67,7 +69,9 @@ public class FrontLoginController extends CoreController {
 			, @PathVariable Map<String, String> pathVariables
 			, ModelMap model
 			, Locale localeParam ) throws Exception {
-		return "/front/login/findAccount";
+		String path = "/front/login/findAccount";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -86,7 +90,9 @@ public class FrontLoginController extends CoreController {
 			, Locale localeParam ) throws Exception {
 		
 		model.addAttribute(Default.ResultValue.REQUEST_PARAMETER_MAP, paramMap);
-		return "/front/login/resetPassword";
+		String path =  "/front/login/resetPassword";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -128,9 +134,10 @@ public class FrontLoginController extends CoreController {
 		CommonResultEntity res = new CommonResultEntity();
 		res.setResultCode(String.valueOf(loginUser.getLoginStateCode()));
 		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
-;		
-		return "/front/login/loginProcSns";
+		
+		String path =  "/front/login/loginProcSns";
+		path = pathToLangFront(path,pathVariables,model,request);
+		return path;
 	}
 	
-
 }

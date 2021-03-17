@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출상세</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 결제/환불</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 결제/환불 내역</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 환불관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 프로모션 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 배너/팝업 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 푸시관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 약관관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 공지사항</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ FAQ</p></a></li>
+		    	</ul>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content sales_cont">
+			<h2>푸시등록/수정</h2>
+			<table class="tbl-st writeT">
+		    	<colgroup>
+		    		<col width="17%">
+		    		<col width="*">
+		    	</colgroup>
+		    	<tbody>
+		    		<tr>
+		    			<th>푸시 형태 <em class="point">*</em></th>
+		    			<td>
+		    				<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="shape1" name="shape">
+									<label for="shape1">일반</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="shape2" name="shape" checked="checked">
+									<label for="shape2">예약</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="shape3" name="shape" checked="checked">
+									<label for="shape3">반복</label>
+								</div>
+							</div>
+							<p class="point mt5">일반: 저장 즉시 발송, 예약: 세팅한 발송일시에 발송, 반복: 세팅 기준으로 반복 발송 </p>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>발송일시 <em class="point">*</em></th>
+		    			<td>
+		    				<div class="date_div">
+		                      <input type="date" class="ipt_date mr" id="">
+		                      <input type="number" name="" class="ipt_time" value="00"><span>:</span><input type="text" name="" class="ipt_time" value="00">
+		                    </div>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>발송 OS <em class="point">*</em></th>
+		    			<td>
+		    				<div class="radio_wrap rdo_wrap1">
+								<div class="ipt_radio_div">
+									<input type="radio" id="osALL" name="os">
+									<label for="osALL">전체</label>
+								</div>
+								<div class="ipt_radio_div" style="width:126px">
+									<input type="radio" id="osAndroid" name="os" checked="checked">
+									<label for="osAndroid">안드로이드</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="osIOS" name="os" checked="checked">
+									<label for="osIOS">iOS</label>
+								</div>
+							</div>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th rowspan="2">발송대상 선택 <em class="point">*</em></th>
+		    			<td>
+		    				<div class="radio_wrap rdo_wrap1 inlinB">
+								<div class="ipt_radio_div">
+									<input type="radio" id="targetALL" name="target">
+									<label for="targetALL">전체</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="targetGroup" name="target" checked="checked">
+									<label for="targetGroup">그룹</label>
+								</div>
+								<button type="button" class="btn btn_add btn-secondary"><i></i>그룹 추가</button>
+							</div>
+							<div class="radio_wrap rdo_wrap1 inlinB">
+								<div class="ipt_radio_div">
+									<input type="radio" id="targetIndividual" name="target">
+									<label for="targetIndividual">개인</label>
+								</div>
+								<button type="button" class="btn btn_add btn-secondary" onclick="modalOpen('popup_user_add')"><i></i>사용자 추가</button>
+							</div>
+							
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<td>
+		    				<div class="regi_members">
+			    				<span class="tit">등록회원</span>
+			    				<ul class="member_list">
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    					<li><span>Jee****@ago.com</span><a href="#" class="btn_delete">x</a></li>
+			    				</ul>
+			    				<button type="button" class="btn btn_reset">RESET</button>
+		    				</div>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>제목 <em class="point">*</em></th>
+		    			<td>
+		    				<input type="text" class="" placeholder="푸시 타이틀로 노출되는 내용입니다.">
+		    				<p class="point mt5">공백포함 40자</p>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>내용 <em class="point">*</em></th>
+		    			<td>
+		    				<textarea class="txtarea1" placeholder="푸시 내용 입력"></textarea>
+		    				<div class="txtarea_btm">
+		    					<p class="point">공백포함 140자</p>
+		    					<span class="txt_num">1/40</span>
+		    				</div>
+		    			</td>
+		    		</tr>
+		    		<tr>
+		    			<th>도달 페이지</th>
+		    			<td>
+		    				<input type="text" class="" placeholder="">
+		    				<p class="point mt5">미 입력 시 앱 메인으로 열립니다</p>
+		    			</td>
+		    		</tr>
+
+		    	</tbody>
+		    </table>
+
+		    <div class="tbl-foot">
+				<a href="AD_LE_02_01.html" class="btn btn-list">목록</a>
+				<a href="#" class="btn btn-offer">저장</a>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+
+<div class="modal-wrap pop04 is-visible popup_user_add">
+    <div class="modal">
+		<div class="modal-header">
+			<h1>대상자 선택</h1>
+		</div>
+		<div class="content">
+			<table class="srchT mb">
+				<colgroup>
+					<col width="120px">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>검색</th>
+		            	<td>
+							<div class="srch_div mb10">
+								<select class="s_p2">
+									<option>선택</option>
+									<option></option>
+								</select>
+								<select class="s_p2">
+									<option>선택</option>
+									<option></option>
+								</select>
+							</div>
+							<div class="srch_div">
+								<select class="s_p2">
+									<option>선택</option>
+									<option>계정</option>
+									<option>닉네임</option>
+								</select>
+								<input type="text" name="" class="ipt4">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="popT1">
+				<colgroup>
+					<col width="*">
+					<col width="12%">
+					<col width="12%">
+					<col width="12%">
+					<col width="12%">
+					<col width="12%">
+					<col width="15%">
+					<col width="9%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>계정</th>
+						<th>닉네임</th>
+						<th>설치OS</th>
+						<th>앱버전</th>
+						<th>학년</th>
+						<th>레벨</th>
+						<th>마케팅 활용동의</th>
+						<th>
+							<div class="chkbox_div">
+								<input type="checkbox" id="checkAll" class="ipt_chk" onclick="chkAll();">
+								<label class="lable_chk" for="checkAll"></label>
+							</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="#">Jee********@aigo.com</a></td>
+						<td></td>
+						<td>Aos8</td>
+						<td>1.0.0</td>
+						<td>N수</td>
+						<td>1</td>
+						<td><b>Y</b><br> yyyy-mm-dd</td>
+						<td>
+							<div class="chkbox_div">
+								<input type="checkbox" id="chk01" class="ipt_chk">
+								<label class="lable_chk" for="chk01"></label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><a href="#">Jee********@aigo.com</a></td>
+						<td></td>
+						<td>Aos8</td>
+						<td>1.0.0</td>
+						<td>고3</td>
+						<td>2</td>
+						<td><b>N</b></td>
+						<td>
+							<div class="chkbox_div">
+								<input type="checkbox" id="chk02" class="ipt_chk" disabled="disabled">
+								<label class="lable_chk" for="chk02"></label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><a href="#">Jee********@aigo.com</a></td>
+						<td></td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>고3</td>
+						<td>2</td>
+						<td><b>N</b></td>
+						<td>
+							<div class="chkbox_div">
+								<input type="checkbox" id="chk03" class="ipt_chk" disabled="disabled">
+								<label class="lable_chk" for="chk03"></label>
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td><a href="#">Jee********@aigo.com</a></td>
+						<td></td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>N수</td>
+						<td>1</td>
+						<td><b>Y</b><br> yyyy-mm-dd</td>
+						<td>
+							<div class="chkbox_div">
+								<input type="checkbox" id="chk04" class="ipt_chk">
+								<label class="lable_chk" for="chk04"></label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><a href="#">Jee********@aigo.com</a></td>
+						<td></td>
+						<td>ios11</td>
+						<td>1.0.0</td>
+						<td>고3</td>
+						<td>2</td>
+						<td><b>N</b></td>
+						<td>
+							<div class="chkbox_div">
+								<input type="checkbox" id="chk05" class="ipt_chk" disabled="disabled">
+								<label class="lable_chk" for="chk05"></label>
+							</div>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+	       <button class="btn btn-primary fR">저장</button>
+	    </div>
+
+		<a href="#" class="close-pop close-btn" onclick="modalClose();">&#10005;</a>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+ modalClose();
+</script>
+
+</body>
+</html>

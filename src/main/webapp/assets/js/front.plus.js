@@ -95,16 +95,86 @@ $(document).ready(function(){
 
         console.log(e.keyCode);
     });
-    var a = plus.makeElement('a','퍼블',{'href':"javascript:window.open('/assets/pb/sitemap.html','sitemap')"}).appendTo($('body'))
-    a.css({'position':'fixed','left':0,'top':'10px','color':'#fff','z-index':'999'});
-    var a = plus.makeElement('a','연결페이지',{'href':"javascript:window.open('"+(pb[location.pathname])+"','sitemap')"}).appendTo($('body'))
-    a.css({'position':'fixed','left':'40px','top':'10px','color':'#fff','z-index':'999'});
-    var a = plus.makeElement('a','로그아웃',{href:'javascript:;'}).appendTo($('body'))
-    a.css({'position':'fixed','left':'150px','top':'10px','color':'#fff','z-index':'999'});
+/*
+    var sspan = plus.makeElement('span','').appendTo($('body'));
+    sspan.css({'position':'fixed','left':0,'top':'10px','color':'#fff','z-index':'999'});
+    var a = plus.makeElement('a','PB(F)',{'href':"javascript:window.open('http://hsk3807nas.synology.me/aigo/front/sitemap.html','sitemap')"}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block'});
+    var a = plus.makeElement('a','PB(A)',{'href':"javascript:window.open('http://hsk3807nas.synology.me/aigo/admin/sitemap.html','sitemap')"}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    // var a = plus.makeElement('a','연결페이지',{'href':"javascript:window.open('"+(pb[location.pathname])+"','sitemap')"}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    var a = plus.makeElement('a','Logout',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
     a.click(function(){
         $.post('/static/ajax/loginOut',{},function(r){
           alert('로그아웃 되었습니다.')
           location.href='/main';
         })
+    });
+    var a = plus.makeElement('a','기기(F로긴AIO)',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        location.href='/front/main?token=fuzrwxJESZOfxfkDj_cjMN:APA91bHs2VRXD9i2ytRSnskO-Wp-RftsJQgjckU7dUgau162um8g9tGQ62MserCSUBjNsYEH62viogklHFzzQ4Hic27JtkDmUSai3Qq-Fqsk8pfLE4bYtO1vqP5Etq2De2zuGWCS_T4p&deviceType=AOS';
+    });
+    var a = plus.makeElement('a','기기(F로긴IOS)',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        location.href='/front/main?token=fuzrwxJESZOfxfkDj_cjMN:APA91bHs2VRXD9i2ytRSnskO-Wp-RftsJQgjckU7dUgau162um8g9tGQ62MserCSUBjNsYEH62viogklHFzzQ4Hic27JtkDmUSai3Qq-Fqsk8pfLE4bYtO1vqP5Etq2De2zuGWCS_T4p&deviceType=IOS';
+    });
+    var a = plus.makeElement('a','(A로긴)',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        location.href='/plusadmin/main';
+    });
+    var a = plus.makeElement('a','로딩',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        $('.loader').show();
+    });
+
+    var a = plus.makeElement('a','새로고침',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        location.reload()
+    });
+    var a = plus.makeElement('a','테스트중',{href:'javascript:;'}).appendTo(sspan)
+    a.css({'color':'#fff','z-index':'999','display':'inline-block','margin-left':'10px'});
+    a.click(function(){
+        try {
+			Native.postMessage('{"event":"send_login","memId":"11"}');
+		} catch (e){
+            alert(e.message);
+		}
+    });
+*/
+
+});
+$(document)
+    .ajaxStart(function() {
+        setTimeout(function(){
+            $('.loader').show();
+        },1);
     })
-})
+    .ajaxStop(function() {
+        setTimeout(function() {
+            $('.loader').hide();
+        },1);
+    })
+    .ready(function() {
+        setTimeout(function() {
+            $('.loader').hide();
+        },1);
+    });
+function aigoLoading(flag){
+    if(flag==1){
+        setTimeout(function(){
+            $('.loader').show();
+        },1);
+
+    } else {
+        setTimeout(function() {
+            $('.loader').hide();
+        },1);
+    }
+}

@@ -50,6 +50,16 @@ public class plusActiveRecord extends plusQueryBuilder {
 
 		return  (formatter.format(new java.util.Date()));
 	}
+    public String getYmd(){
+		java.text.SimpleDateFormat formatter=new java.text.SimpleDateFormat("yyyy-MM-dd");
+
+		return  (formatter.format(new java.util.Date()));
+	}
+    public String getHis(){
+		java.text.SimpleDateFormat formatter=new java.text.SimpleDateFormat("HH:mm:ss");
+
+		return  (formatter.format(new java.util.Date()));
+	}
 
 
 	public String getReferer(){
@@ -179,6 +189,11 @@ public class plusActiveRecord extends plusQueryBuilder {
 		}
 		return this.where(column, input.post(StringUtils.toCamel(aliasColumn)));
 	}
+	public plusActiveRecord whereString(String column) throws Exception {
+
+		this._whereOne.put(column,"");
+		return this;
+	}
 	public plusActiveRecord not(String column, String value) throws Exception {
 		this._where_not.put(column,value);
 		return this;
@@ -198,6 +213,11 @@ public class plusActiveRecord extends plusQueryBuilder {
 	}
 	public plusActiveRecord lteq(String column, String value) throws Exception {
 		this._lteq.put(column,value);
+		return this;
+	}
+	public plusActiveRecord gtlt(String column, String value,String scolumn, String svalue) throws Exception {
+		this._gtlt.put(column,value);
+		this._gtlt.put(scolumn,svalue);
 		return this;
 	}
 

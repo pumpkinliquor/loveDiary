@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontNoticeDAO">
+
+	<!-- 성취기준 리스트 조회 -->
+	<select id="selectNoticeList" parameterType="map" resultType="camelMap">
+		/* FrontNoticeDAO.selectNoticeList*/
+		SELECT b.bb_seq,
+		       b.bb_target,
+		       b.bb_type,
+		       b.bb_title,
+		       b.bb_contents,
+		       Date_format(b.reg_sysdate, '%Y-%m-%d') AS fmt_date,
+		       (SELECT COUNT(bb_seq) FROM aigo.plus_bbs WHERE 1=1 AND bb_bbs = 'NOTICE' AND use_yn = 'y') AS bbs_cnt,
+		       Group_concat(f.baf_seq ORDER BY f.baf_seq SEPARATOR ',') AS baf_seq,
+		       Group_concat(f.baf_file ORDER BY f.baf_seq SEPARATOR ',') AS baf_file,
+		       Group_concat(f.baf_or_file ORDER BY f.baf_seq SEPARATOR ',') AS baf_or_file
+		FROM   		aigo.plus_bbs b
+		LEFT JOIN 	aigo.plus_bbs_attach_file f
+		ON			b.bb_seq = f.bb_seq
+		AND			f.baf_bbs = 'NOTICE'
+		WHERE  1 = 1
+		AND	   b.bb_bbs = 'NOTICE'
+		AND	   b.use_yn = 'y'
+		<choose>
+			<when test='!@com.plushih.common.utils.StringUtils@isEmpty(bbSeq)'>
+				AND b.bb_seq = #{bbSeq}
+			</when>
+		</choose>
+		GROUP BY b.bb_seq
+		ORDER BY b.bb_type = 'TOP' DESC, b.reg_sysdate DESC
+		<choose>
+			<when test='!@com.plushih.common.utils.StringUtils@isEmpty(limitNum)'>
+				LIMIT 0, ${limitNum}
+			</when>
+			<otherwise>
+				LIMIT 0, 20
+			</otherwise>
+		</choose>
+	</select>
+
+</mapper>

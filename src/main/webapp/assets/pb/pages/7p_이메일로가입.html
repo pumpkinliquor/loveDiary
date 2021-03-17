@@ -7,6 +7,10 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>수능앱 Aigo</title>
 
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
 <link rel="stylesheet" href="../assets/css/style_m.css">
 
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
@@ -19,7 +23,7 @@
     <a href="#" class="btn_allmenu">전체메뉴</a>
     <h1>이메일로 가입</h1>
   </header>
-  <div class="container join">
+  <div class="container join join-email"><!-- 수정0219 -->
     <section class="contents">
       <form action="#" method="">
       <div class="member_join_cont">
@@ -34,8 +38,8 @@
           <h2>비밀번호</h2>
           <div class="ipt_div">
             <input type="password" name="" value="1234567">
-            <a href="#" class="ico_pw_view">비밀번호 보기</a>
-            <!-- <a href="#" class="ico_pw_view disabled">비밀번호 보기</a> 비활성상태일 때-->
+            <a href="#" class="ico_pw_view">비밀번호 보기</a> <!-- 수정0219 -->
+            <!-- <a href="#" class="ico_pw_view disabled">비밀번호 보기</a> --><!--  비활성상태일 때--> 
           </div>
           <p class="er_txt">영문, 숫자, 특수문자 중 2종류 조합하여 10자리 이상으로 입력하세요.</p> 
         </div> 

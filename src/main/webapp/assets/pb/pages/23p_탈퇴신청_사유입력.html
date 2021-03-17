@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 AIGo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+</head>
+
+<body >
+<div class="wrapper">
+ <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1>탈퇴신청</h1>
+  </header>
+  <div class="container leave">
+    <div class="contents scroll_y">
+      <p class="txt1">회원님은 <em>YYYY-MM-DD</em>부터 AIGo와 함께하고 있으며 탈퇴 시 <em>##,###개</em>의 문제의 풀이 이력과 <em>##개</em>의 리포트 결과가 영원히 사라집니다.</p>
+
+      <p class="txt2">그래도 탈퇴 하시겠습니까?</p>
+
+      <ul class="leave_reason">
+        <li class="active"><button>더 이상 AIGo에서 공부하고 싶지 않아요.</button></li>
+        <li><button >다른 더 좋은 수학 학습앱이 있어요.</button></li>
+        <li><button >탈퇴 후 재가입 하고 싶어요.</button></li>
+        <li><button >기타사유</button></li>
+      </ul>
+
+      <div class="chkbox_div">
+        <input type="checkbox" id="chk01" class="ipt_chk">
+        <label class="lable_chk" for="chk01">모든 데이터를 삭제하고 AIGo를 탈퇴하는 것에 동의합니다. </label>
+      </div>
+
+      <button class="btn btn_st6">탈퇴하기</button>
+      <!-- <button class="btn btn_st6" disabled="">탈퇴하기</button> -->
+    </div>   
+  </div><!-- //container -->
+</div>
+
+
+<script type="text/javascript">
+  leaveBtn();
+</script>
+</body>
+
+</html>
+
+
+

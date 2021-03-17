@@ -1,9 +1,6 @@
 package com.plushih.entities;
 
-import com.plushih.common.utils.StringUtils;
-import com.plushih.entities.PlusEntity;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 public class AigoSubjectEntity  extends PlusEntity implements Serializable{
 	private static final long serialVersionUID = 770506395266028181L;

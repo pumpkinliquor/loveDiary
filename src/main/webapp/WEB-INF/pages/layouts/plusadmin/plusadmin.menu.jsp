@@ -28,7 +28,7 @@
             </c:if>
           </c:forEach>
           </c:if>
-          <li class="title nav-item  ${menuList1.maCode}">
+          <li class="title nav-item  ${menuList1.maCode}"  <c:if test="${menuList1.useYn!='y'}"> style="display:none"</c:if>>
             <a
                     <c:if test="${subcheck==1}">
                       href="javascript:;"
@@ -36,7 +36,7 @@
                     <c:if test="${subcheck==0}">
                       href="${menuList1.maPath}"
                     </c:if>
-
+                mggrant="${menuList1.mgGrant}"
                class="nav-link" mucode="${menuList1.maCode}" data="${menuList1.maPath}" alt="DASHBOARD">
               <i class="fas fa-th-large"></i>
               <p class="depth1"><c:out value="${menuList1.maName}" />
@@ -62,8 +62,8 @@
                         <c:set var="sub2check" value="1" />
                       </c:if>
                     </c:forEach>
-                    <li class="<c:if test="${sub2check!=1}">noDepth</c:if>">
-                      <a href="<c:if test="${sub2check!=1}">${menuList2.maPath}</c:if><c:if test="${sub2check==1}">#</c:if>" class="nav-link" mucode="${menuList2.maCode}" data="<c:out value="${menuList2.maPath}"/>" alt="<c:out value="${menuList2.maName}"/>" >
+                    <li class="<c:if test="${sub2check!=1}">noDepth</c:if>" <c:if test="${menuList2.useYn!='y'}"> style="display:none"</c:if>>
+                      <a href="<c:if test="${sub2check!=1}">${menuList2.maPath}</c:if><c:if test="${sub2check==1}">#</c:if>" mggrant="${menuList2.mgGrant}" class="nav-link" mucode="${menuList2.maCode}" data="<c:out value="${menuList2.maPath}"/>" alt="<c:out value="${menuList2.maName}"/>" >
                           <%--                          <i class="fa fa-minus"></i> <c:out value="${menuList2.maName}" /> --%>
                         <p>ㆍ <c:out value="${menuList2.maName}" /></p>
                       </a>
@@ -71,8 +71,8 @@
                         <ul style="display: none;">
                           <c:forEach var="menuList3" items="${loginMenu3}">
                             <c:if test="${menuList2.maCode eq menuList3.maParent}">
-                              <li>
-                              <a href="${menuList3.maPath}" class="nav-link" mucode="${menuList3.maCode}" data="<c:out value="${menuList3.maPath}"/>" alt="<c:out value="${menuList3.maName}"/>" >
+                              <li <c:if test="${menuList3.useYn!='y'}"> style="display:none"</c:if>>
+                              <a href="${menuList3.maPath}" class="nav-link" mucode="${menuList3.maCode}" mggrant="${menuList3.mgGrant}" data="<c:out value="${menuList3.maPath}"/>" alt="<c:out value="${menuList3.maName}"/>" >
                                   <%--                          <i class="fa fa-minus"></i> <c:out value="${menuList2.maName}" /> --%>
                                 <p>ㆍ <c:out value="${menuList3.maName}" /></p>
                               </a>
@@ -105,13 +105,14 @@
         $(this).closest('.nav-item').find('ul').show();
         $(this).closest('ul').show();
         $(this).hover();
+        $(this).addClass("currMenu")
       }
     });
     $('.logout').click(function(){
       if(confirm('로그아웃 하시겠습니까?')){
         $.post('/static/ajax/loginOut',{},function(r){
           alert('로그아웃 되었습니다.')
-          location.href='/main';
+          location.href='/plusadmin/main';
         })
       }
     })

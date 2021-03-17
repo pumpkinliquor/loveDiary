@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+ <mapper namespace="AdminStatisticsDAO">
+ 	<!-- FAQ 리스트 -->
+ 	<select id="selectSalesInfoList" resultType="camelMap" parameterType="HashMap">
+		/* AdminStatisticsDAO.selectSalesInfoList */
+		SELECT
+			data.order_status
+			, IFNULL(data.before_cor_count, 0) as before_cor_count
+			, IFNULL(data.before_org_price, 0) as before_org_price
+			, IFNULL(data.before_total_money, 0) as before_total_money
+			, IFNULL(data.today_cor_count, 0) as today_cor_count
+			, IFNULL(data.today_org_price, 0) as today_org_price
+			, IFNULL(data.today_total_money, 0) as today_total_money
+			, IFNULL(data.weekly_cor_count, 0) as weekly_cor_count
+			, IFNULL(data.weekly_org_price, 0) as weekly_org_price
+			, IFNULL(data.weekly_total_money, 0) as weekly_total_money
+			, IFNULL(data.month_cor_count, 0) as month_cor_count
+			, IFNULL(data.month_org_price, 0) as month_org_price
+			, IFNULL(data.month_total_money, 0) as month_total_money
+			, IFNULL(data.year_cor_count, 0) as year_cor_count
+			, IFNULL(data.year_org_price, 0) as year_org_price
+			, IFNULL(data.year_total_money, 0) as year_total_money
+			, IFNULL(data.search_cor_count, 0) as search_cor_count
+			, IFNULL(data.search_org_price, 0) as search_org_price
+			, IFNULL(data.search_total_money, 0) as search_total_money
+		FROM(
+			SELECT
+				stat.order_status
+				, beforeDay.before_cor_count
+				, beforeDay.before_org_price
+				, beforeDay.before_total_money
+				, today.today_cor_count
+				, today.today_org_price
+				, today.today_total_money
+				, beforeWeekly.weekly_cor_count
+				, beforeWeekly.weekly_org_price
+				, beforeWeekly.weekly_total_money
+				, beforeMonth.month_cor_count
+				, beforeMonth.month_org_price
+				, beforeMonth.month_total_money
+				, beforeYear.year_cor_count
+				, beforeYear.year_org_price
+				, beforeYear.year_total_money
+				, searchDate.search_cor_count
+				, searchDate.search_org_price
+				, searchDate.search_total_money
+			FROM
+				(SELECT 'ORDER' AS order_status UNION SELECT 'PAY' UNION SELECT 'REFUND') AS stat
+				
+			<!-- 전일 -->
+			LEFT JOIN (
+				select
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS before_cor_count
+					,SUM(orderinfo.org_price) AS before_org_price
+					,SUM(orderinfo.cor_total_money) AS before_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date = date(DATE_ADD(DATE_ADD(NOW(), interval '-1' DAY), interval #{addYear} YEAR))
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS before_cor_count
+					,SUM(orderinfo.org_price) AS before_org_price
+					,sum(orderinfo.cor_total_money) AS before_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date = date(DATE_ADD(DATE_ADD(NOW(), interval '-1' DAY), interval #{addYear} YEAR))
+				GROUP BY orderinfo.status
+			) AS beforeDay
+				ON stat.order_status = beforeDay.order_status
+				
+			<!-- 금일(기준일) -->
+			LEFT JOIN (
+				select
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS today_cor_count
+					,SUM(orderinfo.org_price) AS today_org_price
+					,sum(orderinfo.cor_total_money) AS today_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date = date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS today_cor_count
+					,SUM(orderinfo.org_price) AS today_org_price
+					,sum(orderinfo.cor_total_money) AS today_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date = date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				GROUP BY orderinfo.status
+			) AS today
+				ON stat.order_status = today.order_status
+				
+			<!-- 7일누적 -->
+			LEFT JOIN (
+				select
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS weekly_cor_count
+					,SUM(orderinfo.org_price) AS weekly_org_price
+					,sum(orderinfo.cor_total_money) AS weekly_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-7' DAY), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS weekly_cor_count
+					,SUM(orderinfo.org_price) AS weekly_org_price
+					,sum(orderinfo.cor_total_money) AS weekly_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-7' DAY), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				GROUP BY orderinfo.status
+			) AS beforeWeekly
+				ON stat.order_status = beforeWeekly.order_status
+			
+			<!-- 30일 누적 -->
+			LEFT JOIN (
+				select
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS month_cor_count
+					,SUM(orderinfo.org_price) AS month_org_price
+					,sum(orderinfo.cor_total_money) AS month_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-30' DAY), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS month_cor_count
+					,SUM(orderinfo.org_price) AS month_org_price
+					,sum(orderinfo.cor_total_money) AS month_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-30' DAY), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				GROUP BY orderinfo.status
+			) AS beforeMonth
+				ON stat.order_status = beforeMonth.order_status
+				
+			<!-- 연 누적 -->
+			LEFT JOIN (
+				select
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS year_cor_count
+					,SUM(orderinfo.org_price) AS year_org_price
+					,sum(orderinfo.cor_total_money) AS year_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-1' YEAR), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS year_cor_count
+					,SUM(orderinfo.org_price) AS year_org_price
+					,sum(orderinfo.cor_total_money) AS year_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, co.cor_pay_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date between date(DATE_ADD(DATE_ADD(NOW(), interval '-1' YEAR), interval #{addYear} YEAR)) and date(DATE_ADD(NOW(), interval #{addYear} YEAR))
+				GROUP BY orderinfo.status
+			) AS beforeYear
+				ON stat.order_status = beforeYear.order_status
+			
+			<!-- 조회기간 -->
+			LEFT JOIN (
+				SELECT
+					orderinfo.order_status
+					,COUNT(orderinfo.cor_id) AS search_cor_count
+					,SUM(orderinfo.org_price) AS search_org_price
+					,sum(orderinfo.cor_total_money) AS search_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						'ORDER' AS order_status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date BETWEEN DATE_ADD(STR_TO_DATE(REPLACE(#{searchStartDate},' ',''), '%Y-%m-%d'), interval #{addYear} YEAR) AND DATE_ADD(STR_TO_DATE(REPLACE(#{searchEndDate},' ',''), '%Y-%m-%d'), interval #{addYear} YEAR)
+				UNION
+				select
+					orderinfo.status AS order_status
+					,COUNT(orderinfo.cor_id) AS search_cor_count
+					,SUM(orderinfo.org_price) AS search_org_price
+					,sum(orderinfo.cor_total_money) AS search_total_money
+					,orderinfo.pay_date
+				FROM (
+					SELECT
+						co.status, co.cor_id
+						, co.cor_total_money, ci.cit_price AS org_price
+					 	, DATE(co.cor_approve_datetime) AS pay_date
+					FROM cb_cmall_order AS co
+					INNER JOIN cb_cmall_item AS ci
+						ON co.cit_id = ci.cit_id
+					WHERE 1=1
+						<if test="searchAppType != null and searchAppType != '' ">
+						AND co.cor_app_type = #{searchAppType}
+						</if>
+				) AS orderinfo
+				WHERE orderinfo.pay_date BETWEEN DATE_ADD(STR_TO_DATE(REPLACE(#{searchStartDate},' ',''), '%Y-%m-%d'), interval #{addYear} YEAR) AND DATE_ADD(STR_TO_DATE(REPLACE(#{searchEndDate},' ',''), '%Y-%m-%d'), interval #{addYear} YEAR)
+				GROUP BY orderinfo.status
+			) AS searchDate
+				ON stat.order_status = searchDate.order_status
+		) AS data
+ 	</select>
+ </mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Common">
+	
+	<select id="cmmFileList" parameterType="map" resultType="camelMap">
+		/* Common.cmmFileList */
+		select a.saf_seq, a.saf_bbs from (
+			select a.* from (
+				select a.saf_seq, a.seq, a.saf_bbs, 'QUESTION' as type from (
+					select f.* from aigo.plus_site_attach_file f
+					inner join (
+						select distinct q.qst_id as qst_seq from cb_aigo_question q where 1=1
+					) a on f.seq = a.qst_seq and f.saf_bbs = 'QST'
+				) a
+				union all
+				select a.saf_seq, a.seq, a.saf_bbs, 'NOTION' from (
+					select f.* from aigo.plus_site_attach_file f
+					inner join (
+						select distinct n.not_id as not_seq from cb_aigo_notion n where 1=1 and n.use_yn = 'y'
+					) a
+					on f.seq = a.not_seq and f.saf_bbs = 'NOT'
+				) a
+				union all
+				select a.saf_seq, a.seq, a.saf_bbs, 'MEMBER_ICON' from (
+					select f.* from aigo.plus_site_attach_file f
+					inner join (
+						select distinct mem.mem_icon as mem_seq from cb_member mem where 1=1 and mem.mem_id = #{memId}
+					) a
+					on f.seq = a.mem_seq and f.saf_bbs = 'USER'
+				) a
+				union all
+				select a.saf_seq, a.seq, a.saf_bbs, 'COMMENTARY' from (
+					select f.* from aigo.plus_site_attach_file f
+					inner join (
+						select distinct c.cmtr_id as cmtr_seq from cb_aigo_commentary c where 1=1 and c.use_yn = 'y'
+					) a
+					on f.seq = a.cmtr_seq and f.saf_bbs = 'CMTR'
+				) a
+				union all
+				select a.saf_seq, a.seq, a.saf_bbs, 'TENDENCY' from (
+					select f.* from aigo.plus_site_attach_file f
+					inner join (
+						select distinct t.ten_id as ten_seq from cb_aigo_tendency t where 1=1 and t.use_yn = 'y'
+					) a
+					on f.seq = a.ten_seq and f.saf_bbs = 'TEN'
+				) a
+			) a
+			where 1=1 and a.type = #{type} and a.seq = #{seq}
+		) a
+	</select>
+	
+	<select id="loginUserInfo" resultType="camelMap">
+		/* Common.loginUserInfo */
+		SELECT mem.mem_id,
+		       mem_email,
+		       mem_nickname,
+		       mem_level,
+		       mem_point,
+		       mem_icon,
+		       mem_class,
+		       mem_grade,
+               (select cm_name from aigo.plus_code_master where 1=1 and cm_is_use = 'y' and cm_is_system = 'y' and cm_gubun = 'temp_class' and cm_code = mem.mem_class) as class_name,
+		       mem_sub_id,
+		       mem_temp_id,
+               saf_seq,
+               i.temp_grade,
+               j.first_level
+		FROM   aigo.cb_member mem
+        LEFT JOIN
+			   aigo.plus_site_attach_file f
+		ON	   mem_icon = f.seq
+        AND	   f.saf_bbs = 'USER'
+        LEFT JOIN
+			   aigo.cb_aigo_temp_info i
+		ON	   mem.mem_id = i.mem_id
+		LEFT JOIN (
+			SELECT mem_id, mlh_from AS first_level from cb_member_level_history WHERE mem_id = #{memId}
+			ORDER BY reg_sysdate asc
+			LIMIT 1
+		) AS j
+		 	ON mem.mem_id = j.mem_id
+		WHERE  mem.mem_id = #{memId}
+		ORDER BY mem.reg_sysdate DESC
+		LIMIT 1
+	</select>
+	
+</mapper>

@@ -52,8 +52,8 @@ public class FrontEtcController extends CoreController {
     	model.addAttribute("faqList", faqList);
     	
     	//path 설정
-		String path = "etc/faq";
-    	path = pathToLangFront(path,pathVariables,model);
+		String path = "/front/etc/faq";
+    	path = pathToLangFront(path,pathVariables,model,request);
       	String lan="";
       	if(pathVariables.containsKey("lan")) {
       		lan = pathVariables.get("lan"); 
@@ -83,8 +83,8 @@ public class FrontEtcController extends CoreController {
     	
 
         //path 설정
-		String path = "etc/privacyInfo";
-    	path = pathToLangFront(path,pathVariables,model);
+		String path = "/front/etc/privacyInfo";
+    	path = pathToLangFront(path,pathVariables,model,request);
       	return path;
     	
     	
@@ -106,8 +106,8 @@ public class FrontEtcController extends CoreController {
     	
 
     	//path 설정
-		String path = "etc/contactUs";
-    	path = pathToLangFront(path,pathVariables,model);
+		String path = "/front/etc/contactUs";
+    	path = pathToLangFront(path,pathVariables,model,request);
       	return path;
     }
     
@@ -127,8 +127,8 @@ public class FrontEtcController extends CoreController {
     		) throws Exception {
 
     	//path 설정
-		String path = "etc/emailCollect";
-    	path = pathToLangFront(path,pathVariables,model);
+		String path = "/front/etc/emailCollect";
+    	path = pathToLangFront(path,pathVariables,model,request);
       	return path;
     	
     }
@@ -148,8 +148,8 @@ public class FrontEtcController extends CoreController {
     		) throws Exception {
 
     	//path 설정
-		String path = "etc/legalNoti";
-    	path = pathToLangFront(path,pathVariables,model);
+		String path = "/front/etc/legalNoti";
+    	path = pathToLangFront(path,pathVariables,model,request);
       	return path;
     }
     

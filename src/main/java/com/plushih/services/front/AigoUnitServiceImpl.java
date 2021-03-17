@@ -79,9 +79,13 @@ public class AigoUnitServiceImpl extends CiServiceImpl implements AigoUnitServic
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
+                dbEntity.where("unit_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("unit_key","UNIT"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("unit_key","UNIT"+StringUtils.zeroFill(String.valueOf(aigoUnitEntity.getUnitId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
 //                if(dbEntity.input.get("bbSeq")!=null){

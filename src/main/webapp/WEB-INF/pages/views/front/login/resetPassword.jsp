@@ -18,14 +18,14 @@
 							<h2>비밀번호</h2>
 							<div class="ipt_div">
 								<input type="password" name="memPassword" value="">
-								<a href="#" class="ico_pw_view disabled">비밀번호 보기</a>
-								<!-- <a href="#" class="ico_pw_view disabled">비밀번호 보기</a> 비활성상태일 때-->
+								<a href="#" class="ico_pw_view disabled" style="display:none;">비밀번호 보기</a>
 							</div>
 							<p class="er_txt passwordErrorArea"><!-- 영문, 숫자, 특수문자 중 2종류 조합하여 10자리 이상으로 입력하세요. --></p> 
 						</div> 
 						<div class="member_ipt_div">
 							<h2>비밀번호 확인 </h2>
 							<input type="password" name="comparePassword" value="">
+							<p class="er_txt passwordErrorCompareArea"><!-- 비밀번호가 일치하지 않슷빈다 --></p>
 						</div>
 						<button type="button" class="btn btn_join" onclick="fnUpdatePassword();">확인</button> 
 					</div><!-- //member_ipt_cont -->
@@ -62,6 +62,23 @@ $(document).ready(function(){
 		}
 	});
 	
+	// 비밀번호 입력 시 유효성 검사
+	$("input[name='memPassword'], input[name='comparePassword']").on('keyup', function(){
+		checkPassword( $("input[name='memPassword']").val(), $("input[name='comparePassword']").val(), '' );
+		if($(this).val() == ""){
+			$(".passwordErrorArea").text("");
+			$(".passwordErrorCompareArea").text("");
+		}
+	});
+	
+});
+
+$(document).on("keyup", "[name=memPassword]", function() {
+	if($(this).val() != "") {
+		$(this).siblings("a").css("display", "");
+	} else {
+		$(this).siblings("a").css("display", "none");
+	}
 });
 
 // 로그인
@@ -74,25 +91,33 @@ function fnUpdatePassword(){
 			var $passwordErrorArea = $('.passwordErrorArea');
 			if(json.resultCode == 'S00'){
 				$passwordErrorArea.text('');
-				alert('변경된 비밀번호로 로그인 해주세요.');
-				window.location.href = '/front/login';
+				commonModalPopup('변경된 비밀번호로 로그인 해주세요.');
+				$(".popupConfirm").click({}, goLogin);
 			}else{
 				if(json.resultCode == 'F01'){
-					alert('계정정보가 누락되었습니다.');
-					return;
+					commonModalPopup('계정정보가 누락되었습니다.<br/>처음부터 다시 진행해주세요.');
+					$(".popupConfirm").click({}, goFindAccount);
 				}else if(json.resultCode == 'F02'){
 					$passwordErrorArea.text('비밀번호를 입력해주세요.');
 					return;
 				}else if(json.resultCode == 'F03'){
-					alert('비밀번호 변경 중 오류가 발생하였습니다.\n관리자에게 문의하세요.');
+					commonModalPopup('비밀번호 변경 중 오류가 발생하였습니다.<br/>관리자에게 문의하세요.');
 					return;
 				}else{
-					alert('시스템 오류입니다.\n관리자에게 문의하세요.');
+					commonModalPopup('시스템 오류입니다.<br/>관리자에게 문의하세요.');
 					return;
 				}
 			}
 		});
 	}
+}
+
+function goLogin(){
+	window.location.href = '/front/login';
+}
+
+function goFindAccount(){
+	window.location.href = '/front/login/findAccount';
 }
 
 </script>

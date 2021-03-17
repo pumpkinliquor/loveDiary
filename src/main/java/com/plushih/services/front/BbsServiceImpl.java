@@ -34,13 +34,16 @@ public class BbsServiceImpl extends CiServiceImpl implements BbsService {
     public CommonResultEntity getBbsList(plusActiveRecord dbEntity) throws Exception {
 
         List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
-        dbEntity.select("bb.*");
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id");
         dbEntity.from("plus_bbs bb");
         dbEntity.where("bb_bbs");
+
+        dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
+        dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
         if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
             dbEntity.like("bb_title",dbEntity.input.getSearchString());
         }
-        dbEntity.order("bb_date","desc");
+        dbEntity.order("bb_seq","desc");
 
         CommonResultEntity res = new CommonResultEntity();
         List<BbsEntity> dataList = null;
@@ -70,7 +73,8 @@ public class BbsServiceImpl extends CiServiceImpl implements BbsService {
                 for(Map<String, Object> row:getFileList ){
                     fileMap.put(String.valueOf(row.get("bafCode")),row);
                 }
-                bbsEntity.put("fileMap",fileMap);
+                bbsEntity.put("filelist",getFileList);
+                bbsEntity.put("filesize",fileMap.size());
             }
 
             //dataList = convertReal(getList(dbEntity),new BbsEntity());

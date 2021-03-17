@@ -79,10 +79,15 @@ public class AigoQuestionServiceImpl extends CiServiceImpl implements AigoQuesti
 
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
+
                 setInsert(dbEntity);
+                dbEntity.where("qst_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("qst_key","QST"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("qst_key","QST"+StringUtils.zeroFill(String.valueOf(aigoQuestionEntity.getQstId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
 //                if(dbEntity.input.get("bbSeq")!=null){
@@ -154,8 +159,15 @@ public class AigoQuestionServiceImpl extends CiServiceImpl implements AigoQuesti
 		dbEntity.join("cb_aigo_level as cal", "caq.lev_id = cal.lev_id", "left");
 		dbEntity.join("cb_aigo_unit as cau", "caq.unit_id = cau.unit_id", "left");
 		dbEntity.join("cb_aigo_achievement as caa", "caq.acv_id = caa.acv_id and caq.sub_id = caa.sub_id and caq.lev_id = caa.lev_id", "left");
-		dbEntity.where("caq.qst_key", aigoQuestionEntity.getQstKey());
-		
+		dbEntity.like("caq.qst_key", aigoQuestionEntity.getQstKey());
+
+		if(!StringUtils.isEmpty(dbEntity.input.get_post("levId"))){
+            dbEntity.where("cal.lev_id",dbEntity.input.get_post("levId"));
+        }
+		if(!StringUtils.isEmpty(dbEntity.input.get_post("acvId"))){
+            dbEntity.where("caa.acv_id",dbEntity.input.get_post("acvId"));
+        }
+
 		AigoQuestionEntity questionInfo = null;
 		
 		try {

@@ -118,6 +118,7 @@ public class AjaxAigoSubjectAdminController extends CoreController {
         if(!StringUtils.isEmpty(dbEntity.input.get_post("subName"))){
             dbEntity.like("sub_name",dbEntity.input.get_post("subName"));
         }
+        dbEntity.not("sub_id",dbEntity.input.get_post("subId"));
         //dbEntity.order("reg_date","desc");
 
 
@@ -127,7 +128,7 @@ public class AjaxAigoSubjectAdminController extends CoreController {
 
             int cnount = commonService.getCount(dbEntity);
             if(cnount>0){
-               res = "false";
+               res = "과목명이 중복입니다.";
             } else {
                res = "true";
             }

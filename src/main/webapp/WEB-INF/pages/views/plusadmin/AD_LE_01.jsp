@@ -67,17 +67,32 @@
 	        			<th>성취기준 <em class="point">*</em></th>
 	        			<td>
 	        				<div class="mb10">
-		        				<select class="s_p1 code LEV" type="select" data="levId" name="levId" id="levId">
-		        					<option>레벨</option>
+		        				<select class="s_p1 code LEV tab_cont" type="select" data="levId" name="levId" id="levId">
+
 		        				</select>
-		        				<select class="s_p1 code SUB" type="select" data="subId" name="subId" id="subId">
-		        					<option>과목</option>
+		        				<select class="s_p1 code SUB tab_cont" type="select" data="subId" name="subId" id="subId">
+
 		        				</select>
 	        				</div>
 	        				<div class="radio_wrap rdo_wrap1 code ACV" type="select" data="acvId"></div>
 	        			</td>
 	        		</tr>
-
+					<tr>
+						<th>학습목표 <em class="point">*</em></th>
+							<td class="fileMap" >
+								<div class="add_file_div inlineB">
+									<div class="filebox">
+										<label for="pcthumb" class="btn btn-st1">파일찾기</label>
+										<input class="upload-name" value="파일명" disabled="disabled">
+										<i class="fas fa-times fa-times2"></i>
+										<label for="pcthumb" class="file-bg hidden">Download</label>
+										<input type="file" id="pcthumb" name="pcthumb" class="upload-hidden file-upload">
+									</div>
+	<%--		        				<p class="point">※ 이미지 사이즈 000*000</p>--%>
+								</div>
+								<div class="thumb_img file-img2"><img src="/admassets/images/tmp_thumb.jpg" onerror="this.src='/admassets/images/tmp_thumb.jpg'"></div>
+							</td>
+						</tr>
 	        		<tr>
 	        			<th>내용 <em class="point">*</em></th>
 	        			<td><textarea class="form-control html-editor" name="tenText" id="tenText" style="height:200px;"></textarea></td>
@@ -117,10 +132,16 @@ $(document).ready(function(){
     	$('tr.CONTYPEALL').hide();
 		$('tr.CONTYPEALL.'+$(this).attr('value')).show()
 	})
-	$('#levId option').prop('disabled',true);
-	$('#subId option').prop('disabled',true);
+	// $('#levId option').prop('disabled',false);
+	// $('#subId option').prop('disabled',false);
 
-
+	$('.fileMap :file').change(function(){
+      var fileOne = $(this).get(0).files[0];
+      if(fileOne){
+        $(this).closest('td').find('.upload-name').val(fileOne.name);
+        $(this).closest('td').find('img').attr('src',URL.createObjectURL(fileOne));
+      }
+    });
 
 
     /* tab 생성후 초기이벤트*/
@@ -133,7 +154,10 @@ $(document).ready(function(){
         };
         pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
+        console.log("$('#subId').val(rowData['subId']);",rowData['subId']);
+
         plus.event.formAfter(pageContentLast,rowData,mode);
+        $('#subId').val(rowData['subId']);
         plus.event.bbsfile(rowData);
 
 
@@ -171,7 +195,7 @@ $(document).ready(function(){
 						// <th>성취기준이름</th>
 						// <th>상태</th>
 						// <th>등록/수정</th>
-        gridColumn.push({'data': 'umSeq', 'title': '번호', 'type': 'checkbox', hidden: false,render:plus.renderer.rownum});
+        gridColumn.push({'data': 'umSeq', 'title': '번호', 'type': 'checkbox', hidden: false,render:plus.renderer.rrownum});
         gridColumn.push({'data':'levName','title':'레벨명'});
         gridColumn.push({'data':'subName','title':'과목명'});
         gridColumn.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});
@@ -187,22 +211,25 @@ $(document).ready(function(){
         $('#gridElement tbody ').on('click','.clickkbox',function () {
             var rowData =  gridElement.row( $(this).closest('tr') ).data();
             var info = gridElement.page.info();
-            console.log(info);
+            console.log(rowData);
             var tabTitle  = String.format('[{0}] {1}',rowData['abName'],'');
 			$('#wrapList').hide();
+
             //console.log(rowData);
             //plus.frontTab.addTab(tabTitle,rowData,$('#wrapEdit').tmpl({updateUrl:'/front/ajax/assets/buildingExcute',deleteUrl:'/front/ajax/assets/buildingDelete'}));
             $('#wrapList').hide();
             rowData['start']=info['start']
             rowData['length']=info['length']
             plus.frontPage.show($('#wrapEdit'),rowData,'EDIT');
+			// $('#levId option').prop('disabled',true);
+			// $('#subId option').prop('disabled',true);
 
         });
 
 		$('#acvId').change(function(){
 			$.call('/plusadmin/ajax/aigo/achievementDetail',{'acvId':$('#acvId').val()},function(r){
-				$('#levId option:selected').prop('disabled',true);
-				$('#subId option:selected').prop('disabled',true);
+				// $('#levId option:selected').prop('disabled',true);
+				// $('#subId option:selected').prop('disabled',true);
 				$('#subId').val(r['resultData']['subId']).change();
 				$('#levId').val(r['resultData']['levId']).change();
 				$('#levId option:selected').prop('disabled',false);
@@ -220,6 +247,9 @@ $(document).ready(function(){
     /* 등록 버튼*/
     $('.btnReg').click(function(){
     	$('#wrapList').hide();
+    	$('select.code.tab_cont').removeClass('tab_cont');
+		// $('#levId option').prop('disabled',false);
+		// $('#subId option').prop('disabled',false);
       	plus.frontPage.show($('#wrapEdit'), {tenId:'0','start':0,useYn:'Y',length:0,tenText:'',subId:'',acvId:'',levId:''},'NEW');
       	$(':radio[name=useYn]:eq(0)').click();
     });

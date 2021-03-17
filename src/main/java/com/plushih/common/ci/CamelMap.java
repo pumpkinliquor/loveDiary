@@ -52,19 +52,19 @@ public class CamelMap extends ListOrderedMap {
     }
     @Override
     public Object put(Object key, Object value) {
-        if(key.toString().substring(0,2).equals("ai")){
-             if(addressInfo==null){
-                 addressInfo= new HashMap<String,Object>();
-             }
-            addressInfo.put(StringUtils.toCamel((String)key),value.toString()==null?"":value);
-            return super.put("addressInfo", addressInfo);
-            //return null;
-        } else {
-
-            //return super.put(StringUtils.toCamel((String)key), setXss(key,value.toString()==null?"":value));
-            return super.put(StringUtils.toCamel((String)key), value);
-        }
-
+//        if(key.toString().substring(0,2).equals("ai")){
+//             if(addressInfo==null){
+//                 addressInfo= new HashMap<String,Object>();
+//             }
+//            addressInfo.put(StringUtils.toCamel((String)key),value.toString()==null?"":value);
+//            return super.put("addressInfo", addressInfo);
+//            //return null;
+//        } else {
+//
+//            //return super.put(StringUtils.toCamel((String)key), setXss(key,value.toString()==null?"":value));
+//
+//        }
+          return super.put(StringUtils.toCamel((String)key), value);
     }
 
 }

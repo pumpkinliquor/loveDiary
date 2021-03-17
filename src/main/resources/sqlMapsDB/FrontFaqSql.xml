@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontFaqDAO">
+
+	<!-- 성취기준 리스트 조회 -->
+	<select id="selectFaqList" parameterType="map" resultType="camelMap">
+		/* FrontFaqDAO.selectFaqList*/
+		SELECT b.bb_seq,
+			   b.bb_target,
+			   g.fgr_id,
+		       g.fgr_title,
+		       Date_format(f.reg_sysdate, '%Y-%m-%d') AS reg_date,
+		       Group_concat(f.faq_id ORDER BY faq_order SEPARATOR ',')      AS
+		       faq_id_group,
+		       Group_concat(f.faq_title ORDER BY faq_order SEPARATOR ',')   AS
+		       faq_title_group,
+		       Group_concat(f.faq_content ORDER BY faq_order SEPARATOR ',') AS
+		       faq_content_group
+		FROM   aigo.cb_aigo_faq_group g
+		LEFT JOIN 
+		       aigo.cb_faq f 
+		ON	   g.fgr_id = f.fgr_id
+        INNER JOIN
+			   aigo.plus_bbs b
+		ON	   g.fgr_id = b.fgr_id
+        AND	   b.bb_bbs = 'FAQ'
+		WHERE  1 = 1
+		AND	   b.use_yn = 'y'
+		   <if test='!@com.plushih.common.utils.StringUtils@isEmpty(bbSeq)'>
+		       AND b.bb_seq = #{bbSeq}
+		   </if>
+		   <if test='!@com.plushih.common.utils.StringUtils@isEmpty(fgrId)'>
+		       AND g.fgr_id = #{fgrId}
+		   </if>
+		   <if test='!@com.plushih.common.utils.StringUtils@isEmpty(faqId)'>
+		   	   AND f.faq_id = #{faqId}
+		   </if>
+		GROUP  BY g.fgr_id
+		ORDER  BY g.fgr_order, g.fgr_id
+	</select>
+	
+	<select id="selectSrchList" parameterType="map" resultType="camelMap">
+		/* FrontFaqDAO.selectSrchList*/
+		SELECT b.bb_seq,
+			   b.bb_target,
+			   g.fgr_id,
+		       g.fgr_title,
+		       f.faq_id,
+		       f.faq_title,
+		       f.faq_content
+		FROM   aigo.cb_aigo_faq_group g
+		LEFT JOIN 
+		       aigo.cb_faq f 
+		ON	   g.fgr_id = f.fgr_id
+        INNER JOIN
+			   aigo.plus_bbs b
+		ON	   g.fgr_id = b.fgr_id
+        AND	   b.bb_bbs = 'FAQ'
+		WHERE  1 = 1
+		AND	   b.use_yn = 'y'
+		   <if test='!@com.plushih.common.utils.StringUtils@isEmpty(word)'>
+		   	   AND (f.faq_title LIKE CONCAT('%',#{word},'%') OR f.faq_content LIKE CONCAT('%',#{word},'%'))
+		   </if>
+		ORDER  BY g.fgr_order, g.fgr_id
+	</select>
+
+</mapper>

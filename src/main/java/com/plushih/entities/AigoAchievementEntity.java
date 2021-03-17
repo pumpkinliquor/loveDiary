@@ -1,6 +1,7 @@
 package com.plushih.entities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class AigoAchievementEntity  extends PlusEntity implements Serializable{
 	private static final long serialVersionUID = 770506395266028181L;
@@ -23,6 +24,8 @@ public class AigoAchievementEntity  extends PlusEntity implements Serializable{
 	private Integer ansCnt;
 	private Integer memId;
 	private Integer optionalSubId;
+	private int[] arrCategories;
+	private int[] arrCategoriesSub;
 
 	public Integer getAcvId(){ return acvId; }
 	public void setAcvId(Integer acvId){ this.acvId = acvId; }
@@ -78,10 +81,21 @@ public class AigoAchievementEntity  extends PlusEntity implements Serializable{
 	public String getAcvText() { return acvText; }
 	public void setAcvText(String acvText) { this.acvText = acvText;  }
 	
+	public int[] getArrCategories() { return arrCategories; }
+	public void setArrCategories(int[] arrCategories) { this.arrCategories = arrCategories; }
+	
+	public int[] getArrCategoriesSub() { return arrCategoriesSub; }
+	public void setArrCategoriesSub(int[] arrCategoriesSub) { this.arrCategoriesSub = arrCategoriesSub; }
+	
 	@Override
 	public String toString() {
-		return "AigoAchievementEntity [acvId=" + acvId + ", subId=" + subId + ", subName=" + subName + ", levId=" + levId + ", acvKey=" + acvKey + ", acvName=" + acvName + ", acvText=" + acvText + ", acvParent=" + acvParent + ", acvOrder=" + acvOrder + ", useYn=" + useYn + ", regDate=" + regDate + ", regUmSeq=" + regUmSeq + ", udtDate=" + udtDate + ", udtUmSeq=" + udtUmSeq + ", qstCnt=" + qstCnt + ", ansCnt=" + ansCnt + ", memId=" + memId + ", optionalSubId=" + optionalSubId + "]";
+		return "AigoAchievementEntity [acvId=" + acvId + ", subId=" + subId + ", subName=" + subName + ", levId="
+				+ levId + ", acvKey=" + acvKey + ", acvName=" + acvName + ", acvText=" + acvText + ", acvParent="
+				+ acvParent + ", acvOrder=" + acvOrder + ", useYn=" + useYn + ", regDate=" + regDate + ", regUmSeq="
+				+ regUmSeq + ", udtDate=" + udtDate + ", udtUmSeq=" + udtUmSeq + ", qstCnt=" + qstCnt + ", ansCnt="
+				+ ansCnt + ", memId=" + memId + ", optionalSubId=" + optionalSubId + ", arrCategories="
+				+ Arrays.toString(arrCategories) + ", arrCategoriesSub=" + Arrays.toString(arrCategoriesSub)
+				+ "]";
 	}
-
 	
 }

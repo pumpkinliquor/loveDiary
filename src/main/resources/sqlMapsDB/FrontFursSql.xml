@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontFursDAO">
+	
+	<!-- 모의진단결과 > 내용영역별 분석 -->
+	<select id="selectAnalysisChartDataList" resultType="hashMap" parameterType="hashMap">
+		/* FrontFursDAO.selectAnalysisChartDataList */
+		SELECT
+			totalInfo.analysis_code as analysisCode
+			, cm.cm_name as cmName
+			, ifnull(totalInfo.total_score, 0) AS totalScore
+			, ifnull(userInfo.user_score, 0) AS userScore
+		FROM (
+			SELECT
+				aq.qst_add_etc05 AS analysis_code
+				, sum(userdata.total_cnt) AS user_total_cnt
+				, sum(userdata.pass_cnt) AS user_pass_cnt
+				, ROUND(sum(userdata.pass_cnt)/sum(userdata.total_cnt)*100) AS user_score
+			FROM (
+				SELECT
+					atq.qst_id
+					, 1 as total_cnt
+					, case when atq.tqst_result = 'O' then 1 ELSE 0 END AS pass_cnt
+				FROM cb_aigo_temp_qst AS atq
+				WHERE atq.temp_id = #{tempId}
+			) AS userdata
+			INNER JOIN cb_aigo_question AS aq
+				ON userdata.qst_id = aq.qst_id
+			GROUP BY aq.qst_add_etc05
+		) AS userInfo
+		INNER JOIN (
+			SELECT
+				aq.qst_add_etc05 AS analysis_code
+				, sum(totaldata.total_cnt) AS total_cnt
+				, sum(totaldata.pass_cnt) AS pass_cnt
+				, round(sum(totaldata.pass_cnt)/sum(totaldata.total_cnt)*100) AS total_score
+			FROM (
+				SELECT
+					atq.qst_id
+					, 1 as total_cnt
+					, case when atq.tqst_result = 'O' then 1 ELSE 0 END AS pass_cnt
+				FROM cb_aigo_temp_qst AS atq
+			) AS totaldata
+			INNER JOIN cb_aigo_question AS aq
+				ON totaldata.qst_id = aq.qst_id
+			GROUP BY aq.qst_add_etc05
+		) AS totalInfo
+			ON userInfo.analysis_code = totalInfo.analysis_code
+		INNER JOIN plus_code_master as cm
+			ON cm.cm_code = totalInfo.analysis_code
+			AND cm.cm_gubun = #{cmGubun}
+		ORDER BY totalInfo.analysis_code asc
+	</select>
+	
+	<!-- 진단 총평 -->
+	<select id="selectEvaluationInfo" resultType="aigoEvaluationEntity" parameterType="hashMap">
+	/* FrontFursDAO.selectEvaluationInfo */
+		SELECT
+			ae.evt_id
+			, ae.lev_id
+			, ae.evt_text
+			, ae.reg_date
+		FROM cb_aigo_evaluation AS ae
+		WHERE ae.use_yn = 'y'
+			AND lev_id = #{levId}
+		ORDER BY ae.reg_date DESC
+		LIMIT 1
+	</select>
+	
+</mapper>

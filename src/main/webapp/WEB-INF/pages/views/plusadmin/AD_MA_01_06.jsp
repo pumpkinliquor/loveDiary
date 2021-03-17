@@ -103,7 +103,7 @@
         	<tbody>
         		<tr class="EDIT hidden">
         			<th>개념요소코드</th>
-        			<td><b class="cptId">AA002</b></td>
+        			<td><b class="cptKey">AA002</b></td>
         		</tr>
         		<tr>
         			<th>과목명 <em class="point">*</em></th>
@@ -161,18 +161,52 @@ $(document).ready(function(){
 
 
 
+
     /* tab 생성후 초기이벤트*/
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
             subId:{required:true}
             ,acvId:{required:true}
-            ,cptName:{required:true}
+            ,cptName:{required:true,remote: {
+			url: "/plusadmin/ajax/aigo/cptCheck",
+			type: "post",
+			  data: {
+			  cptName: function() {
+				return $( "#cptName" ).val();
+			  },
+			  cptId: function() {
+				return $( "#cptId" ).val();
+			  },
+			  acvId: function() {
+				return $( "#acvId" ).val();
+			  },
+			  subId: function() {
+				return $( "#subId" ).val();
+			  }
+			}
+		  }}
         };
         pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
+        $('#subId').unbind('change');
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
 
+        $('#subId').change(function(){
+			var map = {}
+			$.call('/plusadmin/ajax/aigo/achievementList',{'subId':$(this).val(),limit:'2000'},function(r){
+				if(r.resultList){
+					$.each(r.resultList,function(kk,vv){
+						map[vv['acvId']] = vv['acvName'];
+					});
+
+				}
+				$('.code.ACV').addCodeItem(map,true);
+				$('#acvId').val(rowData['acvId']);
+			});
+
+		});
+		$('#subId').change();
 
     }
 
@@ -204,7 +238,7 @@ $(document).ready(function(){
         }
 
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'cptId','title':'개념요소코드'});
+        gridColumn.push({'data':'cptKey','title':'개념요소코드'});
         gridColumn.push({'data':'subName','title':'과목명'});
         gridColumn.push({'data':'acvName','title':'성취기준이름','class':'tl',render:plus.renderer.clickbox});
 
@@ -231,10 +265,9 @@ $(document).ready(function(){
 
             //console.log(rowData);
             //plus.frontTab.addTab(tabTitle,rowData,$('#wrapEdit').tmpl({updateUrl:'/front/ajax/assets/buildingExcute',deleteUrl:'/front/ajax/assets/buildingDelete'}));
-            $('#wrapList').hide();
+            //$('#wrapList').hide();
             rowData['start']=info['start']
             rowData['length']=info['length']
-          console.log(rowData);
             plus.frontPage.popup($('#wrapEdit'),rowData,'EDIT');
 
         });

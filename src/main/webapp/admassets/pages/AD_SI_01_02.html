@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출상세</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 결제/환불</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 결제/환불 내역</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 환불관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 프로모션 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 배너/팝업 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 푸시관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 약관관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 공지사항</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ FAQ</p></a></li>
+		    	</ul>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content">
+			<h2>프로모션 관리</h2>
+
+			<table class="srchT">
+				<colgroup>
+					<col width="18%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">검색</th>
+						<td>
+							<div class="srch_div">
+								<select class="s_p1">
+									<option>전체</option>
+									<option>진행중</option>
+									<option>대기</option>
+									<option>종료</option>
+								</select>
+								<select class="s_p1">
+									<option>제목</option>
+									<option>내용</option>
+									<option>제목+내용</option>
+								</select>
+								<input type="text" name="" class="ipt2">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table class="tbl-st">
+				<colgroup>
+					<col width="6%">
+					<col width="7%">
+					<col width="12%">
+					<col width="12%">
+					<col width="12%">
+					<col width="12%">
+					<col width="9%">
+					<col width="7%">
+					<col width="7%">
+					<col width="*">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>번호</th>
+						<th>대상</th>
+						<th>제목</th>
+						<th>시작일</th>
+						<th>종료일</th>
+						<th>당첨자발표</th>
+						<th>노출순서</th>
+						<th>상태</th>
+						<th>노출</th>
+						<th>등록/수정</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1824</td>
+						<td>전체</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>종료</td>
+						<td></td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1823</td>
+						<td>구매자</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>대기</td>
+						<td></td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1822</td>
+						<td>전체</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>진행</td>
+						<td>비공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1821</td>
+						<td>구매자</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>종료</td>
+						<td></td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1820</td>
+						<td>전체</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>대기</td>
+						<td>비공개</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1819</td>
+						<td>구매자</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>진행</td>
+						<td></td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+					<tr>
+						<td>1818</td>
+						<td>전체</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop02')">런칭 이벤트 1차</a></td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd<br>00:00:00</td>
+						<td>yyyy-mm-dd</td>
+						<td>1</td>
+						<td>종료</td>
+						<td></td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+					</tr>
+
+				</tbody>
+			</table>
+			<div class="tbl-foot">
+				<div class="paging">
+					<a href="#" class="prev">
+						<i class="fas fa-caret-left"></i>
+					</a>
+					<span class="on">1</span>
+					<a href="#">2</a>
+					<a href="#">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next">
+						<i class="fas fa-caret-right"></i>
+					</a>
+				</div>
+				<a href="#" class="btn btn-offer">등록</a>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="modal-wrap pop01 is-visible">
+	<div class="modal">
+	  <div class="modal-header">
+	    <h1>프로모션 등록/수정</h1>
+	  </div>
+	  <div class="content">
+	    <table class="popT">
+	    	<colgroup>
+	    		<col width="20%">
+	    		<col width="50%">
+	    		<col width="20%">
+	    		<col width="30%">
+	    	</colgroup>
+	    	<tbody>
+	    		<tr>
+	    			<th>타이틀 <em class="point">*</em></th>
+	    			<td colspan="3"><input type="text" class=""></td>
+	    		</tr>
+	    		<tr>
+	    			<th>대상</th>
+	    			<td>
+	    				<select>
+	    					<option>선택</option>
+        					<option>전체</option>
+        					<option>구매자</option>
+        				</select>
+	    			</td>
+	    			<th>노출순서</th>
+	    			<td><input type="text" class=""></td>
+	    		</tr>
+	    		<tr>
+	    			<th>기간 <em class="point">*</em></th>
+	    			<td>
+	    				<div class="date_div">
+	                      <input type="date" class="ipt_date" id=""><span>~</span>
+	                      <input type="date" class="ipt_date" id="">
+	                    </div>
+	    			</td>
+	    			<th>당첨자 발표</th>
+	    			<td><input type="date" class="ipt_date" id=""></td>
+	    		</tr>
+	    		<tr>
+	    			<th>배너 <em class="point">*</em></th>
+	    			<td colspan="3">
+	    				<div class="add_file_div inlineB">
+	        				<div class="filebox">
+	        					<label for="ex_filename1" class="btn btn-st1">파일찾기</label>
+	        					<input class="upload-name" value="파일명" disabled="disabled">
+	        					<i class="fas fa-times fa-times2"></i>
+
+	        					<input type="file" id="ex_filename1" class="upload-hidden">
+	        				</div>
+	        				<p class="txt_p">※  이벤트 배너 이미지 사이즈: 가로 X 세로 규격에 맞는 배너를 사용하세요. </p>
+	    				</div>
+	    				<div class="thumb_img"><img src="../images/tmp_thumb.jpg"></div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>경품 <em class="point">*</em></th>
+	    			<td colspan="3">
+	    				<input type="text" placeholder="텍스트 최대 30자" >
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>이벤트 상세 <em class="point">*</em></th>
+	    			<td colspan="3">
+	    				<div class="editor_div" style="height:200px">에디터영역</div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>상태</th>
+	    			<td colspan="3">
+	    				<div class="radio_wrap connect">
+							<div class="ipt_radio_div">
+								<input type="radio" id="state0" name="state">
+								<label for="state0">비공개</label>
+							</div>
+							<div class="ipt_radio_div">
+								<input type="radio" id="state1" name="state" checked="checked">
+								<label for="state1">공개</label>
+							</div>
+						</div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>등록/수정</th>
+	    			<td colspan="3">
+	    				이지현(admin)  yyyy-mm-dd   hh:mm:ss
+	    			</td>
+	    		</tr>
+	    	</tbody>
+	    </table>
+
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn btn-primary fR">저장</button>
+	  </div>
+	  <a href="#" class="close-pop close-btn" onclick="modalClose();">&#10005;</a>
+	</div>
+</div>
+
+<script type="text/javascript">
+ modalClose();
+
+</script>
+</body>
+</html>

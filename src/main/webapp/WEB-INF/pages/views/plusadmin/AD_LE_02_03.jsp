@@ -14,8 +14,8 @@
 				<div class="mb10">
 					<span class="tit">등록일</span>
 					<div class="date_div">
-						<input type="date" class="ipt_date" id="sdate" name="sdate"><span>~</span>
-						<input type="date" class="ipt_date" id="edate" name="edate">
+						<span class="ipt_dates"><input type="date" class="ipt_date" id="sdate" name="sdate"></span><span>~</span>
+						<span class="ipt_dates"><input type="date" class="ipt_date" id="edate" name="edate"></span>
 					</div>
 				</div>
 				<div>
@@ -37,12 +37,12 @@
 					<select class="s_p2 codex UNIT" type="select" data="unitId" name="unitId">
 						<option>대단원</option>
 					</select>
-					<select class="s_p2 codex ACV" type="select" data="acvId" name="acvId">
+					<select class="s_p4 codex ACV" type="select" data="acvId" name="acvId">
 						<option>성취기준</option>
 					</select>
 				</div>
 				<div class="srch_div">
-					<select class="s_p1" name="searchTextType">
+					<select class="s_p1" name="searchType">
 						<option value="">검색구분</option>
 						<option value="qstKey">문항코드</option>
 						<option value="cmtrKey">해설코드</option>
@@ -91,7 +91,7 @@
 			<input type="hidden" name="cmtrId" id="cmtrId" value="" />
 			<input type="hidden" name="qstId" id="qstId" value="" />
 			<input type="hidden" name="dataJson" id="dataJson" value="" />
-			
+
 			<div class="content">
 				<table class="srchT mb">
 					<colgroup>
@@ -106,7 +106,7 @@
 									<select class="s_p2 codex LEV" type="select" id="subId" name="searchSubjectPopup">
 										<option>과목</option>
 									</select>
-									<select class="s_p2 codex ACV" type="select" id="acvId" name="searchAchievePopup">
+									<select class="s_p4 codex ACV" type="select" id="acvId" name="searchAchievePopup">
 										<option>성취기준</option>
 									</select>
 								</div>
@@ -122,7 +122,7 @@
 					</tbody>
 				</table>
 				<h2>문항정보</h2>
-				<table class="popT2 mb">
+				<table class="popT2 mb qstInfo">
 					<colgroup>
 						<col width="20%">
 						<col width="*">
@@ -130,25 +130,25 @@
 						<col width="*">
 					</colgroup>
 					<tbody>
-						<tr class="EDIT hidden">
+						<tr class="EDIT NEW">
 							<th>문항코드</th>
 							<td class="qstKey" colspan="3"></td>
 						</tr>
-						<tr class="EDIT">
+						<tr class="EDIT NEW">
 							<th>과목 <em class="point">*</em></th>
-							<td class="subName" id="subName"></td>
+							<td class="subName clearx" ></td>
 							<th>레벨 <em class="point">*</em></th>
-							<td class="levName"></td>
+							<td class="levName clearx"></td>
 						</tr>
-						<tr class="EDIT">
+						<tr class="EDIT NEW">
 							<th>단원분류 <em class="point">*</em></th>
-							<td class="unitName"></td>
+							<td class="unitName clearx"></td>
 							<th>성취기준 <em class="point">*</em></th>
-							<td class="acvName"></td>
+							<td class="acvName clearx"></td>
 						</tr>
-						<tr class="EDIT">
+						<tr class="EDIT NEW">
 							<th>연결개념</th>
-							<td class="notName" colspan="3"></td>
+							<td class="notName clearx" colspan="3"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -159,7 +159,7 @@
 						<col width="*">
 					</colgroup>
 					<tbody>
-						<tr class="EDIT">
+						<tr class="EDIT ">
 							<th>콘텐츠타입</th>
 							<td>
 								<div class="radio_wrap rdo_wrap1 code CONTYPEALL" type="radio" data="cmtrType"></div>
@@ -175,7 +175,7 @@
 						<tr class="CONTYPEALL T">
 							<td colspan="2">
 								<div class="editor_div">
-									<textarea class="form-control html-editor" name="cmtrText" id="notText" style="height:200px;"></textarea>
+									<textarea class="form-control html-editor" name="cmtrText" id="cmtrText" style="height:200px;"></textarea>
 								</div>
 							</td>
 						</tr>
@@ -193,20 +193,20 @@
 									</div>
 	<%--		        				<p class="point">※ 이미지 사이즈 000*000</p>--%>
 								</div>
-								<div class="thumb_img file-img2"><img src="/admassets/images/tmp_thumb.jpg"></div>
+								<div class="thumb_img file-img2"><img src="/admassets/images/tmp_thumb.jpg" onerror="this.src='/admassets/images/tmp_thumb.jpg'"></div>
 							</td>
 						</tr>
 						<tr class="CONTYPEALL P">
 							<th>영상타이틀</th>
 							<td>
-								<input type="text" name="notPlayName" id="notPlayName" placeholder="미입력시 개념요소명으로 노출됩니다">
+								<input type="text" name="cmtrPlayName" id="cmtrPlayName" placeholder="미입력시 개념요소명으로 노출됩니다">
 								<p class="point mt5">※ 공백포함 최대 00자</p>
 							</td>
 						</tr>
 						<tr class="CONTYPEALL P">
 							<th>영상경로</th>
 							<td>
-								<input type="text" name="notPlayPath" id="notPlayPath">
+								<input type="text" name="cmtrPlayPath" id="cmtrPlayPath">
 							</td>
 						</tr>
 						<tr class="CONTYPEALL P">
@@ -214,12 +214,12 @@
 							<td>
 								<div class="mb10">
 									<span class="tit">런타임</span>
-									<input type="text" name="notPlayRunTime" id="notPlayRunTime" class="ipt_m">
+									<input type="text" name="cmtrPlayRunTime" id="cmtrPlayRunTime" class="ipt_m">
 									<span class="point">※ hh:mm:ss 형식으로 입력</span>
 								</div>
 								<div>
 									<span class="tit">화질</span>
-									<input type="text" name="notPlayRunRate" id="notPlayRunRate" class="ipt_m">
+									<input type="text" name="cmtrPlayRunRate" id="cmtrPlayRunRate" class="ipt_m">
 								</div>
 							</td>
 						</tr>
@@ -286,10 +286,18 @@ $(document).ready(function(){
 		// 유효성검사 할 항목 정의
 		var rules = {
 			subName:{required:true}
+			,levName:{required:true}
+			,unitName:{required:true}
+			,acvName:{required:true}
 			, useYn:{required:true}
 		};
-		pageContentLast.data({rules:rules});
+		$('.clearx').html('');
+		pageContentLast.data({rules:rules,'mode':mode});
 		var tableElement =pageContentLast.find('table');
+
+		rowData['cmtrType'] = (rowData['cmtrType']||'I');
+		rowData['cmtrType'] = rowData['cmtrType']=='NULL'?'I':rowData['cmtrType'];
+
 		plus.event.formAfter(pageContentLast,rowData,mode);
 		plus.event.bbsfile(rowData);
 	};
@@ -316,10 +324,10 @@ $(document).ready(function(){
 		}
 		*/
 		
-		plus.event.clickbox = function(d, t, r){
-			var div = plus.makeElement('a',d,{'href':'javascript:;','class':'custom-control custom-checkbox'});
-			return div.prop('outerHTML');
-		}
+		// plus.event.clickbox = function(d, t, r){
+		// 	var div = plus.makeElement('a',d,{'href':'javascript:;','class':'custom-control custom-checkbox'});
+		// 	return div.prop('outerHTML');
+		// }
 		
 		gridColumn.push({'data':'cmtrId',	'title':'번호'});
 		gridColumn.push({'data':'qstKey',	'title':'문항코드',		render:plus.renderer.clickbox});
@@ -345,25 +353,41 @@ $(document).ready(function(){
 		var rowData = gridElement.row( $(this).closest('tr') ).data();
 		var info = gridElement.page.info();
 		var $form = $("#wrapEdit");
-		
+
+
+		rowData['cmtrText'] = rowData['cmtrText']||'';
+
+		console.log(rowData);
 		plus.frontPage.popup($form, rowData, 'EDIT');
 		$("input[name='searchTextPopup']").prop("readonly", true);
 		
-		goSearch();
+		goSearch('EDIT');
 		
 	});
 	
 	// 등록/수정팝업 검색
 	$(".searchEditPopup").on('click', function(){
-		goSearch();
+		if(!$.trim($("input[name='searchTextPopup']").val())){
+			alert('문항 코드는 필수입니다.');
+			return false;
+		}
+		$('#wrapEdit').data()
+		goSearch('NEW');
 	});
 	
-	function goSearch(){
+	function goSearch(mode){
+
+
 		var searchParam = {
 			qstKey : $("input[name='searchTextPopup']").val()
 		};
 		$.call('/plusadmin/ajax/aigo/searchQuestionInfo', searchParam, function(r){
-			plus.event.formAfter($('.commentaryEditPopup'), r, 'EDIT');
+			delete r['useYn'];
+			delete r['cmtrId'];
+			delete r['subId'];
+			delete r['levId'];
+			delete r['acvId'];
+			plus.event.formAfter($('#wrapEdit'), r, mode);
 		});
 	}
 	
@@ -403,12 +427,30 @@ $(document).ready(function(){
 			param[k] = '';
 		})
 		param['cmtrText'] = '';
-		goSearch();
-		plus.frontPage.popup($('.commentaryEditPopup').find('form'), param,'EDIT');
+		param['useYn'] = 'y';
+		param['cmtrText'] = '';
+		param['cmtrType'] = 'I';
+		goSearch('NEW');
+		plus.frontPage.popup($('.commentaryEditPopup').find('form'), param,'NEW');
 	});
 	
 	// 수정/저장
 	$('.btnSubmit').unbind('click').click(function(){
+
+		var xstr= '';
+		$.each($('.clearx'),function(k,v){
+			xstr+=$.trim($(this).text())
+		});
+		if(!xstr){
+			Swal.fire(
+						'[과목,레벨,단원분류,성취기준준]항목은 필수입니다.',
+						'',
+						'error'
+				)
+				return false;
+		}
+		var editorId = $('.html-editor').attr('id');
+			oEditors.getById[editorId].exec("UPDATE_CONTENTS_FIELD", []);
 		$(this).closest('form').submit();
 		return false;
 	});

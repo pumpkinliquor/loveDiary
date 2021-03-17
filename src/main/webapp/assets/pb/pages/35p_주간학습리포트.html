@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<link rel="stylesheet" href="../assets/plugin/owlcarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="../assets/plugin/owlcarousel/owl.theme.default.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+
+<!-- Datatables -->
+<link rel="stylesheet" href="../assets/plugin/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../assets/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#studyT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body class="report_body">
+<div class="wrapper">
+  <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1>주간학습 리포트</h1>
+
+    <div class="my_cont">
+      <p class="my_id">jeehyun@aigo.com님</p>
+      <div class="my_grade">
+        <span>수학 </span>
+        <span class="bar"><em>Lv.1</em> 로그의 뜻과 성질 이해</span>
+      </div>
+    </div>
+  </header>
+  <div class="container report">
+    <section class="contents study_result_cont">
+      <span class="period">집계기간 2021-01-20 ~ 2021-02-10</span>
+      <h2>학습 결과와 상세 분석</h2>
+      <div class="study_result_div">
+        <div class="div"><p class="tit ico_s1 fL"><span>학습일</span></p><span class="txt_time fR">329일</span></div>
+        <div class="div"><p class="tit ico_s2 fL"><span>학습시간</span></p><span class="txt_time fR">6264시간 40분 22초</span></div>
+        <div class="div"><p class="tit ico_s3 fL"><span>문제풀이시간</span></p><span class="txt_time fR">312시간 29분 00초</span></div>
+        <div class="div"><p class="tit ico_s4 fL"><span>영상학습시간</span></p><span class="txt_time fR">135시간 30분 31초</span></div>
+        <div class="q_number_div">
+          <div class="q_number bt_line">
+            <p class="tit ico_s5"><span>맞춘 문항 수</span></p>
+            <div class="bar_div">
+              <span class="bar" style="width:75%"><em>3,253문항</em></span>
+            </div>
+          </div>
+          <div class="q_number">
+            <p class="tit ico_s6"><span>전체 풀이 문항 수</span></p>
+            <div class="bar_div">
+              <span class="bar" style="width:85%"><em>4,153문항</em></span>
+            </div>
+          </div>
+          <div class="badge">
+            <span>정답률 <br><em>85</em>%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contents analysis_cont">
+      <h2>문항별 분석</h2>
+      <p class="txt_st1 mt25 mb5">문제 선택 시 해당 문제 다시 풀기로 이동 합니다.</p>
+      <div class="tbl_wrap">
+      <table id="studyT" class="studyT table table-bordered table-hover dataTable dtr-inline">
+        <!-- 수정0219 -->
+        <colgroup>
+          <col width="70px">
+          <col width="55px">
+          <col width="80px">
+          <col width="55px">
+          <col width="60px">
+          <col width="60px">
+          <col width="80px">
+          <col width="80px">
+        </colgroup>
+        <!-- //수정0219 -->
+        <thead>
+          <tr>
+            <th class="sticky-col first-col"><span>구분</span></th>
+            <th class="sticky-col second-col"><span>번호</span></th>
+            <th><span>개념요소</span></th>
+            <th><span>채점<br>결과</span></th>
+            <th><span>정답율</span></th>
+            <th><span>난이도</span></th>
+            <th><span>가장<br>빈번한<br>오답</span></th>
+            <th><span>상위50%<br>정답율</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">1</a></td>
+            <td>로그의정의</td>
+            <td>O</td>
+            <td>99%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>상용로그</td>
+            <td>O</td>
+            <td>23%</td>
+            <td>A</td>
+            <td>3</td>
+            <td>70%</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+            <td>로그의 정의, 상용로그</td>
+            <td>O</td>
+            <td>99%</td>
+            <td>B</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">확인</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+            <td>상용로그</td>
+            <td>O</td>
+            <td>23%</td>
+            <td>C</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>로그의 정의, 상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>D</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">31</a></td>
+            <td>상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>3</td>
+            <td>70%-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>3</td>
+            <td>-</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">7</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="txt_st1">※ 난이도는 A가 가장 어렵고 E가 가장 쉬운 문항을 의미합니다.</p>
+    </section>
+
+    <section class="contents compare_cont">
+      <h2>경쟁자 대비 비교</h2>
+      <p class="txt_st1">경쟁자 : 나와 같은 레벨, 같은 성취기준의 문제를 푼 학생</p>
+
+      <h3>풀이문제수</h3>
+      <div class="chart_div">
+        <canvas id="myChart1" class="gs_reveal_fromLeft"></canvas>
+      </div>
+
+      <h3>학습시간</h3>
+      <div class="chart_div">
+        <canvas id="myChart2" class="gs_reveal_fromRight"></canvas>
+      </div>
+
+      <h3>정답율</h3>
+      <div class="chart_div">
+        <canvas id="myChart3" class="gs_reveal_fromLeft"></canvas>
+      </div>
+    </section>
+
+    <a href="#" class="btn btn_st3">다음 성취요소 학습하기</a>
+
+  </div><!-- //container -->
+
+
+</div>
+
+ <!-- 차트 -->
+<script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/ScrollTrigger.min.js"></script>
+
+
+ <script>
+	function animateFrom(elem, direction) {
+		direction = direction | 1.5;
+
+		var x = 0,
+		y = direction * 100;
+
+		gsap.fromTo(elem, {x: x, y: y, autoAlpha: 0}, {
+			duration: 1,
+			x: 0,
+			y: 0,
+			autoAlpha: 1,
+			ease: "expo",
+			overwrite: "auto"
+		});
+}
+
+	function hide(elem) {
+		gsap.set(elem, {autoAlpha: 0});
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.utils.toArray(".chart_div").forEach(function(elem) {
+			hide(elem); // assure that the element is hidden when scrolled into view
+
+			ScrollTrigger.create({
+				trigger: elem,
+				onEnter: function() { animateFrom(elem) },
+				onEnterBack: function() { animateFrom(elem, -1) },
+				onLeave: function() { hide(elem) } // assure that the element is hidden when scrolled into view
+			});
+		});
+	});
+
+  //풀이문제 수
+  var ctx1 = document.getElementById('myChart1');
+  var myChart1 = new Chart(ctx1, {
+    type: 'bar',
+    data: { labels: ['jeehyun@aigo.com님', '경쟁자'],
+    datasets: [{
+
+      label: '풀이문제수',
+      data: [1000, 560],
+      backgroundColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderWidth: 1 }
+      ]},
+    options: {
+      responsive: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        duration: 1000,
+/*
+        //막대 위 데이터 값 표기
+        onComplete: function () {
+          var chartInstance = this.chart,
+            ctx = chartInstance.ctx;
+          ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+          ctx.fillStyle = 'black';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+
+          this.data.datasets.forEach(function (dataset, i) {
+            var meta = chartInstance.controller.getDatasetMeta(i);
+            meta.data.forEach(function (bar, index) {
+              var data = dataset.data[index];
+              ctx.fillText(data, bar._model.x, bar._model.y - 5);
+            });
+          });
+        }
+*/
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            stepSize : 500,
+            max: 1500,
+            fontSize : 8,//수정0219
+            fontColor: '#656565'//수정0219
+            
+          },
+          gridLines: {//수정0219
+            zeroLineColor: '#ddd'//수정0219
+          }//수정0219
+        }],
+        xAxes: [{
+          ticks: {//수정0219
+            fontSize : 10,//수정0219
+            fontColor: '#000',//수정0219
+            maxRotation: 0,//수정0226
+            minRotation: 0//수정0226
+          },//수정0219
+          barPercentage: 0.4,
+          gridLines: {
+              display:false
+          }
+        }]
+      },
+	  plugins: {
+		   deferred: {
+			xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+			yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+			delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+		  },
+            // Change options for ALL labels of THIS CHART
+			datalabels: {
+				color: '#666',
+        font: {size: 10},//수정0219
+			 align: function(context) {
+				  var value = context.dataset.data[context.dataIndex];
+				  return value > 0 ? 'end' : 'start';
+				},
+				anchor: function(context) {
+				  var value = context.dataset.data[context.dataIndex];
+				  return value > 0 ? 'end' : 'start';
+				}
+			}
+		}
+	}
+  });
+
+  //학습시간
+  var ctx2 = document.getElementById('myChart2');
+  var myChart2 = new Chart(ctx2, { type: 'bar',
+    data: { labels: ['jeehyun@aigo.com님', '경쟁자'],
+    datasets: [{
+
+      label: '풀이문제수',
+      data: [100000, 99200],
+      backgroundColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderWidth: 1 }
+      ]},
+    options: {
+      responsive: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        duration: 1000,
+
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 98000,
+            stepSize : 1000,
+            max: 101000,
+            fontSize : 7,//수정0219
+            fontColor: '#656565'//수정0219
+          },
+          gridLines: {//수정0219
+            zeroLineColor: '#ddd'//수정0219
+          }//수정0219
+        }],
+        xAxes: [{
+          ticks: {//수정0219
+            fontSize : 10,//수정0219
+            fontColor: '#000',//수정0219
+             maxRotation: 0,//수정0226
+            minRotation: 0,//수정0226
+          },//수정0219
+            barPercentage: 0.4,
+            gridLines: {
+                display:false
+            }
+        }]
+      },
+	  plugins: {
+		  deferred: {
+			xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+			yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+			delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+		  },
+            // Change options for ALL labels of THIS CHART
+			datalabels: {
+				color: '#666',
+        font: {size: 10},//수정0219
+				 align: function(context) {
+					  var value = context.dataset.data[context.dataIndex];
+					  return value > 0 ? 'end' : 'start';
+					},
+					anchor: function(context) {
+					  var value = context.dataset.data[context.dataIndex];
+					  return value > 0 ? 'end' : 'start';
+					}
+			}
+		}
+    }
+  });
+
+  //정답률
+  var ctx3 = document.getElementById('myChart3');
+  var myChart3 = new Chart(ctx3, { type: 'bar',
+    data: { labels: ['jeehyun@aigo.com님', '경쟁자'],
+    datasets: [{
+
+      label: '정답률',
+      data: [100, 60],
+      backgroundColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderColor: [ 'rgba(27, 131, 239, 1)', 'rgba(46, 54, 152, 1)' ],
+      borderWidth: 1 }
+      ]},
+    options: {
+      responsive: false,
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false
+      },
+      hover: {
+        animationDuration: 0
+      },
+      animation: {
+        duration: 1000
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            stepSize : 50,
+            max: 150,
+            fontColor: '#656565',//수정0219
+            fontSize : 8,
+			callback: function(value){return value+ "%"}
+          },
+          gridLines: {//수정0219
+            zeroLineColor: '#ddd'//수정0219
+          }//수정0219
+        }],
+        xAxes: [{
+          ticks: {//수정0219
+            fontSize : 10,//수정0219
+            fontColor: '#000',//수정0219
+            maxRotation: 0,//수정0226
+            minRotation: 0//수정0226
+          },//수정0219
+          barPercentage: 0.4,
+          gridLines: {
+              display:false
+          }
+        }]
+      },
+	  plugins: {
+		  deferred: {
+			xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+			yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+			delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+		  },
+            // Change options for ALL labels of THIS CHART
+			datalabels: {
+				color: '#666',
+        font: {size: 10},//수정0219
+				 align: function(context) {
+					  var value = context.dataset.data[context.dataIndex];
+					  return value > 0 ? 'end' : 'start';
+					},
+					anchor: function(context) {
+					  var value = context.dataset.data[context.dataIndex];
+					  return value > 0 ? 'end' : 'start';
+					},
+					formatter: function(value, context) {
+					 return  context.dataset.data[context.dataIndex] + '%';
+					}
+			}
+		}
+    }
+  });
+
+
+    $(function() {
+      $(".bar_div > span").each(function() {
+        $(this)
+          .data("origWidth", $(this).width())
+          .width(0)
+          .animate({
+            width: $(this).data("origWidth")
+          }, 1200);
+      });
+    });
+</script>
+
+
+</body>
+
+</html>

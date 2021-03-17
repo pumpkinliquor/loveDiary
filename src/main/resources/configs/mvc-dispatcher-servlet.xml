@@ -20,7 +20,8 @@
 
     <!-- 스케쥴러 -->
     <!-- hsk3807 -->
-    <!-- <bean id="ApiService" class="com.plushih.common.scheduled.ApiScheduled" />-->
+     <bean id="ApiService" class="com.plushih.common.scheduled.ApiScheduled" />
+    <!-- 스케쥴러 -->
 
     <task:annotation-driven/>
 

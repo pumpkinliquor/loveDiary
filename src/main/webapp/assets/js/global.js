@@ -220,26 +220,40 @@ function checkPassword(str, str2, targetClass){
 	var patternString = /[a-zA-Z]/;
 	var patternSymbol = /[~!@\#$%<>^&*]/;     // 원하는 특수문자 추가
 	var returnMsg = "";
+	var returnCheck = "";
 	var checkResult = false;
 	var isAvailable = false;	// 비밀번호 사용가능여부 체크용
 	
 	if( (!patternNumber.test(str) && patternString.test(str) && patternSymbol.test(str)) ||
 		(patternNumber.test(str) && !patternString.test(str) && patternSymbol.test(str)) ||
+		(patternNumber.test(str) && patternString.test(str) && patternSymbol.test(str)) ||
 		(patternNumber.test(str) && patternString.test(str) && !patternSymbol.test(str)) ){
 		isAvailable = true;
 	}
 	
 	if(str == '' ){
 		returnMsg = '비밀번호는 필수항목입니다.';
+		targetClass = 'passwordErrorArea';
+		$('.'+targetClass).text(returnMsg);
 	} else if( !isAvailable || str.length < 10 || str.length > 20) {
 		returnMsg = '영문, 숫자, 특수문자 중 2종류를 조합하여 10자리 이상으로 입력하세요.';
+		targetClass = 'passwordErrorArea';
+		$('.'+targetClass).text(returnMsg);
 	} else if(str != str2) {
+		returnMsg = '';
+		targetClass = 'passwordErrorArea';
+		$('.'+targetClass).text(returnMsg);
 		returnMsg = '비밀번호가 일치하지 않습니다.';
+		targetClass = 'passwordErrorCompareArea';
+		$('.'+targetClass).text(returnMsg);
 	}else{
 		returnMsg = '';
+		targetClass = 'passwordErrorArea';
+		$('.'+targetClass).text(returnMsg);
+		targetClass = 'passwordErrorCompareArea';
+		$('.'+targetClass).text(returnMsg);
 		checkResult = true;
 	}
-	$('.'+targetClass).text(returnMsg);
 	
 	return checkResult;
 }
@@ -288,4 +302,51 @@ function checkPhoneNumber(str, targetClass){
 	
 	$('.'+targetClass).text(returnMsg);
 	return checkResult;
+}
+
+// 로그인 상태 체크
+function isLogin(){
+	var isLogin = false;
+	if("${loginSessionId}" != "" || "${loginSessionId}" != null || 
+		"${loginSessionId}" != "null" || "${loginSessionId}" != "undefined" || "${loginSessionId}" != undefined){
+		isLogin = true;
+	}
+	return isLogin;
+}
+
+// 로그아웃
+function logout(){
+	$.post('/static/ajax/loginOut',{},function(r){
+		alert('로그아웃 되었습니다.');
+		location.href = '/main';
+	});
+}
+
+// 초 → 시/분/초 환산
+function getTimeStringSeconds(seconds){
+	
+	var hour = 0;
+	var min = 0;
+	var sec = 0;
+	
+	var arrTime = new Array();
+	
+	hour = parseInt(seconds/3600);
+	min = parseInt((seconds%3600)/60);
+	sec = seconds%60;
+	
+	if (hour.toString().length==1) hour = "0" + hour;
+	if (min.toString().length==1) min = "0" + min;
+	if (sec.toString().length==1) sec = "0" + sec;
+	
+	arrTime.push(hour);
+	arrTime.push(min);
+	arrTime.push(sec);
+	
+	return arrTime;
+}
+
+// 시/분/초 → 초 환산
+function fnTimeToSeconds(hour,min,sec){
+	return Number(hour)*3600+Number(min)*60+Number(sec);
 }

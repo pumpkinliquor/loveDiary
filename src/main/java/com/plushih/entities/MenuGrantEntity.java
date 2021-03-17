@@ -12,6 +12,8 @@ public class MenuGrantEntity  extends PlusEntity implements Serializable{
 	private String mgGrant;
 	private String regDate;
 
+
+
 	public Integer getUgSeq(){ return ugSeq; }
 	public void setUgSeq(Integer ugSeq){ this.ugSeq = ugSeq; }
 

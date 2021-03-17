@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출상세</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 결제/환불</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 결제/환불 내역</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 환불관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 프로모션 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 배너/팝업 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 푸시관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 약관관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">게시판관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 공지사항</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ FAQ</p></a></li>
+		    	</ul>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content sales_cont">
+			<h2>배너/팝업관리</h2>
+
+			<table class="srchT">
+				<colgroup>
+					<col width="18%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="2">검색</th>
+						<td class="bbx">
+							<div class="radio_wrap" style="width:auto">
+								<div class="ipt_radio_div">
+									<input type="radio" id="srchAll" name="srch" checked="checked">
+									<label for="srchAll">전체</label>
+								</div>
+								<div class="ipt_radio_div">
+									<input type="radio" id="srch1" name="srch">
+									<label for="srch1">대기</label>
+								</div>
+								<div class="ipt_radio_div mr20">
+									<input type="radio" id="srch2" name="srch">
+									<label for="srch2">진행중</label>
+								</div>
+								<div class="ipt_radio_div mr20">
+									<input type="radio" id="srch3" name="srch">
+									<label for="srch3">종료</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ptx">
+							<div class="srch_div">
+								<select class="s_p1">
+									<option>선택</option>
+									<option>배너명</option>
+									<option>위치</option>
+								</select>
+								<input type="text" name="" class="ipt_p1">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table id="dataT" class="table table-bordered table-hover dataTable dtr-inline fs15">
+				<colgroup>
+					<col width="5%">
+					<col width="7%">
+					<col width="7%">
+					<col width="9%">
+					<col width="*">
+
+					<col width="11%">
+					<col width="10%">
+					<col width="10%">
+					<col width="7%">
+					<col width="10%">
+					<col width="7.5%">
+					<col width="7.5%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>NO</th>
+						<th class="sort_x">노출플랫폼</th>
+						<th class="sort_x">위치</th>
+						<th class="sort_x">배너명</th>
+						<th class="sort_x">이미지</th>
+
+						<th class="sort_x">랜딩링크</th>
+						<th>등록일</th>
+						<th>종료일</th>
+						<th class="sort_x">상태</th>
+						<th class="sort_x">등록/수정</th>
+						<th>노출처리</th>
+						<th class="sort_x">노출순서</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>9</td>
+						<td>앱</td>
+						<td>메인</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop01')">런칭홍보1차</a></td>
+						<td><img class="thumb" src="../images/tmp_thumb.jpg" alt="임시배너썸네일"></td>
+
+						<td><a href="#">랜딩경로/</a></td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>진행중</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+						<td class="b blue"><a href="#">Y</a></td>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td>8</td>
+						<td>앱</td>
+						<td>메인</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop01')">서바이벌 홍보 1차</a></td>
+						<td><img class="thumb" src="../images/tmp_thumb.jpg" alt="임시배너썸네일"></td>
+
+						<td><a href="#">랜딩경로/</a></td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>종료</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+						<td class="b blue"><a href="#">Y</a></td>
+						<td>1</td>
+					</tr>
+					<tr class="bg_N">
+						<td>7</td>
+						<td>앱</td>
+						<td>전체메뉴하단</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop01')"></td>
+						<td><img class="thumb" src="../images/tmp_thumb.jpg" alt="임시배너썸네일"></td>
+
+						<td><a href="#">랜딩경로/</a></td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>진행중</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+						<td class="b"><a href="#">N</a></td>
+						<td>1</td>
+					</tr>
+					<tr class="bg_N">
+						<td>6</td>
+						<td>앱</td>
+						<td>메인</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop01')">서바이벌 홍보 1차</a></td>
+						<td><img class="thumb" src="../images/tmp_thumb.jpg" alt="임시배너썸네일"></td>
+
+						<td><a href="#">랜딩경로/</a></td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>종료</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+						<td class="b"><a href="#">N</a></td>
+						<td>1</td>
+					</tr>
+					<tr class="bg_N">
+						<td>5</td>
+						<td>앱</td>
+						<td>전체메뉴하단</td>
+						<td><a href="#" class="link" onclick="modalOpen('pop01')">서바이벌 홍보 1차</a></td>
+						<td><img class="thumb" src="../images/tmp_thumb.jpg" alt="임시배너썸네일"></td>
+
+						<td><a href="#">랜딩경로/</a></td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>yyyy-mm-dd 00:00:00</td>
+						<td>대기</td>
+						<td>이지현(admin) yyyy-mm-dd 00:00:00</td>
+						<td class="b"><a href="#">N</a></td>
+						<td>1</td>
+					</tr>
+					
+				</tbody>
+
+			</table>
+
+			<div class="tbl-foot">
+				<a href="#" class="btn btn-offer">등록</a>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+
+<div class="modal-wrap pop01">
+	<div class="modal">
+	  <div class="modal-header">
+	    <h1>배너등록 및 수정</h1>
+	  </div>
+	  <div class="content">
+	    <table class="popT">
+	    	<colgroup>
+	    		<col width="20%">
+	    		<col width="30%">
+	    		<col width="20%">
+	    		<col width="30%">
+	    	</colgroup>
+	    	<tbody>
+	    		<tr>
+	    			<th>플랫폼 <em class="point">*</em></th>
+	    			<td>
+	    				<select>
+	    					<option>선택</option>
+        					<option>웹</option>
+        					<option>앱</option>
+        				</select>
+	    			</td>
+	    			<th>위치 <em class="point">*</em></th>
+	    			<td>
+	    				<select>
+	    					<option>선택</option>
+        					<option>메뉴레이어하단</option>
+        					<option>학습홈 메인</option>
+        				</select>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>배너명 <em class="point">*</em></th>
+	    			<td colspan="3"><input type="text" class="" placeholder="친구추천 이벤트 배너 1차"></td>
+	    		</tr>
+	    		<tr>
+	    			<th>이미지</th>
+	    			<td colspan="3">
+	    				<div class="add_file_div inlineB">
+	        				<div class="filebox">
+	        					<label for="ex_filename1" class="btn btn-st1">파일찾기</label>
+	        					<input class="upload-name" value="파일명" disabled="disabled">
+	        					<i class="fas fa-times fa-times2"></i>
+
+	        					<input type="file" id="ex_filename1" class="upload-hidden">
+	        				</div>
+	        				<p class="txt_p">* 이미지 사이즈 000X000</p>
+	    				</div>
+	    				<div class="thumb_img"><img src="../images/tmp_thumb.jpg"></div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>링크 URL</th>
+	    			<td colspan="3">
+	    				<input type="text" placeholder="/subaddress/주소주소" >
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>등록기간</th>
+	    			<td colspan="3">
+	    				<div class="date_div">
+	                      <input type="date" class="ipt_date mr" id="">
+	                      <input type="number" name="" class="ipt_time" value="00"><span>:</span><input type="number" name="" class="ipt_time" value="00">
+	                      <span>~</span>
+	                      <input type="date" class="ipt_date mr" id="">
+	                      <input type="number" name="" class="ipt_time" value="00"><span>:</span><input type="number" name="" class="ipt_time" value="00">
+	                    </div>
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>노출순서</th>
+	    			<td colspan="3">
+	    				<input type="number" name="" class="ipt_w" value="1">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<th>등록/수정</th>
+	    			<td colspan="3">
+	    				이지현(admin)  yyyy-mm-dd   hh:mm:ss
+	    			</td>
+	    		</tr>
+	    	</tbody>
+	    </table>
+
+	  </div>
+	  <div class="modal-footer">
+	    <button class="btn btn-primary fR">저장</button>
+	  </div>
+	  <a href="#" class="close-pop close-btn" onclick="modalClose();">&#10005;</a>
+	</div>
+</div>
+<script type="text/javascript">
+ modalClose();
+</script>
+<script>
+  $(function () {
+    $('#dataT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+</body>
+</html>

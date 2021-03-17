@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+
+<!-- Datatables -->
+<link rel="stylesheet" href="../assets/plugin/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../assets/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#studyT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body class="report_body">
+<div class="wrapper">
+  <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1>레벨 평가 리포트</h1>
+
+    <div class="my_cont">
+      <p class="my_id">jeehyun@aigo.com님</p>
+      <div class="my_grade">
+        <span><em>Lv.1</em> 레벨평가</span>
+        <a href="#" class="btn_level"></a> <!-- 수정0222 -->
+        <div class="layer_pop level_pop"> <!-- 수정0222 -->
+            <form>
+            <ul class="select_div">
+              <li class="ipt_radio_div">
+                  <input type="radio" id="select1" name="select">
+                  <label for="select1"><span>LEVEL 1</span></label>
+              </li>
+              <li class="ipt_radio_div">
+                  <input type="radio" id="select2" name="select">
+                  <label for="select2"><span>LEVEL 2</span></label>
+              </li>
+              <li class="ipt_radio_div">
+                  <input type="radio" id="select3" name="select">
+                  <label for="select3"><span>LEVEL 3</span></label>
+              </li>
+              <li class="ipt_radio_div">
+                  <input type="radio" id="select4" name="select">
+                  <label for="select4"><span>LEVEL 4</span></label>
+              </li>
+            </ul>
+            </form>
+          </div>
+
+      </div>
+    </div>
+  </header>
+  <div class="container report">
+    <section class="contents analysis_cont pb"><!-- 수정0223 -->
+      <h2>학습 결과와 상세 분석</h2>
+      <div class="study_result_div">
+        <div class="q_div btx">
+          <p class="tit ico_time fL"><span>평가 소요시간</span></p><span class="txt_time fR">12시간 40분 22초</span><!-- 수정0219 -->
+        </div>
+
+        <div class="my_result_div">
+          <div class="my_graph">
+            <div class="average">
+              <span class="txt">권장풀이소요시간</span> 
+              <i class="bar_l"></i>
+            </div>
+            
+            <div class="my_r my_time t10">
+              <span class="txt">나의 소요시간</span>
+              <span class="my_posi"><img src="../assets/images/_tmp/tmp_img_photo.jpg" alt="회원 프로필 사진"></span>
+              <i class="bar_l"></i>
+            </div> 
+          </div>
+
+          <p>1문제당 평균 <b>20</b>분 <b>32</b>초가 필요합니다. <br>권장 풀이 시간은 문제당 <b>30</b>분 <b>40</b>초 입니다. </p>
+        </div>
+
+
+        <div class="q_div btx">
+          <p class="tit ico_rate fL"><span>평가 정답률</span></p><span class="txt_time fR">85%</span>
+        </div>
+
+        <div class="my_result_div btx">
+          <div class="my_graph">
+            <div class="average">
+              <span class="txt">평균정답율</span> 
+              <i class="bar_l"></i>
+            </div>
+            <div class="my_r my_rate t_10">
+              <span class="txt">나의 정답율</span>
+              <span class="my_posi"><img src="../assets/images/_tmp/tmp_img_photo.jpg" alt="회원 프로필 사진"></span>
+              <i class="bar_l"></i>
+            </div> 
+          </div>
+
+          <p>전체 풀이 문항수 <b>99,000</b>문제 중 <br>맞춘 문제는 <b>99,999</b> 문제 입니다. </p><!-- 수정0209 -->
+        </div>
+
+      </div>
+    </section>
+
+    <section class="contents analysis_cont">
+      <h2>문항별 분석</h2>
+      <p class="txt_st1 mt25 mb5">문제 선택 시 해당 문제 다시 풀기로 이동 합니다.</p>
+      <div class="tbl_wrap">
+      <table id="studyT" class="studyT table table-bordered table-hover dataTable dtr-inline">
+        <colgroup>
+          <col width="70px">
+          <col width="54px">
+          <col width="155px">
+          <col width="60px">
+          <col width="60px">
+          <col width="60px">
+          <col width="70px">
+          <col width="80px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="sticky-col first-col"><span>구분</span></th>
+            <th class="sticky-col second-col"><span>번호</span></th>
+            <th><span>개념요소</span></th>
+            <th><span>채점<br>결과</span></th>
+            <th><span>정답율</span></th>
+            <th><span>난이도</span></th>
+            <th><span>가장<br>빈번한<br>오답</span></th>
+            <th><span>상위50%<br>정답율</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">1</a></td>
+            <td>로그의정의</td>
+            <td>O</td>
+            <td>99%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>상용로그</td>
+            <td>O</td>
+            <td>23%</td>
+            <td>A</td>
+            <td>3</td>
+            <td>70&</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">기출</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+            <td>로그의 정의, 상용로그</td>
+            <td>O</td>
+            <td>99%</td>
+            <td>B</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">확인</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+            <td>상용로그</td>
+            <td>O</td>
+            <td>23%</td>
+            <td>C</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>로그의 정의, 상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>D</td>
+            <td>-</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">31</a></td>
+            <td>상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>3</td>
+            <td>70%-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>-</td>
+          </tr>
+          <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>상용로그</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>3</td>
+            <td>-</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>-</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>99%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>70%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">7</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>E</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+           <tr>
+            <td class="sticky-col first-col">주간평가</td>
+            <td class="sticky-col second-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+            <td>로그의정의</td>
+            <td class="fc_R">X ④</td>
+            <td>25%</td>
+            <td>A</td>
+            <td>2</td>
+            <td>100%</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="txt_st1">※ 난이도는 A가 가장 어렵고 E가 가장 쉬운 문항을 의미합니다.</p>
+    </section>
+
+    <section class="contents levelup_cont">
+      <h2>레벨업 결과</h2>
+      <p class="txt_st1 mb10">주간평가, 레벨평가 풀이 문제  70% 이상 정답일 경우 승급 됩니다. </p>
+      <button class="btn btn_st4">주간평과 결과확인</button>
+      <button class="btn btn_st4">레벨평과 결과확인</button>
+
+      <p class="txt_st2">보충학습을 진행하면 기준 점수를 달성하지 못했어도 레벨 업 가능합니다. 지금 보충학습을 시작하세요.</p>
+      <button class="btn btn_st4">보충학습 Go</button>
+    </section>
+
+
+    <!-- 결과버튼 --> <!-- 수정0209 -->
+    <section class="contents levelup_cont">
+      <h2>레벨업 결과</h2>
+      <button class="btn btn_st4 btn_result">주간평과 결과 78% <span class="badge"><em>달성</em></span></button>
+      <button class="btn btn_st4 btn_result">레벨평과 결과 68% <span class="badge failed"><em>미달성</em></span></button>
+      <button class="btn btn_st4 btn_result">보충학습 Go <span class="badge"><em>완료</em></span></button>
+    </section>
+    <!-- //결과버튼 -->
+
+    <div class="conts_btm">
+      <p>6주 뒤 1등급 상승을 위한 AIGo 처방</p>
+      <strong>LEVEL 2 코스</strong>
+      <a href="#" class="btn btn_st3">Go</a>
+    </div>
+    
+  </div><!-- //container -->
+
+  
+</div>
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+
+</html>

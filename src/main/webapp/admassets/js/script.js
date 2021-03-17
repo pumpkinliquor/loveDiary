@@ -68,7 +68,13 @@
     }
 }
 
-
+//모달창
+function modalClose() {
+  $('.modal .close-pop').click(function() {
+    $(this).parents('.modal-wrap').removeClass('is-visible');
+    $('body').css("overflow", "scroll");
+  });
+}
 
 function modalOpen(target) {
   $('.' + target).addClass('is-visible');
@@ -109,4 +115,12 @@ function chkAll() {
     } else {
         $("input[type=checkbox]").prop("checked", false);
     }
+}
+
+function chkSet() {
+  var chk1 = $(".date_set_wrap .chkbox_div .ipt_chk");
+  var chk2 = $(".date_set_wrap .date_div");
+    chk1.click(function(){
+    chk2.toggleClass('disabled');
+  });
 }

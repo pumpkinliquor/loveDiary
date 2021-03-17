@@ -35,7 +35,7 @@ public class AigoConceptServiceImpl extends CiServiceImpl implements AigoConcept
         dbEntity.from("cb_aigo_concept bb");
 
         if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
-            dbEntity.like("sub_name",dbEntity.input.getSearchString());
+            dbEntity.like("cpt_name",dbEntity.input.getSearchString());
         }
         dbEntity.order("reg_date","desc");
 
@@ -79,9 +79,14 @@ public class AigoConceptServiceImpl extends CiServiceImpl implements AigoConcept
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
+
+                dbEntity.where("cpt_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("cpt_key","CPT"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("cpt_key","CPT"+StringUtils.zeroFill(String.valueOf(aigoConceptEntity.getCptId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
 //                if(dbEntity.input.get("bbSeq")!=null){

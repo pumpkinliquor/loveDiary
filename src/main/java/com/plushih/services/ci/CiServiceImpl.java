@@ -530,6 +530,12 @@ public class CiServiceImpl implements CiService {
                 String fieldName = getFieldList.get(i).getColumnName(),camelField = StringUtils.toCamel(getFieldList.get(i).getColumnName());
                 dbEntity._fieldList.put(getFieldList.get(i).getColumnName(),getFieldList.get(i));
 
+                if(camelField.equals("udtSysdate")) {
+                    continue;
+                }
+                if(camelField.equals("regSysdate")) {
+                    continue;
+                }
                 if(fieldName.equals(primary.getColumnNames())){
                     continue;
                 }

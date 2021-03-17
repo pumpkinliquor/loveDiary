@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.plushih</groupId>
-  <artifactId>AIGO</artifactId>
+  <artifactId>LD</artifactId>
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>AIGO</name>
+  <name>LD</name>
 
   <properties>
     <spring.frameworkversion>4.1.4.RELEASE</spring.frameworkversion>
@@ -477,7 +477,7 @@
 
 
   <build>
-    <finalName>AIGO</finalName>
+    <finalName>LD</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -502,7 +502,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warName>AIGO</warName>
+          <warName>LD</warName>
         </configuration>
       </plugin>
     </plugins>

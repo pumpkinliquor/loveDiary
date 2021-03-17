@@ -107,9 +107,9 @@
         		</tr>
         		<tr>
         			<th>아이디 <em class="point">*</em></th>
-        			<td><input type="text" class="" name="umId" id="umId" readonly="readonly" maxlength="4"></td>
+        			<td><input type="text" class="" name="umId" id="umId" readonly="readonly" minlength="4" maxlength="30"></td>
         			<th>비밀번호 <em class="point">*</em></th>
-        			<td><input type="password" class="" name="umPw" id="umPw" maxlength="8"></td>
+        			<td><input type="password" class="" name="umPw" id="umPw" minlength="8" maxlength="30"></td>
         		</tr>
         		<tr>
         			<th>사업부</th>
@@ -125,7 +125,7 @@
         			<th>IP</th>
         			<td colspan="3">
         				<input type="text" class="ip_address" name="umUmAddr" id="umUmAddr">
-        				<p class="alert_txt">숫자,콤마(.)만 입력 가능합니다.</p>
+<%--        				<p class="alert_txt">숫자,콤마(.)만 입력 가능합니다.</p>--%>
         			</td>
         		</tr>
         		<tr>
@@ -186,7 +186,8 @@ $(document).ready(function(){
             umName:{required:true,minlength:2}
             ,umId:{required:true,minlength:3}
             ,umWork:{required:true}
-            ,umEtc:{required:true}
+            //,umEtc:{required:true}
+            ,umUmAddr:{ip:true}
             ,umPw:{required:true,minlength:4}
         };
 
@@ -225,7 +226,7 @@ $(document).ready(function(){
           return div.prop('outerHTML')
         }
 
-        gridColumn.push({'data': 'umSeq', 'title': '순서', 'type': 'checkbox', hidden: false,render:plus.renderer.rownum});
+        gridColumn.push({'data': 'umSeq', 'title': '순서', 'type': 'checkbox', hidden: false,render:plus.renderer.rrownum});
         gridColumn.push({'data':'umName','title':'이름','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'umId','title':'아이디',render:plus.renderer.clickbox});
         gridColumn.push({'data':'umCompany','title':'사업부',render:plus.renderer.clickbox});
@@ -283,7 +284,7 @@ $(document).ready(function(){
             json[k] = '';
         });
 
-      plus.frontPage.popup($('#wrapEdit'), $.extend(json,{bbSeq:'0','start':0,length:0,umStep:'OK',umType:'ADMIN',bbDate:(new Date()).format('yyyy-MM-dd')}),'NEW');
+      plus.frontPage.popup($('#wrapEdit'), $.extend(json,{bbSeq:'0','start':0,length:0,umStep:'OK',umType:'ADMIN',umWork:'N',useYn:'y',bbDate:(new Date()).format('yyyy-MM-dd')}),'NEW');
     });
     /* 삭제 버튼*/
     $('.btnDelete').click(function(){
@@ -310,8 +311,18 @@ $(document).ready(function(){
     });
     $('.btnSubmit').click(function(){
 
-      $(this).closest('form').submit();
-      return false;
+        var connect =   $('.code.CONNECT :radio:checked').val();
+        if(connect=='Y' && $.trim($('#umEtc').val())==''){
+            Swal.fire({
+              icon: 'warning',
+              title: '' +
+                  '외부접속 사유는 필수입니다.',
+          });
+            return false;
+        }
+
+        $(this).closest('form').submit();
+        return false;
     });
     $(':file').change(function(){
       var fileOne = $(this).get(0).files[0];

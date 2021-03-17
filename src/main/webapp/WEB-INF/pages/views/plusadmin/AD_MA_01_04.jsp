@@ -66,7 +66,7 @@
 				<tbody>
 				<tr class="EDIT hidden">
 					<th>단원코드</th>
-					<td><b>AA002</b></td>
+					<td><b class="unitKey">AA002</b></td>
 				</tr>
 				<tr>
 					<th>과목명 <em class="point">*</em></th>
@@ -97,7 +97,7 @@
 
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-primary fR btnSubmit">저장</button>
+			<a class="btn btn-primary fR btnSubmit">저장</a>
 		</div>
 		</form>
 		<a href="#" class="close-pop close-btn" >&#10005;</a>
@@ -123,7 +123,18 @@ $(document).ready(function(){
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
             subId:{required:true}
-            ,unitName:{required:true}
+            ,unitName:{required:true,remote: {
+			url: "/plusadmin/ajax/aigo/unitCheck",
+			type: "post",
+			  data: {
+			  unitName: function() {
+				return $( "#unitName" ).val();
+			  },
+			  unitId: function() {
+				return $( "#unitId" ).val();
+			  }
+			}
+		  }}
 
         };
         pageContentLast.data({rules:rules});
@@ -162,7 +173,7 @@ $(document).ready(function(){
         }
 
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'unitId','title':'단원코드'});
+        gridColumn.push({'data':'unitKey','title':'단원코드'});
         gridColumn.push({'data':'subName','title':'과목명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'unitName','title':'대단원명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+</head>
+
+<body class="join_body">
+<div class="wrapper">
+  <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1>개인정보수정</h1>
+    <div class="profile_img">
+        <img src="../assets/images/_tmp/tmp_img_photo.jpg" alt="임시 프로필 이미지">
+      </div>
+  </header>
+  <div class="container join edit_myinfo"><!-- 수정0219 -->
+    <section class="contents">
+      <form action="#" method="">
+      <div class="member_join_cont">
+        <div class="member_ipt_div">
+          <h2>이메일</h2>
+          <div class="ipt_div">
+            <input type="text" name="" value="hyun@aigo.com">
+          </div>
+        </div>
+        <div class="member_ipt_div">
+          <h2>닉네임</h2>
+          <div class="ipt_div">
+            <input type="text" name="" placeholder="미설정 시 이메일주소가 닉네임" class="ipt_plc">
+          </div>
+          <p class="er_txt">한글, 영문, 숫자 최대 6자까지 입력 가능합니다. </p> 
+        </div>
+        <div class="member_ipt_div">
+          <h2>비밀번호</h2>
+          <div class="ipt_div ipt_edit_div">
+            <input type="password" name="" value="1234567">
+            <a href="#" class="ico_pw_view">비밀번호 보기</a><!-- 수정0219 -->
+            <button class="btn_gray_s">변경</button>
+          </div>
+          <!-- <p class="er_txt">영문, 숫자, 특수문자 중 2종류 조합하여 10자리 이상으로 입력하세요.</p> -->
+        </div> 
+        <div class="member_ipt_div">
+          <h2>비밀번호 재입력</h2>
+          <input type="password" name="" value="">
+        </div> 
+        <div class="member_ipt_div">
+          <h2>핸드폰번호</h2>
+          <div class="ipt_div ipt_edit_div">
+            <input type="text" name="" value="">
+            <button class="btn_gray_s">변경</button>
+          </div>
+        </div> 
+        <div class="member_ipt_div">
+          <h2>인증번호 입력</h2>
+          <div class="ipt_div ipt_edit_div">
+            <input type="text" name="" value="">
+            <span class="txt_red">03:00</span>
+            <button class="btn_gray_s">확인</button>
+          </div>
+        </div> 
+        <div class="member_ipt_div">
+          <h2>학년</h2>
+          <input type="text" name="" value="고3">
+        </div>
+        <div class="member_ipt_div">
+          <h2>선택과목</h2>
+          <input type="text" name="" value="확률과 통계">
+        </div>
+
+        <button type="submit" class="btn btn_join">확인</button> 
+      </div><!-- //member_ipt_cont -->
+      </form> 
+    </section>
+  </div><!-- //container -->
+  
+</div>
+
+<div class="modal-wrap is-visible">
+    <div class="modal">
+      <div class="pop_cont">
+        <form>
+          <ul class="select_div">
+            <li class="ipt_radio_div">
+                <input type="radio" id="select1" name="select" />
+                <label for="select1"><span>고1</span></label>
+            </li>
+            <li class="ipt_radio_div">
+                <input type="radio" id="select2" name="select" />
+                <label for="select2"><span>고2</span></label>
+            </li>
+            <li class="ipt_radio_div">
+                <input type="radio" id="select3" name="select" />
+                <label for="select3"><span>고3</span></label>
+            </li>
+            <li class="ipt_radio_div">
+                <input type="radio" id="select4" name="select" />
+                <label for="select4"><span>N수생</span></label>
+            </li>
+            <li class="ipt_radio_div">
+                <input type="radio" id="select5" name="select" />
+                <label for="select5"><span>기타</span></label>
+            </li>
+          </ul>
+        </form>
+      </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+  modalClose2(); //수정0209
+</script>
+
+
+
+</body>
+
+</html>

@@ -9,17 +9,12 @@
       <div class="q_txt">
         <p>모의고사 30문제 중 <br>자신 있게 풀 수 있는 문제 수는?</p>
       </div>
-      <ul class="q_choice qst_num">
-        <li><button>28문제 이상 </button></li>
-        <li class="on"><button>21문제 ~ 27문제</button></li>
-        <li><button>16문제 ~ 20문제</button></li>
-        <li><button>11문제 ~ 15문제</button></li>
-        <li><button>10문제 이하</button></li>
+      <ul class="q_choice qst_num q_cont_grd">
       </ul>
     </div>
     <div class="btm_btn_div">
-      <a href="#" class="prev"><span>이전</span></a>
-      <a href="#" class="next disabled"><span>다음</span></a>
+      <a href="javascript:;" class="prev"><span>이전</span></a>
+<!--       <a href="javascript:;" class="next disabled"><span>다음</span></a> -->
     </div>
   </div>
 </div>
@@ -41,7 +36,12 @@
             if($(this).is('.disabled')){
                 return false;
             }
-            $.call('/front/ajax/aigo/firs/step05',{qst_num:$('.q_choice .on').attr('data')},function(r){
+            $.post('/front/ajax/aigo/furs/step05',{qst_num:$('.q_choice .on').attr('data')},function(r){
+                location.href= '/front/furs/step06';
+            });
+        });
+        $('.q_choice button').click(function(){
+            $.post('/front/ajax/aigo/furs/step05',{qst_num:$(this).attr('data')},function(r){
                 location.href= '/front/furs/step06';
             });
         });

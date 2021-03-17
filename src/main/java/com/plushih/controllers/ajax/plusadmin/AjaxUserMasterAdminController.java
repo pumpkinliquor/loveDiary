@@ -67,6 +67,7 @@ public class AjaxUserMasterAdminController extends CoreController {
         dbEntity.from("plus_user_master bb");
         dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
         dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
+        dbEntity.order("bb.um_seq desc");
 
 
 //        if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
@@ -83,7 +84,7 @@ public class AjaxUserMasterAdminController extends CoreController {
             dbEntity.where("bb.use_yn",dbEntity.input.get_post("useYn"));
         }
         //dbEntity.order("reg_date","desc");
-        dbEntity.order("bb.um_id desc");
+        dbEntity.order("bb.um_seq desc");
 
         CommonResultEntity res = new CommonResultEntity();
 
@@ -91,6 +92,9 @@ public class AjaxUserMasterAdminController extends CoreController {
         List<UserMasterEntity> dataList = null;
         try {
             dataHashList  = commonService.getList(dbEntity);
+            for(Map <String,Object> map : dataHashList){
+                map.remove("umPw");
+            }
 
             int cnount = commonService.getCount(dbEntity);
             res.setDraw(dbEntity.draw);
@@ -190,6 +194,110 @@ public class AjaxUserMasterAdminController extends CoreController {
         commonResultEntity = db.getOut();
         logEnd(fullName);
         return commonResultEntity;
+    }
+
+
+
+    /**
+     * 사업장관리
+     * @param request
+     * @param response
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userMojinList", method = {RequestMethod.POST})
+    public @ResponseBody CommonResultEntity userMoinList (UserMasterEntity userMasterEntity,HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
+        //commonResultEntity = userService.getuserList(db);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        dbEntity.select("a.*,q.qst_key,q.qst_name");
+        dbEntity.from("cb_aigo_temp_qst a");
+        dbEntity.join("cb_aigo_question q","a.qst_id= q.qst_id","left");
+        dbEntity.join("cb_member m","a.temp_id=m.mem_temp_id","left");
+        dbEntity.gt("q.qst_id","0");
+
+
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("memId"))){
+            dbEntity.where("m.mem_id",dbEntity.input.get_post("memId"));
+        }
+        dbEntity.order("a.tqst_id","desc");
+
+        CommonResultEntity res = new CommonResultEntity();
+
+
+        List<UserMasterEntity> dataList = null;
+        try {
+            dataHashList  = commonService.getList(dbEntity);
+
+
+            int cnount = commonService.getCount(dbEntity);
+            res.setDraw(dbEntity.draw);
+            res.setRecordsTotal(cnount);
+            res.setRecordsFiltered(cnount);
+            res.setResultList(dataHashList);
+
+
+            Debug.log(dataHashList.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logEnd(fullName);
+        return res;
+    }
+
+    /**
+     * 사업장관리
+     * @param request
+     * @param response
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/userAnsList", method = {RequestMethod.POST})
+    public @ResponseBody CommonResultEntity ansuserMoinList (UserMasterEntity userMasterEntity,HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
+        //commonResultEntity = userService.getuserList(db);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        dbEntity.select("a.*,q.qst_key,q.qst_value");
+        dbEntity.from("cb_aigo_my_answer_list a");
+        dbEntity.join("cb_aigo_question q","a.qst_id= q.qst_id","left");
+        dbEntity.join("cb_member m","a.mem_id=m.mem_id","left");
+        dbEntity.gt("q.qst_id","0");
+
+
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("memId"))){
+            dbEntity.where("m.mem_id",dbEntity.input.get_post("memId"));
+        }
+        dbEntity.order("a.ans_id","desc");
+
+        CommonResultEntity res = new CommonResultEntity();
+
+
+        List<UserMasterEntity> dataList = null;
+        try {
+            dataHashList  = commonService.getList(dbEntity);
+
+
+            int cnount = commonService.getCount(dbEntity);
+            res.setDraw(dbEntity.draw);
+            res.setRecordsTotal(cnount);
+            res.setRecordsFiltered(cnount);
+            res.setResultList(dataHashList);
+
+
+            Debug.log(dataHashList.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logEnd(fullName);
+        return res;
     }
 
 

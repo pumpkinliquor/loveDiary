@@ -62,29 +62,48 @@ public class AjaxAigoNotionAdminController extends CoreController {
         plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
         //commonResultEntity = notionService.getnotionList(db);
         List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
-        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,sub.sub_name,acv.acv_name,cpt.cpt_name");
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,sub.sub_name" +
+                ",acv.acv_name,cpt.cpt_name");
         dbEntity.from("cb_aigo_notion bb");
         dbEntity.join("cb_aigo_subject sub","bb.sub_id = sub.sub_id","left");
         dbEntity.join("cb_aigo_achievement acv","bb.acv_id = acv.acv_id","left");
         dbEntity.join("cb_aigo_concept cpt","bb.cpt_id = cpt.cpt_id","left");
+        //dbEntity.join("cb_aigo_question qst","bb.cpt_id = qst.qst_id","left");
         dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
         dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
 
 
-        if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
-            dbEntity.like("not_name",dbEntity.input.getSearchString());
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("seatchType"))){
+            String seatchType = dbEntity.input.get_post("seatchType");
+            switch (seatchType){
+
+                case "CPT":
+                    if(!StringUtils.isEmpty(dbEntity.input.get_post("searchString"))){
+                        dbEntity.like("cpt.cpt_name",dbEntity.input.get_post("searchString"));
+                        dbEntity.or_like("cpt.cpt_key",dbEntity.input.get_post("searchString"));
+                    }
+                    break;
+                case "NOT":
+                    if(!StringUtils.isEmpty(dbEntity.input.get_post("searchString"))){
+                        dbEntity.like("bb.not_key",dbEntity.input.get_post("searchString"));
+                    }
+                    break;
+            }
+            //dbEntity.like("not_name",dbEntity.input.get_post("searchString"));
         }
 
-        if(!StringUtils.isEmpty(dbEntity.input.getSearchString())){
-            dbEntity.like("qst_id",dbEntity.input.getSearchString());
-        }
+
+
+//        if(!StringUtils.isEmpty(dbEntity.input.get_post("sdate"))){
+//            dbEntity.like("qst_id",dbEntity.input.get_post("sdate"));
+//        }
         if(!StringUtils.isEmpty(dbEntity.input.get_post("sdate")) && !StringUtils.isEmpty(dbEntity.input.get_post("edate"))){
-             dbEntity.gteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("sdate"));
-             dbEntity.lteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("edate"));
+             dbEntity.gteq("substr(bb.reg_sysdate,1,10)",dbEntity.input.get_post("sdate"));
+             dbEntity.lteq("substr(bb.reg_sysdate,1,10)",dbEntity.input.get_post("edate"));
         } else if(!StringUtils.isEmpty(dbEntity.input.get_post("sdate"))){
-            dbEntity.gteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("sdate"));
+            dbEntity.gteq("substr(bb.reg_sysdate,1,10)",dbEntity.input.get_post("sdate"));
         } else if(!StringUtils.isEmpty(dbEntity.input.get_post("edate"))){
-            dbEntity.lteq("substr(bb.reg_date,1,10)",dbEntity.input.get_post("edate"));
+            dbEntity.lteq("substr(bb.reg_sysdate,1,10)",dbEntity.input.get_post("edate"));
 
         }
 
@@ -103,9 +122,12 @@ public class AjaxAigoNotionAdminController extends CoreController {
         if(!StringUtils.isEmpty(dbEntity.input.get_post("searchUseYn"))){
             dbEntity.like("bb.use_yn",dbEntity.input.get_post("searchUseYn"));
         }
-        if(!StringUtils.isEmpty(dbEntity.input.get_post("searchType"))){
-            dbEntity.like(dbEntity.input.get_post("searchType"),dbEntity.input.get_post("searchString"));
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("qstRelNotId"))){
+            dbEntity.where_in("bb.not_id",dbEntity.input.get_post("qstRelNotId").split(","));
         }
+//        if(!StringUtils.isEmpty(dbEntity.input.get_post("searchType"))){
+//            dbEntity.like(dbEntity.input.get_post("searchType"),dbEntity.input.get_post("searchString"));
+//        }
         //dbEntity.order("reg_date","desc");
         dbEntity.order("bb.not_id desc");
 

@@ -79,9 +79,13 @@ public class AigoTendencyServiceImpl extends CiServiceImpl implements AigoTenden
             Debug.log("dbEntity.flag.=="+dbEntity.flag);
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
+                dbEntity.where("ten_id",String.valueOf(dbEntity.insert_id));
+                dbEntity.add("ten_key","TEN"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                setUpdate(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("ten_key","TEN"+StringUtils.zeroFill(String.valueOf(aigoTendencyEntity.getTenId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
 //                if(dbEntity.input.get("bbSeq")!=null){

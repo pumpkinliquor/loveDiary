@@ -8,28 +8,42 @@
 		resultType="aigoAchievementEntity">
 		/* FrontAchieveDAO.selectAchieveList*/
 		select
-		acv.acv_id
-		, acv.acv_name
-		, count(acv.qst_id) as qst_cnt
-		, count(acv.ans_value) as ans_cnt
+			acv.acv_id
+			, acv.sub_id
+			, acv.acv_name
+			, count(acv.qst_id) as qst_cnt
+			, count(acv.ans_value) as ans_cnt
 		from (
-		select
-		aa.acv_id
-		, aa.acv_name
-		, aq.qst_id
-		, ama.ans_value
-		from cb_aigo_achievement as aa
-		inner join
-		cb_aigo_question as aq
-		on aq.sub_id = #{subId}
-		and aq.lev_id = #{levId}
-		and aa.lev_id = aq.lev_id
-		and aa.sub_id = aq.sub_id
-		and aa.acv_id = aq.acv_id
-		left join cb_aigo_my_answer_list as ama
-		on ama.mem_id = #{memId}
-		and aq.qst_id = ama.qst_id
-		and ama.ans_value is not null
+			select
+				aa.acv_id
+				, aa.acv_name
+				, aq.sub_id
+				, aq.qst_id
+				, ama.ans_value
+			from cb_aigo_achievement as aa
+			inner join cb_aigo_question as aq
+				on aq.sub_id = #{subId}
+				and aq.lev_id = #{levId}
+				and aa.lev_id = aq.lev_id
+				and aa.sub_id = aq.sub_id
+				and aa.acv_id = aq.acv_id
+				and aa.use_yn = 'y'
+				and aq.use_yn = 'y'
+				and aq.aca_id in
+				<foreach collection="arrCategories" item="arr" open="(" close=")" separator=",">
+				 	#{arr}
+				</foreach>
+				<if test="arrCategoriesSub != null ">
+				AND aq.sub_aca_id in
+				<foreach collection="arrCategoriesSub" item="arr" open="(" close=")" separator=",">
+				 	#{arr}
+				</foreach>
+				</if>
+			left join cb_aigo_my_answer_list as ama
+				on ama.mem_id = #{memId}
+				and aq.qst_id = ama.qst_id
+				and ama.use_yn = 'y'
+				and ama.ans_value is not null
 		) as acv
 		group by acv.acv_id, acv.acv_name
 	</select>
@@ -37,15 +51,15 @@
 	<!-- 성취기준 상세 조회 -->
 	<select id="selectAchieveDetail" parameterType="aigoAchievementEntity" resultType="aigoAchievementEntity">
 		/* FrontAchieveDAO.selectAchieveDetail*/
-		select
-		a.acv_name, a.acv_text, a.acv_id
+		select distinct
+			a.acv_name, a.acv_text, a.acv_id
 		from
-		cb_aigo_achievement a, cb_aigo_notion b
+			cb_aigo_achievement a, cb_aigo_notion b
 		where
-		a.acv_id = b.acv_id
-		and a.use_yn ='Y'
-		and b.use_yn = 'Y'
-		and a.acv_id = #{acvId}
+			a.acv_id = b.acv_id
+			and a.use_yn ='Y'
+			and b.use_yn = 'Y'
+			and a.acv_id = #{acvId}
 	</select>
 
 </mapper>

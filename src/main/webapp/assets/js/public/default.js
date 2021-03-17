@@ -127,3 +127,22 @@ function comma(num) {
 	
 	return str;
 }
+
+/**
+ *  페이지 이름 가져오기
+ *  @return pageName 현재 페이지 이름
+ */
+function getPageName(){
+    var pageName = "";
+    var pathName = "";
+    var tempPageName = window.location.href;
+    var strPageName = tempPageName.split("/");
+    pageName = strPageName[strPageName.length-1].split("?")[0];
+    pathName = window.location.pathname;
+    
+    var name = {};
+    
+    name = {"pageName" : pageName, "pathName" : pathName};
+    
+    return name;
+}

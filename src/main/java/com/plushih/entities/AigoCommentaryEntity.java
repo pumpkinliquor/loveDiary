@@ -1,6 +1,7 @@
 package com.plushih.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class AigoCommentaryEntity  extends PlusEntity implements Serializable{
 	private static final long serialVersionUID = 770506395266028181L;
@@ -21,6 +22,8 @@ public class AigoCommentaryEntity  extends PlusEntity implements Serializable{
 	private Integer qstKey;
 	private String regUmName;
 	private String regUmId;
+	private List<SiteAttachFileEntity> fileList;
+	private String cmtrPlayPath;
 
 	public Integer getCmtrId(){ return cmtrId; }
 	public void setCmtrId(Integer cmtrId){ this.cmtrId = cmtrId; }
@@ -70,12 +73,19 @@ public class AigoCommentaryEntity  extends PlusEntity implements Serializable{
 	public String getRegUmId() { return regUmId; }
 	public void setRegUmId(String regUmId) { this.regUmId = regUmId; }
 	
+	public List<SiteAttachFileEntity> getFileList() { return fileList; }
+	public void setFileList(List<SiteAttachFileEntity> fileList) { this.fileList = fileList; }
+	
+	public String getCmtrPlayPath() { return cmtrPlayPath; }
+	public void setCmtrPlayPath(String cmtrPlayPath) { this.cmtrPlayPath = cmtrPlayPath; }
+	
 	@Override
 	public String toString() {
 		return "AigoCommentaryEntity [cmtrId=" + cmtrId + ", qstId=" + qstId + ", cmtrKey=" + cmtrKey + ", cmtrName="
 				+ cmtrName + ", cmtrType=" + cmtrType + ", cmtrValue=" + cmtrValue + ", cmtrOrder=" + cmtrOrder
 				+ ", cmtrText=" + cmtrText + ", useYn=" + useYn + ", regDate=" + regDate + ", regUmSeq=" + regUmSeq
 				+ ", udtDate=" + udtDate + ", udtUmSeq=" + udtUmSeq + ", qstKey=" + qstKey + ", regUmName=" + regUmName
-				+ ", regUmId=" + regUmId + "]";
+				+ ", regUmId=" + regUmId + ", fileList=" + fileList + ", cmtrPlayPath="+cmtrPlayPath+"]";
 	}
+	
 }

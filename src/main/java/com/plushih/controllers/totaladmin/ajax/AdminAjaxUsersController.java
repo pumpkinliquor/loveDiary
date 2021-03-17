@@ -83,6 +83,7 @@ public class AdminAjaxUsersController extends AjaxCodeController {
         db.join("plus_business_info b","a.bi_seq=b.bi_seq","left");
 //        db.join("plus_assets_building c","a.ab_seq=c.ab_seq","left");
         db.join("plus_user_group d","a.ug_seq=d.ug_seq","left");
+        db.order("a.um_seq desc");
 
         List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
         try {

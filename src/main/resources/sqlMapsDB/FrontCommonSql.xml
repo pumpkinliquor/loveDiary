@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontCommonDAO">
+	
+	<select id="selectCommonStieFileList" resultType="siteAttachFileEntity">
+		/* FrontCommonDAO.selectCommonStieFileList */
+		select
+			saf.saf_seq
+			, saf.seq
+			, saf.saf_bbs
+			, saf.saf_type
+			, saf.saf_or_file
+			, saf.saf_file
+			, saf.saf_path
+			, saf.saf_code
+			, saf.saf_desc
+			, saf.reg_date
+			, saf.reg_sysdate
+			, saf.udt_sysdate
+		from plus_site_attach_file as saf
+		where
+			saf.seq = #{seq}
+			and saf.saf_bbs = #{safBbs}
+		order by saf.reg_date asc
+	</select>
+	
+	<select id="selectCommonCodeList" resultType="codeMasterEntity" parameterType="codeMasterEntity">
+		/* FrontCommonDAO.selectCommonCodeList */
+		select
+			cm.cm_seq
+			, cm.cm_gubun
+			, cm.cm_code
+			, cm.cm_name
+			, cm.cm_sort
+			, cm.cm_is_use
+			, cm.cm_etc
+			, cm.cm_is_system
+			, cm.parent_cm_seq
+			, cm.reg_sysdate
+			, cm.udt_sysdate
+		from plus_code_master as cm
+		where
+			1=1
+			<if test="cmSeq != null and cmSeq != '' ">
+			and cm.cm_gubun = #{cmSeq}
+			</if>
+			<if test="cmGubun != null and cmGubun != '' ">
+			and cm.cm_gubun = #{cmGubun}
+			</if>
+		order by cm.cm_sort asc
+	</select>
+	
+</mapper>

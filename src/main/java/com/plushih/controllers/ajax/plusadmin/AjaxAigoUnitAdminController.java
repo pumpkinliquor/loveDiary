@@ -96,6 +96,56 @@ public class AjaxAigoUnitAdminController extends CoreController {
         logEnd(fullName);
         return res;
     }
+    
+    /**
+     * 사업장관리
+     * @param request
+     * @param response
+     * @param localeParam
+     * @return
+     */
+    @RequestMapping(value =  "/unitCheck", method = {RequestMethod.POST})
+    public @ResponseBody String unitCheck (HttpServletRequest request, HttpServletResponse response, Locale localeParam ) throws Exception {
+        String fullName = getFunction();
+        logStart(fullName);
+        CommonResultEntity commonResultEntity = new CommonResultEntity();
+        String functionName = new Object(){}.getClass().getEnclosingMethod().getName();
+        plusActiveRecord dbEntity =new plusActiveRecord(functionName,request);
+        //commonResultEntity = subjectService.getsubjectList(db);
+        List<Map<String,Object>> dataHashList = new ArrayList<Map<String,Object>>();
+        dbEntity.select("bb.*,rum.um_name reg_um_name,rum.um_id reg_um_id,uum.um_name udt_um_name,uum.um_id udt_um_id,bb.sub_id,sub.sub_name");
+        dbEntity.from("cb_aigo_unit bb");
+        dbEntity.join("cb_aigo_subject sub","bb.sub_id = sub.sub_id","left");
+        dbEntity.join("plus_user_master rum","bb.reg_um_seq = rum.um_seq","left");
+        dbEntity.join("plus_user_master uum","bb.udt_um_seq = uum.um_seq","left");
+
+
+        if(!StringUtils.isEmpty(dbEntity.input.get_post("unitName"))){
+            dbEntity.like("unit_name",dbEntity.input.get_post("unitName"));
+        }
+        dbEntity.not("unit_id",dbEntity.input.get_post("unitId"));
+        //dbEntity.order("reg_date","desc");
+
+
+        String res = "";
+        List<AigoSubjectEntity> dataList = null;
+        try {
+
+            int cnount = commonService.getCount(dbEntity);
+            if(cnount>0){
+               res = "단원명이 중복입니다.";
+            } else {
+               res = "true";
+            }
+
+
+            Debug.log(dataHashList.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        logEnd(fullName);
+        return res;
+    }
 
     /**
      * 사업장관리 등록수정

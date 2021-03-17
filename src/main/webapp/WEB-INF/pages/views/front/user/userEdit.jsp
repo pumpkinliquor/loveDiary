@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/pages/layouts/include/tagLib.jsp"%>
 <html lang="ko">
 
 <head>
@@ -14,6 +15,8 @@
 
 <body class="join_body">
 <form id="form" name="form" enctype="multipart/form-data" method="POST" action="/front/ajax/user/userUpdate" autocomplete="off" onSubmit="return false;" >
+	<input type="hidden" name="memUserid" value="" />
+
 <div class="wrapper">
 	<header class="header">
 	    <a href="#" class="btn_allmenu">전체메뉴</a>
@@ -21,7 +24,7 @@
 	    
 	    <div class="profile_img" type="file" name="file1" >
 	    	<input type="file" name="file1" style="display: none;" >
-				<img name="memIcon" style="width:100%; height: 100%;" onclick="document.all.file1.click()" />
+				<img name="memIcon" style="width:100%; height: 100%;" onclick="document.all.file1.click()" onerror="this.src='/assets/images/default_img.png'" />
 			</input>
 		</div>
 						
@@ -35,7 +38,7 @@
 					<div class="member_ipt_div">
 			          <h2>이메일</h2>
 			          <div class="ipt_div">
-			            <input type="text" name="memUserid" value="" disabled>
+			            <input type="text" name="memEmail" value="" disabled>
 			          </div>
 			        </div>
 			        
@@ -50,28 +53,29 @@
 			       <div class="member_ipt_div">
 			          <h2>비밀번호</h2>
 			          <div class="ipt_div ipt_edit_div">
-			            <input type="password" name="memPassword" value="" autocomplete="off" >
-			            <a href="#" class="ico_pw_view on">비밀번호 보기</a>
-			            <button onclick="passwordReset()" class="btn_gray_s">초기화</button>
+			            <input type="password" name="memPassword" value="" autocomplete="off" disabled>
+			            <a href="#" class="ico_pw_view disabled" style="display:none;">비밀번호 보기</a>
+			            <button onclick="passwordReset(this)" class="btn_gray_s">변경</button>
 			          </div>
 			          <p class="er_txt passwordErrorArea"></p> 
 			        </div> 
 			        
 			        <div class="member_ipt_div">
 			          <h2>비밀번호 재입력</h2>
-			          <input type="password" name="comparePassword" value="" autocomplete="off">
+			          <input type="password" name="comparePassword" value="" autocomplete="off" disabled>
+			          <p class="er_txt passwordErrorCompareArea"></p> 
 			        </div>
 			        
 			        <div class="member_ipt_div">
 			          <h2>핸드폰번호</h2>
 			          <div class="ipt_div ipt_edit_div">
-			            <input type="number" name="memPhone" value="" maxlength="11" disabled >
+			            <input type="number" name="memPhone" value="" maxlength="11" readonly >
 			            <button name="resetPhoneNumber" onclick="phoneAuthBtn()" class="btn_gray_s">변경</button>
 			          </div>
 			          <p class="er_txt phoneErrorArea"></p> 
 			        </div>
 			        
-			        <div class="member_ipt_div">
+			        <div class="member_ipt_div" style="display: none;">
 			          <h2>인증번호 입력</h2>
 			          <div class="ipt_div ipt_edit_div">
 			            <input type="number" name="masKey" value="">
@@ -84,7 +88,7 @@
 					<div class="member_ipt_div">
 						<h2>학년</h2>
 						<div class="ipt_div">
-							<input type="text" name="memClassName" value="" onclick="fnClassPopup()" >
+							<input type="text" name="memClassName" value="" onclick="fnClassPopup()" readonly>
 							<input type="text" name="memClass" value="" style="display: none;" >
 						</div>
 						<!-- <p class="er_txt nickNameErrorArea"></p>  -->
@@ -92,7 +96,7 @@
 					<div class="member_ipt_div">
 						<h2>선택과 과목</h2>
 						<div class="ipt_div">
-							<input type="text" name="memSubIdName" value="" onclick="fnSubPopup()" >
+							<input type="text" name="memSubIdName" value="" onclick="fnSubPopup()" readonly>
 							<input type="text" name="memSubId" value="" style="display: none;" >
 						</div>
 						<!-- <p class="er_txt nickNameErrorArea"></p>  -->
@@ -132,7 +136,8 @@
 </div>
 
 <script type="text/javascript">
-
+var levCd = "";
+var subCd = "";
 var $form = $("#form");
 
 $(document).ready(function() {
@@ -155,7 +160,24 @@ $(function(){
 		}
 	});
 	
+	// 비밀번호 입력 시 유효성 검사
+	$("input[name='memPassword'], input[name='comparePassword']").on('keyup', function(e){
+		checkPassword( $("input[name='memPassword']").val(), $("input[name='comparePassword']").val(), '' );
+		if($(this).val() == ""){
+			$(".passwordErrorArea").text("");
+			$(".passwordErrorCompareArea").text("");
+		}
+	});
+	
 	init();
+});
+
+$(document).on("keyup", "[name=memPassword]", function() {
+	if($(this).val() != "") {
+		$(this).siblings("a").css("display", "");
+	} else {
+		$(this).siblings("a").css("display", "none");
+	}
 });
 
 // 사용자 정보 초기화
@@ -166,10 +188,15 @@ function init(){
 		if( returnJson.resultData ) resultData = returnJson.resultData;
 		else return; 
 		
+		levCd = returnJson.resultData.cm_code;
+		subCd = returnJson.resultData.mem_sub_id;
+		
 		$('input[name=memNickname]').attr("placeholder", resultData.mem_email);
 		
 		if(resultData.saf_seq) $('img[name=memIcon]').attr("src", "/common/siteImgView?safSeq=" + resultData.saf_seq);
-		if(resultData.mem_email) $('input[name=memUserid]').val(resultData.mem_email);
+		else $('img[name=memIcon]').attr("src", "/assets/images/default_img.png");
+		if(resultData.mem_userid) $('input[name=memUserid]').val(resultData.mem_userid);
+		if(resultData.mem_email) $('input[name=memEmail]').val(resultData.mem_email);
 		if(resultData.mem_nickname) $('input[name=memNickname]').val(resultData.mem_nickname);
 		if(resultData.mem_phone) $('input[name=memPhone]').val(resultData.mem_phone);
 		if(resultData.mem_class) $('input[name=memClass]').val(resultData.mem_class);
@@ -177,6 +204,13 @@ function init(){
 		if(resultData.mem_sub_id) $('input[name=memSubId]').val(resultData.mem_sub_id);
 		if(resultData.sub_name) $('input[name=memSubIdName]').val(resultData.sub_name);
 		
+		var $memPassword = $("input[name='memPassword']");
+		var $comparePassword = $("input[name='comparePassword']");
+		$memPassword.attr("disabled", true);
+		$comparePassword.attr("disabled", true);
+		$memPassword.siblings("button").css("display", "");
+		$memPassword.siblings("a").css("display", "none");
+		$(".passwordErrorArea").text("");
 	});
 	
 }
@@ -202,22 +236,26 @@ function handleImgFileSelect(e) {
     });
 }
 
-function passwordReset(){
+function passwordReset(e){
 	var $memPassword = $("input[name='memPassword']");
-	
+	var $comparePassword = $("input[name='comparePassword']");
 	$memPassword.val('');
+	$comparePassword.val('');
+	$memPassword.removeAttr("disabled");
+	$comparePassword.removeAttr("disabled");
+	$(e).css("display", "none");
+	$(e).siblings("a").css("display", "");
+	$(".passwordErrorArea").text("");
 }
 
 function confirmUpdate(){
-	if(!confirm("저장하시겠습니까?")){
-		return;
-	}
-	
+		
 	var $resetPhoneNumber = $("button[name='resetPhoneNumber']");
 	var $memClass = $("input[name='memClass']");
 	var $memSubId = $("input[name='memSubId']");
 	
 	var param = $form.domJson();
+	
 	param['memClass'] = $memClass.text();
 	param['memSubId'] = $memSubId.text();
 	
@@ -238,23 +276,32 @@ function confirmUpdate(){
 	//비밀번호 정규식 확인
 	if( passwordCheck || checkPassword( param.memPassword, param.comparePassword, 'passwordErrorArea' ) ) passwordCheck = true;
 	else passwordCheck = false;
-	//휴대폰 정규식 확인
-	if( checkPhoneNumber( param.memPhone, 'phoneErrorArea' )) phoneCheck = true;
-	else phoneCheck = false;
-	//휴대폰 인증 확인
-	if($resetPhoneNumber.text() == '변경' || 
-	($resetPhoneNumber.text() != '변경' &&  $("input[name='masKey']").attr('disabled') == 'disabled' )) phoneAuthCheck = true;
-	else { 
-		$('.masKeyErrorArea').text('인증번호를 인증하세요.'); 
-		phoneAuthCheck = false;
+	if( $("[name=memPhone]" ).val() != "" ) {
+		//휴대폰 정규식 확인
+		if( checkPhoneNumber( param.memPhone, 'phoneErrorArea' )) phoneCheck = true;
+		else phoneCheck = false;
+		//휴대폰 인증 확인
+		if($resetPhoneNumber.text() == '변경' || 
+		($resetPhoneNumber.text() != '변경' &&  $("input[name='masKey']").attr('disabled') == 'disabled' )) phoneAuthCheck = true;
+		else { 
+			$('.masKeyErrorArea').text('인증번호를 인증하세요.'); 
+			phoneAuthCheck = false;
+		}
 	}
+
 	
 	if(
 		nicknameCheck 
 		&& passwordCheck
-		&& phoneCheck
-		&& phoneAuthCheck
+// 		&& phoneCheck
+// 		&& phoneAuthCheck
 	){
+
+		if(!confirm("저장하시겠습니까?")){
+			return;
+		}
+
+		
 		$("#form").ajaxForm({
             type: 'POST',
             url : "/front/ajax/user/userUpdate",
@@ -274,14 +321,15 @@ function phoneAuthBtn(){
 	var $resetPhoneNumber = $("button[name='resetPhoneNumber']");
 	
 	if($resetPhoneNumber.text() == '변경'){
-		$memPhone.attr('disabled', false);
+		$memPhone.attr('readonly', false);
 		$resetPhoneNumber.text('인증번호 받기');
 	}else if($resetPhoneNumber.text() == '인증번호 받기'){
+		$("input[name=masKey]").closest("div[class=member_ipt_div]").css("display", "");
 		if(checkPhoneNumber( $memPhone.val(), 'phoneErrorArea' )){
 			//인증번호 전송
 			fnSendSmsAuthcode();	
 			//3분 타이머
-			$memPhone.attr('disabled', true);
+			$memPhone.attr('readonly', true);
 			$resetPhoneNumber.text('인증번호 재전송');
 		}
 	}else {
@@ -310,7 +358,7 @@ function TimerStart(){
 }
 
 function msg_time() {   // 1초씩 카운트      
-    m = Math.floor(SetTime / 60) + ":" + (SetTime % 60); // 남은 시간 계산         
+    m = Math.floor(SetTime / 60) + ":" + plus.lpad((SetTime % 60),2,'0'); // 남은 시간 계산
     var msg = m;  
     //document.all.ViewTimer.innerHTML = msg;     // div 영역에 보여줌
     document.all.viewTimer.innerText = msg
@@ -371,10 +419,15 @@ function fnClassPopup(){
 		
 		var radioListHtml = '';
 		for(var i =0; i < resultList.length; i++){
-			radioListHtml = radioListHtml + '<li class="ipt_radio_div"> <input type="radio" onclick="selectLevel(this)" value="'+resultList[i].cm_name+'" id="' + resultList[i].cm_code + '" name="select" /> <label for="' + resultList[i].cm_code + '"><span>' + resultList[i].cm_name + '</span></label> </li>';
+			radioListHtml = radioListHtml + '<li class="ipt_radio_div"> <input type="radio" onclick="selectLevel(this)" value="'+resultList[i].cm_name+'" id="' + resultList[i].cm_code + '" name="select"/> <label for="' + resultList[i].cm_code + '"><span>' + resultList[i].cm_name + '</span></label> </li>';
 		}
-		
 		document.all.class_select_div.innerHTML = radioListHtml;
+		
+		$("ul[id=class_select_div]").find("li").find("input").each(function(i, e) {
+			if($(e).attr("id") == levCd) {
+				$(e).attr("checked", "checked");
+			}
+		});
 		
 	});
 	
@@ -386,6 +439,8 @@ function selectLevel(e){
 	var $memClassName = $("input[name='memClassName']");
 	var $memClass = $("input[name='memClass']");
 	var $classModal= $("div[name='classModal']");
+	
+	levCd = e.id;
 	
 	$memClassName.val(e.value);
 	$memClass.val(e.id);
@@ -408,6 +463,12 @@ function fnSubPopup(){
 		
 		document.all.sub_select_div.innerHTML = radioListHtml;
 		
+		$("ul[id=sub_select_div]").find("li").find("input").each(function(i, e) {
+			if($(e).attr("id") == subCd) {
+				$(e).attr("checked", "checked");
+			}
+		});
+		
 	});
 	
 	$subModal.addClass('is-visible');
@@ -418,6 +479,8 @@ function selectSub(e){
 	var $memSubIdName = $("input[name='memSubIdName']");
 	var $memSubId= $("input[name='memSubId']");
 	var $subModal= $("div[name='subModal']");
+	
+	subCd = e.id;
 	
 	$memSubIdName.val(e.value);
 	$memSubId.val(e.id);

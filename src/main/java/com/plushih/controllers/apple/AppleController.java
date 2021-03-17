@@ -3,6 +3,7 @@ package com.plushih.controllers.apple;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import com.plushih.common.utils.AppleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,30 +32,32 @@ public class AppleController {
     @Autowired
     AppleService appleService;
 
-    @Value("${APPLE.PUBLICKEY.URL}")
+    @Value("#{APPLE['PUBLICKEY_URL']}")
     private String APPLE_PUBLIC_KEYS_URL;
 
-    @Value("${APPLE.ISS}")
+    @Value("#{APPLE['ISS']}")
     private String ISS;
 
-    @Value("${APPLE.AUD}")
+    @Value("#{APPLE['AUD']}")
     private String AUD;
 
-    @Value("${APPLE.TEAM.ID}")
+    @Value("#{APPLE['TEAM_ID']}")
     private String TEAM_ID;
 
-    @Value("${APPLE.KEY.ID}")
+    @Value("#{APPLE['KEY_ID']}")
     private String KEY_ID;
 
-    @Value("${APPLE.KEY.PATH}")
+    @Value("#{APPLE['KEY_PATH']}")
     private String KEY_PATH;
 
-    @Value("${APPLE.AUTH.TOKEN.URL}")
+    @Value("#{APPLE['AUTH_TOKEN_URL']}")
     private String AUTH_TOKEN_URL;
 
-    @Value("${APPLE.WEBSITE.URL}")
+    @Value("#{APPLE['WEBSITE_URL']}")
     private String APPLE_WEBSITE_URL;
 
+    @Autowired
+    AppleUtils appleUtils;
 //    /**
 //     * Sign in with Apple - JS Page (index.html)
 //     *
@@ -109,7 +112,7 @@ public class AppleController {
         }
 
         String code = serviceResponse.getCode();
-        String client_secret = appleService.getAppleClientSecret(serviceResponse.getId_token());
+        String client_secret = appleService.getAppleClientSecret(serviceResponse.getId_token(),resp);
 
         logger.debug("================================");
         logger.debug("id_token ‣ " + serviceResponse.getId_token());
@@ -121,19 +124,22 @@ public class AppleController {
         resp.setContentType("text/html; charest=UTF-8"); //브라우저에 포함되는 문서내용 타입 정의
         PrintWriter out = resp.getWriter(); //
         out.println("gson : "+new Gson().toJson(serviceResponse)+
+                "<br/>code="+code+
                 "<br/>client_secret="+client_secret+
+                "<br/>serviceResponse.getId_token()="+serviceResponse.getId_token()+
                 "<br/>APPLE_PUBLIC_KEYS_URL="+APPLE_PUBLIC_KEYS_URL+
                 "<br/>ISS="+ISS+
                 "<br/>AUD="+AUD+
                 "<br/>TEAM_ID="+TEAM_ID+
                 "<br/>KEY_ID="+KEY_ID+
                 "<br/>KEY_PATH="+KEY_PATH+
+                "<br/>readPrivateKey="+appleUtils.readPrivateKey()+
                 "<br/>AUTH_TOKEN_URL="+AUTH_TOKEN_URL+
                 "<br/>APPLE_WEBSITE_URL="+APPLE_WEBSITE_URL+
 
                 "<br/>gson : "+new Gson().toJson(appleService.requestCodeValidations(client_secret, code, null)));
 
-        return  null;
+        return  appleService.requestCodeValidations(client_secret, code, null);
     }
 
     /**

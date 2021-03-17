@@ -13,12 +13,20 @@
         <typeAlias type="com.plushih.entities.CodeMasterEntity" alias="codeMasterEntity"/>
         <typeAlias type="com.plushih.entities.FieldIndexEntity" alias="fieldIndexEntity"/>
         <typeAlias type="com.plushih.entities.UserMemberEntity" alias="userMemberEntity"/>
+        <typeAlias type="com.plushih.entities.UserMemberHistoryEntity" alias="userMemberHistoryEntity"/>
         <typeAlias type="com.plushih.entities.AigoQuestionEntity" alias="aigoQuestionEntity"/>
         <typeAlias type="com.plushih.entities.AigoQuestionAnswerEntity" alias="aigoQuestionAnswerEntity"/>
         <typeAlias type="com.plushih.entities.AigoAchievementEntity" alias="aigoAchievementEntity"/>
         <typeAlias type="com.plushih.entities.AigoConceptEntity" alias="aigoConceptEntity"/>
         <typeAlias type="com.plushih.entities.AigoTendencyEntity" alias="aigoTendencyEntity"/>
         <typeAlias type="com.plushih.entities.AigoLearnEntity" alias="aigoLearnEntity"/>
+        <typeAlias type="com.plushih.entities.AigoCommentaryEntity" alias="aigoCommentaryEntity"/>
+        <typeAlias type="com.plushih.entities.AigoNotionEntity" alias="aigoNotionEntity"/>
+        <typeAlias type="com.plushih.entities.AigoLearnHistoryEntity" alias="aigoLearnHistoryEntity"/>
+        <typeAlias type="com.plushih.entities.AigoSubjectEntity" alias="aigoSubjectEntity"/>
+        <typeAlias type="com.plushih.entities.AigoEvaluationEntity" alias="aigoEvaluationEntity"/>
+        <typeAlias type="com.plushih.entities.UserLevelHistoryEntity" alias="userLevelHistoryEntity"/>
+        <typeAlias type="com.plushih.entities.SiteAttachFileEntity" alias="siteAttachFileEntity"/>
 
         <typeAlias type="com.plushih.controllers.front.vo.PlusBbsVO" 		alias="plusBbsVO"/>
         <typeAlias type="com.plushih.controllers.front.vo.RecruitVO" 		alias="recruitVO"/>

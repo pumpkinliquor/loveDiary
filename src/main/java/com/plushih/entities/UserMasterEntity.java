@@ -33,12 +33,31 @@ public class UserMasterEntity  extends PlusEntity implements Serializable{
 	private String umStep;
 
 	private String umWork;
+
 	private String regDate;
 	private String regUmSeq;
 	private String udtDate;
 	private String udtUmSeq;
 	private String sessionkey;
 	private String sessionlimit;
+	private String regSysdate;
+	private String udtSysdate;
+
+	public String getRegSysdate() {
+		return regSysdate;
+	}
+
+	public void setRegSysdate(String regSysdate) {
+		this.regSysdate = regSysdate;
+	}
+
+	public String getUdtSysdate() {
+		return udtSysdate;
+	}
+
+	public void setUdtSysdate(String udtSysdate) {
+		this.udtSysdate = udtSysdate;
+	}
 
 	public Integer getGbSeq() {
 		return gbSeq;

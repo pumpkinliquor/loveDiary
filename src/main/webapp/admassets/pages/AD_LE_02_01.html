@@ -15,7 +15,7 @@
 <!-- Datatables -->
 <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script>
+<!-- <script type="text/javascript" src="../plugins/js/dataTables.bootstrap4.min.js"></script> -->
 <!--[if lt IE 9]>
 <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
 <![endif]-->
@@ -325,8 +325,7 @@
  modalClose();
 </script>
 
-<script>
-  $(function () {
+<script>  $(function () {
     $('#dataT').DataTable({
       "paging": false,
       "lengthChange": false,
@@ -337,6 +336,7 @@
       "responsive": false,
     });
   });
+
 </script>
 </body>
 </html>

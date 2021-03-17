@@ -15,28 +15,28 @@
 						<div class="member_ipt_div">
 							<h2>이메일</h2>
 							<div class="ipt_div">
-								<input type="text" name="memUserid" value="" maxlength="100"/>
+								<input type="text" name="memUserid" id="memUserid" value="" maxlength="100"/>
 							</div>
 							<p class="er_txt emailErrorArea"><!-- 올바른 형식의 이메일을 입력하세요. --></p> 
 						</div> 
 						<div class="member_ipt_div">
 							<h2>비밀번호</h2>
 							<div class="ipt_div">
-								<input type="password" name="memPassword" value="" maxlength="30">
-								<a href="#" class="ico_pw_view disabled">비밀번호 보기</a>
+								<input type="password" name="memPassword" class="memPassword" value="" maxlength="30">
+								<a href="#" class="ico_pw_view disabled" style="display:none;">비밀번호 보기</a>
 							</div>
-							<p class="er_tx passwordErrorArea"><!-- 영문, 숫자, 특수문자 중 2종류 조합하여 10자리 이상으로 입력하세요. --></p> 
+							<p class="er_txt passwordErrorArea"><!-- 영문, 숫자, 특수문자 중 2종류 조합하여 10자리 이상으로 입력하세요. --></p>
 						</div> 
 						<button type="button" class="btn btn_join" onclick="fnLogin();">로그인</button> 
 						<div class="login_btm_div">
-							<div class="fL"><span class="ico_find"></span><a href="#!" onclick="goFindAccount();">아이디 / 비밀번호 찾기</a></div>
+							<div class="fL"><span class="ico_find"></span><a href="#!" onclick="goFindAccount();">비밀번호 찾기</a></div>
 							<div class="fR"><span class="ico_join"></span><a href="#!" onclick="goJoin();">회원가입</a></div>
 						</div>
 						<div class="login_btn_div">
 							<a href="#!" onclick="fnLoginSns('kakao');" class="btn btn_kakao"><span>카카오로그인</span></a>
 							<a href="#!" onclick="fnLoginSns('facebook');" class="btn btn_facebook"><span>페이스북로그인</span></a>
 							<a href="#!" onclick="fnLoginSns('naver');" class="btn btn_naver"><span>네이버로그인</span></a>
-							<a href="#!" onclick="fnLoginSns('apple');" class=""><span>apple ID 로그인</span></a>
+							<a href="#!" onclick="fnLoginSns('apple');" class="byn btn_apple"><span>Apple ID로 만들기</span></a>
 						</div>
 					</div><!-- //member_ipt_cont -->
 				</form> 
@@ -53,7 +53,12 @@ chkAll();
 var $form = $("#form");
 
 $(document).ready(function(){
-	
+	$('.memPassword').keypress(function(e){
+		if(e.keyCode==13){
+			fnLogin();
+		}
+		checkPassword( $('.memPassword').val(), $('.memPassword').val(), 'passwordErrorArea' );
+	})
 	// 비밀번호 보기 활성화/비활성화
 	$('.ico_pw_view').on('click', function(){
 		var $this = $(this);
@@ -67,6 +72,11 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#memUserid').on('keyup', function(){
+		checkEmail( $("input[name='memUserid']").val(), 'emailErrorArea' );
+		checkPassword( $('.memPassword').val(), $('.memPassword').val(), 'passwordErrorArea' );
+	});
+	
 });
 
 // 아이디/비밀번호 찾기
@@ -76,12 +86,42 @@ function goFindAccount(){
 
 // 회원가입 페이지 이동
 function goJoin(){
-	window.location.href = "/front/join";
+	if($.trim('${temp_id}')=='0' || '${temp_id}'==''){
+		if((confirm('사전질문을 하지 않으셨습니다.\n사전질문페이지로 이동하시겠습니까?'))){
+			location.href = '/front/furs/step02'
+		}
+		return false;
+	}
+	$.call('/front/ajax/aigo/furs/checkState',{},function(r){
+		if(r.resultData){
+			if($.trim(r.resultData['aiReady'])!=''){
+				window.location.href = "/front/join";
+			} else {
+				alert('사전질문을 완료 하지 않으셨습니다\n사전질문을 완료후 이용해주시기 바랍니다.');
+				location.href='/front/furs/step03';
+				return false;
+			}
+		} else {
+			alert('사전질문을 완료 하지 않으셨습니다\n사전질문을 완료후 이용해주시기 바랍니다.');
+			location.href='/front/furs/step03';
+			return false;
+		}
+	})
+
 }
+
+$(document).on("keyup", "[name=memPassword]", function() {
+	if($(this).val() != "") {
+		$(this).siblings("a").css("display", "");
+	} else {
+		$(this).siblings("a").css("display", "none");
+	}
+});
 
 // 로그인
 function fnLogin(){
-	
+
+	$('.loader').show();
 	var param = $form.domJson();
 	
 	// 이메일 체크
@@ -94,7 +134,7 @@ function fnLogin(){
 			if(returnJson.resultCode == '91'){
 				window.location.href = '/front/main';
 			} else if (returnJson.resultCode == '92') {
-				window.location.href = '/front/pre/main';
+				window.location.href = '/front/furs/main';
 			} else if (returnJson.resultCode == '93') {
 				window.location.href = '/front/learn/home';
 			} else if (returnJson.resultCode == '10' || returnJson.resultCode == '20') {

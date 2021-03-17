@@ -19,16 +19,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * hsk3807
@@ -85,6 +84,24 @@ public class AjaxAigoTendencyAdminController extends CoreController {
             dataHashList  = commonService.getList(dbEntity);
 
             int cnount = commonService.getCount(dbEntity);
+
+            for (Map<String, Object> row : dataHashList) {
+                //bbsEntity.put()
+                dbEntity.clearQuery();
+                dbEntity.select("*");
+                dbEntity.where("seq", String.valueOf(row.get("tenId")));
+                dbEntity.where("saf_bbs", "TEN");
+                dbEntity.from("plus_site_attach_file");
+                dbEntity.order("saf_seq asc");
+                dbEntity._limit = null;
+                List<Map<String, Object>> getFileList = commonService.getList(dbEntity);
+                Map<String, Object> fileMap = new HashMap<String, Object>();
+                for(Map<String, Object> filerow:getFileList ){
+                    fileMap.put(String.valueOf(filerow.get("safCode")),filerow);
+                }
+                row.put("fileMap",fileMap);
+                //row.put("fileList", getFileList);
+            }
             res.setDraw(dbEntity.draw);
             res.setRecordsTotal(cnount);
             res.setRecordsFiltered(cnount);
@@ -179,9 +196,10 @@ public class AjaxAigoTendencyAdminController extends CoreController {
 
         if(db.input.get_post("useYn").equals("y")){
             db.where("acv_id",db.input.get_post("acvId"));
-            db.where("use_yn",db.input.get_post("useYn"));
+//            db.where("use_yn",db.input.get_post("useYn"));
         }
         int count= commonService.getCount(db);
+        Integer insertID = 0;
         if(count>0){
 
             if(!db.input.get_post("tenId").equals("0")){
@@ -196,10 +214,23 @@ public class AjaxAigoTendencyAdminController extends CoreController {
             db.add("udt_date",db.getYmdHis());
             commonService.setUpdate(db);
             db.flag = plusQueryBuilder.inType.UPDATE;
+            insertID = aigoTendencyEntity.getTenId();
         } else {
-            Integer insertID = aigoTendencyService.setTendencyExcute(db,aigoTendencyEntity);
+            insertID = aigoTendencyService.setTendencyExcute(db,aigoTendencyEntity);
         }
+        MultiValueMap<String, MultipartFile> fileuploads = request.getMultiFileMap();
+        Iterator<String> iterator = fileuploads.keySet().iterator();
 
+        while (iterator.hasNext()) {
+
+            String key = iterator.next();
+            LinkedList<MultipartFile> df = (LinkedList<MultipartFile>) fileuploads.get(key);
+
+            MultipartFile fileInfo = (MultipartFile) df.getFirst();
+            if (fileInfo.getSize() > 0) {
+                siteFileUploadService.uploadFile(fileInfo, 0, "/TEN", "TEN", insertID, key);
+            }
+        }
         //commonResultEntity.setResultList(businessInfoList);
         Debug.log("Debug.log(db.flag);+++++++++"+db.flag);
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.plushih.common.constant.Code;
 import com.plushih.common.constant.Default;
 import com.plushih.common.utils.StringUtils;
 import com.plushih.controllers.front.service.FrontSnsApiService;
@@ -144,6 +145,7 @@ public class FrontSnsApiServiceImpl implements FrontSnsApiService {
 		userMemberEntity.setMemEmail(email);
 		userMemberEntity.setMemNickname(nickname);
 		userMemberEntity.setMemPhoto(profileImageUrl);
+		userMemberEntity.setMemJoinChannel(Code.Join.CHANNEL_KAKAO);
 		
 		return userMemberEntity;
 	}
@@ -233,6 +235,7 @@ public class FrontSnsApiServiceImpl implements FrontSnsApiService {
 		userMemberEntity.setMemEmail(email);
 		userMemberEntity.setMemNickname(nickname);
 		userMemberEntity.setMemPhoto(profileImage);
+		userMemberEntity.setMemJoinChannel(Code.Join.CHANNEL_NAVER);
 		
 		return userMemberEntity;
 	}
@@ -329,6 +332,7 @@ public class FrontSnsApiServiceImpl implements FrontSnsApiService {
 		userMemberEntity.setMemEmail(email);
 		userMemberEntity.setMemNickname(nickname);
 		userMemberEntity.setMemPhoto(profileImage);
+		userMemberEntity.setMemJoinChannel(Code.Join.CHANNEL_FACEBOOK);
 		
 		return userMemberEntity;
 	}

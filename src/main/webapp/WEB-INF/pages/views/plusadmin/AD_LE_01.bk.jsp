@@ -170,7 +170,7 @@ $(document).ready(function(){
 						// <th>성취기준이름</th>
 						// <th>상태</th>
 						// <th>등록/수정</th>
-        gridColumn.push({'data': 'umSeq', 'title': '번호', 'type': 'checkbox', hidden: false,render:plus.renderer.rownum});
+        gridColumn.push({'data': 'umSeq', 'title': '번호', 'type': 'checkbox', hidden: false,render:plus.renderer.rrownum});
         gridColumn.push({'data':'levId','title':'레벨명'});
         gridColumn.push({'data':'subName','title':'과목명'});
         gridColumn.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});

@@ -32,6 +32,7 @@ public class AigoLearnEntity  extends PlusEntity implements Serializable{
 	private String qstAnswer03;
 	private String qstAnswer04;
 	private String qstAnswer05;
+	private String qstPreType;
 	private String qstPreS01;
 	private String qstPreE01;
 	private String qstPreS02;
@@ -74,8 +75,27 @@ public class AigoLearnEntity  extends PlusEntity implements Serializable{
 	private String memId;
 	private String fileCategory;
 	private int[] arrCategories;			// 출제할 문제분류 카테고리 배열 (다중 카테고리 조회용)
+	private int[] arrSubCategories;			// 출제할 문제분류 서브 카테고리 배열 (다중 카테고리 조회용)
 	private int[] arrExceptCategories;		// 제외할 문제분류 카테고리 배열 (다중 카테고리 조회용)
 	private String rownum;
+	private String acaName;
+	private int[] arrSubjects;
+	private String cmtrType;
+	private String cmtrSafSeq;
+	private String cmtrText;
+	private String cmtrValue;
+	private String notType;
+	private String notSafSeq;
+	private String notText;
+	private String notPlayName;
+	private String notPlayPath;
+	private String safSeq;
+	private String passPer;
+	private String qstRelNotId;
+	private String qstRelNotData;
+	private String levKey;
+	private String subKey;
+	private String acvKey;
 	
 	public Integer getQstId() {
 		return qstId;
@@ -491,6 +511,127 @@ public class AigoLearnEntity  extends PlusEntity implements Serializable{
 	public void setRownum(String rownum) {
 		this.rownum = rownum;
 	}
+	public String getAcaName() {
+		return acaName;
+	}
+	public void setAcaName(String acaName) {
+		this.acaName = acaName;
+	}
+	public int[] getArrSubjects() {
+		return arrSubjects;
+	}
+	public void setArrSubjects(int[] arrSubjects) {
+		this.arrSubjects = arrSubjects;
+	}
+	public int[] getArrSubCategories() {
+		return arrSubCategories;
+	}
+	public void setArrSubCategories(int[] arrSubCategories) {
+		this.arrSubCategories = arrSubCategories;
+	}
+	public String getCmtrType() {
+		return cmtrType;
+	}
+	public void setCmtrType(String cmtrType) {
+		this.cmtrType = cmtrType;
+	}
+	public String getCmtrSafSeq() {
+		return cmtrSafSeq;
+	}
+	public void setCmtrSafSeq(String cmtrSafSeq) {
+		this.cmtrSafSeq = cmtrSafSeq;
+	}
+	public String getCmtrText() {
+		return cmtrText;
+	}
+	public void setCmtrText(String cmtrText) {
+		this.cmtrText = cmtrText;
+	}
+	public String getCmtrValue() {
+		return cmtrValue;
+	}
+	public void setCmtrValue(String cmtrValue) {
+		this.cmtrValue = cmtrValue;
+	}
+	public String getNotType() {
+		return notType;
+	}
+	public void setNotType(String notType) {
+		this.notType = notType;
+	}
+	public String getNotSafSeq() {
+		return notSafSeq;
+	}
+	public void setNotSafSeq(String notSafSeq) {
+		this.notSafSeq = notSafSeq;
+	}
+	public String getNotText() {
+		return notText;
+	}
+	public void setNotText(String notText) {
+		this.notText = notText;
+	}
+	public String getNotPlayName() {
+		return notPlayName;
+	}
+	public void setNotPlayName(String notPlayName) {
+		this.notPlayName = notPlayName;
+	}
+	public String getNotPlayPath() {
+		return notPlayPath;
+	}
+	public void setNotPlayPath(String notPlayPath) {
+		this.notPlayPath = notPlayPath;
+	}
+	public String getSafSeq() {
+		return safSeq;
+	}
+	public void setSafSeq(String safSeq) {
+		this.safSeq = safSeq;
+	}
+	public String getPassPer() {
+		return passPer;
+	}
+	public void setPassPer(String passPer) {
+		this.passPer = passPer;
+	}
+	public String getQstPreType() {
+		return qstPreType;
+	}
+	public void setQstPreType(String qstPreType) {
+		this.qstPreType = qstPreType;
+	}
+	public String getQstRelNotId() {
+		return qstRelNotId;
+	}
+	public void setQstRelNotId(String qstRelNotId) {
+		this.qstRelNotId = qstRelNotId;
+	}
+	public String getLevKey() {
+		return levKey;
+	}
+	public void setLevKey(String levKey) {
+		this.levKey = levKey;
+	}
+	public String getSubKey() {
+		return subKey;
+	}
+	public void setSubKey(String subKey) {
+		this.subKey = subKey;
+	}
+	public String getAcvKey() {
+		return acvKey;
+	}
+	public void setAcvKey(String acvKey) {
+		this.acvKey = acvKey;
+	}
+	public String getQstRelNotData() {
+		return qstRelNotData;
+	}
+	public void setQstRelNotData(String qstRelNotData) {
+		this.qstRelNotData = qstRelNotData;
+	}
+	
 	@Override
 	public String toString() {
 		return "AigoLearnEntity [qstId=" + qstId + ", subId=" + subId + ", levId=" + levId + ", acvId=" + acvId
@@ -500,23 +641,28 @@ public class AigoLearnEntity  extends PlusEntity implements Serializable{
 				+ ", qstContText=" + qstContText + ", qstCont02Type=" + qstCont02Type + ", qstCont02Text="
 				+ qstCont02Text + ", qstCont03Type=" + qstCont03Type + ", qstCont03Text=" + qstCont03Text
 				+ ", qstAnswer01=" + qstAnswer01 + ", qstAnswer02=" + qstAnswer02 + ", qstAnswer03=" + qstAnswer03
-				+ ", qstAnswer04=" + qstAnswer04 + ", qstAnswer05=" + qstAnswer05 + ", qstPreS01=" + qstPreS01
-				+ ", qstPreE01=" + qstPreE01 + ", qstPreS02=" + qstPreS02 + ", qstPreE02=" + qstPreE02 + ", qstPreS03="
-				+ qstPreS03 + ", qstPreE03=" + qstPreE03 + ", qstPreS04=" + qstPreS04 + ", qstPreE04=" + qstPreE04
-				+ ", qstPreS05=" + qstPreS05 + ", qstPreE05=" + qstPreE05 + ", qstAddEtc01=" + qstAddEtc01
-				+ ", qstAddEtc02=" + qstAddEtc02 + ", qstAddEtc03=" + qstAddEtc03 + ", qstAddEtc04=" + qstAddEtc04
-				+ ", qstAddEtc05=" + qstAddEtc05 + ", qstAddEtc06=" + qstAddEtc06 + ", qstAddEtc07=" + qstAddEtc07
-				+ ", useYn=" + useYn + ", regDate=" + regDate + ", regUmSeq=" + regUmSeq + ", udtDate=" + udtDate
-				+ ", udtUmSeq=" + udtUmSeq + ", subName=" + subName + ", levName=" + levName + ", cmtrKey=" + cmtrKey
-				+ ", acvName=" + acvName + ", unitId=" + unitId + ", unitName=" + unitName + ", safPath=" + safPath
-				+ ", safFile=" + safFile + ", userPassYn=" + userPassYn + ", userAnsValue=" + userAnsValue
-				+ ", conceptList=" + conceptList + ", currentTestType=" + currentTestType + ", currentTestTypeSub="
-				+ currentTestTypeSub + ", currentQuestionNumber=" + currentQuestionNumber
-				+ ", currentQuestionViewNumber=" + currentQuestionViewNumber + ", totalQstCnt=" + totalQstCnt
-				+ ", userAnsCnt=" + userAnsCnt + ", memId=" + memId + ", fileCategory=" + fileCategory
-				+ ", arrCategories=" + Arrays.toString(arrCategories) + ", arrExceptCategories="
-				+ Arrays.toString(arrExceptCategories) + ", rownum=" + rownum + "]";
+				+ ", qstAnswer04=" + qstAnswer04 + ", qstAnswer05=" + qstAnswer05 + ", qstPreType=" + qstPreType
+				+ ", qstPreS01=" + qstPreS01 + ", qstPreE01=" + qstPreE01 + ", qstPreS02=" + qstPreS02 + ", qstPreE02="
+				+ qstPreE02 + ", qstPreS03=" + qstPreS03 + ", qstPreE03=" + qstPreE03 + ", qstPreS04=" + qstPreS04
+				+ ", qstPreE04=" + qstPreE04 + ", qstPreS05=" + qstPreS05 + ", qstPreE05=" + qstPreE05
+				+ ", qstAddEtc01=" + qstAddEtc01 + ", qstAddEtc02=" + qstAddEtc02 + ", qstAddEtc03=" + qstAddEtc03
+				+ ", qstAddEtc04=" + qstAddEtc04 + ", qstAddEtc05=" + qstAddEtc05 + ", qstAddEtc06=" + qstAddEtc06
+				+ ", qstAddEtc07=" + qstAddEtc07 + ", useYn=" + useYn + ", regDate=" + regDate + ", regUmSeq="
+				+ regUmSeq + ", udtDate=" + udtDate + ", udtUmSeq=" + udtUmSeq + ", subName=" + subName + ", levName="
+				+ levName + ", cmtrKey=" + cmtrKey + ", acvName=" + acvName + ", unitId=" + unitId + ", unitName="
+				+ unitName + ", safPath=" + safPath + ", safFile=" + safFile + ", userPassYn=" + userPassYn
+				+ ", userAnsValue=" + userAnsValue + ", conceptList=" + conceptList + ", currentTestType="
+				+ currentTestType + ", currentTestTypeSub=" + currentTestTypeSub + ", currentQuestionNumber="
+				+ currentQuestionNumber + ", currentQuestionViewNumber=" + currentQuestionViewNumber + ", totalQstCnt="
+				+ totalQstCnt + ", userAnsCnt=" + userAnsCnt + ", memId=" + memId + ", fileCategory=" + fileCategory
+				+ ", arrCategories=" + Arrays.toString(arrCategories) + ", arrSubCategories="
+				+ Arrays.toString(arrSubCategories) + ", arrExceptCategories=" + Arrays.toString(arrExceptCategories)
+				+ ", rownum=" + rownum + ", acaName=" + acaName + ", arrSubjects=" + Arrays.toString(arrSubjects)
+				+ ", cmtrType=" + cmtrType + ", cmtrSafSeq=" + cmtrSafSeq + ", cmtrText=" + cmtrText + ", cmtrValue="
+				+ cmtrValue + ", notType=" + notType + ", notSafSeq=" + notSafSeq + ", notText=" + notText
+				+ ", notPlayName=" + notPlayName + ", notPlayPath=" + notPlayPath + ", safSeq=" + safSeq + ", passPer="
+				+ passPer + ", qstRelNotId=" + qstRelNotId + ", qstRelNotData=" + qstRelNotData + ", levKey=" + levKey
+				+ ", subKey=" + subKey + ", acvKey=" + acvKey + "]";
 	}
-	
 	
 }

@@ -9,36 +9,44 @@
 <link rel="stylesheet" href="../assets/css/style_m.css">
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/script_m.js"></script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body class="bg_b">
 <div class="wrapper filter_layer">
   <header class="header">
     <a href="#" class="btn_close">닫기</a>
-    <h1>다시풀기 문제필터</h1>
+    <h1>다시풀기 문제 필터</h1><!-- 수정0223 -->
   </header>
-  <div class="container">
-    <p class="txt">* 복수 선택 가능합니다. 원하는 항목 선택 후 적용을 누르세요.</p>
+  <div class="container btm0"><!-- 수정0219 -->
+    <div class="content"><!-- 수정0219 -->
+      <p class="txt">* 복수 선택 가능합니다. 원하는 항목 선택 후 적용을 누르세요.</p>
 
-    <h2>레벨</h2>
-    <div class="lv_btn_div">
-      <button class="btn btn_lv select">LV. 1</button>
-      <button class="btn btn_lv">LV. 2</button>
-      <button class="btn btn_lv">LV. 3</button>
-      <button class="btn btn_lv">LV. 4</button>
-      <button class="btn btn_lv">LV. 5</button>
-    </div>
-
-    <h2>과목, 단원</h2>
-    <div class="sbj_btn_div">
-      <div class="btn_div1">
-        <button class="btn btn_sbj select">수학 I</button>
-        <button class="btn btn_sbj">수학 I</button>
+      <h2>레벨</h2>
+      <div class="lv_btn_div">
+        <button class="btn btn_lv select">LV. 1</button>
+        <button class="btn btn_lv">LV. 2</button>
+        <button class="btn btn_lv">LV. 3</button>
+        <button class="btn btn_lv">LV. 4</button>
+        <button class="btn btn_lv">LV. 5</button>
       </div>
-      <div class="btn_div2">
-        <button class="btn btn_sbj">지수함수와 로그함수</button>
-        <button class="btn btn_sbj select">삼각함수</button>
-        <button class="btn btn_sbj">수열</button>
+
+      <h2>과목, 단원</h2>
+      <div class="sbj_btn_div">
+        <div class="btn_div1">
+          <button class="btn btn_sbj select">수학 I</button>
+          <button class="btn btn_sbj">수학 I</button>
+        </div>
+        <div class="btn_div2">
+          <button class="btn btn_sbj">지수함수와 로그함수</button>
+          <button class="btn btn_sbj select">삼각함수</button>
+          <button class="btn btn_sbj">수열</button>
+        </div>
       </div>
     </div>
 

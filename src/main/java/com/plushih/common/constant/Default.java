@@ -52,9 +52,12 @@ public class Default {
     public static final String VIEW_RETURN_URL			= "returnUrl";		// 작업처리 후 리턴시킬 URL
 	public static final String VIEW_ALERT_MSG			= "alertMsg";		// 처리 후 노출시킬 메시지
 	public static final String RESULT_CODE				= "resultCode";		// 작업처리 후 처리결과 코드 
+	public static final String RESULT_STATUS			= "resultStatus";	// 작업처리 후 상태값 
 	public static final String RESPONSE_RESULT_MAP		= "resultMap";		// 작업처리 후 처리결과가 담긴 Map
 	public static final String VIEW_ACCESS_KEY			= "accessKey";		// 비정상접근 체크 
 	public static final String REQUEST_PARAMETER_MAP	= "paramMap";		// 요청 파라미터 Map을 다시 model에 set할 경우
+	public static final String PAGETYPE					= "pageType";		// 페이지 구분 파라미터
+	public static final String PAGETYPE_SUB				= "pageTypeSub";	// 페이지 구분 서브 파라미터
   }
 
   public static final class ResultAction {
@@ -121,33 +124,23 @@ public class Default {
   }
 
   public static class UploadDirectory {
-    public static final String ACCIDENT = "/accident";
     public static final String BANNER = "/banner";
     public static final String EDITOR_IMAGE = "/editorImage";
     public static final String ITEM = "/item";
     public static final String BOARD = "/board";
     public static final String TEMP = "/temp";
     public static final String THUMBNAIL = "/thumbnail";
-    public static final String STAFF = "/staff";
     public static final String USERS = "/users";
-    public static final String RENT = "/rent";
     public static final String POPUP = "/popup";
-    public static final String CORPORATION = "/corporation";
-    public static final String LAND = "/land";
-    public static final String BUILDING = "/building";
-    public static final String PREMIUM = "/premium";
   }
 
   public static class FileBbs {
-    public static final String CORPORATION  = "CORPORATION";
-    public static final String USERS  = "USERS";
-    public static final String RENT  = "RENT";
-    public static final String NOTICE = "NOTICE";
-    public static final String POPUP = "POPUP";
-    public static final String LAND  = "LAND";
-    public static final String BUILDING  = "BUILDING";
-    public static final String PREMIUM  = "PREMIUM";
-    public static final String QUESTION  = "QST";
+    public static final String USER			= "USER";
+    public static final String RENT			= "RENT";
+    public static final String NOTICE		= "NOTICE";
+    public static final String POPUP		= "POPUP";
+    public static final String QUESTION		= "QST";
+    public static final String COMMENTARY	= "CMTR";
   }
 
   public static class FileType {
@@ -242,6 +235,7 @@ public class Default {
 	public static final String KAKAO		= "kakao";
 	public static final String NAVER		= "naver";
 	public static final String FACEBOOK		= "facebook";
+	
 	// 개발용 Key
 	public static final String KAKAO_JS_KEY				= "21a4f6373b7a5baf3a08f88d6bbd2a4d";	// 카카오 앱 Javascript SDK Key (인가코드 발급 시 사용)
 	public static final String KAKAO_REST_API_KEY		= "6cc2739f12496fc8561e517b31e1cc9c";	// 카카오 앱 REST API 호출용 Key (사용자 정보에 접근할 액세스토큰/리프레시토큰 발급 시 사용) 
@@ -249,13 +243,14 @@ public class Default {
 	//public static final String FACEBOOK_SECRET_CODE_KEY	= "d2afc0ce5bfaf86638492a2551c0da66";	// 페이스북 앱 Secret Code
 	public static final String NAVER_CLIENT_ID_KEY		= "C_nYus0dkLHdctVjod_2";				// 네이버 앱 Client APP_ID
 	public static final String NAVER_CLIENT_SECRET_KEY	= "T5WbOE154z";							// 네이버 앱 Client Secret Key
+	
 	// 운영용 Key
-	//public static final String KAKAO_JS_KEY				= "5d748932e2f317cfa356b5e3971e2c42";	// 카카오 앱 Javascript SDK Key (인가코드 발급 시 사용)
-	//public static final String KAKAO_REST_API_KEY		= "eaff158f54cc381e50c85b9fdd0f5066";	// 카카오 앱 REST API 호출용 Key (사용자 정보에 접근할 액세스토큰/리프레시토큰 발급 시 사용) 
+//	public static final String KAKAO_JS_KEY				= "5d748932e2f317cfa356b5e3971e2c42";	// 카카오 앱 Javascript SDK Key (인가코드 발급 시 사용)
+//	public static final String KAKAO_REST_API_KEY		= "eaff158f54cc381e50c85b9fdd0f5066";	// 카카오 앱 REST API 호출용 Key (사용자 정보에 접근할 액세스토큰/리프레시토큰 발급 시 사용) 
 	public static final String FACEBOOK_KEY				= "986169288573860";					// 페이스북 앱 ID (Key)
 	public static final String FACEBOOK_SECRET_CODE_KEY	= "88f286088319d90c5a84bd597d2cd46a";	// 페이스북 앱 Secret Code
-	//public static final String NAVER_CLIENT_ID_KEY		= "";									// 네이버 앱 Client APP_ID
-	//public static final String NAVER_CLIENT_SECRET_KEY	= "";									// 네이버 앱 Client Secret Key
+//	public static final String NAVER_CLIENT_ID_KEY		= "dO2k3t2ySfIgFMBfojtB";				// 네이버 앱 Client APP_ID
+//	public static final String NAVER_CLIENT_SECRET_KEY	= "LxjONV3QrV";							// 네이버 앱 Client Secret Key
 	
 	// 사용자 정보 리턴받을 Redirect URL
 	public static final String JOIN_PROC_URL	= "/front/join/joinProcSns";
@@ -278,4 +273,16 @@ public class Default {
 	public static final int HTTP_STATUS_CODE_200		= 200;
   }
   
+  public static final class OrderBy {
+	public static final String ASC		= "ASC";
+	public static final String DESC		= "DESC";
+  }
+  
+  public static final class Aigo {
+  	public static final int RATE_GRADE_1		= 96;
+  	public static final int RATE_GRADE_2		= 89;
+  	public static final int RATE_GRADE_3		= 77;
+  	public static final int RATE_GRADE_4		= 60;
+  	public static final int RATE_GRADE_5		= 24;
+  }
 }

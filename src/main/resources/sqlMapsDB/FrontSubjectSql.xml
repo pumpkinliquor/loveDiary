@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontSubjectDAO">
+
+	<!-- 과목정보 조회 -->
+	<select id="selectSubjectInfo" parameterType="aigoSubjectEntity" resultType="aigoSubjectEntity">
+		/* FrontSubjectDAO.selectSubjectInfo*/
+		select
+			cas.sub_id
+			,cas.sub_key
+			,cas.sub_name
+			,cas.sub_order
+			,cas.user_active
+			,cas.use_yn
+			,cas.reg_date
+			,cas.reg_um_seq
+			,cas.udt_date
+			,cas.udt_um_seq
+			,cas.reg_sysdate
+			,cas.udt_sysdate
+		from cb_aigo_subject as cas
+		where cas.sub_id = #{subId}
+			and cas.use_yn = #{useYn}
+	</select>
+
+</mapper>

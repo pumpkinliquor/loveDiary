@@ -22,6 +22,9 @@ public class LoginSession {
   public static final String LANG = "languageCURRENT";
   public static final String EMAIL = "loginSessionEmail";
   public static final String LEVEL = "loginSessionLevel";
+  public static final String SAF_BBS = "loginSessionSafBbs";
+  public static final String SAF_SEQ = "loginSessionSafSeq";
+  public static final String JOIN_CHANNEL = "loginSessionJoinChannel";
 
   public static final String LANGIDX = "languageIDX";
   
@@ -29,6 +32,9 @@ public class LoginSession {
   public static final String TEMP_CLASS = "temp_class";
   public static final String TEMP_GRADE = "temp_grade";
   public static final String TEMP_SUBJECT = "temp_subject";
+  public static final String TEMP_STATE = "temp_state";
+  public static final String TOKEN = "dvicetoken";
+  public static final String LEARNING_STATUS = "loginSessionLearningStatus";
 
   public static Integer getLoginKey(final HttpSession session) {
     return (Integer) session.getAttribute(LoginSession.KEY);
@@ -44,6 +50,12 @@ public class LoginSession {
   }
   public static String getLoginNickName(final HttpSession session) {
 	  return (String) session.getAttribute(LoginSession.NICK_NAME);
+  }
+  public static String getLoginSessionSafBbs(final HttpSession session) {
+	  return (String) session.getAttribute(LoginSession.SAF_BBS);
+  }
+  public static String getLoginSessionSafSeq(final HttpSession session) {
+	  return (String) session.getAttribute(LoginSession.SAF_SEQ);
   }
   public static String getLoginSubjectId(final HttpSession session) {
 	  String subjectId =  String.valueOf(session.getAttribute(LoginSession.SUBJECT_ID)) ;
@@ -93,7 +105,7 @@ public class LoginSession {
   }
   public static String getTempId(final HttpSession session) {
 	  String tempId = (String) session.getAttribute(LoginSession.TEMP_ID);
-	  if(tempId==null){
+	  if(tempId==null || "null".equals(tempId)){
 		  tempId ="0";
 	  }
 	  return tempId;
@@ -106,11 +118,18 @@ public class LoginSession {
 	  return tempClass;
   }
   public static String getTempGrade(final HttpSession session) {
-	  String tempGrade = (String) session.getAttribute(LoginSession.TEMP_GRADE);
-	  if(tempGrade==null){
+	  String tempGrade = String.valueOf(session.getAttribute(LoginSession.TEMP_GRADE));
+	  if(tempGrade==null || "null".equals(tempGrade)){
 		  tempGrade ="0";
 	  }
 	  return tempGrade;
+  }
+  public static String getTempState(final HttpSession session) {
+	  String tempState = String.valueOf(session.getAttribute(LoginSession.TEMP_STATE));
+	  if(tempState==null || "null".equals(tempState)){
+		  tempState ="0";
+	  }
+	  return tempState;
   }
   public static String getSeq(final HttpSession session) {
 	  String seq =  String.valueOf(session.getAttribute(LoginSession.SEQ)) ;
@@ -131,6 +150,30 @@ public class LoginSession {
   }
   public void getSessionInfo(HttpSession session,Object sessionInfo) {
     session.setAttribute(LoginSession.INFO,sessionInfo);
+  }
+  
+  public static String getToken(final HttpSession session) {
+	  String token = (String) session.getAttribute(LoginSession.TOKEN);
+	  if(token==null){
+		  token ="";
+	  }
+	  return token;
+  }
+  
+  public static String getLearningStatus(final HttpSession session) {
+	  String status = (String) session.getAttribute(LoginSession.LEARNING_STATUS);
+	  if(status==null || "null".equals(status)){
+		  status ="y";
+	  }
+	  return status;
+  }
+
+  public static String getJoinChannel(final HttpSession session) {
+	  String joinChannel = (String) session.getAttribute(LoginSession.JOIN_CHANNEL);
+	  if(joinChannel==null || "null".equals(joinChannel)){
+		  joinChannel ="null";
+	  }
+	  return joinChannel;
   }
   
 }

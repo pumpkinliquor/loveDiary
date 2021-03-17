@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontReviewDAO">
+
+	<!-- 성취기준 상세 조회 -->
+	<select id="selectReviewList" parameterType="map" resultType="camelMap">
+		/* FrontReviewDAO.selectReviewList */
+		SELECT * FROM (
+			SELECT a.qst_id,
+			       a.qst_name,
+			       a.aca_id,
+			       a.sub_id,
+			       a.sub_name,
+			       a.unit_id,
+			       a.unit_name,
+			       a.acv_id,
+			       a.acv_name,
+			       a.lev_id,
+			       a.cmtr_id,
+			       a.pass_yn,
+			       a.not_id_str,
+			       a.all_test_cnt,
+			       a.all_true_cnt,
+			       ( a.all_true_cnt / a.all_test_cnt ) AS per,
+			       a.test_day,
+			       a.udt_date
+			FROM   (SELECT a.qst_id,
+			               a.qst_name,
+			               a.aca_id,
+			               a.sub_id,
+			               a.sub_name,
+			               a.unit_id,
+			               a.unit_name,
+			               a.acv_id,
+			               a.acv_name,
+			               a.lev_id,
+			               a.cmtr_id,
+			               a.pass_yn,
+			               a.not_id_str,
+			               (SELECT Count(m.qst_id)
+			                FROM   aigo.cb_aigo_my_answer_list m,
+			                       aigo.cb_aigo_question q
+			                WHERE  1 = 1
+			                       AND m.qst_id = q.qst_id
+			                       AND m.use_yn = 'y'
+			                       AND q.use_yn = 'y'
+			                       AND m.qst_id = a.qst_id) AS all_test_cnt,
+			               (SELECT Count(m.qst_id)
+			                FROM   aigo.cb_aigo_my_answer_list m,
+			                       aigo.cb_aigo_question q
+			                WHERE  1 = 1
+			                       AND m.qst_id = q.qst_id
+			                       AND m.use_yn = 'y'
+			                       AND q.use_yn = 'y'
+			                       AND m.pass_yn = 'y'
+			                       AND m.qst_id = a.qst_id) AS all_true_cnt,
+			               (SELECT Date_format(m.reg_sysdate, '%Y-%m-%d')
+			                FROM   aigo.cb_aigo_my_answer_list m,
+			                       aigo.cb_aigo_question q
+			                WHERE  1 = 1
+			                       AND m.qst_id = q.qst_id
+			                       AND m.use_yn = 'y'
+			                       AND q.use_yn = 'y'
+			                       AND m.qst_id = a.qst_id
+			                       AND m.mem_id = a.mem_id
+			                ORDER  BY m.reg_sysdate ASC
+			                LIMIT  1)                       AS test_day,
+			               (SELECT m.udt_sysdate
+			                FROM   aigo.cb_aigo_my_answer_list m,
+			                       aigo.cb_aigo_question q
+			                WHERE  1 = 1
+			                       AND m.qst_id = q.qst_id
+			                       AND m.use_yn = 'y'
+			                       AND q.use_yn = 'y'
+			                       AND m.qst_id = a.qst_id
+			                       AND m.mem_id = a.mem_id
+			                ORDER  BY m.udt_sysdate DESC
+			                LIMIT  1)                       AS udt_date
+			        FROM   (SELECT m.qst_id,
+			                       q.qst_name,
+			                       q.aca_id,
+			                       m.mem_id,
+			                       s.sub_id,
+			                       s.sub_name,
+			                       u.unit_id,
+			                       u.unit_name,
+			                       ach.acv_id,
+			                       ach.acv_name,
+			                       q.lev_id,
+			                       cm.cmtr_id,
+			                       m.pass_yn,
+			                       CASE WHEN q.qst_rel_not_id != 'NULL' AND q.qst_rel_not_id IS NOT NULL THEN 'y' ELSE 'n' end not_id_str
+			                FROM   aigo.cb_aigo_my_answer_list m
+			                       INNER JOIN aigo.cb_aigo_question q
+			                               ON m.qst_id = q.qst_id
+			                       LEFT JOIN aigo.cb_aigo_subject s
+			                              ON q.sub_id = s.sub_id
+			                       LEFT JOIN aigo.cb_aigo_unit u
+			                              ON q.unit_id = u.unit_id
+			                       LEFT JOIN aigo.cb_aigo_achievement ach
+			                              ON q.acv_id = ach.acv_id
+			                       LEFT JOIN aigo.cb_aigo_commentary cm
+			                              ON q.qst_id = cm.qst_id
+			                                 AND q.cmtr_id = cm.cmtr_id
+			                WHERE  1 = 1
+			                       AND m.mem_id = #{memId}
+			                       AND m.use_yn = 'y'
+			                       AND q.use_yn = 'y'
+			                GROUP  BY m.qst_id) a) a
+		) a 
+		WHERE  1=1
+		<if test='!@com.plushih.common.utils.StringUtils@isEmpty(levIdStr)'>
+			AND a.lev_id IN
+			<foreach collection='levIdStr' index='index' item='item' open='(' close=')' separator=','>
+				#{item}
+			</foreach>
+		</if>
+		<if test='!@com.plushih.common.utils.StringUtils@isEmpty(subIdStr)'>
+			AND a.sub_id IN
+			<foreach collection='subIdStr' index='index' item='item' open='(' close=')' separator=','>
+				#{item}
+			</foreach>
+		</if>
+		<if test='!@com.plushih.common.utils.StringUtils@isEmpty(unitIdStr)'>
+			AND a.unit_id IN
+			<foreach collection='unitIdStr' index='index' item='item' open='(' close=')' separator=','>
+				#{item}
+			</foreach>
+		</if>
+		<if test='!@com.plushih.common.utils.StringUtils@isEmpty(oxFilter)'>
+			AND a.pass_yn = #{oxFilter}
+		</if>
+		GROUP BY a.qst_id
+		<choose>
+			<when test='!@com.plushih.common.utils.StringUtils@isEmpty(sortFilter)'>
+				<if test='"1".equals(sortFilter)'>
+					ORDER BY a.sub_id, a.udt_date DESC, a.qst_id
+				</if>
+				<if test='"2".equals(sortFilter)'>
+					ORDER BY a.udt_date DESC, a.qst_id
+				</if>
+				<if test='"3".equals(sortFilter)'>
+					ORDER BY a.udt_date, a.qst_id
+				</if>
+				<if test='"4".equals(sortFilter)'>
+					ORDER BY a.per, a.udt_date DESC, a.qst_id
+				</if>
+				<if test='"5".equals(sortFilter)'>
+					ORDER BY a.per DESC, a.udt_date DESC, a.qst_id
+				</if>
+			</when>
+			<otherwise>
+				ORDER BY a.udt_date DESC, a.qst_id
+			</otherwise>
+		</choose>
+	</select>
+	<select id="selectFilterList"  parameterType="map" resultType="camelMap">
+		/* FrontReviewDAO.selectFilterList */
+		SELECT DISTINCT a.sub_id,
+		                a.sub_name,
+		                a.unit_id,
+		                a.unit_name,
+		                b.lev_id
+		FROM            (
+		                                SELECT DISTINCT s.sub_id,
+		                                                s.sub_name,
+		                                                u.unit_id,
+		                                                u.unit_name,
+		                                                q.lev_id
+		                                FROM            cb_aigo_my_answer_list a
+		                                INNER JOIN      cb_aigo_question q
+		                                ON              a.qst_id = q.qst_id
+		                                AND             q.use_yn = 'y'
+		                                LEFT JOIN       cb_aigo_subject s
+		                                ON              q.sub_id = s.sub_id
+		                                AND             s.use_yn = 'y'
+		                                LEFT JOIN       cb_aigo_unit u
+		                                ON              q.unit_id = u.unit_id
+		                                AND             q.sub_id = u.sub_id
+		                                AND             u.use_yn = 'y'
+		                                LEFT JOIN       cb_aigo_achievement ach
+		                                ON              q.acv_id = ach.acv_id
+		                                AND             q.sub_id = ach.sub_id
+		                                AND             q.lev_id = ach.lev_id
+		                                AND             ach.use_yn = 'y'
+		                                WHERE           1=1
+		                                AND             a.mem_id = #{memId}
+		                                AND             a.use_yn = 'y' ) a,
+		                (
+		                                SELECT DISTINCT regexp_replace(group_concat(DISTINCT lev_id order BY lev_id separator ','), '([^,]+)(,\1)+', '\1') AS lev_id
+		                                FROM            cb_aigo_my_answer_list a
+		                                INNER JOIN      cb_aigo_question q
+		                                ON              a.qst_id = q.qst_id
+		                                WHERE           1=1
+		                                AND             a.mem_id = #{memId}
+		                                AND             a.use_yn = 'y'
+		                                AND             q.use_yn = 'y') b
+		ORDER BY        a.sub_id,
+		                a.unit_id
+	</select>
+
+</mapper>

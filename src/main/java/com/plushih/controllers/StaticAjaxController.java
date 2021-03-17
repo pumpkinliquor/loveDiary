@@ -156,7 +156,7 @@ public class StaticAjaxController extends CoreController {
      * @return String
      */
     @RequestMapping(value = "/loginOut")
-    public @ResponseBody CommonResultEntity logoutAction(Model model, HttpServletRequest request)  {
+    public String logoutAction(Model model, HttpServletRequest request)  {
         CommonResultEntity resultEntity = new CommonResultEntity();
         HttpSession session = request.getSession(true);
         if(session != null){
@@ -168,7 +168,32 @@ public class StaticAjaxController extends CoreController {
             session.invalidate();  // 초기화 해주고
         }
         resultEntity.setResultCode("OK");
-        return resultEntity;
+        return "redirect:/front/main";
+
+
+    }
+    /**
+     * 로그아웃 프로세스.
+     *
+     * @param model Model
+     * @param request HttpServletRequest
+     * @return String
+     */
+    @RequestMapping(value = "/adminloginOut")
+    public String adminloginOut(Model model, HttpServletRequest request)  {
+        CommonResultEntity resultEntity = new CommonResultEntity();
+        HttpSession session = request.getSession(true);
+        if(session != null){
+            session.removeAttribute(LoginSession.INFO);
+            session.removeAttribute(LoginSession.NAME);
+            session.removeAttribute(LoginSession.ID);
+            session.removeAttribute(LoginSession.DATE);
+            session.removeAttribute(LoginSession.IP);
+            session.invalidate();  // 초기화 해주고
+        }
+        resultEntity.setResultCode("OK");
+        return "redirect:/plusadmin/main";
+
 
     }
 

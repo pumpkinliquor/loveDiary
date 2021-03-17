@@ -1,5 +1,6 @@
 package com.plushih.controllers.front;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -20,9 +21,11 @@ import com.plushih.common.constant.Default;
 import com.plushih.common.constant.LoginSession;
 import com.plushih.common.utils.NumberUtils;
 import com.plushih.controllers.front.service.FrontAchieveService;
+import com.plushih.controllers.front.service.FrontUserService;
 import com.plushih.controllers.totaladmin.AdminBusinessController;
 import com.plushih.entities.AigoAchievementEntity;
 import com.plushih.entities.CommonResultEntity;
+import com.plushih.services.ci.CommonService;
 
 
 @Controller
@@ -31,6 +34,12 @@ public class FrontAchieveController extends CoreController {
 	
 	@Autowired
 	private FrontAchieveService frontAchieveService;
+	
+	@Autowired
+	private CommonService cmmService;
+	
+	@Autowired
+	private FrontUserService frontUserService;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdminBusinessController.class);
 
@@ -50,7 +59,6 @@ public class FrontAchieveController extends CoreController {
 		String levId = LoginSession.getLoginLevel(request.getSession());
 		
 		// 필요한 데이터 세팅
-		// 레벨 임의 세팅 - 나중에 모의진단 결과 레벨 세팅해주어야 함
 		aigoAchievementEntity.setMemId(NumberUtils.stringToInt(memId));
 		aigoAchievementEntity.setOptionalSubId(NumberUtils.stringToInt(subId));
 		aigoAchievementEntity.setLevId(NumberUtils.stringToInt(levId));
@@ -59,7 +67,11 @@ public class FrontAchieveController extends CoreController {
 		CommonResultEntity res = new CommonResultEntity();
 		res.setResultData(frontAchieveService.selectAchieveList(aigoAchievementEntity));
 		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
-		return "/front/achieve/list";
+		model.addAttribute("userInfo", cmmService.userInfo(aigoAchievementEntity));
+		
+		String path =  "/front/achieve/list";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -72,12 +84,24 @@ public class FrontAchieveController extends CoreController {
 	@RequestMapping(value = {"/detail", "/detail/{lan}"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public String detail(HttpServletRequest request, HttpServletResponse response, @PathVariable Map<String, String> pathVariables, ModelMap model, AigoAchievementEntity aigoAchievementEntity, Locale localeParam) throws Exception {
 
+		String memId = LoginSession.getSeq(request.getSession());
+		String subId = LoginSession.getLoginSubjectId(request.getSession());
+		String levId = LoginSession.getLoginLevel(request.getSession());
+		
+		// 필요한 데이터 세팅
+		aigoAchievementEntity.setMemId(NumberUtils.stringToInt(memId));
+		aigoAchievementEntity.setOptionalSubId(NumberUtils.stringToInt(subId));
+		aigoAchievementEntity.setLevId(NumberUtils.stringToInt(levId));
+		
 		// 필요한 데이터 조회
 		CommonResultEntity res = new CommonResultEntity();
 		res.setResultData(frontAchieveService.selectAchieveDetailList(aigoAchievementEntity));
 		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
+		model.addAttribute("userInfo", cmmService.userInfo(aigoAchievementEntity));
 
-		return "/front/achieve/detail";
+		String path = "/front/achieve/detail";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 
 }

@@ -15,12 +15,19 @@
 <div class="wrapper">
   <header class="header">
     <h1 class="logo">AIGo</h1>
-    <strong class="progressing typing">AI Progressing…</strong>
+
+    <!-- <strong class="progressing typing ai_text">AI Progressing... </strong> --> <!-- 수정0209 -->
+    <!-- 수정0223 -->
+    <div class="typewriter">
+      <h1 class="progressing">AI Progressing...</h1>
+    </div>
+    <!-- //수정0223 -->
   </header>
-  <div class="container">
-    <div class="question_conts">
+  <div class="container btm0">
+    <div class="question_conts question_common1"><!-- 수정0219 -->
       <h2 class="q_number">01.</h2>
       <div class="q_sec">
+        <img class="q_img" src="../assets/images/_tmp/img_question_1.jpg" alt="문제 이미지">
         <img class="q_img" src="../assets/images/_tmp/img_question_1.jpg" alt="문제 이미지">
       </div>
       <div class="dontknow">
@@ -57,6 +64,7 @@
 
 <script type="text/javascript">
   numSelect();
+  prgressBar();
 </script>
 
 </body>

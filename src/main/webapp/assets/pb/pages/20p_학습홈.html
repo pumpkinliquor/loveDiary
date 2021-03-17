@@ -14,6 +14,12 @@
 
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/script_m.js"></script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body class="learning_body">
@@ -25,7 +31,7 @@
       <span>2022 수능 <em>D-290</em></span>
     </div>
     <div class="my_cont">
-      <img class="my_pic" src="../assets/images/_tmp/tmp_img_photo.jpg" alt="임시 프로필 이미지">
+      <img class="my_pic" src="../assets/images/default_img.png" alt="기본 프로필 이미지"> <!-- 수정0226 -->
       <p class="my_id">jeehyun@aigo.com님</p>
       <div class="my_grade">
         <span>최초 등급 5등급 </span>
@@ -37,9 +43,24 @@
     <section class="contents level_conts">
       <div class="level_div">
         <span class="rate">Your Rate : 3.79%</span>
-        <div class="bar_div">
-          <span class="bar lv3"><em>현재 LEVEL 3등급</em></span>
-        </div>
+
+        <!-- 수정0308 -->
+        <div class="lv_section">
+          <div class="bar_wrap">
+            <div class="bar_div lv3">
+              <div class="msg_div lv3">
+                <div>
+                  <span class="typing">조금만 더 노력해요</span> 
+                </div>
+              </div>
+              <span class="bar_l"></span>
+              <span class="bar"></span>
+              <em class="bar_txt">현재 LEVEL 3등급</em>
+            </div>            
+          </div>
+        </div><!-- //lv_section -->
+        <!-- //수정0308 -->
+
         <ul>
           <li>Level 1</li>
           <li>Level 2</li>
@@ -48,13 +69,6 @@
           <li>Level 5</li>
         </ul>
 
-        <div class="msg_div">
-          <div>
-            <span>Fighting</span>
-          </div>
-          <span class="bar_l"></span>
-        </div>
-
         <div class="go_div">
           <p>등급 상승을 위한 <br> <span class="txt_AI">AI</span>문제풀이를 시작하세요!</p>
             <a href="#" class="btn btn_go"><span class="txt_GO">GO</span></a>
@@ -62,7 +76,7 @@
       </div>
     </section>
 
-    <section class="contents q_conts">
+    <section class="contents q_conts none">
       <h2>맞춘 문제도 다시 보자</h2>
       <ul>
         <li class="none">
@@ -71,7 +85,7 @@
       </ul>
     </section>
 
-    <section class="contents q_conts">
+    <section class="contents q_conts none">
       <h2>틀린 문제는 자꾸자꾸 다시 보자</h2>
       <ul>
         <li class="none">
@@ -98,7 +112,7 @@
           </div>
           <div class="fR">
             <div class="badge">
-              <span>정답률 <br><em>-</em></span>
+              <div><span class="f1">정답률</span> <span class="f2"><em>100</em>%</span></div><!-- 수정0219 -->
             </div>
           </div>
       </ul>
@@ -145,16 +159,27 @@
       <p><em>365</em>일 전에 마지막으로 AIgo의 맞춤 문제를 풀었습니다. </p>
     </section>
   </div><!-- //container -->
-
-  
 </div>
 
 <script src="../assets/plugin/owlcarousel/owl.carousel.min.js"></script>
 
 <script type="text/javascript">
   qCardSlider();
+  lavelBar();
+   typing(); //수정0308
 </script>
 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js">
+    MathJax.Hub.Config({
+    extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+         displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script> 
 </body>
 
 </html>

@@ -37,21 +37,34 @@ public class Input {
         this.request = request;
         this.method = method;
 
-        Enumeration e = request.getParameterNames();
-        while ( e.hasMoreElements() ){
-			String name = (String) e.nextElement();
-			String[] values = request.getParameterValues(name);
-			for (String value : values) {
-			    if(name.indexOf("search[value]")>-1){
-			        setSearchString(value);
+        try {
+
+            if(request!=null){
+
+                Enumeration e = request.getParameterNames();
+                while ( e.hasMoreElements() ){
+                    String name = (String) e.nextElement();
+                    String[] values = request.getParameterValues(name);
+                    for (String value : values) {
+                        if(name.indexOf("search[value]")>-1){
+                            setSearchString(value);
+                        }
+                        //Debug.log("name=" + name + ",value=" + value);
+                    }
                 }
-				//Debug.log("name=" + name + ",value=" + value);
-			}
-		}
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();;
+        }
     }
 
     public String ipAddress(){
-        return request.getRemoteAddr();
+        if(request!=null){
+
+            return request.getRemoteAddr();
+        }
+        return "127.0.0.1";
+
     }
     
 
@@ -67,11 +80,16 @@ public class Input {
     }
     public String post(String parameter) {
         String reval = null;
-        if (method == RequestMethod.POST) {
-            reval = request.getParameter(parameter);
-        }
-        if(reval != null ){
-           reval= StringUtils.addSlashes(reval);
+        if(request!=null){
+
+            if (method == RequestMethod.POST) {
+                reval = request.getParameter(parameter);
+            }
+            if(reval != null ){
+                reval= StringUtils.addSlashes(reval);
+            }
+        } else {
+            reval="";
         }
         return reval;
     }

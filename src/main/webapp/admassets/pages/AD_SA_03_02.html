@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="title" content="Aigo Admin" />
+<title>Aigo Admin</title>
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+<script type="text/javascript" src="../js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="../js/script.js"></script>
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../plugins/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Datatables -->
+<link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<!--[if lt IE 9]>
+<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<div class="admin_wrapper">
+	<div class="nav lnb" id="lnb">
+		<h1><a href="#"><img src="../images/logo.png" alt="Aigo" /></a></h1>
+		<ul>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">권한관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="AD_AU_01.html" class="nav-link"><p>ㆍ 아이디발급</p></a></li>
+		    		<li><a href="AD_AU_02.html" class="nav-link"><p>ㆍ 권한설정</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">마스터관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ  공통코드관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 과목코드</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 레벨관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 문제분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 단원분류 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 성취기준 관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 개념요소 관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="AD_MA_02.html" class="nav-link"><p>ㆍ 게시판관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">회원관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 회원조회</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 회원정보</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 접속이력</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">매출관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출집계</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 매출상세</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 결제/환불</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 결제/환불 내역</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 환불관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">학습관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 출제경향관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 문항관리</p></a>
+		    			<ul>
+				    		<li><a href="#" class="nav-link"><p>- 문항등록</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 모의진단관리</p></a></li>
+				    		<li><a href="#" class="nav-link"><p>- 해설관리</p></a></li>
+				    	</ul>
+		    		</li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 개념관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">상품관리</p>
+		    	</a>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    		<i class="fas fa-th-large"></i><p class="depth1">사이트관리<i class="fas fa-angle-right right"></i></p>
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 프로모션 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 배너/팝업 관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 푸시관리</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 약관관리</p></a></li>
+		    	</ul>
+		    </li>
+		    <li class="title nav-item">
+		    	<a href="#" class="nav-link">
+		    	</a>
+		    	<ul>
+		    		<li><a href="#" class="nav-link"><p>ㆍ 공지사항</p></a></li>
+		    		<li><a href="#" class="nav-link"><p>ㆍ FAQ</p></a></li>
+		    	</ul>
+		    </li>
+	    </ul>
+	</div>
+	<div class="content-wrap">
+		<div class="content-header">
+			<ul class="fR">
+				<li>홍길동</li>
+				<li>(223.223.223.2223)</li>
+				<li><a href="#" class="btn btn-secondary">로그아웃</a></li>
+			</ul>
+		</div>
+		<div class="content sales_cont">
+			<h2>환불관리</h2>
+
+			<table class="srchT">
+				<colgroup>
+					<col width="18%">
+					<col width="*">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th rowspan="3">기간</th>
+						<td class="bbx">
+						 	<form>
+			                    <div class="date_div">
+			                      <input type="date" class="ipt_date" id="">
+			                      <input type="date" class="ipt_date" id="">
+			                    </div>
+		                    </form>
+						</td>
+					</tr>
+					<tr>
+						<td class="bbx ptx">
+							<div class="radio_wrap" style="width:auto">
+								<div class="ipt_radio_div">
+									<input type="radio" id="srchAll" name="srch">
+									<label for="srchAll">전체</label>
+								</div>
+								<div class="ipt_radio_div mr20">
+									<input type="radio" id="srch1" name="srch">
+									<label for="srch1">환불접수</label>
+								</div>
+								<div class="ipt_radio_div mr20">
+									<input type="radio" id="srch2" name="srch">
+									<label for="srch2">환불승인</label>
+								</div>
+								<div class="ipt_radio_div mr20">
+									<input type="radio" id="srch3" name="srch">
+									<label for="srch3">환불완료</label>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="ptx">
+							<div class="srch_div">
+								<select class="s_p1">
+									<option>선택</option>
+									<option>주문번호</option>
+									<option>아이디</option>
+									<option>상품명</option>
+									<option>상점구분</option>
+									<option>상품코드</option>
+								</select>
+								<input type="text" name="" class="ipt_p1">
+								<button type="submit" class="btn btn-st1">검색</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="tbl_top_div">
+				<button>상점데이터 동기화</button>
+			</div>
+			<table id="dataT" class="table table-bordered table-hover dataTable dtr-inline fs15">
+				<colgroup>
+					<col width="9%">
+					<col width="11%">
+					<col width="11%">
+					<col width="10%">
+					<col width="8%">
+
+					<col width="8%">
+					<col width="8%">
+					<col width="8%">
+					<col width="7%">
+					<col width="*">
+					<col width="8%">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>주문번호</th>
+						<th>승인일</th>
+						<th>아이디</th>
+						<th>상품명</th>
+						<th>상점구분</th>
+
+						<th>상품코드</th>
+						<th>판매액</th>
+						<th>결제금액</th>
+						<th>상태</th>
+						<th>환불승인요청 (LD->구글)</th>
+						<th>환불금액</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-01 (목)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"><a href="#">요청</a></td>
+						<td class="b"></td>
+					</tr>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-02 (금)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"><a href="#">요청</a></td>
+						<td class="b"></td>
+					</tr>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-03 (토)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"><a href="#">요청</a></td>
+						<td class="b"></td>
+					</tr>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-04 (일)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"><a href="#">요청</a></td>
+						<td class="b"></td>
+					</tr>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-05 (월)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"></td>
+						<td class="b"></td>
+					</tr>
+					<tr>
+						<td>123****123</td>
+						<td>2021-07-05 (화)</td>
+						<td>jee****@naver.com</td>
+						<td>상품명상품명</td>
+						<td>구글</td>
+
+						<td>PP1001</td>
+						<td class="txt_r">210,000</td>
+						<td class="txt_r">200,000</td>
+						<td>환불접수</td>
+						<td class="b"></td>
+						<td class="b">-150,000</td>
+					</tr>
+				</tbody>
+
+			</table>
+
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+ modalClose();
+</script>
+<script>
+  $(function () {
+    $('#dataT').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+</body>
+</html>

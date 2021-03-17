@@ -167,7 +167,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<table class="popT1">
+				<table class="popT1" id="grdiMoJin">
 					<colgroup>
 						<col width="8%">
 						<col width="11%">
@@ -175,6 +175,7 @@
 						<col width="*">
 						<col width="*">
 						<col width="13%">
+						<col width="10%">
 						<col width="10%">
 					</colgroup>
 					<thead>
@@ -186,18 +187,10 @@
 							<th>풀이종료일시</th>
 							<th>풀이소요시간</th>
 							<th>채점결과</th>
+							<th>채점결과</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>1</td>
-							<td>Q001</td>
-							<td>test001</td>
-							<td>yyyy-mm-dd 00:00:00</td>
-							<td>yyyy-mm-dd 00:00:00</td>
-							<td>0:00:00</td>
-							<td>O</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -211,13 +204,11 @@
 						<tr>
 							<th>기간</th>
 							<td>
-								<form>
-									<div class="date_div">
-										<input type="date" class="ipt_date" id=""><span>~</span>
-										<input type="date" class="ipt_date" id="">
-									</div>
-									<button type="button" class="btn btn-default btn_srch">검색</button>
-								</form>
+								<div class="date_div">
+									<span class="ipt_dates"><input type="date" class="ipt_date" id="sdate"></span><span>~</span>
+									<span class="ipt_dates"><input type="date" class="ipt_date" id="edate"></span>
+								</div>
+								<button type="button" class="btn btn-default btn_srch">검색</button>
 							</td>
 						</tr>
 					</tbody>
@@ -227,7 +218,7 @@
 						<a href="#">레벨평가리포트 &gt;</a>
 						<a href="#">종합리포트 &gt;</a>
 					</div>
-					<table class="popT1">
+					<table class="popT1" id="gridAns">
 						<colgroup>
 							<col width="5%">
 							<col width="10%">
@@ -255,40 +246,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>9</td>
-								<td>Q001</td>
-								<td>test001</td>
-								<td></td>
-								<td></td>
-								<td>yyyy-mm-dd 00:00:00</td>
-								<td>yyyy-mm-dd 00:00:00</td>
-								<td>0:00:00</td>
-								<td>O</td>
-								<td></td>
-							</tr>
+
 						</tbody>
 					</table>
-					<div class="tbl-foot">
-						<div class="paging">
-							<a href="#" class="prev">
-								<i class="fas fa-caret-left"></i>
-							</a>
-							<span class="on">1</span>
-							<a href="#">2</a>
-							<a href="#">3</a>
-							<a href="#">4</a>
-							<a href="#">5</a>
-							<a href="#">6</a>
-							<a href="#">7</a>
-							<a href="#">8</a>
-							<a href="#">9</a>
-							<a href="#">10</a>
-							<a href="#" class="next">
-								<i class="fas fa-caret-right"></i>
-							</a>
-						</div>
-					</div>
+
 				</div>
 			</div><!-- //tab_conts_wrap -->
 		</div>
@@ -356,7 +317,7 @@
 			<h1>푸시 설정</h1>
 		</div>
 		<div class="content">
-			<table class="tbl-st2" id="gridElementLevelPopup">
+			<table class="tbl-st2" id="userPushInfoPopup">
 				<colgroup>
 					<col width="50%">
 					<col width="*">
@@ -390,11 +351,19 @@
 <script>
 	
 var gridElement = null, gridColumn = [], popupGridElement = null, popupGridColumn = [];
-
+	/* 날짜값 세팅 */
+	var sDate = new Date();
+	var eDate = new Date();
 $(document).ready(function(){
 
+
+
+	console.log(sDate.format('yyyy-MM-dd'));
+	$("#sdate").val(sDate.format('yyyy-MM-dd'));
+	$("#edate").val(eDate.format('yyyy-MM-dd'));
+
 	/* 코드 사용 */
-	$.call('/ajax/codeList',{codes:'CH_TYPE,MEM_STATUS,AGREE_YN'},function(r){
+	$.call('/ajax/codeList',{codes:'CH_TYPE,MEM_STATUS,AGREE_YN,temp_class'},function(r){
 		$.extend(plus.codes,r.codes);
 	});
 	$.each(plus.codes,function(k,v){
@@ -411,7 +380,7 @@ $(document).ready(function(){
 			subName:{required:true}
 			, useYn:{required:true}
 		};
-		pageContentLast.data({rules:rules});
+		pageContentLast.data({rules:rules,rowData:rowData});
 		var tableElement =pageContentLast.find('table');
 		plus.event.formAfter(pageContentLast,rowData,mode);
 		plus.event.bbsfile(rowData);
@@ -443,7 +412,7 @@ $(document).ready(function(){
 			return div.prop('outerHTML');
 		}
 		
-		gridColumn.push({'data':'memId',					'title':'번호'});
+		gridColumn.push({'data':'memId',					'title':'번호',render:plus.renderer.rrownum });
 		gridColumn.push({'data':'memUserid',				'title':'계정',				render:plus.renderer.clickbox });
 		gridColumn.push({'data':'memNickname',				'title':'닉네임',			render:plus.renderer.clickbox,		'class':'tl'});
 		gridColumn.push({'data':'memJoinChannel',			'title':'가입구분',			render:plus.renderer.code,			code:plus.codes['CH_TYPE']});
@@ -452,7 +421,7 @@ $(document).ready(function(){
 		gridColumn.push({'data': function(){ return "-"; },	'title':'앱버전'});			// 수정해야함
 		gridColumn.push({'data':'memRegisterDatetime',		'title':'가입일자',			render:plus.renderer.datetime});
 		gridColumn.push({'data':'memLastloginDatetime',		'title':'최종 로그인일시',	render:plus.renderer.datetime});
-		gridColumn.push({'data':'memClass',					'title':'학년'});
+		gridColumn.push({'data':'memClass',					'title':'학년' , render:plus.renderer.code,			code:plus.codes['temp_class']});
 		gridColumn.push({'data':'memGrade',					'title':'레벨'});
 		gridColumn.push({'data':'mtaMarketing',				'title':'마케팅 활용동의'});
 		// gridColumn.push({'data':'mtaRegisterDatatime',	'title':'마케팅 활용동의일시',	render:plus.renderer.datetime });
@@ -479,26 +448,38 @@ $(document).ready(function(){
 	
 	// 회원정보팝업
 	$('#gridElement tbody').on('click','.clickkbox',function () {
-	
+
 		// 회원정보 탭 (공통필드 포함)
 		$('.tab_menu .tab_1').trigger('click');
 		var rowData = gridElement.row( $(this).closest('tr') ).data();
 		var info = gridElement.page.info();
+		console.log(rowData);
 		rowData['memRegisterDatetime'] = plus.renderer.datetime(rowData['memRegisterDatetime'],'','','');
 		rowData['memLastloginDatetime'] = plus.renderer.datetime(rowData['memLastloginDatetime'],'','','');
 		rowData['mtaRegisterDatatime'] = plus.renderer.datetime(rowData['mtaRegisterDatatime'],'','','');
 		$('#userinfoForm').find('#memId').val(rowData['memId']);
+
+
 		var codeKey = rowData['memJoinChannel'];
 		rowData['memJoinChannel'] = plus.codes.CH_TYPE[codeKey];
 		// rowData[''] = plus.renderer.datetime(rowData[''],'','','');			// 앱 설치일
 		plus.frontPage.popup($('.memberInfoPopup'), rowData, 'EDIT');
-		
+		$('.memLevel').html(rowData['memGrade']);
+		$('.memClass').html(plus.codes.temp_class[rowData['memClass']]);
 		// 모의진단 탭
-		
+
+		sDate.setMonth(sDate.getMonth()-1);
+		/* 날짜값 세팅 */
+		sDate = new Date();
+		eDate = new Date();
+		sDate.setMonth(sDate.getMonth()-1);
+		console.log(sDate.format('yyyy-MM-dd'));
+		$("#sdate").val(sDate.format('yyyy-MM-dd'));
+		$("#edate").val(eDate.format('yyyy-MM-dd'));
 		
 		// 풀이이력 탭
 	});
-	
+
 	// 닉네임 변경이력
 	$('.btnNickHistory').on('click', function() {
 		$('.nickHistoryPopup').addClass('is-visible');
@@ -521,10 +502,54 @@ $(document).ready(function(){
 	$('.btnUserPushInfo').on('click', function() {
 		$('.userPushInfoPopup').addClass('is-visible');
 		var popupGridColumn = [];
-		//popupGridColumn.push({'data':'mlhTo',			'title':'구분'});
-		//popupGridColumn.push({'data':'mlhDatetime',		'title':'수신여부'});
-		//popupGridColumn.push({'data':'mlhDatetime',		'title':'동의일자',	render:plus.renderer.datetime});
-		//plus.makeGrid('#gridElementPushPopup', popupGridColumn, plus.makeAjax('/plusadmin/ajax/member/memberPushInfoList', {memId : $('#memId').val()}, 'resultList'), {pageLength : 5, attr : '속성'});
+		popupGridColumn.push({'data':'mlhTo',			'title':'구분'});
+		popupGridColumn.push({'data':'mlhDatetime',		'title':'수신여부'});
+		popupGridColumn.push({'data':'mlhDatetime',		'title':'동의일자',	render:plus.renderer.datetime});
+		plus.makeGrid('#userPushInfoPopup', popupGridColumn, plus.makeAjax('/plusadmin/ajax/member/memberPushInfoList', {memId : $('#memId').val()}, 'resultList'), {pageLength : 5, attr : '속성'});
+	});
+
+	//
+	$('.tab_1').click(function(){
+		var rowData = $('.memberInfoPopup').data('rowData');
+		console.log(rowData);
+	});
+	$('.tab_2').click(function(){
+		var rowData = $('.memberInfoPopup').data('rowData');
+		console.log(rowData);
+
+		var popupGridColumn = [];
+		popupGridColumn.push({'data':'mlhTo',			'title':'화면표시',render:plus.renderer.rrownum});
+		popupGridColumn.push({'data':'qstId',		'title':'문항번호'});
+		popupGridColumn.push({'data':'qstKey',		'title':'문항코드'});
+		popupGridColumn.push({'data':'mlhDatetime',		'title':'채점코드'});
+
+		popupGridColumn.push({'data':'inTime',		'title':'풀이시작일시',	render:plus.renderer.datetime});
+		popupGridColumn.push({'data':'outTime',		'title':'풀이종료일시',	render:plus.renderer.datetime});
+		popupGridColumn.push({'data':'mlhDatetime3',		'title':'풀이소요시간',render:function(v,d,r){return (r['outTime']-r['inTime'])/1000}});
+		popupGridColumn.push({'data':'tqstResult',		'title':'채점결과'});
+		popupGridColumn.push({'data':'mlhDatetime5',		'title':'화면표시<br>문항번호'});
+		plus.makeGrid('#grdiMoJin', popupGridColumn, plus.makeAjax('/plusadmin/ajax/user/userMojinList', {memId : $('#memId').val()}, 'resultList'), {pageLength : 5, attr : '속성'});
+
+
+	});
+	$('.tab_3').click(function(){
+		$("#sdate").val(sDate.format('yyyy-MM-dd'));
+		$("#edate").val(eDate.format('yyyy-MM-dd'));
+		var rowData = $('.memberInfoPopup').data('rowData');
+		console.log(rowData);
+
+		var popupGridColumn = [];
+		popupGridColumn.push({'data':'mlhTo',			'title':'화면표시',render:plus.renderer.rrownum});
+		popupGridColumn.push({'data':'qstId',		'title':'문항번호'});
+		popupGridColumn.push({'data':'qstKey',		'title':'문항코드'});
+		popupGridColumn.push({'data':'mlhDatetime',		'title':'채점코드',render:function(){return '';}});
+
+		popupGridColumn.push({'data':'inTime',		'title':'풀이시작일시',	render:plus.renderer.datetime});
+		popupGridColumn.push({'data':'outTime',		'title':'풀이종료일시',	render:plus.renderer.datetime});
+		popupGridColumn.push({'data':'mlhDatetime3',		'title':'풀이소요시간'});
+		popupGridColumn.push({'data':'passYn',		'title':'채점결과'});
+		popupGridColumn.push({'data':'mlhDatetime5',		'title':'화면표시<br>문항번호'});
+		plus.makeGrid('#gridAns', popupGridColumn, plus.makeAjax('/plusadmin/ajax/user/userAnsList', {memId : $('#memId').val()}, 'resultList'), {pageLength : 5, attr : '속성'});
 	});
 
 });

@@ -35,9 +35,11 @@
                         location.href = refer;
                     } else {
                         if(data.resultMessage){
+                        	$('.txt1').hide();
                             alert(data.resultMessage);
                         } else {
-                            alert('로그인 정보가 틀렸습니다.');
+                        	$('.txt1').show();
+                            //alert('로그인 정보가 틀렸습니다.');
                         }
                         //location.href = "/";
                     }
@@ -82,7 +84,7 @@
 					<button type="submit" class="btn_login">로그인</button>
 
 				</div>
-				<p class="txt1">※ 아이디/비밀번호가 정확하지 않습니다. </p>
+				<p class="txt1 "  style="display: none;">※ 아이디/비밀번호가 정확하지 않습니다. </p>
 			</form>
 			<p class="txt2">접속이 안될 경우, 관리자에게 문의 주시기 바랍니다.<br>외부접속은 관리자에게 요청하셔야 접속이 가능합니다.</p>
 		</div>

@@ -248,11 +248,34 @@ public class StringUtils extends org.springframework.util.StringUtils {
     Matcher m = p.matcher(content);
     return m;
   }
+  public static String nvl(Object str,String reVal){
+	  String returnStr = String.valueOf(str);
+	  if(isEmpty(str) || "null".equals(returnStr) || "".equals(returnStr)){
+		  return reVal;
+	  }
+	  return returnStr;
+  }
   public static String nvl(String str,String reVal){
     if(isEmptyWithTrim(str)){
       return reVal;
     }
     return str;
+  }
+  public static String replaceInt(String str,String rsp){
+    if(isEmpty(str)){
+      return "";
+    }
+    if(isEmpty(rsp)){
+      return "";
+    }
+    str = nvl(str,"");
+    Integer resInt = 0;
+    try {
+      resInt = Integer.parseInt(str.replace(rsp,""));
+    } catch(Exception ex){
+      ex.printStackTrace();;
+    }
+    return  String.valueOf(resInt);
   }
   public static String zeroFill(String str,int lp){
     return org.apache.commons.lang.StringUtils.leftPad(str,lp,'0');

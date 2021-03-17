@@ -71,6 +71,7 @@ public class AdminMemberServiceImpl extends CiServiceImpl implements AdminMember
 		dbEntity.from("cb_member as m");
 		dbEntity.join("cb_member_terms_agree as mta","m.mem_id = mta.mem_id","left");
 		dbEntity.join("cb_member_userid as mu","m.mem_id = mu.mem_id","left");
+		dbEntity.order("m.mem_id","desc");
 		// App 설치 관련정보 테이블 생성 후 조인문 이부분에 추가해야 함
 		if(!StringUtils.isEmpty(dbEntity.request.getParameter("searchString"))){
 			dbEntity.like("m.mem_userid", dbEntity.request.getParameter("searchString"));
@@ -171,8 +172,8 @@ public class AdminMemberServiceImpl extends CiServiceImpl implements AdminMember
 	@Override
 	public UserMemberStatisticsEntity getUserMemberUsedInfo(plusActiveRecord dbEntity, UserMemberStatisticsEntity userMemberStatisticsEntity) throws Exception {
 		
-		dbEntity.select("0 as total_user_count"
-				+ ",(select count(temp_id) from cb_aigo_temp_info where reg_date between '"+dbEntity.input.get_post("sdate").replace("-", "")+"' and '"+dbEntity.input.get_post("edate").replace("-", "")+"') as total_ins_count"
+		dbEntity.select("(select sum(scd_count) from cb_stat_count_date where scd_date between '"+dbEntity.input.get_post("sdate").replace("-", "")+"' and '"+dbEntity.input.get_post("edate").replace("-", "")+"') AS total_user_count"			// 추후에 카운트 쿼리 추가해야 함
+				+ ",(select count(temp_id) from cb_aigo_temp_info where substr(reg_sysdate,1,10) between '"+dbEntity.input.get_post("sdate")+"' and '"+dbEntity.input.get_post("edate")+"') as total_ins_count"
 				+ ",(select count(mem_id) from cb_member where mem_register_datetime between '"+dbEntity.input.get_post("sdate").replace("-", "")+"' and '"+dbEntity.input.get_post("edate").replace("-", "")+"') as total_join_count");
 		dbEntity.from("dual");
 		
@@ -198,7 +199,7 @@ public class AdminMemberServiceImpl extends CiServiceImpl implements AdminMember
 	public List<UserMemberStatisticsEntity> getUserMemberUsedDataList(plusActiveRecord dbEntity, UserMemberStatisticsEntity userMemberStatisticsEntity) throws Exception {
 		
 		dbEntity.select("calendar.date as baseDate"
-				+", 0 AS user_count"			// 추후에 카운트 쿼리 추가해야 함
+				+", (select scd_count from cb_stat_count_date where scd_date =  calendar.date) AS user_count"			// 추후에 카운트 쿼리 추가해야 함
 				+", ifnull(appins.ins_count, 0) AS ins_count"
 				+", ifnull(joinuser.join_user_count, 0) AS join_count");
 		dbEntity.from("("
@@ -236,7 +237,13 @@ public class AdminMemberServiceImpl extends CiServiceImpl implements AdminMember
 				+ "	) as ju"
 				+ "	group by ju.reg_date"
 				+ ")as joinuser", "calendar.date = joinuser.reg_date", "left");
-		dbEntity.order("calendar.date", "asc");
+
+		if(StringUtils.isEmpty(dbEntity.input.get_post("order"))){
+			dbEntity.order("calendar.date", "asc");
+		} else {
+			dbEntity.order(dbEntity.input.get_post("order"));
+		}
+
 		
 		List<UserMemberStatisticsEntity> dataList = null;
 		try {

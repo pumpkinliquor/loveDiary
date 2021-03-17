@@ -48,7 +48,7 @@ public class MenusServiceImpl extends CiServiceImpl implements MenusService {
      */
     @Override
     public List<MenuAdmUsersEntity> getMenuAdmList(plusActiveRecord dbEntity, MenuUsersEntity userMasterEntity) throws Exception {
-        dbEntity.select("mu.*");
+        dbEntity.select("mu.*,mg.use_yn,mg.mg_grant");
         dbEntity.from("plus_menu_admin mu");
         dbEntity.join("plus_menu_admin_grant mg", "mu.ma_seq = mg.ma_seq and mg.mg_grant in ('A','R') ",plusActiveRecord.joinType.INNER);
         dbEntity.where("mu.ma_is_use","y");

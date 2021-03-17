@@ -5,7 +5,7 @@
 	<div class="wrapper">
 		<header class="header">
 			<a href="#" class="btn_allmenu">전체메뉴</a>
-			<h1>아이디/비밀번호 찾기</h1>
+			<h1>비밀번호 찾기</h1>
 		</header>
 		<div class="container join">
 			<section class="contents">
@@ -21,7 +21,7 @@
 						<div class="member_ipt_div emailInputArea">
 							<h2>이메일</h2>
 							<div class="ipt_div">
-								<input type="text" name="memUserid" value="" />
+								<input type="text" name="memUserid" id="memUserid" value="" />
 							</div>
 							<p class="er_txt emailErrorArea"></p> 
 						</div>
@@ -50,7 +50,9 @@ chkAll();
 var $form = $("#form");
 
 $(function(){
-	
+	$('#memUserid').on('keyup', function(){
+		checkEmail( $("input[name='memUserid']").val(), 'emailErrorArea' );
+	});
 });
 
 // 인증코드 전송

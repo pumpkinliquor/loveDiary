@@ -371,7 +371,7 @@
             qstSet(realData[changeLevel], userLevelI);
             return false;
         });
-        $.call('/front/ajax/aigo/firs/questionList', {}, function(r) {
+        $.post('/front/ajax/aigo/furs/questionList', {}, function(r) {
 
             realData = r.resultList;
             $.each(realData, function(k, v) {

@@ -5,6 +5,7 @@
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page import="com.oreilly.servlet.multipart.FileRenamePolicy" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="org.bouncycastle.util.Pack" %>
 <%
     request.setCharacterEncoding("UTF-8");
     String fileInfo = "";
@@ -14,7 +15,13 @@
     String defaultPath = request.getSession().getServletContext().getRealPath("/");
     SimpleDateFormat dtFormat = new SimpleDateFormat("yyyyMMdd");
 
-    String filePath = defaultPath + "/img" + File.separator + "smarteditor2" + File.separator + dtFormat.format(new Date()) + File.separator;
+    String filePath = defaultPath + "img" + File.separator + "smarteditor2" + File.separator + dtFormat.format(new Date()) + File.separator;
+    try {
+
+        (new File(filePath)).mkdirs();
+    } catch(Exception e){
+        e.printStackTrace();
+    }
     FileRenamePolicy policy = new DefaultFileRenamePolicy();
     MultipartRequest mrequest
             = new MultipartRequest(request //MultipartRequest를 만들기 위한 request

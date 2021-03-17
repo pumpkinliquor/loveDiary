@@ -1,9 +1,6 @@
 package com.plushih.entities;
 
-import com.plushih.common.utils.StringUtils;
-import com.plushih.entities.PlusEntity;
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 public class AigoLevelEntity  extends PlusEntity implements Serializable{
 	private static final long serialVersionUID = 770506395266028181L;
@@ -11,7 +8,7 @@ public class AigoLevelEntity  extends PlusEntity implements Serializable{
 	private Integer levId;
 	private String levKey;
 	private String levName;
-	private Integer levOrder;
+	private Integer levValue;
 	private String useYn;
 	private String regDate;
 	private Integer regUmSeq;
@@ -27,8 +24,8 @@ public class AigoLevelEntity  extends PlusEntity implements Serializable{
 	public String getLevName(){ return levName; }
 	public void setLevName(String levName){ this.levName = levName; }
 
-	public Integer getLevOrder(){ return levOrder; }
-	public void setLevOrder(Integer levOrder){ this.levOrder = levOrder; }
+	public Integer getLevValue(){ return levValue; }
+	public void setLevValue(Integer levValue){ this.levValue = levValue; }
 
 	public String getUseYn(){ return useYn; }
 	public void setUseYn(String useYn){ this.useYn = useYn; }
@@ -47,6 +44,6 @@ public class AigoLevelEntity  extends PlusEntity implements Serializable{
 
 	@Override
 	public String toString() {
-		return "AigoLevelEntity[levId="+levId+",levKey="+levKey+",levName="+levName+",levOrder="+levOrder+",useYn="+useYn+",regDate="+regDate+",regUmSeq="+regUmSeq+",udtDate="+udtDate+",udtUmSeq="+udtUmSeq+"]";
+		return "AigoLevelEntity[levId="+levId+",levKey="+levKey+",levName="+levName+",levValue="+levValue+",useYn="+useYn+",regDate="+regDate+",regUmSeq="+regUmSeq+",udtDate="+udtDate+",udtUmSeq="+udtUmSeq+"]";
 	}
 }

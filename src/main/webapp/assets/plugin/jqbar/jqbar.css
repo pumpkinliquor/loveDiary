@@ -1,0 +1,26 @@
+.jqbar
+{
+    position: relative;
+    top: 100px;
+}
+
+
+.jqbar.horizontal span
+{
+    display: inline-block;
+    /*margin-left: 5px;*/
+    font-size: 11px;
+    font-weight: bold;
+    border-radius:10px;
+}
+.jqbar.horizontal .bar-percent
+{
+    font-size: 11px;
+    font-weight: bold;
+    height: 20px;
+    margin-bottom: 5px;
+}
+
+.horizontal .bar-level-wrapper{background:url(bg_bar1.png) no-repeat 0 0;width:300px;height:40px}
+.jqbar.horizontal .bar-level{width:300px;height:40px}
+/*.jqbar.horizontal .bar-label{width:164px;}*/

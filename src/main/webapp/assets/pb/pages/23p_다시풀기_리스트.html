@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="../assets/css/style_m.css">
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/script_m.js"></script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body class="study_body2">
@@ -17,11 +23,12 @@
     <a href="#" class="btn_allmenu">전체메뉴</a>
     <h1>다시풀기</h1>
   </header>
-  <div class="container">
-    <div class="study_conts">
-      <p class="q_txt"><span>jeehyun@aigo.com님</span> 풀었던 문제를 다시 풀어보세요. </p>
-
+  <div class="container btm0"><!-- 수정0219 -->
+    <div class="study_conts btm0"><!-- 수정0223 -->
+  
+      <!-- 수정0223 -->
       <div class="study_nav">
+        <p class="q_txt"><span>jeehyun@aigo.com님</span> 풀었던 문제를 다시 풀어보세요. </p>
         <div class="fL">
           <a class="btn_filter">필터</a>
           <a class="btn_sort">정렬기준</a>
@@ -53,7 +60,7 @@
           </div>
         </div>
         <div class="fR">
-          <button class="btn btn_list">틀린문제</button>
+          <button class="btn btn_list on">틀린문제</button> <!-- 수정0308 -->
           <button class="btn btn_list">맞춘문제</button>
         </div>
       </div>
@@ -69,8 +76,8 @@
           </div>
           <div class="btn_div">
             <button class="btn btn_st2">문제보기</button>
-            <button class="btn btn_st2">해설보기</button>
-            <button class="btn btn_st2">개념보기</button>
+            <button class="btn btn_st2" disabled="disabled">해설보기</button><!-- 수정0308 -->
+            <button class="btn btn_st2" disabled="disabled">개념보기</button><!-- 수정0308 -->
           </div>
         </div>
 

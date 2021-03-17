@@ -17,6 +17,15 @@ public interface FrontLoginService {
 	 * @Description	: 로그인 처리
 	 */
 	public UserMemberEntity loginProc (HttpServletRequest request, HttpServletResponse response, UserMemberEntity userMemberEntity) throws Exception;
+
+	/**
+	 * @ClassName	: FrontLoginService.java
+	 * @Method		: loginProc
+	 * @Date		: 2020. 12. 30.
+	 * @author		: dev.yklee
+	 * @Description	: 로그인 처리
+	 */
+	public UserMemberEntity loginProcForMemId (HttpServletRequest request, HttpServletResponse response, UserMemberEntity userMemberEntity) throws Exception;
 	
 	/**
 	 * @ClassName	: FrontLoginService.java

@@ -14,22 +14,56 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/style_m.css?v=1">
+    <link rel="stylesheet" href="/assets/css/style_m.css?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>">
     <link rel="stylesheet" href="/assets/js/plugin/owlcarousel/owl.carousel.min.css">
 	<link rel="stylesheet" href="/assets/js/plugin/owlcarousel/owl.theme.default.css">
+	<link rel="stylesheet" href="/assets/plugin/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="/assets/css/youtube.css">
 <!--     <link rel="stylesheet" href="/assets/css/simplePagination.css"> -->
 <!-- 	<script type="text/javascript" charset="UTF-8" src="/assets/js/jquery.min.js"></script> -->
-	<script type="text/javascript" charset="UTF-8" src="/assets/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="/assets/js/jquery-1.12.4.min.js?v="></script>
     <script type="text/javascript" charset="UTF-8" src="/assets/js/script_m.js?v=1"></script>
     <script type="text/javascript" charset="UTF-8" src="/assets/js/boostrap/popper.js"></script>
     <script type="text/javascript" charset="UTF-8" src="/assets/js/boostrap/bootstrap.min.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/datatables.min.js"></script>
+<!--     <script type="text/javascript" charset="UTF-8" src="/assets/js/datatables.min.js"></script> -->
+    <script type="text/javascript" charset="UTF-8" src="/assets/plugin/datatables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.form.min.js"></script>
 <!--     <script type="text/javascript" charset="UTF-8" src="/assets/js/jquery.simplePagination.js"></script> -->
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/global.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/plus.js?v=1"></script>
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/front.plus.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/global.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/plus.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/front.plus.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
+    <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<!--     <script src="/assets/js/latex/mathJax.js"></script> -->
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+<script>
+    document.addEventListener("keyup", function (e) {
+    var keyCode = e.keyCode ? e.keyCode : e.which;
+            if (keyCode == 44) {
+                stopPrntScr();
+            }
+        });
+function stopPrntScr() {
 
+            var inpFld = document.createElement("input");
+            inpFld.setAttribute("value", ".");
+            inpFld.setAttribute("width", "0");
+            inpFld.style.height = "0px";
+            inpFld.style.width = "0px";
+            inpFld.style.border = "0px";
+            document.body.appendChild(inpFld);
+            inpFld.select();
+            document.execCommand("copy");
+            inpFld.remove(inpFld);
+        }
+       function AccessClipboardData() {
+            try {
+                window.clipboardData.setData('text', "Access   Restricted");
+            } catch (err) {
+            }
+        }
+</script>
 
 </head>
 	<tiles:insertAttribute name="menu" />

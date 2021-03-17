@@ -64,7 +64,7 @@ public class AjaxAigoEvaluationAdminController extends CoreController {
         if(!StringUtils.isEmpty(db.input.getSearchString())){
             db.like("lev_name",db.input.getSearchString());
         }
-        db.order("reg_date","desc");
+        db.order("bb.reg_sysdate","desc");
 
         CommonResultEntity res = new CommonResultEntity();
         List<AigoEvaluationEntity> dataList = null;

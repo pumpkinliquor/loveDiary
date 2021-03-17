@@ -15,7 +15,8 @@
     return this.slice(0, pos) + str + this.slice(pos);
   };
 
-  String.prototype.getSymbolCount = function(char = ".") {
+  String.prototype.getSymbolCount = function() {
+    var char = ".";
     if (this.indexOf(char) == -1) return 0;
 
     let charArray = this.split("").sort();

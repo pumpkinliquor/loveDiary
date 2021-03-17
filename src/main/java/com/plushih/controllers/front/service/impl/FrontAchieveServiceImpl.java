@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.plushih.common.constant.Code;
+import com.plushih.common.constant.Default;
 import com.plushih.controllers.front.service.FrontAchieveService;
 import com.plushih.controllers.front.service.FrontLoginService;
 import com.plushih.daos.CommonDao;
 import com.plushih.entities.AigoAchievementEntity;
-import com.plushih.entities.AigoConceptEntity;
+import com.plushih.entities.AigoSubjectEntity;
+import com.plushih.entities.AigoTendencyEntity;
 
 @Service("frontAchieveService")
 public class FrontAchieveServiceImpl implements FrontAchieveService {
@@ -36,6 +38,13 @@ public class FrontAchieveServiceImpl implements FrontAchieveService {
 		
 		try {
 			
+			// 성취도 체크는 기출문제, 확인문제, 주간평가 문제들로만 체크한다.
+			int[] arrCategories			= {Code.Aigo.CATEGORY_PREV, Code.Aigo.CATEGORY_CHECK, Code.Aigo.CATEGORY_WEEKLY};
+			int[] arrCategoriesSub	= {Code.Aigo.CATEGORY_PREV_BASIC, Code.Aigo.CATEGORY_CHECK_BASIC, Code.Aigo.CATEGORY_WEEKLY_BASIC};
+			
+			aigoAchievementEntity.setArrCategories(arrCategories);
+			aigoAchievementEntity.setArrCategoriesSub(arrCategoriesSub);
+			
 			// 수학 I - 기본과목 리스트
 			aigoAchievementEntity.setSubId(Code.Aigo.MATH_I);
 			List<AigoAchievementEntity> mathI = commonDao.selectList("FrontAchieveDAO.selectAchieveList", aigoAchievementEntity);
@@ -53,6 +62,12 @@ public class FrontAchieveServiceImpl implements FrontAchieveService {
 			resultMap.put("mathII", mathII);
 			resultMap.put("mathOptional", mathOptional);
 			resultMap.put("lv", aigoAchievementEntity.getLevId());
+			
+			// 사용자 선택과목명 Set
+			AigoSubjectEntity subjectEntity = new AigoSubjectEntity();
+			subjectEntity.setSubId(aigoAchievementEntity.getOptionalSubId());
+			subjectEntity.setUseYn(Default.YES_LOWER);
+			resultMap.put("mathOptionalInfo", commonDao.selectOne("FrontSubjectDAO.selectSubjectInfo", subjectEntity));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,11 +91,10 @@ public class FrontAchieveServiceImpl implements FrontAchieveService {
 			
 			// 학습목표 상세 내용
 			aigoAchievementEntity.setSubId(Code.Aigo.MATH_I);
-			AigoAchievementEntity detail = commonDao.selectOne("FrontAchieveDAO.selectAchieveDetail", aigoAchievementEntity);
+			AigoTendencyEntity aigoTendencyEntity = new AigoTendencyEntity();
+			aigoTendencyEntity.setAcvId(aigoAchievementEntity.getAcvId());
+			resultMap.put("detail", commonDao.selectList("FrontTendencyDAO.selectTendencyDetail", aigoTendencyEntity));
 			
-			// 결과 Set
-			resultMap.put("detail", detail);
-			resultMap.put("lv", aigoAchievementEntity.getLevId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

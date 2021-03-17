@@ -144,6 +144,7 @@ public class FrontCommonController extends CoreController {
     }
 
     System.out.println(bbsAttachFileEntityList.get(0).getSafPath()+"/"+bbsAttachFileEntityList.get(0).getSafFile());
+    System.out.println("유저 디렉토리 >>> " + System.getProperty("user.home"));
     model.addAttribute("filePath", bbsAttachFileEntityList.get(0).getSafPath()+"/"+bbsAttachFileEntityList.get(0).getSafFile());
     model.addAttribute("fileName", bbsAttachFileEntityList.get(0).getSafOrFile());
 

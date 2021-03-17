@@ -9,6 +9,7 @@
 		select
 			a.mem_userid
 			,a.mem_email
+			,a.mem_password
 			,a.mem_nickname
 			,a.mem_class
 			,a.mem_sub_id
@@ -18,11 +19,13 @@
 			,b.saf_path
 			,b.saf_file
 			,b.saf_seq
+			,c.cm_code
 			,c.cm_name
 			,d.sub_name
 		from cb_member a
 		left join plus_site_attach_file b
 		on a.mem_icon = b.seq
+			and b.saf_bbs = #{safBbs}
 		left join plus_code_master c
 		on a.mem_class = c.cm_code
 		left join cb_aigo_subject d
@@ -37,6 +40,8 @@
 		<if test="memEmail != null and memEmail != ''">
 			and a.mem_email = #{memEmail}
 		</if>
+		order by b.saf_seq desc
+		limit 1
 	</select>
 
 	<!-- 파일 SEQ 최대값 조회 -->
@@ -167,7 +172,8 @@
 		from
 			cb_aigo_subject
 		where
-			use_yn ='y';
+			use_yn ='y'
+			and user_active = 'y'
 	</select>
 
 	<!-- 회원정보에 사전진단 아이디 값 업데이트 -->
@@ -224,14 +230,235 @@
 			,aigo_alarm_night
 			,aigo_alarm_date
 		)
-		values
+		select
+			mem_id
+			, ifnull(#{aigoAlarmMkt}, aigo_alarm_mkt)
+			, ifnull(#{aigoAlarmLearn}, aigo_alarm_learn)
+			, ifnull(#{aigoAlarmNight}, aigo_alarm_night)
+			, sysdate()
+		from cb_member
+		where
+		mem_id = #{memId}
+	</insert>
+	
+	<!-- 사용자 레벨 update -->
+	<update id="updateUserLevel" parameterType="userMemberEntity">
+		/* FrontUserDAO.updateUserLevel */
+		update cb_member
+		set
+			udt_sysdate = now()
+		<if test="memLevel != null and memLevel != ''">
+			, mem_level = #{memLevel}
+		</if>
+		where
+			mem_id = #{memId}
+	</update>
+	
+	<!-- 설정 정보 변경 내역 저장 -->
+	<insert id="insertUserLevelHistory" parameterType="userLevelHistoryEntity">
+		/* FrontUserDAO.insertUserLevelHistory */
+		insert into cb_member_level_history
 		(
+			mem_id
+			,mlh_from
+			,mlh_to
+			,mlh_datetime
+			,mlh_reason
+			,mlh_ip
+			,reg_sysdate
+		) values (
 			#{memId}
-			,ifnull(#{aigoAlarmMkt}, 'n')
-			,ifnull(#{aigoAlarmLearn}, 'n')
-			,ifnull(#{aigoAlarmNight}, 'n')
-			,sysdate()
+			,#{mlhFrom}
+			,#{mlhTo}
+			,now()
+			,#{mlhReason}
+			,#{mlhIp}
+			,now()
 		)
 	</insert>
-
+	
+	<!-- 전체 유저의 성취도 데이터 조회 -->
+	<select id="selectTotalUserAchieveRateRankList" parameterType="hashMap" resultType="hashMap">
+		/* FrontUserDAO.selectTotalUserAchieveRateRankList */
+		SELECT
+			member.mem_id
+			, ifnull(achieve.achieve_rate, 0.00) AS achieve_rate
+		FROM
+		(
+			SELECT
+				mem.mem_id
+			FROM cb_member AS mem
+			WHERE mem.mem_id <![CDATA[>]]> 0
+				AND mem.mem_is_admin = 0
+		) AS member
+		LEFT OUTER JOIN (
+			SELECT
+				user_achieve.*
+			FROM(
+				SELECT
+					wp.mem_id
+					, round(wp.total_pass_per * ifnull(lw.weight_learn_day, 0) * ifnull(pw.weight_pass_per, 0), 2) AS achieve_rate
+				FROM (
+					SELECT
+						mem_id
+						, round(SUM(pass_cnt_weight)/SUM(total_qst_cnt)*100, 2) AS total_pass_per
+					FROM
+					(
+						SELECT
+							mem_id
+							, ans_set_weight.unit_id
+							, au.weight_value
+							, total_qst_cnt
+							, pass_cnt
+							, round(pass_cnt*weight_value) AS pass_cnt_weight
+						FROM (	
+							SELECT
+								ans_info.mem_id
+								, ans_info.unit_id
+								, COUNT(ans_info.qst_id) AS total_qst_cnt
+								, SUM(ans_info.pass_cnt) AS pass_cnt
+							FROM (	
+								select
+									amal.mem_id
+									, aq.unit_id
+									, amal.qst_id
+									, amal.ans_value
+									, case when amal.pass_yn = 'y' then 1 ELSE 0 END AS pass_cnt
+								from cb_aigo_my_answer_list as amal
+								INNER JOIN (
+									select
+										max(ans.ans_id) as ans_id
+										, ans.qst_id
+										, ans.mem_id
+									from cb_aigo_my_answer_list as ans
+									group by ans.qst_id, ans.qst_id, ans.mem_id
+								) AS ah
+									ON amal.ans_id = ah.ans_id
+								INNER JOIN cb_aigo_question AS aq
+									ON amal.qst_id = aq.qst_id
+								INNER JOIN cb_member AS cm
+									on amal.mem_id = cm.mem_id
+									AND cm.mem_is_admin = 0
+							) AS ans_info
+							WHERE ans_info.mem_id <![CDATA[>]]> 0
+							GROUP BY ans_info.mem_id, ans_info.unit_id
+						) AS ans_set_weight
+						INNER JOIN cb_aigo_unit AS au
+							ON ans_set_weight.unit_id = au.unit_id
+					) AS total_pass_per_weight
+					GROUP BY total_pass_per_weight.mem_id
+				) AS wp
+				LEFT JOIN (
+					SELECT
+						mem_id
+						, last_learn_day
+						, case
+							when last_learn_day <![CDATA[<=]]> 1 then 1.2
+							when last_learn_day <![CDATA[>]]> 1 and last_learn_day <![CDATA[<=]]> 7 then 1.1
+							when last_learn_day <![CDATA[>]]> 7 and last_learn_day <![CDATA[<=]]> 15 then 0.9
+							when last_learn_day <![CDATA[>]]> 15 then 0.7
+					 	  END AS weight_learn_day
+					FROM 
+					(
+						SELECT
+							learn_date.mem_id
+							, learn_date.reg_date
+							, DATEDIFF(NOW(), learn_date.reg_date) AS last_learn_day
+						FROM (
+							SELECT
+								learn.mem_id
+								, max(ans_date.reg_date) AS reg_date
+							FROM (
+								SELECT
+									min(ans.ans_id) as ans_id
+									, ans.qst_id
+									, ans.mem_id
+								from cb_aigo_my_answer_list as ans
+								GROUP by ans.qst_id, ans.mem_id
+							) AS learn
+							INNER JOIN cb_aigo_my_answer_list AS ans_date
+								ON learn.ans_id = ans_date.ans_id
+							INNER JOIN cb_member AS cm
+								on learn.mem_id = cm.mem_id
+								AND cm.mem_is_admin = 0
+							GROUP BY learn.mem_id
+						)AS learn_date
+					) AS learn_day_weight
+				) AS lw
+					ON wp.mem_id = lw.mem_id
+				LEFT JOIN (
+					SELECT
+						mem_id
+						, latest_pass_per
+						, case
+							when latest_pass_per <![CDATA[>=]]> 90 then 2.0
+							when latest_pass_per <![CDATA[>=]]> 80 AND latest_pass_per <![CDATA[<]]> 90 then 1.5 
+							when latest_pass_per <![CDATA[>=]]> 70 AND latest_pass_per <![CDATA[<]]> 80 then 1.2 
+							when latest_pass_per <![CDATA[<]]> 70 then 1.0 ELSE 1.0 END AS weight_pass_per
+					FROM
+					(
+						SELECT 
+							mem_id, SUM(pass_cnt)/COUNT(qst_id)*100 AS latest_pass_per
+						FROM 
+						(
+							SELECT
+								latest_qst.mem_id
+								, latest_qst.qst_id
+								, latest_qst.rank_num
+								, latest_qst.pass_cnt
+							FROM
+								(
+								SELECT
+									leran_rank_qst.*
+									, (CASE @target WHEN leran_rank_qst.mem_id THEN @rownum:=@rownum+1 ELSE @rownum:=1 END) AS rank_num
+								 	, (@target:=leran_rank_qst.mem_id) as target
+								FROM 
+								(
+									SELECT
+										learn.mem_id
+										, learn.qst_id
+										, learn.pass_cnt
+										, ans_date.reg_date
+									FROM (
+										SELECT
+											min(ans.ans_id) as ans_id
+											, ans.qst_id
+											, ans.mem_id
+											, case when pass_yn = 'y' then 1 ELSE 0 END AS pass_cnt
+										from cb_aigo_my_answer_list as ans
+										GROUP by ans.qst_id, ans.mem_id
+									) AS learn
+									INNER JOIN cb_aigo_my_answer_list AS ans_date
+										ON learn.ans_id = ans_date.ans_id
+									INNER JOIN cb_member AS cm
+										on learn.mem_id = cm.mem_id
+										AND cm.mem_is_admin = 0
+									ORDER BY learn.mem_id ASC, ans_date.reg_date desc
+								) AS leran_rank_qst, (SELECT @target:='', @rownum:=0 FROM DUAL) AS r
+							) AS latest_qst
+							WHERE latest_qst.rank_num <![CDATA[<=]]> 10
+						) AS latest_pass_per
+						GROUP BY latest_pass_per.mem_id
+					) AS pass_per_weight
+				) AS pw
+					on wp.mem_id = pw.mem_id
+			) AS user_achieve
+		) AS achieve
+			ON member.mem_id = achieve.mem_id
+		ORDER BY achieve_rate desc
+	</select>
+	
+	<!-- 회원탈퇴 > 회원 학습정보 Summary -->
+	<select id="selectUserLearnSummary" parameterType="hashMap" resultType="camelMap">
+		/* FrontUserDAO.selectUserLearnSummary */
+		select
+			(select reg_sysdate from cb_member where mem_id = #{memId}) as start_date
+			,ifnull((select s_cnt+f_cnt from cb_aigo_my_answer_info where mem_id = #{memId}), 0) as qst_cnt
+			,(select
+				count(*)
+			from cb_aigo_learn_history as alh
+			where mem_id = #{memId}
+				and thi_test_type in('weekly','level'))  as report_cnt
+	</select>
+	
 </mapper>

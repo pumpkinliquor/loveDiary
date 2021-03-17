@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -61,7 +60,9 @@ public class FrontJoinController extends CoreController {
 			, @PathVariable Map<String, String> pathVariables
 			, ModelMap model
 			, Locale localeParam ) throws Exception {
-		return "/front/join";
+		String path = "/front/join";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -77,7 +78,9 @@ public class FrontJoinController extends CoreController {
 							, @PathVariable Map<String, String> pathVariables
 							, ModelMap model
 							, Locale localeParam ) throws Exception {
-		return "/front/join/joinEmail";
+		String path = "/front/join/joinEmail";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
 	
 	/**
@@ -151,7 +154,9 @@ public class FrontJoinController extends CoreController {
 		
 		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
 		
-		return "/front/join/joinProcSns";
+		String path = "/front/join/joinProcSns";
+		path = pathToLangFront(path,pathVariables,model,request);
+    	return path;
 	}
-
+	
 }

@@ -10,18 +10,16 @@
 	<tbody>
 		<tr>
 			<th>회원계정</th>
-			<td><input type="text" name="memUserid" class="ipt1" value=""></td>
+			<td><input type="text" name="memUserid" id="memUserid" class="ipt1"></td>
 		</tr>
 		<tr>
 			<th>조회기간</th>
 			<td>
-			 	<form>
-					<div class="date_div">
-						<input type="date" class="ipt_date" id="sdate" name="sdate" value="" />
-						<input type="date" class="ipt_date" id="edate" name="edate" value="" />
-					</div>
-					<button type="button" class="btn btn-st1 btn_srch btnSearch">검색</button>
-				</form>
+				<div class="date_div">
+					<span class="ipt_dates"><input type="date" class="ipt_date" id="sdate" name="sdate" value="" /></span>
+					<span class="ipt_dates"><input type="date" class="ipt_date" id="edate" name="edate" value="" /></span>
+				</div>
+				<button type="button" class="btn btn-st1 btn_srch btnSearch">검색</button>
 			</td>
 		</tr>
 	</tbody>
@@ -54,6 +52,11 @@
 
 var gridElement = null, gridColumn = [];
 
+function memReset(memId){
+	if(confirm('해당 계정을 초기화 하시겠습니까?')){
+
+	}
+}
 $(document).ready(function(){
 
 	/* 날짜값 세팅 */
@@ -93,18 +96,18 @@ $(document).ready(function(){
 	}
 	$('.btnSearch').click(function(){
 		var searchParam = $('.srchT').domJson();
-		gridElement = plus.makeGrid('.gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberUsedDataList', searchParam, 'resultList'), {pageLength : 10, attr : '속성'});
+		gridElement = plus.makeGrid('#gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberLoginLogList', searchParam, 'resultList'), {pageLength : 10, attr : '속성'});
 	});
 	var searchParam = $('.srchT').domJson();
 
-	gridColumn.push({'data':'joinCount,		'title':'번호' });
-	gridColumn.push({'data':'joinCount',	'title':'구분'});
-	gridColumn.push({'data':'joinCount',	'title':'실행일시'});
-	gridColumn.push({'data':'joinCount',	'title':'종료일시'});
-	gridColumn.push({'data':'joinCount',	'title':'실행시간(분)'});
-	gridColumn.push({'data':'joinCount',	'title':'접속기기'});
-	gridColumn.push({'data':'joinCount',	'title':'초기화'});
-	gridElement = plus.makeGrid('#gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberUsedDataList', searchParam, 'resultList'), {pageLength : 10, attr : '속성'});
+	gridColumn.push({'data':'joinCount',		'title':'번호',render:plus.renderer.rrownum });
+	gridColumn.push({'data':'mllReason',	'title':'구분'});
+	gridColumn.push({'data':'mllDatetime',	'title':'실행일시',render:plus.renderer.datetime });
+	gridColumn.push({'data':'mllDatetime',	'title':'종료일시',render:plus.renderer.datetime });
+	gridColumn.push({'data':'joinCount',	'title':'실행시간(분)',render:function(){return '1';}});
+	gridColumn.push({'data':'mllUseragent',	'title':'접속기기',render:plus.renderer.os });
+	gridColumn.push({'data':'memId',	'title':'초기화',render:function(r){return '<a href="javascript:memReset('+(r)+');">초기화</a>';}});
+	gridElement = plus.makeGrid('#gridElement', gridColumn, plus.makeAjax('/plusadmin/ajax/member/memberLoginLogList', searchParam, 'resultList'), {pageLength : 10, attr : '속성'});
 
 });
 

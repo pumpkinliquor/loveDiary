@@ -1,6 +1,9 @@
 package com.plushih.controllers.front.service.impl;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,8 +88,22 @@ public class FrontJoinServiceImpl implements FrontJoinService {
 					// 회원 테이블 등록
 					dbResult = commonDao.insert("FrontJoinDAO.insertMember", userMemberEntity);
 					
+					// 회원가입 후 바로 로그인 처리
+					HttpSession session = request.getSession();
+					session.setAttribute(LoginSession.SEQ, userMemberEntity.getMemId());
+					session.setAttribute(LoginSession.ID, userMemberEntity.getMemUserid());
+					session.setAttribute(LoginSession.NICK_NAME, userMemberEntity.getMemNickname());
+					session.setAttribute(LoginSession.EMAIL, userMemberEntity.getMemEmail());
+					session.setAttribute(LoginSession.TEMP_ID, userMemberEntity.getMemTempId());
+					session.setAttribute(LoginSession.TEMP_CLASS, userMemberEntity.getMemClass());
+					session.setAttribute(LoginSession.TEMP_GRADE, userMemberEntity.getMemGrade());
+					session.setAttribute(LoginSession.TEMP_SUBJECT, userMemberEntity.getMemSubId());
+					session.setAttribute(LoginSession.SUBJECT_ID, userMemberEntity.getMemSubId());
+					
 					if(dbResult > 0) {
 						commonDao.insert("FrontJoinDAO.insertAgreeInfo", userMemberEntity);
+						commonDao.insert("FrontJoinDAO.updateTempInfo", userMemberEntity);
+
 						resultCode = Code.Result.SUCC;
 					} else {
 						resultCode = Code.Result.FAIL_02; 
@@ -103,6 +120,16 @@ public class FrontJoinServiceImpl implements FrontJoinService {
 			return resultCode;
 		}
 		return resultCode;
+	}
+	
+	public boolean emailCheck (Map<String, Object> emailCheck) throws Exception {
+		int emailCnt = commonDao.selectOne("FrontJoinDAO.selectEmailCnt", emailCheck);
+		
+		if(emailCnt <= 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

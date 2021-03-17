@@ -7,6 +7,57 @@
 	<select id="selectLoginUserInfo" parameterType="userMemberEntity" resultType="userMemberEntity">
 		/* Login.selectLoginUserInfo */
 		select
+			mem.mem_id
+			, mem.mem_userid
+			, mem.mem_email
+			, mem.mem_password
+			, mem.mem_username
+			, mem.mem_nickname
+			, mem.mem_level
+			, mem.mem_point
+			, mem.mem_homepage
+			, mem.mem_phone
+			, mem.mem_birthday
+			, mem.mem_sex
+			, mem.mem_zipcode	
+			, mem.mem_address1
+			, mem.mem_address2
+			, mem.mem_address3
+			, mem.mem_address4
+			, mem.mem_receive_email
+			, mem.mem_use_note
+			, mem.mem_receive_sms
+			, mem.mem_open_profile
+			, mem.mem_denied
+			, mem.mem_email_cert
+			, mem.mem_register_datetime
+			, mem.mem_register_ip
+			, mem.mem_lastlogin_datetime
+			, mem.mem_lastlogin_ip
+			, mem.mem_is_admin
+			, mem.mem_profile_content
+			, mem.mem_adminmemo
+			, mem.mem_following
+			, mem.mem_followed
+			, mem.mem_icon
+			, mem.mem_photo
+			, mem.mem_class
+			, mem.mem_grade
+			, mem.mem_sub_id
+			, mem.mem_join_channel
+			, mem.mem_temp_id
+			, group_concat(fi.saf_seq ORDER BY fi.seq SEPARATOR ',') as saf_seq
+			, group_concat(fi.saf_bbs ORDER BY fi.seq SEPARATOR ',') as saf_bbs
+		from
+			cb_member mem
+		left join aigo.plus_site_attach_file fi on mem.mem_icon = fi.seq
+		where
+			mem.mem_userid = #{memUserid}
+	</select>
+	<!-- 로그인 > 사용자 정보 조회 -->
+	<select id="selectLoginUserInfoForMemId" parameterType="userMemberEntity" resultType="userMemberEntity">
+		/* Login."selectLoginUserInfoForMemId" */
+		select
 			mem_id
 			, mem_userid
 			, mem_email
@@ -19,7 +70,7 @@
 			, mem_phone
 			, mem_birthday
 			, mem_sex
-			, mem_zipcode	
+			, mem_zipcode
 			, mem_address1
 			, mem_address2
 			, mem_address3
@@ -49,9 +100,10 @@
 		from
 			cb_member
 		where
-			mem_userid = #{memUserid}
+			mem_id = #{memId}
 	</select>
-	
+
+
 	<!-- 로그인 > 회원 로그인 이력 저장 -->
 	<insert id="insertLoginHistory" parameterType="HashMap">
 		/* Login.insertLoginHistory */
@@ -229,6 +281,15 @@
 			mem_class = #{memClass}
 			, mem_grade = #{memGrade}
 		where	
+			mem_id = #{memId}
+	</update>
+
+	<!-- 마지막로긍니시간 수정 수정 -->
+	<update id="FrontLoginDAO.updateLastLoginInfo" parameterType="userMemberEntity">
+		update cb_member set
+			mem_lastlogin_datetime = now()
+			,mem_lastlogin_ip = #{memLastloginIp}
+		where
 			mem_id = #{memId}
 	</update>
 </mapper>

@@ -6,7 +6,7 @@
 	if(resultCode == '91'){
 		window.location.href = '/front/main';
 	} else if (resultCode == '92') {
-		window.location.href = '/front/pre/main';
+		window.location.href = '/front/furs/main';
 	} else if (resultCode == '93') {
 		window.location.href = '/front/learn/home';
 	} else if (resultCode == '30') {

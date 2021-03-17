@@ -51,6 +51,14 @@ public class Code {
 		public static final String DEFAULT_TEMP_ID = "0";	// 사전진단 미진행 아이디 기본값
 	}
 	
+	public static final class Join {
+		public static final String CHANNEL_KAKAO 	= "kakao";		// 가입채널 - kakao Sns
+		public static final String CHANNEL_NAVER 	= "naver";		// 가입채널 - NAVER Sns
+		public static final String CHANNEL_FACEBOOK	= "facebook";	// 가입채널 - Facebook Sns
+		public static final String CHANNEL_APPLE	= "apple";		// 가입채널 - Apple
+		public static final String CHANNEL_EMAIL	= "email";		// 가입채널 - 이메일 가입
+	}
+	
 	public static final class HttpStatusCode {
 		public static final int HTTP_STATUS_CODE_200		= 200;
 	}
@@ -59,6 +67,9 @@ public class Code {
 	/** 각 처리에 따라 코드를 추가하거나 적절히 지정해서 사용 */
 	public static final class Result {
 		public static final String SUCC		= "S00";
+		public static final String SUCC_01	= "S01";
+		public static final String SUCC_02	= "S02";
+		public static final String SUCC_03	= "S03";
 		public static final String FAIL_01	= "F01";
 		public static final String FAIL_02	= "F02";
 		public static final String FAIL_03	= "F03";
@@ -89,7 +100,7 @@ public class Code {
 		public static final int GRADE_7						= 7;		// 7등급
 		public static final int GRADE_8						= 8;		// 8등급
 		public static final int GRADE_9						= 9;		// 9등급
-		public static final int MATH_I						= 1;		// 	수학 I 과목코드
+		public static final int MATH_I						= 1;		// 수학 I 과목코드
 		public static final int MATH_II						= 2;		// 수학 II 과목코드
 		public static final int GEOMETRY					= 3;		// 기하 과목코드
 		public static final int PROBABILITY_STATISTICS		= 4;		// 확률과통계 과목코드
@@ -105,15 +116,23 @@ public class Code {
 		public static final int CATEGORY_WEEKLY				= 4;		// 주간평가
 		public static final int CATEGORY_WEEKLY_BASIC		= 38;		// 주간평가 > 기본문제
 		public static final int CATEGORY_WEEKLY_SIMILAR		= 34;		// 주간평가 > 유사문제
+		public static final int CATEGORY_LEVEL				= 5;		// 레벨평가
+		public static final int CATEGORY_AFTER				= 9999;		// 보충학습
+		
 		/** 사용자가 풀이 중인 문제분류 */
 		public static final String QST_TYPE_FURS				= "furs";		// 모의진단
 		public static final String QST_TYPE_PREV				= "prev";		// 기출문제
 		public static final String QST_TYPE_CHECK				= "check";		// 확인문제
 		public static final String QST_TYPE_WEEKLY				= "weekly";		// 주간평가
 		public static final String QST_TYPE_LEVEL				= "level";		// 레벨평가
+		public static final String QST_TYPE_AFTER				= "after";		// 보충학습
 		public static final String QST_SUB_TYPE_BASIC			= "basic";		// 기본문제
 		public static final String QST_SUB_TYPE_SIMILAR			= "similar";	// 유사문제
 		public static final String QST_SUB_TYPE_SIMILAR_SUB		= "similarSub";	// 유사2문제
+	}
+	
+	public static final class Gubun {
+		public static final String QST_ANALYSIS_CON			= "QST_ANALYSIS_CON";	// 문항관리 > 내용영역 항목코드
 	}
 	
 }

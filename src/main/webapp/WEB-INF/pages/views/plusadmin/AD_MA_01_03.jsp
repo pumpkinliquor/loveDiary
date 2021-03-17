@@ -74,7 +74,7 @@
 					<tbody>
 					<tr class="EDIT hidden">
 						<th>1차코드</th>
-						<td><b class="acaId">AA002</b></td>
+						<td><b class="acaKey">AA002</b></td>
 					</tr>
 					<tr>
 						<th>분류명 <em class="point">*</em></th>
@@ -151,10 +151,38 @@ $(document).ready(function(){
       $('.code.'+k).addCodeItem(v)
     });
 
+    $(':radio[name=useYn]').change(function(){
+		if($(':radio[name=useYn]:checked').val()=='n'){
+ 			alert('해당 분류로 등록된 문항 모두 비공개됩니다.')
+			$('.td_wrap').each(function(){
+				$(this).find('.USE_YN :radio:last').prop('checked',true);
+			})
+		}
+	})
+
     /* tab 생성후 초기이벤트*/
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
-            acaName:{required:true}
+            acaName:{required:true,remote: {
+			url: "/plusadmin/ajax/aigo/categoryCheck",
+			type: "post",
+			  data: {
+			  acaName: function() {
+				return $( "#acaName" ).val();
+			  },
+			  acaId: function() {
+				return $( "#acaId" ).val();
+			  }
+			  ,subData: function() {
+			  	var arr = [];
+			  	$('.td_wrap').each(function(){
+			  		arr.push({'subAcaId':$(this).find('.sub_aca_id').val()||'0','subAcaName':$(this).find('.sub_aca_name').val()});
+				});
+
+			  	return JSON.stringify(arr);
+			  }
+			}
+		  }}
             ,useYn:{required:true}
         };
         pageContentLast.data({rules:rules});
@@ -215,9 +243,9 @@ $(document).ready(function(){
           return div.prop('outerHTML')
         }
         gridColumn.push({'data': 'umSeq', 'title': '순번', 'type': 'rownum', hidden: false,render:plus.renderer.rrownum});
-        gridColumn.push({'data':'acaId','title':'1차 코드'});
+        gridColumn.push({'data':'acaKey','title':'1차 코드'});
         gridColumn.push({'data':'acaName','title':'1차 코드명','class':'tl',render:plus.renderer.clickbox});
-        gridColumn.push({'data':'subAcaId','title':'2차 코드'});
+        gridColumn.push({'data':'subAcaKey','title':'2차 코드',render:plus.renderer.clickbox});
         gridColumn.push({'data':'subAcaName','title':'2차 코드명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
         gridColumn.push({'data':'regDate','title':'등록/수정',render:plus.renderer.iddate});
@@ -230,11 +258,7 @@ $(document).ready(function(){
             var info = gridElement.page.info();
             console.log(info);
             var tabTitle  = String.format('[{0}] {1}',rowData['abName'],'');
-            $(':radio[name=useYn]').change(function(){
-		if($(':radio[name=useYn]:checked').val()=='n'){
- 		alert('해당 과목으로 등록된 문항 모두 비공개됩니다.')
-		}
-		})
+
 
             //console.log(rowData);
             //plus.frontTab.addTab(tabTitle,rowData,$('#wrapEdit').tmpl({updateUrl:'/front/ajax/assets/buildingExcute',deleteUrl:'/front/ajax/assets/buildingDelete'}));
@@ -251,7 +275,7 @@ $(document).ready(function(){
 					$.each(r['resultList'],function(k,v){
 
 						var td_wrap =  plus.makeElement('div','',{'class':'td_wrap'});
-						var addId = plus.getId();
+						var addId = plus.getId(k);
 						var label = plus.makeElement('label','',{'for':addId}).appendTo(td_wrap);
 
 						var input = plus.makeElement('input','',{'id':addId,'type':'hidden','class':'sub_aca_id'}).appendTo(td_wrap);
@@ -262,6 +286,12 @@ $(document).ready(function(){
 						radio_wrap.addCodeItem(plus.codes['USE_YN']);
 						radio_wrap.find(':radio[value='+(v['useYn'])+']').prop('checked',true);
 						td_wrap.appendTo($('.dataSubList'));
+
+						$(':radio[name='+('name'+addId)+']',td_wrap).change(function(){
+							if($(':radio[name='+('name'+addId)+']:checked',td_wrap).val()=='n'){
+								alert('해당 분류로 등록된 문항 모두 비공개됩니다.')
+							}
+						})
 					});
 				}
 			});
@@ -305,7 +335,7 @@ $(document).ready(function(){
 		var td = $('.dataSubList');
     	if(td.find('.td_wrap').length>0){
     		td.find('.td_wrap').each(function(i){
-    			datas.push({'parentAcaId':$('#acaId').val(),'acaName':$(this).find('.sub_aca_name').val(),'acaId':parseInt($(this).find('.sub_aca_id').val()),useYn:$(this).find(':radio:checked').val()});
+    			datas.push({'parentAcaId':parseInt($('#acaId').val()),'acaName':$(this).find('.sub_aca_name').val(),'acaId':parseInt($(this).find('.sub_aca_id').val()),useYn:$(this).find(':radio:checked').val()});
 			})
 		}
     	$('#dataJson').val(JSON.stringify(datas));

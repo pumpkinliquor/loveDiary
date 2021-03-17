@@ -80,14 +80,16 @@ public class AigoAchievementServiceImpl extends CiServiceImpl implements AigoAch
             if(dbEntity.flag.equals(plusQueryBuilder.queryType.INSERT)){
                 setInsert(dbEntity);
                 //Debug.log((new Gson()).toJson(dbEntity));
+
+                dbEntity.add("acv_key","ACV"+StringUtils.zeroFill(String.valueOf(dbEntity.insert_id),5));
+                dbEntity.where("acv_id",String.valueOf(dbEntity.insert_id));
+                setUpdate(dbEntity);
             }
             else if(dbEntity.flag.equals(plusQueryBuilder.queryType.UPDATE)){
+                dbEntity.add("acv_key","ACV"+StringUtils.zeroFill(String.valueOf(aigoAchievementEntity.getAcvId()),5));
                 setUpdate(dbEntity);
                 Debug.log("dbEntity.input.get(\"bbSeq\")=="+dbEntity.input.get("bbSeq"));
-//                if(dbEntity.input.get("bbSeq")!=null){
-//
-//                }
-                dbEntity.insert_id = aigoAchievementEntity.getAcvId();//bbsEntity.getBbSeq();
+                dbEntity.insert_id = aigoAchievementEntity.getAcvId();
             }
 
         } catch (Exception e) {

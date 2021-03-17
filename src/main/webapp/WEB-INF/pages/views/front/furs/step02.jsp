@@ -9,17 +9,17 @@
       <div class="q_txt">
         <p>현재 학년은?</p>
       </div>
-      <ul class="q_choice temp_class">
-        <li><button data="h3">고3</button></li>
-        <li><button data="hn">N수생</button></li>
-        <li><button data="h2">고2</button></li>
+      <ul class="q_choice q_cont_grd">
+        <li><button data="h3" style="border:0.0625rem solid rgba(255, 255, 255, .6);">고3</button></li>
+        <li><button data="hn" style="border:0.04rem solid rgba(255, 255, 255, .6);">N수생</button></li>
+        <li><button data="h2" style="border:0.0625rem solid rgba(255, 255, 255, .3);">고2</button></li>
         <li><button data="h1">고1</button></li>
         <li><button data="he">기타</button></li>
       </ul>
     </div>
     <div class="btm_btn_div">
-      <a href="#" class="prev"><span>이전</span></a>
-      <a href="javascript:void(0)" class="next disabled"><span>다음</span></a>
+      <a href="javascript:;" class="prev"><span>이전</span></a>
+<!--       <a href="javascript:void(0)" class="next disabled"><span>다음</span></a> -->
     </div>
   </div>
 </div>
@@ -44,11 +44,17 @@
             if($(this).is('.disabled')){
                 return false;
             }
-            $.call('/front/ajax/aigo/firs/step02',{temp_class:$('.q_choice .on').attr('data')},function(r){
+            $.post('/front/ajax/aigo/furs/step02',{temp_class:$('.q_choice .on').attr('data')},function(r){
                 location.href= '/front/furs/step03';
             });
 
-        })
+        });
+        $('.q_choice button').click(function() {
+
+            $.post('/front/ajax/aigo/furs/step02', {temp_class: $(this).attr('data')}, function(r) {
+                location.href = '/front/furs/step03';
+              });;
+        });
     });
 
 </script>

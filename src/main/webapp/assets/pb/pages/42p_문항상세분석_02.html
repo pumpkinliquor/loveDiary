@@ -12,6 +12,29 @@
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/script_m.js"></script>
 
+<!-- Datatables -->
+<link rel="stylesheet" href="../assets/plugin/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<script type="text/javascript" src="../assets/plugin/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#studyT1,#studyT2').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
 </head>
 
 <body class="study_body">
@@ -35,64 +58,33 @@
         <div class="tab_cont_wrap" id="levelTabCont">
           <div class="tab_cont1 tab_cont active">
             <div class="tbl_wrap">
-            <table class="studyT">
+            <table id="studyT1" class="studyT table table-bordered table-hover dataTable dtr-inline">
               <colgroup>
-                <col width="50px">
-                <col width="34px">
+                <col width="55px">
+                <col width="45px">
                 <col width="80px">
-                <col width="40px">
-                <col width="40px">
-                <col width="40px">
-                <col width="50px">
-                <col width="50px">
+                <col width="45px">
+                <col width="60px">
+                <col width="60px">
+                <col width="65px">
+                <col width="75px">
               </colgroup>
               <thead>
                 <tr>
-                  <th class="sticky-col first-col">
-                    <span class="txt">구분</span>
-                    <div class="sort_div">
-                      <span class="btn1 on"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-                  <th class="sticky-col second-col">번호</th>
-                  <th>
-                    <span class="txt">개념요소</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-                  <th>채점<br>결과</th>
-                  <th>
-                    <span class="txt">정답율</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2 on"></span>
-                    </div>
-                  </th>
-                  <th>
-                    <span class="txt">난이도</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-
-                  <th>가장빈번<br>한오답</th>
-                  <th>
-                    <span class="txt">상위50%<br>정답율</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
+                  <th class="sticky-col first-col"><span>번호</span></th>
+                  <th class="sticky-col second-col"><span>과목</span></th>
+                  <th><span>개념요소</span></th>
+                  <th><span>채점<br>결과</span></th>
+                  <th><span>정답율</span></th>
+                  <th><span>난이도</span></th>
+                  <th><span>가장<br>빈번한<br>오답</span></th>
+                  <th><span>상위50%<br>정답율</span></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">1</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td>O</td>
                   <td>99%</td>
@@ -101,8 +93,8 @@
                   <td>100%</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>상용로그</td>
                   <td>O</td>
                   <td>23%</td>
@@ -111,8 +103,8 @@
                   <td>70&</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">3</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의 정의, 상용로그</td>
                   <td>O</td>
                   <td>99%</td>
@@ -121,8 +113,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">확인</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>상용로그</td>
                   <td>O</td>
                   <td>23%</td>
@@ -131,8 +123,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의 정의, 상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -141,8 +133,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -151,8 +143,8 @@
                   <td>100%</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">3</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">31</a</td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -161,8 +153,8 @@
                   <td>70%-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">4</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -171,8 +163,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">5</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -181,8 +173,8 @@
                   <td>-</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -191,8 +183,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -201,8 +193,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -211,8 +203,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -221,8 +213,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -231,8 +223,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -241,8 +233,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">7</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -251,8 +243,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -261,8 +253,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -277,64 +269,33 @@
 
           <div class="tab_cont2 tab_cont">
             <div class="tbl_wrap">
-            <table class="studyT">
+            <table id="studyT2" class="studyT table table-bordered table-hover dataTable dtr-inline">
               <colgroup>
-                <col width="50px">
-                <col width="34px">
+                <col width="55px">
+                <col width="45px">
                 <col width="80px">
-                <col width="40px">
-                <col width="40px">
-                <col width="40px">
-                <col width="50px">
-                <col width="50px">
+                <col width="45px">
+                <col width="60px">
+                <col width="60px">
+                <col width="65px">
+                <col width="75px">
               </colgroup>
               <thead>
                 <tr>
-                  <th class="sticky-col first-col">
-                    <span class="txt">구분</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-                  <th class="sticky-col second-col">번호</th>
-                  <th>
-                    <span class="txt">개념요소</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-                  <th>채점<br>결과</th>
-                  <th>
-                    <span class="txt">정답율</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-                  <th>
-                    <span class="txt">난이도</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
-
-                  <th>가장빈번<br>한오답</th>
-                  <th>
-                    <span class="txt">상위50%<br>정답율</span>
-                    <div class="sort_div">
-                      <span class="btn1"></span>
-                      <span class="btn2"></span>
-                    </div>
-                  </th>
+                  <th class="sticky-col first-col"><span>번호</span></th>
+                  <th class="sticky-col second-col"><span>과목</span></th>
+                  <th><span>개념요소</span></th>
+                  <th><span>채점<br>결과</span></th>
+                  <th><span>정답율</span></th>
+                  <th><span>난이도</span></th>
+                  <th><span>가장<br>빈번한<br>오답</span></th>
+                  <th><span>상위50%<br>정답율</span></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">1</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td>O</td>
                   <td>99%</td>
@@ -343,8 +304,8 @@
                   <td>100%</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>상용로그</td>
                   <td>O</td>
                   <td>23%</td>
@@ -353,8 +314,8 @@
                   <td>70&</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">기출</td>
-                  <td class="sticky-col second-col">3</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의 정의, 상용로그</td>
                   <td>O</td>
                   <td>99%</td>
@@ -363,8 +324,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">확인</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>상용로그</td>
                   <td>O</td>
                   <td>23%</td>
@@ -373,8 +334,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">1</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의 정의, 상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -383,8 +344,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -393,8 +354,8 @@
                   <td>100%</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">3</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">31</a</td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -403,8 +364,8 @@
                   <td>70%-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">4</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">4</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -413,8 +374,8 @@
                   <td>-</td>
                 </tr>
                 <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">5</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>상용로그</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -423,8 +384,8 @@
                   <td>-</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -433,8 +394,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -443,8 +404,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -453,8 +414,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -463,8 +424,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">5</a></td>
+                  <td class="sticky-col second-col">확통</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>99%</td>
@@ -473,8 +434,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">6</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -483,8 +444,8 @@
                   <td>70%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">7</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -493,8 +454,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">3</a></td>
+                  <td class="sticky-col second-col">수1</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>
@@ -503,8 +464,8 @@
                   <td>100%</td>
                 </tr>
                  <tr>
-                  <td class="sticky-col first-col">주간평가</td>
-                  <td class="sticky-col second-col">2</td>
+                  <td class="sticky-col first-col"><a href="24p_다시풀기_문제페이지.html">2</a></td>
+                  <td class="sticky-col second-col">수2</td>
                   <td>로그의정의</td>
                   <td class="fc_R">X ④</td>
                   <td>25%</td>

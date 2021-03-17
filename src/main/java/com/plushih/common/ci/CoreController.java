@@ -1,7 +1,10 @@
 package com.plushih.common.ci;
 
+import com.plushih.common.constant.LoginSession;
 import org.springframework.ui.ModelMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +46,8 @@ public class CoreController {
 		model.addAttribute("lang",pathVariables);
 		model.addAttribute("path",path);
 
+
+
 //		String lan="KR";
 //    	if(pathVariables.containsKey("lan")) {
 //    		lan = pathVariables.get("lan");
@@ -52,6 +57,36 @@ public class CoreController {
 //    	model.addAttribute("bgGb", path.split("/")[1]);
 //    	model.addAttribute("lan",lan);
     	path = String.format("/front/%s",path);
+		return path;
+	}
+	public String pathToLangFront(String path, Map<String, String> pathVariables, ModelMap model, HttpServletRequest request){
+		model.addAttribute("lang",pathVariables);
+		model.addAttribute("path",path);
+
+		HttpSession session = request.getSession();
+
+        String tempId = LoginSession.getTempId(session);
+        String tempClass = LoginSession.getTempClass(session);
+        String tempState = LoginSession.getTempState(session);
+        String tempGrade = LoginSession.getTempGrade(session);
+        //String tempSubject = LoginSession.getTempSubject(session);
+		model.addAttribute("temp_id",tempId);
+		model.addAttribute("tempClass",tempClass);
+		model.addAttribute("tempState",tempState);
+		model.addAttribute("tempGrade",tempGrade);
+		//model.addAttribute("tempSubject",tempSubject);
+
+
+
+//		String lan="KR";
+//    	if(pathVariables.containsKey("lan")) {
+//    		lan = pathVariables.get("lan");
+//    	}
+//
+//    	model.addAttribute("bg", path.split("/")[0]);
+//    	model.addAttribute("bgGb", path.split("/")[1]);
+//    	model.addAttribute("lan",lan);
+    	//path = String.format("/front/%s",path);
 		return path;
 	}
 	public String pathToLangMain(Map<String, String> pathVariables, ModelMap model){

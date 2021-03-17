@@ -25,8 +25,16 @@ public class AigoQuestionAnswerEntity  extends PlusEntity implements Serializabl
 	private String passYn;
 	/** list table */
 	private Integer ansId;
+	private Integer durTime;
 	/** history table */
 	private Integer anshId;
+	
+	/** 문제페이지 Parameter */
+	private Integer subId;
+	private Integer acvId;
+	private Integer levId;
+	private String currentTestType;
+	private String currentTestTypeSub;
 	
 	public Integer getAnsrId() {
 		return ansrId;
@@ -124,12 +132,51 @@ public class AigoQuestionAnswerEntity  extends PlusEntity implements Serializabl
 	public void setAnshId(Integer anshId) {
 		this.anshId = anshId;
 	}
+	public Integer getSubId() {
+		return subId;
+	}
+	public void setSubId(Integer subId) {
+		this.subId = subId;
+	}
+	public Integer getAcvId() {
+		return acvId;
+	}
+	public void setAcvId(Integer acvId) {
+		this.acvId = acvId;
+	}
+	public Integer getLevId() {
+		return levId;
+	}
+	public void setLevId(Integer levId) {
+		this.levId = levId;
+	}
+	public String getCurrentTestType() {
+		return currentTestType;
+	}
+	public void setCurrentTestType(String currentTestType) {
+		this.currentTestType = currentTestType;
+	}
+	public String getCurrentTestTypeSub() {
+		return currentTestTypeSub;
+	}
+	public void setCurrentTestTypeSub(String currentTestTypeSub) {
+		this.currentTestTypeSub = currentTestTypeSub;
+	}
+	public Integer getDurTime() {
+		return durTime;
+	}
+	public void setDurTime(Integer durTime) {
+		this.durTime = durTime;
+	}
+	
 	@Override
 	public String toString() {
 		return "AigoQuestionAnswerEntity [ansrId=" + ansrId + ", useYn=" + useYn + ", memId=" + memId + ", regDate="
 				+ regDate + ", regMemId=" + regMemId + ", udtDate=" + udtDate + ", udtMemId=" + udtMemId + ", sCnt="
 				+ sCnt + ", fCnt=" + fCnt + ", qstId=" + qstId + ", ansValue=" + ansValue + ", qstOrder=" + qstOrder
-				+ ", ansOrder=" + ansOrder + ", passYn=" + passYn + ", ansId=" + ansId + ", anshId=" + anshId + "]";
+				+ ", ansOrder=" + ansOrder + ", passYn=" + passYn + ", ansId=" + ansId + ", durTime=" + durTime
+				+ ", anshId=" + anshId + ", subId=" + subId + ", acvId=" + acvId + ", levId=" + levId
+				+ ", currentTestType=" + currentTestType + ", currentTestTypeSub=" + currentTestTypeSub + "]";
 	}
 	
 }

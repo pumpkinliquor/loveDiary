@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 @Controller
-@RequestMapping("totaladmin/users")
+@RequestMapping("plusAdmin/users")
 public class AdminUsersController {
     private static final Logger LOGGER = LoggerFactory.getLogger( AdminUsersController.class );
 

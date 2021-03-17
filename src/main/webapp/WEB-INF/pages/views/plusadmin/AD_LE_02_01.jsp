@@ -4,7 +4,7 @@
 <h2>문항등록</h2>
 
 	<div id="wrapList">
-			<table class="srchT">
+			<table class="srchT srchTSearch">
 				<colgroup>
 					<col width="150px">
 					<col width="*">
@@ -16,8 +16,8 @@
 							<div class="mb10">
 								<span class="tit">등록일</span>
 								<div class="date_div">
-			                      <input type="date" class="ipt_date" name="sdate" id="sdate"><span>~</span>
-			                      <input type="date" class="ipt_date" name="edate" id="edate">
+			                      <span class="ipt_dates"><input type="date" class="ipt_date" name="sdate" id="sdate"></span><span>~</span>
+			                      <span class="ipt_dates"><input type="date" class="ipt_date" name="edate" id="edate"></span>
 			                    </div>
 		                    </div>
 		                    <div>
@@ -29,29 +29,27 @@
 		            <tr>
 		            	<td>
 							<div class="srch_div mb10">
+
 								<select class="s_p1 codex LEV" type="select" name="levId" data="levId">
-									<option>레벨</option>
-									<option></option>
 								</select>
 								<select class="s_p1 codex SUB" type="select" name="subId" data="subId">
-									<option>과목</option>
-									<option></option>
 								</select>
 								<select class="s_p2 codex UNIT" type="select" name="unitId" data="unitId">
-									<option>대단원</option>
-									<option></option>
 								</select>
-								<select class="s_p2 codex ACV" type="select" name="acvId" data="acvId">
-									<option>성취기준</option>
-									<option></option>
+
+							</div>
+							<div class="srch_div mb10">
+								<select class="s_p4 codex ACV" type="select" name="acvId" data="acvId">
+								</select>
+								<select class="s_p2 codex ACA" type="select" name="acaId" data="acaId">
 								</select>
 							</div>
 							<div class="srch_div">
 								<select class="s_p1" name="searchType" id="searchType">
 									<option value="">검색구분</option>
-									<option value="qstKey">문항코드</option>
-									<option value="cmtrKey">해설코드</option>
-									<option value="cptKey">개념코드</option>
+									<option value="bb.qst_Key">문항코드</option>
+<%--									<option value="cmtr_Key">해설코드</option>--%>
+<%--									<option value="cpt_Key">개념코드</option>--%>
 								</select>
 								<input type="text" name="searchString" id="searchString" class="ipt3">
 								<button type="submit" class="btn btn-st1 btnSearch">검색</button>
@@ -63,19 +61,19 @@
 
 			<table id="gridElement" class="table table-bordered table-hover dataTable dtr-inline fs15" >
 				<colgroup>
-					<col width="4%">
-					<col width="9%">
-					<col width="6.5%">
-					<col width="9%">
-					<col width="9%">
+					<col width="3%">
+					<col width="6%">
+					<col width="5%">
+					<col width="5%">
+					<col width="5%">
 
-					<col width="12%">
-					<col width="10%">
-					<col width="10%">
-					<col width="7%">
-					<col width="*">
+					<col width="15%">
+					<col width="6%">
+					<col width="6%">
+					<col width="5%">
 
-					<col width="9%">
+					<col width="10%">
+					<col width="3%">
 				</colgroup>
 				<thead>
 					<tr>
@@ -125,6 +123,7 @@
 <input type="hidden" name="qstId" id="qstId" value="" />
 <input type="hidden" name="qstKey" id="qstKey" value="" />
 <input type="hidden" name="qstRelNotId" id="qstRelNotId" value="" />
+<input type="hidden" name="qstRelNotData" id="qstRelNotData" value="" />
 <input type="hidden" name="fileLists" id="fileLists" value="" />
 <input type="hidden" id="start" name="start" value="" />
 <input type="hidden" id="length" name="length" value="" />
@@ -132,15 +131,15 @@
 	<h3>표준분류</h3>
 			<table class="tbl-st writeT mb">
 	        	<colgroup>
-	        		<col width="17%">
-	        		<col width="*">
-	        		<col width="17%">
+	        		<col width="15%">
+	        		<col width="25%">
+	        		<col width="15%">
 	        		<col width="*">
 	        	</colgroup>
 	        	<tbody>
-	        		<tr class="EDIT">
+	        		<tr class="EDIT copy">
 	        			<th>문항코드</th>
-	        			<td colspan="3" class="td_inblck"><span class="qstKey"></span> <a href="#" class="btn btn-default">복제</a> <p class="point">※ 복제 시, 새로운 코드로 문항이 복제됩니다.</p></td>
+	        			<td colspan="3" class="td_inblck"><span class="qstKey"></span> <a href="#" class="btn btn-default  btnCopy">복제</a> <p class="point ">※ 복제 시, 새로운 코드로 문항이 복제됩니다.</p></td>
 	        		</tr>
 	        		<tr>
 	        			<th>과목 <em class="point">*</em></th>
@@ -194,8 +193,8 @@
 	        			<td>
 	        				<div class="radio_wrap rdo_wrap1 code QSTTYPE" type="radio" data="qstType"></div>
 	        			</td>
-	        			<th>선지유형 <em class="point">*</em></th>
-	        			<td>
+	        			<th class="QSTTYPETD">선지유형 <em class="point">*</em></th>
+	        			<td class="QSTTYPETD">
 	        				<div class="radio_wrap rdo_wrap1 code QSTTYPENUM" type="radio" data="qstTypeNum"></div>
 	        			</td>
 	        		</tr>
@@ -239,7 +238,7 @@
 			        		</tr>
 			        		<tr class="qstContType I">
 			        			<th>발문 <em class="point">*</em></th>
-			        			<td class="qstContType file" data="qstContType">
+			        			<td class="file" data="qstContType">
 
 
 			        			</td>
@@ -247,14 +246,16 @@
 			        		<tr class="qstContType T">
 			        			<th>발문 <em class="point">*</em></th>
 			        			<td>
-			        				<div class="editor_div">에디터영역</div>
+			        				<div class="editor_div">
+										<textarea class="form-control html-editor" name="qstContTypeText" id="qstContTypeText" style="height:200px;"></textarea>
+									</div>
 			        			</td>
 			        		</tr>
 			        	</tbody>
 			        </table>
 				</div>
 
-				<div class="tab_cont2 tab_cont">
+				<div class="tab_cont2 tab_cont active">
 					<div class="tbl_top">
 						<a href="javascript:void(0)" class="btn btn-default btn_reset fR"><i class="fas fa-undo"></i> RESET</a>
 					</div>
@@ -273,15 +274,17 @@
 			        			</td>
 			        		</tr>
 			        		<tr class="qstCont02Type I">
-			        			<th>지문 <br>(그래프 및 <br>보기박스)</th>
-			        			<td class="qstCont02Type file" data="qstCont02Type">
+			        			<th>지문 <br>(그래프 및 보기박스)</th>
+			        			<td class="file" data="qstCont02Type">
 
 			        			</td>
 			        		</tr>
 			        		<tr class="qstCont02Type T">
 			        			<th>지문 <br>(그래프 및 <br>보기박스)</th>
 			        			<td>
-			        				<div class="editor_div">에디터영역</div>
+			        				<div class="editor_div">
+										<textarea class="form-control html-editor" name="qstCont02TypeText" id="qstCont02TypeText" style="height:200px;"></textarea>
+									</div>
 			        			</td>
 			        		</tr>
 			        	</tbody>
@@ -301,13 +304,13 @@
 			        	<tbody>
 			        		<tr>
 			        			<th>콘텐츠타입 <em class="point">*</em></th>
-			        			<td>
+			        			<td  colspan="2">
 			        				<div class="radio_wrap rdo_wrap1 code CONTYPE qstCont03Type" type="radio" data="qstCont03Type"></div>
 			        			</td>
 			        		</tr>
 			        		<tr class="qstCont03Type I">
 			        			<th>선지</th>
-			        			<td class="qstCont03Type file" data="qstCont03Type">
+			        			<td class=" file" data="qstCont03Type" colspan="2">
 
 			        			</td>
 			        		</tr>
@@ -315,28 +318,32 @@
 			        		<tr class="qstCont03Type T">
 			        			<th rowspan="5">선지 <em class="point">*</em></th>
 			        			<td class="q_num">(1)</td>
-			        			<td>$\log _{5} 2$</td>
+			        			<td><input type="text" name="qstAnswer01" id="qstAnswer01" placeholder="$\log _{5} 2$" /> </td>
 			        		</tr>
 			        		<tr class="qstCont03Type T">
 			        			<td class="q_num">(2)</td>
-			        			<td>$\log _{5} 2$</td>
+			        			<td><input type="text" name="qstAnswer02" id="qstAnswer02" placeholder="$\log _{5} 2$" /></td>
 			        		</tr>
 			        		<tr class="qstCont03Type T">
 			        			<td class="q_num">(3)</td>
-			        			<td>$\log _{5} 2$</td>
+			        			<td><input type="text" name="qstAnswer03" id="qstAnswer03" placeholder="$\log _{5} 2$" /></td>
 			        		</tr>
 			        		<tr class="qstCont03Type T">
 			        			<td class="q_num">(4)</td>
-			        			<td>$\log _{5} 2$</td>
+			        			<td><input type="text" name="qstAnswer04" id="qstAnswer04" placeholder="$\log _{5} 2$" /></td>
 			        		</tr>
 			        		<tr class="qstCont03Type T">
 			        			<td class="q_num">(5)</td>
-			        			<td>$\log _{5} 2$</td>
+			        			<td><input type="text" name="qstAnswer05" id="qstAnswer05" placeholder="$\log _{5} 2$" /></td>
 			        		</tr>
 
 			        		<tr class="qstCont03Type T S ">
 			        			<th>선지 <em class="point">*</em></th>
-			        			<td>$\log _{5} 2$</td>
+			        			<td  colspan="2">
+									<div class="editor_div">
+										<textarea class="form-control html-editor" name="qstCont03TypeText" id="qstCont03TypeText" style="height:200px;"></textarea>
+									</div>
+								</td>
 			        		</tr>
 			        	</tbody>
 			        </table>
@@ -415,7 +422,7 @@
 	        		<tr>
 	        			<th>내용영역</th>
 	        			<td>
-	        				<select>
+	        				<select class="qstAddEtc05" name="qstAddEtc05" id="qstAddEtc05">
 	        					<option>선택</option>
 	        					<option></option>
 	        					<option></option>
@@ -423,7 +430,7 @@
 	        			</td>
 	        			<th>평가영역</th>
 	        			<td colspan="3">
-	        				<select>
+	        				<select class="qstAddEtc06" name="qstAddEtc06" id="qstAddEtc06">
 	        					<option>선택</option>
 	        					<option></option>
 	        					<option></option>
@@ -433,7 +440,7 @@
 	        		<tr>
 	        			<th>권장풀이시간</th>
 	        			<td colspan="5" class="td_inblck">
-	        				<input type="text" name="" class="txt_c plx" style="width:20.4%">
+	        				<input type="text" name="qstAddEtc07" id="qstAddEtc07" class="txt_c plx" style="width:20.4%">
 	        				<p class="point">※ mm:ss 형식으로 입력 바랍니다.</p>
 	        			</td>
 	        		</tr>
@@ -459,7 +466,7 @@
 	        	</tbody>
 	        </table>
 
-	        <h3>정답률 통계치</h3>
+	        <h3>정답율 통계치</h3>
 	        <table class="tbl-st writeT mb">
 	        	<colgroup>
 	        		<col width="17%">
@@ -559,8 +566,8 @@
 	        		<tr>
 	        			<th>상태 <em class="point">*</em></th>
 	        			<td>
-	        				<div class="radio_wrap rdo_wrap1 code USE_YN" type="radio" data="useYn"></div>
-							<p class="point mt5">※ 공개 시 바로 사용자에게 문제가 노출됩니다.</p>
+	        				<div class="radio_wrap rdo_wrap1 code USE_YN2" type="radio" data="useYn"></div>
+							<p class="point mt5 USE_YN2">※ 공개 시 바로 사용자에게 문제가 노출됩니다.</p>
 	        			</td>
 	        		</tr>
 					<tr class="EDIT hidden">
@@ -603,11 +610,12 @@
 							</div>
 							<div class="srch_div">
 								<select class="s_p2" name="searchType">
+									<option value="">선택하세요</option>
 									<option value="notKey">개념코드</option>
 									<option value="notName">개념요소 명</option>
 								</select>
 								<input type="text" name="searchType" class="ipt4">
-								<button type="submit" class="btn btn-st1 btnSearchNot">검색</button>
+								<button type="button" class="btn btn-st1 btnSearchNot">검색</button>
 							</div>
 						</td>
 					</tr>
@@ -652,9 +660,10 @@ var gridElement =null,gridElementNot =null,gridColumn =[];
 $(document).ready(function(){
     /* 코드 사용 */
     /* 코드 사용 */
-    $.call('/ajax/codeList',{codes:'BI,USE_YN,USE_YN_ALL,ACV,LEV,ACA,UNIT,SUB,CONTYPEALL,QSTTYPENUM,QSTTYPE,CONTYPE'},function(r){
+    $.call('/ajax/codeList',{codes:'BI,USE_YN,USE_YN_ALL,USE_YN2,ACA,ACV,LEV,ACA,UNIT,SUB,CONTYPEALL,QSTTYPENUM,QSTTYPE,CONTYPE,QSTPRETYPE'},function(r){
         $.extend(plus.codes,r.codes);
     });
+    $('#qstAddEtc07').mask('00:00');
     $.each(plus.codes,function(k,v){
       //$('.code.'+k).addCodeItem(v,true)
 		$('.code.'+k).each(function(){
@@ -670,8 +679,35 @@ $(document).ready(function(){
     	var dataId= $(this).closest('.CONTYPE').attr('data');
     	$('tr.'+dataId).hide();
 		$('tr.'+dataId+'.'+$(this).attr('value')).show();
+	});
+    $('.code.USE_YN2 :radio').change(function(){
+    	$('p.USE_YN2').hide();
+    	if($('.code.USE_YN2 :radio:checked').val()=='y'){
+    		$('p.USE_YN2').show()
+		}
+	});
+    $('.code.QSTTYPE :radio').change(function(){
+    	//alert($('.code.QSTTYPE :radio:checked').val());
+		$('.QSTTYPETD').hide();
+		if($('.code.QSTTYPE :radio:checked').val()=='S'){
+			$('.QSTTYPETD').removeAttr('style');
+		}
+	})
+	$('.btnCopy').click(function(){
+		if(confirm('해당 문항을 복제하시겠습니까?')){
+			$.call('/plusadmin/ajax/aigo/questionCopy',$(this).closest('form').domJson(),function(r){
+
+			})
+		}
 	})
 
+	/* 날짜값 세팅 */
+	var sDate = new Date();
+	var eDate = new Date();
+	sDate.setMonth(sDate.getMonth()-1);
+
+	$("#sdate").val(sDate.format('yyyy-MM-dd'));
+	$("#edate").val(eDate.format('yyyy-MM-dd'));
 
 
 
@@ -679,13 +715,61 @@ $(document).ready(function(){
     /* tab 생성후 초기이벤트*/
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
-            bbTitle:{required:true}
-            ,bbOpen:{required:true}
+            subId:{required:true}
+            ,levId:{required:true}
+            ,acaId:{required:true}
+            ,acvId:{required:true}
+            ,unitId:{required:true}
+            ,qstType:{required:true}
+            ,qstValue:{required:true}
+            ,qstPreType:{required:true}
         };
-        pageContentLast.find('form').data({rules:rules});
+        pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
+        rowData['qstContTypeText'] =rowData['qstContTypeText']||'';
+		rowData['qstCont02TypeText'] =rowData['qstCont02TypeText']||'';
+		rowData['qstCont03TypeText'] =rowData['qstCont03TypeText']||'';
+		$('.copy').hide();
+        if(rowData['qstId']!='0'){
+        	$('.copy').css('display','table-row');
+		}
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
+
+        //AD_LE_02_01
+		$('.listbox').empty();
+		if($.trim(rowData['qstRelNotId'])){
+
+			$.post('/plusadmin/ajax/aigo/notionList',{qstRelNotId:rowData['qstRelNotId']},function(r){
+				if(r.resultList){
+					$.each(r.resultList,function(k,v){
+						plus.makeElement('option',[v['notKey'],v['cptName']].join('|'),{value:v['notId']}).appendTo($('.listbox'));
+					});
+				}
+			});
+		}
+
+
+        rowData['qstContType'] = rowData['qstContType']=='T'?'T':'I';
+        rowData['qstCont02Type'] = rowData['qstCont02Type']=='T'?'T':'I';
+        rowData['qstCont03Type'] = rowData['qstCont03Type']=='T'?'T':'I';
+
+        $('.code.qstContType :radio[value='+rowData['qstContType']+']').prop('checked',true);
+        $('.code.qstCont02Type :radio[value='+rowData['qstCont02Type']+']').prop('checked',true);
+        $('.code.qstCont03Type :radio[value='+rowData['qstCont03Type']+']').prop('checked',true);
+
+        setTimeout(function(){
+
+			$('tr.qstContType').hide();
+			$('tr.qstCont02Type').hide();
+			$('tr.qstCont03Type').hide();
+			$('tr.qstContType.'+rowData['qstContType']).show();
+			$('tr.qstCont02Type.'+rowData['qstCont02Type']).show();
+			$('tr.qstCont03Type.'+rowData['qstCont03Type']).show();
+			$('.tab_cont').removeClass('active')
+			$('.tab_cont:eq(0)').addClass('active');
+		},1000);
+
 
 
     }
@@ -706,6 +790,19 @@ $(document).ready(function(){
         plus.event.gridComplet=function(){
             //전체선택 체크박스 클릭
         }
+        plus.renderer.qstRelNotId=function(d, t, r){
+        	var d= $.trim(r.qstRelNotId);
+        	if(d=='NULL') {
+				d = '';
+			}
+        	var notCount = 0;
+        	if(d){
+        		notCount = d.split(',').length;
+			}
+
+
+        	return notCount + " 개";;
+		}
         plus.event.seqCheckBox=function(d, t, r){
             var div = plus.makeElement('div','',{'class':'custom-control custom-checkbox'});
             var id = plus.getId(r.notId);
@@ -713,6 +810,15 @@ $(document).ready(function(){
             plus.makeElement('label','',{'class':'custom-control-label',for:'notId'+(id)}).appendTo(div);
             return div.prop('outerHTML')
         }
+        plus.renderer.qstCmtrKey=function(r,t,c){
+
+        	var res ='';
+        	if(r){
+        		res = 'CMTR'+plus.lpad(r,5,'0');
+			}
+        	return res;
+		}
+
         plus.event.clickbox=function(d, t, r){
           var div = plus.makeElement('a',d,{'href':'javascript:;','class':'custom-control custom-checkbox'});
           return div.prop('outerHTML')
@@ -731,18 +837,19 @@ $(document).ready(function(){
 //
 // 						<th>풀이회원</th>
         gridColumn.push({'data': 'umSeq', 'title': '순번', 'type': 'rownum', hidden: false,render:plus.renderer.rrownum});
-        gridColumn.push({'data':'qstId','title':'문항코드',render:plus.renderer.clickbox});
+        gridColumn.push({'data':'qstKey','title':'문항코드',render:plus.renderer.clickbox});
         gridColumn.push({'data':'levName','title':'레벨'});
         gridColumn.push({'data':'subName','title':'과목명'});
         gridColumn.push({'data':'acaName','title':'문제분류'});
         gridColumn.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});
 
-        gridColumn.push({'data':'notName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
-        gridColumn.push({'data':'notType1','title':'연결해설'});
-        gridColumn.push({'data':'notType2','title':'연결개념'});
+        //gridColumn.push({'data':'notName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
+        gridColumn.push({'data':'cmtrId','title':'연결해설',render:plus.renderer.qstCmtrKey});
+        gridColumn.push({'data':'notType2','title':'연결개념',render:plus.renderer.qstRelNotId});
 
-        gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
+        gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN2'],render:plus.renderer.code});
         gridColumn.push({'data':'regDate','title':'등록/수정',render:plus.renderer.iddate});
+        gridColumn.push({'data':'rcount','title':'풀이회원'});
 
         gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/questionList',{},'resultList'),{attr:'속성'});
 
@@ -752,36 +859,49 @@ $(document).ready(function(){
         $('#gridElement tbody ').on('click','.clickkbox',function () {
             var rowData =  gridElement.row( $(this).closest('tr') ).data();
             var info = gridElement.page.info();
-            console.log(info);
+            console.log(rowData,info);
             var tabTitle  = String.format('[{0}] {1}',rowData['abName'],'');
 			$('#wrapList').hide();
             //console.log(rowData);
             //plus.frontTab.addTab(tabTitle,rowData,$('#wrapEdit').tmpl({updateUrl:'/front/ajax/assets/buildingExcute',deleteUrl:'/front/ajax/assets/buildingDelete'}));
-            $('#wrapList').hide();
-            rowData['start']=info['start']
-            rowData['length']=info['length']
+            rowData['start']=info['start'];
+            rowData['length']=info['length'];
+
+            $('.listbox').empty();
+
+            var rData = [];
+            if(rowData['qstRelNotData']){
+            	try{
+            		rData = $.parseJSON(rowData['qstRelNotData']);
+				} catch(e){
+
+				}
+
+			}
+
+            $.each(rData,function(k,v){
+				plus.makeElement('option',v['notData'],{value:v['notId']}).appendTo($('.listbox'));
+			});
+            $('.listbox option').dblclick(function(){
+				if(confirm('해당 개념요소를 삭세하시겠습니까')){
+					$(this).remove();
+				}
+			})
 
             plus.frontPage.show($('#wrapEdit'),rowData,'EDIT');
 
         });
     }
 
-
-    /* tab페이지 초기에 실행할 이벤트*/
-    plus.event.tabReady();
-
-    // popup Tab
-	tabMenu();
-
-	$('.btnPopup').click(function(){
+    $('.btnPopup').click(function(){
 		$('.pop01').addClass('is-visible');
 
 		var gridColumn2 = [];
-		 gridColumn2.push({'data':'notId','title':'개념코드'});
+		 gridColumn2.push({'data':'notKey','title':'개념코드'});
         gridColumn2.push({'data':'subName','title':'과목명'});
         gridColumn2.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});
 
-        gridColumn2.push({'data':'notName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
+        gridColumn2.push({'data':'cptName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
         gridColumn2.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
 		$('.pop01 .mb em').html('0개');
 		gridElementNot = plus.makeGrid('#gridElementNot',gridColumn2,plus.makeAjax('/plusadmin/ajax/aigo/notionList',$('.srchTnot').domJson(),'resultList'),{attr:'속성',drawCallback:function(){
@@ -792,12 +912,31 @@ $(document).ready(function(){
 
 			}});
 	});
+	$('.btnSearchNot').click(function(){
+		var gridColumn2 = [];
+		 gridColumn2.push({'data':'notKey','title':'개념코드'});
+        gridColumn2.push({'data':'subName','title':'과목명'});
+        gridColumn2.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});
+
+        gridColumn2.push({'data':'cptName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
+        gridColumn2.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
+		$('.pop01 .mb em').html('0개');
+		gridElementNot = plus.makeGrid('#gridElementNot',gridColumn2,plus.makeAjax('/plusadmin/ajax/aigo/notionList',$('.srchTnot').domJson(),'resultList'),{attr:'속성',drawCallback:function(){
+			$('#gridElementNot tbody :checkbox').change(function(){
+				var length = $('#gridElementNot tbody :checkbox:checked').length
+					$('.pop01 .mb em').html(length+'개');
+			});
+
+			}});
+	})
 	$('.btnSelect').click(function(){
 		var checkeds = [];
 		var checkedValue = [];
+		var checkedData = [];
 		$('.pop01 tbody :checkbox:checked').each(function(){
 			checkedValue.push($(this).val());
 			checkeds.push(gridElementNot.row($(this).closest('tr')).data());
+
 
 
 
@@ -808,20 +947,37 @@ $(document).ready(function(){
 			return false;
 		}
 		if(confirm(checkedValue.length + "개의 개념을 연결하시겠습니까?")){
+			$('.listbox option').remove();
 			$.each(checkeds,function(k,v){
-				plus.makeElement('option',[v['subId'],v['acvName']].join('|'),{value:v['notId']}).appendTo($('.listbox'));
+				plus.makeElement('option',[v['notKey'],v['cptName']].join('|'),{value:v['notId']}).appendTo($('.listbox'));
+			});
+			$('.listbox option').dblclick(function(){
+				if(confirm('해당 개념요소를 삭세하시겠습니까')){
+					$(this).remove();
+				}
+			})
+			$('.listbox').find('a').click(function(){
+				$(this).closest('option').remove();
 			})
 			$('#qstRelNotId').val(checkedValue.join(','));
+
 			$('.pop01').removeClass('is-visible');
 		}
-
-
 	});
+
+
+    /* tab페이지 초기에 실행할 이벤트*/
+    plus.event.tabReady();
+
+    // popup Tab
+	tabMenu();
+
+
 
 
     $('.btnSearch').click(function(){
         //gridElement.ajax.reload();
-        gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/questionList',$('.srchT').domJson(),'resultList'),{attr:'속성'});
+        gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/questionList',$('.srchTSearch').domJson(),'resultList'),{attr:'속성'});
     });
     $('#searchString').keypress(function(e){
         if(e.keyCode==13){
@@ -844,8 +1000,8 @@ $(document).ready(function(){
     /* 등록 버튼*/
     $('.btnReg').click(function(){
     	$('#wrapList').hide();
-    	$('.listbox').val('');
-      plus.frontPage.show($('#wrapEdit'), {qstId:'0','start':0,length:0,useYn:'y',qstPreS01:'0',qstPreE01:'25',qstPreS02:'25',qstPreE02:'50',qstPreS03:'50',qstPreE03:'75',qstPreS04:'75',qstPreE04:'90',qstPreS05:'90',qstPreE05:'100',bbDate:(new Date()).format('yyyy-MM-dd')},'NEW');
+    	$('.listbox').empty();
+        plus.frontPage.show($('#wrapEdit'), {qstId:'0','start':0,length:0,useYn:'y',qstPreType:'A',qstType:'S',qstTypeNum:'4',subAcaId:'',qstContType:'I',qstContTypeText:'',qstCont02TypeText:'',qstCont02Type:'I',qstCont03Type:'I',qstPreS01:'0',qstPreE01:'25',qstPreS02:'25',qstPreE02:'50',qstPreS03:'50',qstPreE03:'75',qstPreS04:'75',qstPreE04:'90',qstPreS05:'90',qstPreE05:'100',qstCont03TypeText:'',qstAnswer01:'',qstAnswer02:'',qstAnswer03:'',qstAnswer04:'',qstAnswer05:'',bbDate:(new Date()).format('yyyy-MM-dd')},'NEW');
     });
     /* 삭제 버튼*/
     $('.btnDelete').click(function(){
@@ -881,8 +1037,13 @@ $(document).ready(function(){
 
     	var contypeall =   $('.code.CONTYPEALL :radio:checked').val();
     	if(contypeall=='T'){
-			var editorId = $('.html-editor').attr('id');
-			oEditors.getById[editorId].exec("UPDATE_CONTENTS_FIELD", []);
+    		$('.html-editor').each(function(){
+    			var editorId = $(this).attr('id');
+    			oEditors.getById[editorId].exec("UPDATE_CONTENTS_FIELD", []);
+    			//$('.html-editor').attr('id');
+			})
+
+
 			if($('#notText').val()==""){
 				Swal.fire(
 						'[내용] 항목은 필수입니다.',
@@ -892,6 +1053,14 @@ $(document).ready(function(){
 				return false;
 			}
 		}
+    	var rdata = [];
+		if($('.listbox option').length!=0){
+			$('.listbox option').each(function(){
+				rdata.push({'notId':$(this).val(),'notData':$(this).text()});
+			});
+		}
+		$('#qstRelNotData').val(JSON.stringify(rdata));
+
       $(this).closest('form').find('input[name=fileLists]').val(JSON.stringify(fileLists));
       $(this).closest('form').submit();
       return false;

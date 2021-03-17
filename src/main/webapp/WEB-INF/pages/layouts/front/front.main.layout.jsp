@@ -16,8 +16,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIGO</title>
-    <link rel="stylesheet" href="/assets/css/style_m.css?v=1">
+    <title>LD</title>
+    <link rel="stylesheet" href="/assets/css/style_m.css?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>">
     <link rel="stylesheet" href="/assets/pb/assets/plugin/owlcarousel/owl.carousel.min.css">
 	<link rel="stylesheet" href="/assets/pb/assets/plugin/owlcarousel/owl.theme.default.css">
 <!--     <link rel="stylesheet" href="/assets/css/simplePagination.css"> -->
@@ -28,10 +28,10 @@
     <script type="text/javascript" charset="UTF-8" src="/assets/js/datatables.min.js"></script>
      <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.form.min.js"></script>
 <!--     <script type="text/javascript" charset="UTF-8" src="/assets/js/jquery.simplePagination.js"></script> -->
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/global.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/global.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
     <script type="text/javascript" charset="UTF-8" src="/assets/js/plus.js?v=1"></script>
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/front.plus.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="/assets/js/script_m.js?v=1"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/front.plus.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
+    <script type="text/javascript" charset="UTF-8" src="/assets/js/script_m.js?v=<%= java.lang.Math.round(java.lang.Math.random() * 1234567) %>"></script>
     <script type="text/javascript" charset="UTF-8" src="/assets/pb/assets/plugin/owlcarousel/owl.carousel.min.js"></script>
 </head>
 <body>

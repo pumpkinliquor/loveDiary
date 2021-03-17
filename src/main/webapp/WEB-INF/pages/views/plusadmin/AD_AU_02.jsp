@@ -206,7 +206,7 @@ $(document).ready(function(){
         // <th>상태</th>
         // <th>등록/수정</th>
         //gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data': 'umSeq', 'title': '순서', 'type': 'checkbox', hidden: false,render:plus.renderer.rownum});
+        gridColumn.push({'data': 'umSeq', 'title': '순서', 'type': 'checkbox', hidden: false,render:plus.renderer.rrownum});
         gridColumn.push({'data':'umName','title':'이름','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'umId','title':'아이디',render:plus.renderer.clickbox});
         gridColumn.push({'data':'umCompany','title':'사업부',render:plus.renderer.clickbox});
@@ -250,7 +250,7 @@ $(document).ready(function(){
         gridColumn.push({'data':'mgGrant','title':'읽기/쓰기',render:function(d, t, r){return $('<div class="radio_wrap rdo_wrap1 mgGrant" type="radio" data="mgGrant'+(r['maCode'])+'"></div>').addCodeItem({'R':'읽기','A':'쓰기'}).prop("outerHTML")}});
         // gridColumn.push({'data':'maIcon','title':'메뉴아이콘','type':'','hidden':true});
         // gridColumn.push({'data':'regDate','title':'등록일','type':'','hidden':true});
-        gridElementGrant = plus.makeGrid('#gridElementGrant',gridColumn,plus.makeAjax('/totaladmin/ajax/admmenus/menuGrant',{umSeq:rowData['umSeq']},'resultList'),{bPaginate:false,pageLength:100,attr:'속성',drawCallback:function(settings, json){
+        gridElementGrant = plus.makeGrid('#gridElementGrant',gridColumn,plus.makeAjax('/plusadmin/ajax/admmenus/menuGrant',{umSeq:rowData['umSeq']},'resultList'),{bPaginate:false,pageLength:100,attr:'속성',drawCallback:function(settings, json){
 
                 console.log('eeeeeeeeeee',settings['json']['resultList'], json);
                 var tbody  = $('#gridElementGrant tbody');
@@ -276,6 +276,14 @@ $(document).ready(function(){
     }
 
     $('.btnSubmit').click(function(){
+    	if($('#lnb a.currMenu').attr('mggrant')!='A'){
+			Swal.fire(
+				'해당 메뉴는 수정 권한이 없습니다.',
+				'',
+				'error'
+			);
+			return false;
+		}
         var trElement = $('#gridElementGrant tbody tr');
         console.log(trElement.length);
         var putData = [];
@@ -292,7 +300,7 @@ $(document).ready(function(){
             return false;
         }
         if(confirm('메뉴권한을 등록하시겠습니까?')){
-            $.call('/totaladmin/ajax/admmenus/menuGrantBatch',{'putData':JSON.stringify(putData)},function(r){
+            $.call('/plusadmin/ajax/admmenus/menuGrantBatch',{'putData':JSON.stringify(putData)},function(r){
 				Swal.fire(
 				  '권한설정 완료되었습니다.',
 				  '',
@@ -318,6 +326,14 @@ $(document).ready(function(){
 
     /* 등록 버튼*/
     $('.btnReg').click(function(){
+    	if($('#lnb a.currMenu').attr('mggrant')!='A'){
+			Swal.fire(
+				'해당 메뉴는 쓰기권한이 없습니다.',
+				'',
+				'error'
+			);
+			return false;
+		}
         $('#umId').prop('readonly',false);
         var json = $('#wrapEdit').domJson();
         $.each(json,function(k,v){

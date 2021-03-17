@@ -26,6 +26,7 @@ public class plusQueryBuilder {
 	public Map<String, String> _like = new HashMap<String, String>();
 	public Map<String, String> _lt = new HashMap<String, String>();
 	public Map<String, String> _lteq = new HashMap<String, String>();
+	public Map<String, String> _gtlt = new HashMap<String, String>();
 	public Map<String, String> _gt = new HashMap<String, String>();
 	public Map<String, String> _gteq = new HashMap<String, String>();
 	public Map<String, String> _or_like = new HashMap<String, String>();
@@ -133,6 +134,7 @@ public class plusQueryBuilder {
 		//_table ="";
 		_where_in.clear();
 		_where_not_in.clear();
+		_whereOne.clear();
 		_join.clear();
 		_join_and = "";
 		_lteq.clear();
@@ -325,6 +327,18 @@ public class plusQueryBuilder {
 				SQL += "\r\n" + ( "AND " ) + map.getKey() + " <= '"
 						+ map.getValue() + "'" + queryComment((String)map.getKey());
 			}
+		}
+		if (_gtlt.size() > 0) {
+			it = _gtlt.entrySet().iterator();
+			SQL += "\r\n" + ( "AND ( " );
+			int vx=0;
+			while (it.hasNext()) {
+				Map.Entry map = (Map.Entry) it.next();
+				SQL += "\r\n" + ( vx>0 ? ( "AND " ) :"") + map.getKey() + " <= '"
+						+ map.getValue() + "'" + queryComment((String)map.getKey());
+				vx++;
+			}
+			SQL += "\r\n" + ( ") " );
 		}
 		// GT <
 		if (_gt.size() > 0) {

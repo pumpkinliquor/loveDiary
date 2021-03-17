@@ -15,10 +15,15 @@
 <div class="wrapper">
   <header class="header">
     <h1 class="logo">AIGo</h1>
-    <strong class="progressing typing">AI Progressing…</strong>
+    <!-- <strong class="progressing typing ai_text">AI Progressing... </strong> --> <!-- 수정0209 -->
+    <!-- 수정0223 -->
+    <div class="typewriter">
+      <h1 class="progressing">AI Progressing...</h1>
+    </div>
+    <!-- //수정0223 -->
   </header>
-  <div class="container">
-    <div class="question_conts">
+  <div class="container btm0">
+    <div class="question_conts question_common1"><!-- 수정0219 -->
       <h2 class="q_number">01.</h2>
       <div class="q_sec">
         <img class="q_img" src="../assets/images/_tmp/img_question_1.jpg" alt="문제 이미지">
@@ -28,11 +33,27 @@
       </div>
     </div>
 
+    <!-- 수정0209 -->
+    <section class="progress_cont">
+      <div class="progress_div"><span class="bar" style="width:73%"></span><span class="text">진단 진행률 73%</span></div>
+      <div class="expect_div">
+        <dl class="fc">
+          <dt>예상 백분위</dt>
+          <dd>산출중</dd>
+        </dl>
+        <dl>
+          <dt>예상 등급</dt>
+          <dd>3등급</dd>
+        </dl>
+      </div>
+    </section>
+    <!-- //수정0209 -->
+
     <section class="answer_submit_cont">
       <div>
         <input type="text" name="" class="ipt_answer" placeholder="정답을 입력하세요">
       </div>
-      <button type="submit" class="btn btn_submit disabled" disabled="disabled">답안제출</a>
+      <button type="submit" class="btn btn_submit" disabled="disabled">답안제출</a>
     </section>
   </div><!-- //container -->
 
@@ -40,7 +61,10 @@
 
 <script type="text/javascript">
   numSelect();
+  prgressBar();
 </script>
+
+
 
 </body>
 

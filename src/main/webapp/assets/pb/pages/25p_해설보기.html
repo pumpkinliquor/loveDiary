@@ -9,6 +9,12 @@
 <link rel="stylesheet" href="../assets/css/style_m.css">
 <script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
 <script src="../assets/js/script_m.js"></script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 
 <body class="study_body2">
@@ -17,35 +23,39 @@
     <a href="#" class="btn_allmenu">전체메뉴</a>
     <h1>해설보기</h1>
   </header>
-  <div class="container">
-    <div class="question_conts">
-      <div class="q_solve_top mt0">
-        <p class="q">수학Ⅰ Lv.1 로그의 뜻을 알고, 성질을 이해하기</p>
-        <div class="tag_div">
-          <a href="#" class="tag">로그의 성실</a>
-          <a href="#" class="tag">상용로그</a>
-          <a href="#" class="tag">로그의 성실</a>
-          <a href="#" class="tag">상용로그</a>
-        </div>
-        <div class="ov_h">
-          <div class="aigo_rate"><img src="../assets/images/logo.png" alt="AIGo"><span>정답률</span> <em>83%</em></div>
-          <div><span>난이도</span><span class="d_E">E</span></div>
+  <!-- 수정0225 -->
+  <div class="container btm0"><!-- 수정0219 -->
+    <div class="question_conts comment_cont">
+      <div class="q_top_section" id="qTopHeight">
+        <div class="q_solve_top">
+          <p class="q">수학Ⅰ Lv.1 로그의 뜻을 알고, 성질을 이해하기</p>
+          <div class="tag_div">
+            <a href="#" class="tag">로그의 성실</a>
+            <a href="#" class="tag">상용로그</a>
+            <a href="#" class="tag">로그의 성실</a>
+            <a href="#" class="tag">상용로그</a>
+          </div>
+          <div class="ov_h">
+            <div class="aigo_rate">
+              <span class="logo_img">AIGo</span><span class="txt">정답률</span> <em>83%</em><!-- 수정0219 -->
+            </div>
+            <div><span>난이도</span><span class="d_E"><em>E</em></span></div><!-- 수정0219 -->
+          </div>
         </div>
       </div>
-      <div class="media_div">
-        <img src="../assets/images/_tmp/img_question_3.jpg" alt="임시 문제 이미지">
+      <div class="q_section">
+          <img src="../assets/images/_tmp/img_qa2.jpg" alt="임시 문제 이미지">
       </div>
 
     </div>
-
-
   </div><!-- //container -->
+  <!-- //수정0225 -->
 
 
 </div>
 
 <script type="text/javascript">
-
+qTopSection(); //수정0225
 </script>
 
 </body>

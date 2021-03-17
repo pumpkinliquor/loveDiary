@@ -7,6 +7,7 @@ import com.plushih.common.ci.Cache;
 import com.plushih.common.ci.CoreController;
 import com.plushih.common.ci.Debug;
 import com.plushih.common.ci.plusActiveRecord;
+import com.plushih.common.constant.Default;
 import com.plushih.common.constant.LoginSession;
 import com.plushih.entities.BbsAttachFileEntity;
 import com.plushih.entities.BbsEntity;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * hsk3807
@@ -88,6 +91,31 @@ public class AjaxCommonController extends CoreController {
         logEnd(fullName);
         return commonResultEntity;
     }
+    
+    
+    /**
+	 * @ClassName	: AjaxReviewController.java
+	 * @Method		: sendAnswer
+	 * @Date		: 2021. 1. 28. 
+	 * @author		: dev.yklee
+	 * @Description	: 
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"/list", "/list/{lan}"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public CommonResultEntity list(@RequestParam Map<String,Object> paramMap, HttpServletRequest request, HttpServletResponse response, ModelMap model, Locale localeParam) throws Exception {
+		
+		String memId = LoginSession.getSeq(request.getSession());
+		
+		paramMap.put("memId", memId);
+		
+		// 필요한 데이터 조회
+		CommonResultEntity res = new CommonResultEntity();
+		res.setResultData(commonService.cmmFileList(paramMap));
+		model.addAttribute(Default.ResultValue.RESPONSE_RESULT_MAP, res);
+		
+		return res;
+	}
+    
 
 
 

@@ -54,7 +54,7 @@
 
 			</div>
 		</div>
-		<form id="wrapEdit" class="hidden" action="/plusadmin/ajax/user/evaluationExcute" method="post" enctype="multipart/form-data">
+		<form id="wrapEdit" class="hidden" action="/plusadmin/ajax/aigo/evaluationExcute" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="evtId" id="evtId" value="" />
 			<input type="hidden" name="levName" id="levName" value="" />
 			<input type="hidden" id="start" name="start" value="" />
@@ -73,7 +73,7 @@
 	        			<th>레벨 <em class="point">*</em></th>
 	        			<td>
 	        				<div class="mb10">
-		        				<select class="s_p1 code LEV" type="select" data="levId">
+		        				<select class="s_p1 code LEV" type="select" data="levId" name="levId" id="levId">
 		        					<option>레벨</option>
 		        				</select>
 <%--		        				<select class="s_p1">--%>
@@ -102,7 +102,7 @@
 	        </table>
 
 	        <div class="tbl-foot">
-				<a href="AD_LE_01_01.html" class="btn btn-list btnList">목록</a>
+				<a href="#" class="btn btn-list btnList">목록</a>
 				<a href="#" class="btn btn-offer btnSubmit">저장</a>
 			</div>
 		</form>
@@ -130,10 +130,10 @@ $(document).ready(function(){
     /* tab 생성후 초기이벤트*/
     plus.event.tabAfter=function(pageContentLast, rowData, mode){
         var rules = {
-            bbTitle:{required:true}
-            ,bbOpen:{required:true}
+            levId:{required:true}
+            ,useYn:{required:true}
         };
-        pageContentLast.find('form').data({rules:rules});
+        pageContentLast.data({rules:rules});
         var tableElement =pageContentLast.find('table');
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
@@ -176,8 +176,8 @@ $(document).ready(function(){
 		// 				<th>상태</th>
 		// 				<th>등록/수정</th>
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'entId','title':'순번',render:plus.event.rownum});
-        gridColumn.push({'data':'levName','title':'레벨명'});
+        gridColumn.push({'data':'levName','title':'순번',render:plus.renderer.rrownum });
+        gridColumn.push({'data':'levName','title':'레벨명',render:plus.renderer.clickbox});
 
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
         gridColumn.push({'data':'regDate','title':'등록/수정',render:plus.renderer.iddate});
@@ -241,16 +241,16 @@ $(document).ready(function(){
 
     	// var contypeall =   $('.code.CONTYPEALL :radio:checked').val();
     	// if(contypeall=='T'){
-		// 	var editorId = $('.html-editor').attr('id');
-		// 	oEditors.getById[editorId].exec("UPDATE_CONTENTS_FIELD", []);
-		// 	if($('#notText').val()==""){
-		// 		Swal.fire(
-		// 				'[내용] 항목은 필수입니다.',
-		// 				'',
-		// 				'error'
-		// 		)
-		// 		return false;
-		// 	}
+			var editorId = $('.html-editor').attr('id');
+			oEditors.getById[editorId].exec("UPDATE_CONTENTS_FIELD", []);
+			if($($.trim($('#evtText').val())).text()==""){
+				Swal.fire(
+						'[내용] 항목은 필수입니다.',
+						'',
+						'error'
+				)
+				return false;
+			}
 		// }
       $(this).closest('form').submit();
       return false;

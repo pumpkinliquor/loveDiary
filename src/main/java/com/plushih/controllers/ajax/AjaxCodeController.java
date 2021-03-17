@@ -273,6 +273,18 @@ public class AjaxCodeController extends CoreController {
 
     }
     /**
+     * 과목명 코드
+     * @throws Exception
+     */
+    public void FAQGROUP() throws Exception {
+        plusActiveRecord dbEntity = new plusActiveRecord();
+        dbEntity.select("'FAQGROUP' as  cm_gubun,fgr_id as cm_code,fgr_title cm_name ");
+        dbEntity.from("cb_aigo_faq_group");
+        List<CodeMasterEntity> resList = codeService.getFastList(dbEntity);
+        setCodeResrulAdd(resList);
+
+    }
+    /**
      * 공통코드
      *
      * @param codes

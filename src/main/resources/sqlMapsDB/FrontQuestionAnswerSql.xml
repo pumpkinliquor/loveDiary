@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="FrontQuestionAnswerDAO">
-	
+
 	<!-- 답안제출 > 답안 마스터 테이블 insert -->
 	<insert id="insertQuestionAnswerInfo" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="ansrId" keyColumn="ansr_id">
 		/* FrontQuestionAnswerDAO.insertQuestionAnswerInfo */
@@ -25,7 +25,7 @@
 		on duplicate key update
 			use_yn = #{useYn}, reg_mem_id = #{memId}, udt_date = now(), udt_mem_id = #{memId}
 	</insert>
-	
+
 	<!-- 답안제출 > 답안 테이블 insert -->
 	<insert id="insertQuestionAnswer" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="ansId" keyColumn="ans_id">
 		/* FrontQuestionAnswerDAO.insertQuestionAnswer */
@@ -41,6 +41,9 @@
 			, mem_id
 			, reg_date
 			, reg_mem_id
+			, in_time
+			, out_time
+			, dur_time
 		) values (
 			#{ansrId}
 			, #{qstId}
@@ -52,9 +55,12 @@
 			, #{memId}
 			, now()
 			, #{memId}
+			, date_add(now(), interval (#{durTime}*-1) second)
+			, now()
+			, #{durTime}
 		)
 	</insert>
-	
+
 	<!-- 답안제출 > 답안 테이블 insert -->
 	<insert id="insertQuestionAnswerHistory" parameterType="aigoQuestionAnswerEntity" useGeneratedKeys="true" keyProperty="anshId" keyColumn="ansh_id">
 		/* FrontQuestionAnswerDAO.insertQuestionAnswerHistory */
@@ -85,12 +91,12 @@
 			, #{memId}
 		)
 	</insert>
-	
+
 	<!-- 답안제출 > 답안 테이블 insert -->
 	<update id="updateQuestionAnswerInfo"  parameterType="aigoQuestionAnswerEntity">
 		/* FrontQuestionAnswerDAO.updateQuestionAnswerInfo */
 		update cb_aigo_my_answer_info
-		set 
+		set
 			s_cnt = s_cnt + #{sCnt}
 			, f_cnt = f_cnt + #{fCnt}
 			, udt_date = now()
@@ -99,5 +105,118 @@
 			ansr_id = #{ansrId}
 			and mem_id = #{memId}
 	</update>
-	
+
+	<!-- 다시풀기 > 문제보기 select -->
+	<select id="selectQuestionRetryInfo"  parameterType="HashMap" resultType="HashMap">
+		/* FrontQuestionAnswerDAO.selectQuestionRetryInfo */
+		SELECT *
+		FROM   (SELECT a.qst_id,
+		               a.qst_key,
+		               a.sub_id,
+		               a.acv_id,
+		               a.lev_id,
+		               a.qst_type,
+		               a.qst_type_num,
+		               a.qst_value,
+		               a.use_yn,
+		               a.qst_cont_type,
+		               a.qst_cont_text,
+		               a.qst_cont02_type,
+		               a.qst_cont02_text,
+		               a.qst_cont03_type,
+		               a.qst_cont03_text,
+		               a.qst_answer_01,
+		               a.qst_answer_02,
+		               a.qst_answer_03,
+		               a.qst_answer_04,
+		               a.qst_answer_05,
+		               a.cmtr_id,
+		               a.reg_sysdate,
+		               a.pass_yn,
+		               a.ansr_id,
+		               a.ans_value,
+		               a.cpt_id_str,
+		               (SELECT Group_concat(cpt_name SEPARATOR ',')
+		                FROM   aigo.cb_aigo_concept
+		                WHERE  Find_in_set(cpt_id, a.cpt_id_str)) AS cpt_nm_str,
+		               a.qst_rel_not_id,
+		               a.sub_name,
+		               a.acv_name,
+		               a.s_cnt,
+		               a.f_cnt,
+		               a.ans_order,
+		               a.qst_order
+		        FROM   (SELECT q.qst_id,
+		                       q.qst_key,
+		                       q.sub_id,
+		                       q.acv_id,
+		                       q.lev_id,
+		                       q.qst_type,
+		                       q.qst_type_num,
+		                       q.qst_value,
+		                       q.use_yn,
+		                       q.qst_cont_type,
+		                       q.qst_cont_text,
+		                       q.qst_cont02_type,
+		                       q.qst_cont02_text,
+		                       q.qst_cont03_type,
+		                       q.qst_cont03_text,
+		                       q.qst_answer_01,
+		                       q.qst_answer_02,
+		                       q.qst_answer_03,
+		                       q.qst_answer_04,
+		                       q.qst_answer_05,
+		                       q.cmtr_id,
+		                       m.reg_sysdate,
+		                       m.pass_yn,
+		                       m.ansr_id,
+		                       m.ans_value,
+		                       s.sub_name,
+		                       ach.acv_name,
+		                       info.s_cnt,
+		                       info.f_cnt,
+		                       his.ans_order,
+		                       his.qst_order,
+		                       (SELECT Group_concat(cpt_id SEPARATOR ',')
+		                        FROM   aigo.cb_aigo_notion
+		                        WHERE  Find_in_set(not_id, q.qst_rel_not_id)) AS
+		                       cpt_id_str,
+		                       q.qst_rel_not_id
+		                FROM   aigo.cb_aigo_my_answer_list m
+		                       INNER JOIN aigo.cb_aigo_question q
+		                               ON m.qst_id = q.qst_id
+		                       LEFT JOIN aigo.cb_aigo_achievement ach
+		                              ON q.acv_id = ach.acv_id
+		                                 AND ach.use_yn = 'y'
+		                       LEFT JOIN aigo.cb_aigo_subject s
+		                              ON q.sub_id = s.sub_id
+		                                 AND s.use_yn = 'y'
+		                       LEFT JOIN aigo.cb_aigo_my_answer_info info
+		                              ON m.ansr_id = info.ansr_id
+		                                 AND m.mem_id = info.mem_id
+		                                 AND info.use_yn = 'y'
+		                       LEFT JOIN aigo.cb_aigo_my_answer_history his
+		                              ON m.ans_id = his.ans_id
+		                                 AND m.ansr_id = his.ansr_id
+		                                 AND m.qst_id = his.qst_id
+		                                 AND his.use_yn = 'y'
+		                WHERE  1 = 1
+		                       AND m.mem_id = #{memId}
+		                       AND m.use_yn = 'y'
+		                       AND q.use_yn = 'y'
+		                       AND m.qst_id = #{qstId}) a) a
+		        ORDER BY a.reg_sysdate DESC
+		        LIMIT 1 
+	</select>
+
+
+	<!-- 문제 > 답안 조회 -->
+	<select id="selectQuestionInfo" parameterType="hashMap" resultType="hashMap">
+		/* FrontQuestionAnswerDAO.selectQuestionInfo */
+		select
+			aq.qst_value as qstValue
+		from cb_aigo_question as aq
+		where qst_id = #{qstId}
+	</select>
+
 </mapper>

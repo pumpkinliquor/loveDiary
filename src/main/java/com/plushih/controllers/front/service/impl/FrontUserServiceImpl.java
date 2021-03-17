@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.plushih.common.constant.Code;
+import com.plushih.common.constant.Default;
 import com.plushih.common.constant.LoginSession;
+import com.plushih.common.utils.HashUtils;
 import com.plushih.common.utils.NumberUtils;
 import com.plushih.common.utils.StringUtils;
 import com.plushih.controllers.front.service.FrontLoginService;
@@ -49,7 +51,7 @@ public class FrontUserServiceImpl implements FrontUserService {
 	public Map<String, Object> selectUserInfo(HttpServletRequest request, UserMemberEntity userMemberEntity) throws Exception {
 		HttpSession session = request.getSession(true);
 		userMemberEntity.setMemUserid(LoginSession.getLoginId(session));
-
+		userMemberEntity.setSafBbs(Default.FileBbs.USER);
 		return commonDao.selectOne("FrontUserDAO.selectUserInfo", userMemberEntity);
 	}
 
@@ -62,6 +64,7 @@ public class FrontUserServiceImpl implements FrontUserService {
 	 */
 	@Override
 	public String updateUserInfo(MultipartHttpServletRequest request) throws Exception {
+		
 		UserMemberEntity userMemberEntity = new UserMemberEntity();
 		HttpSession session = request.getSession(true);
 
@@ -73,11 +76,9 @@ public class FrontUserServiceImpl implements FrontUserService {
 		userMemberEntity.setMemPhone(request.getParameter("memPhone"));
 		userMemberEntity.setMemClass(request.getParameter("memClass"));
 		userMemberEntity.setMemSubId(Integer.parseInt(request.getParameter("memSubId")));
-
-
-
+		
 		String resultCode = "";
-
+		
 		try {
 			//아이콘 수정
 			MultiValueMap<String, MultipartFile> fileuploads = request.getMultiFileMap();
@@ -94,12 +95,14 @@ public class FrontUserServiceImpl implements FrontUserService {
 					siteFileUploadService.uploadImage(fileInfo, 0, "/USER", "USER", iconSeq);
 					userMemberEntity.setMemIcon(iconSeq+"");
 					commonDao.update("FrontUserDAO.updateIcon", userMemberEntity);
+					session.setAttribute(LoginSession.SAF_SEQ, iconSeq);
 				}
 			}
-
+			
 			//비밀번호 수정
-			if(userMemberEntity.getMemPassword().length() > 0 && userMemberEntity.getMemPasswordEnc().length() > 0 ) frontLoginService.updatePassword(request, userMemberEntity);
-
+			if(!StringUtils.isEmpty(userMemberEntity.getMemPassword()) && !StringUtils.isEmpty(userMemberEntity.getMemPasswordEnc())
+				&&  userMemberEntity.getMemPassword().length() > 0 && userMemberEntity.getMemPasswordEnc().length() > 0 ) frontLoginService.updatePassword(request, userMemberEntity);
+			
 			//닉네임, 휴대폰번호, 학년, 선택과 과목
 			if(userMemberEntity.getMemNickname().length() > 0
 			|| userMemberEntity.getMemPhone().length() > 0
@@ -107,10 +110,12 @@ public class FrontUserServiceImpl implements FrontUserService {
 			|| userMemberEntity.getMemSubId() > 0
 			)
 			commonDao.update("FrontUserDAO.updateUserInfo", userMemberEntity);
-
+			session.setAttribute(LoginSession.SUBJECT_ID, Integer.parseInt(request.getParameter("memSubId")));
+			
 			resultCode = Code.Result.SUCC;
 		}catch (Exception e) {
 			resultCode = Code.Result.FAIL_99;
+			e.printStackTrace();
 		}
 
 		return resultCode;
@@ -190,7 +195,7 @@ public class FrontUserServiceImpl implements FrontUserService {
 				}
 			}
 		}
-
+		
 		return resultCode;
 	}
 
@@ -265,4 +270,137 @@ public class FrontUserServiceImpl implements FrontUserService {
 		else commonResultEntity.setResultCode(Code.Result.FAIL_01);
 		return commonResultEntity;
 	}
+
+	/**
+	 * @ClassName	: FrontUserServiceImpl.java
+	 * @Method		: selectLearnAchieveData
+	 * @Date		: 2021. 3. 5. 
+	 * @author		: dev.yklee
+	 * @Description	: 사용자정보 > 학습 관련 성취도 데이터 조회
+	 */
+	@Override
+	public Map<String, Object> selectLearnAchieveData(Map<String, Object> paramMap) throws Exception {
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String memId = StringUtils.nvl(paramMap.get("memId"), "0");
+		
+		double myAchieveData = 0.00;
+		double myRate = 0.00;
+		int myGrade = 6;			// 앱 내에서 최하로 표시되는 등급 : 6등급 이하
+		
+		try {
+			
+			//	1. 전체 Aigo 사용자의 성취도 데이터를 조회
+			//		계산식 : 성취도 = [누적정답률(단원별로 고난도문제 출제비중 가중치 적용한 정답문항 수 / 전체 풀이 문항 수) * 최근 학습일 가중치 * 최근 10문제 정답률 가중치]
+			List<Map<String, Object>> totalUserAchieveList = commonDao.selectList("FrontUserDAO.selectTotalUserAchieveRateRankList", paramMap);
+			
+			//	2. 백분위를 계산
+			//		계산식 : 1- {(해당 사용자보다 성취율이 높은 사용자 수) + (해당 사용자와 동점인 사용자 수 / 2) / 전체 사용자 수}
+			int index = 0;
+			int userRank = 0;
+			int sameScoreUser = 0;
+			int totalUserCount = totalUserAchieveList.size();			// 전체 사용자 수
+			Map<String, Object> targetUser = null;						// 해당 사용자 정보 저장할 Map
+			
+			// 		해당 유저의 데이터 탐색
+			for(Map<String, Object> user : totalUserAchieveList) {
+				index++;
+				if(memId.equals(StringUtils.nvl(user.get("mem_id"), "0")) ) {
+					targetUser = user;
+					userRank = index;
+					myAchieveData = Float.valueOf(StringUtils.nvl(user.get("achieve_rate"), "0"));
+				}
+			}
+			
+			index = 0;
+			// 		해당 유저와 같은 성취율인 사용자 수 누적
+			for(Map<String, Object> user : totalUserAchieveList) {
+				index++;
+				if(Float.valueOf(StringUtils.nvl(targetUser.get("achieve_rate"), "0") ) == Float.valueOf(StringUtils.nvl(user.get("achieve_rate"), "0")) ) {
+					sameScoreUser++;
+				}
+			}
+			//		백분위 계산
+			double myPosition = (userRank-1)+(sameScoreUser/2);
+			double myPer = myPosition/totalUserCount;
+			myRate = (1 - myPer) * 100;
+			
+			//	3. 등급을 산출
+			if(Default.Aigo.RATE_GRADE_1 <= myRate) {
+				myGrade = Code.Aigo.GRADE_1;
+			}else if(Default.Aigo.RATE_GRADE_2 <= myRate && myRate < Default.Aigo.RATE_GRADE_1) {
+				myGrade = Code.Aigo.GRADE_2;
+			}else if(Default.Aigo.RATE_GRADE_3 <= myRate && myRate < Default.Aigo.RATE_GRADE_2) {
+				myGrade = Code.Aigo.GRADE_3;
+			}else if(Default.Aigo.RATE_GRADE_4 <= myRate && myRate < Default.Aigo.RATE_GRADE_3) {
+				myGrade = Code.Aigo.GRADE_4;
+			}else if(Default.Aigo.RATE_GRADE_5 <= myRate && myRate < Default.Aigo.RATE_GRADE_4) {
+				myGrade = Code.Aigo.GRADE_5;
+			}else {
+				myGrade = Code.Aigo.GRADE_6;
+			}
+			
+			resultMap.put("myAchieveData", String.format("%.2f", myAchieveData));	// 성취도
+			resultMap.put("myRate", String.format("%.2f", myRate));					// 백분위
+			resultMap.put("myGrade", myGrade);										// 성취예상등급
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("myAchieveData", 95.00);	// 성취도
+			resultMap.put("myRate", 45);			// 백분위
+			resultMap.put("myGrade", 4);			// 성취예상등급
+		}
+		
+		return resultMap;
+	}
+	
+	/**
+	 * @ClassName	: FrontUserServiceImpl.java
+	 * @Method		: checkUserAccount
+	 * @Date		: 2021. 3. 12. 
+	 * @author		: dev.yklee
+	 * @Description	: 회원 탈퇴 > 계정 확인
+	 */
+	@Override
+	public String checkUserAccount(UserMemberEntity userMemberEntity) throws Exception{
+
+		String resultCode = "";
+		UserMemberEntity checkUserInfo = new UserMemberEntity();
+		String loginPwEnc = HashUtils.encryptSHA256(StringUtils.nvl(userMemberEntity.getMemPassword(), ""));
+		
+		userMemberEntity.setMemPasswordEnc(loginPwEnc);
+		
+		try {
+			
+			checkUserInfo = (UserMemberEntity) commonDao.selectOne("FrontLoginDAO.selectLoginUserInfoForMemId", userMemberEntity);
+			
+			if("".equals(StringUtils.nvl(userMemberEntity.getMemPasswordEnc(),""))) {
+				resultCode = Code.Result.FAIL_01;				// 비밀번호가 입력되지 않음
+			} else {
+				if(!StringUtils.nvl(checkUserInfo.getMemPassword(), "").equals(StringUtils.nvl(userMemberEntity.getMemPasswordEnc(),""))){
+					resultCode = Code.Result.FAIL_02;			// 입력한 비밀번호가 올바르지 않음
+				} else {
+					resultCode = Code.Result.SUCC;				// 계정확인 완료
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return resultCode;
+	}
+
+	/**
+	 * @ClassName	: FrontUserServiceImpl.java
+	 * @Method		: selectUserLearnSummary
+	 * @Date		: 2021. 3. 15. 
+	 * @author		: dev.yklee
+	 * @Description	: 
+	 */
+	@Override
+	public Map<String, Object> selectUserLearnSummary(Map<String, Object> paramMap) throws Exception {
+		return commonDao.selectOne("FrontUserDAO.selectUserLearnSummary", paramMap);
+	}
+	
 }

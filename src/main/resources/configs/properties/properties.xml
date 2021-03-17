@@ -5,11 +5,9 @@
 
 	<util:properties id="dbConfig">
 
-<!--	<prop key="url">jdbc:log4jdbc:mysql://222.237.78.200:3306/samil?autoReconnect=true&amp;zeroDateTimeBehavior=convertToNull</prop>-->
 	<prop key="url">jdbc:log4jdbc:mysql://222.237.78.200:3306/aigo?autoReconnect=true&amp;zeroDateTimeBehavior=convertToNull</prop>
 	<prop key="username">aigo</prop>
 	<prop key="password">aigo123</prop>
-<!--	<prop key="url">jdbc:mysql://222.237.78.200:3306/samil?autoReconnect=true&amp;zeroDateTimeBehavior=convertToNull</prop>-->
 	<prop key="db_driver">net.sf.log4jdbc.DriverSpy</prop>
 <!--	<prop key="db_driver">net.sf.log4jdbc.sql.jdbcapi.DriverSpy</prop>-->
 
@@ -17,24 +15,20 @@
 
 	<util:properties id="APPLE">
 			<prop key="WEBSITE_URL">aigo.portalsns.com</prop>
+			<prop key="AUTH_TOKEN_URL">https://appleid.apple.com/auth/token</prop>
+			<prop key="PUBLICKEY_URL">https://appleid.apple.com/auth/keys</prop>
+			<prop key="ISS">https://appleid.apple.com</prop>
 			<prop key="AUD">com.aigo.sns.service</prop>
 			<prop key="TEAM_ID">JXB7K7ZMZ8</prop>
 			<prop key="KEY_ID">37YRNNRCY2</prop>
 			<prop key="KEY_PATH">static/AuthKey_37YRNNRCY2.p8</prop>
-<!--		-->
-<!--		APPLE.AUTH.TOKEN.URL=https://appleid.apple.com/auth/token-->
-<!--APPLE.PUBLICKEY.URL=https://appleid.apple.com/auth/keys-->
-<!--		-->
-<!--APPLE.WEBSITE_URL=aigo.portalsns.com-->
-<!--APPLE.ISS=https://appleid.apple.com-->
-<!--APPLE.AUD=com.aigo.sns.service-->
-<!--APPLE.TEAM.ID=JXB7K7ZMZ8-->
-<!--APPLE.KEY.ID=37YRNNRCY2-->
-<!--APPLE.KEY.PATH=static/AuthKey_37YRNNRCY2.p8-->
+
 	</util:properties>
 	<util:properties id="fileConfig">
 		<!--<prop key="filePath">C:\Users\dnltpdnd\IdeaProjects\PREMS4\upload</prop>-->
-		<prop key="filePath">/home/aigoupload</prop>
+		<!--<prop key="filePath">/home/aigoupload</prop>-->
+		<!--<prop key="filePath">C:/Users/dnltpdnd/IdeaProjects/PREMS4/upload</prop>-->
+		<prop key="filePath">/aigoupload</prop>
 	</util:properties>
 
 	<util:properties id="mailConfig">

@@ -1,5 +1,7 @@
 package com.plushih.controllers.front.service;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.plushih.entities.UserMemberEntity;
@@ -32,5 +34,7 @@ public interface FrontJoinService {
 	 * @Description	: 회원가입 > 등록
 	 */
 	public String insertMember(HttpServletRequest request, UserMemberEntity userMemberEntity) throws Exception;
+
+	public boolean emailCheck(Map<String, Object> emailCheck) throws Exception;
 
 }

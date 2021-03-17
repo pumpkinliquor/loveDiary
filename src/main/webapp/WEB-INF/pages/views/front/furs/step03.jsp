@@ -9,7 +9,7 @@
       <div class="q_txt">
         <p>현재 모의고사 수학 등급은?</p>
       </div>
-      <ul class="q_choice temp_grade">
+      <ul class="q_choice q_cont_grd">
         <li><button data="1">1등급</button></li>
         <li><button data="2">2등급</button></li>
         <li><button data="3">3등급</button></li>
@@ -22,8 +22,8 @@
       </ul>
     </div>
     <div class="btm_btn_div">
-      <a href="#" class="prev"><span>이전</span></a>
-      <a href="#" class="next disabled"><span>다음</span></a>
+      <a href="javascript:;" class="prev"><span>이전</span></a>
+<!--       <a href="javascript:;" class="next disabled"><span>다음</span></a> -->
     </div>
   </div>
 </div>
@@ -45,7 +45,12 @@
             if($(this).is('.disabled')){
                 return false;
             }
-            $.call('/front/ajax/aigo/firs/step03',{temp_grade:$('.q_choice .on').attr('data')},function(r){
+            $.post('/front/ajax/aigo/furs/step03',{temp_grade:$('.q_choice .on').attr('data')},function(r){
+                location.href= '/front/furs/step04';
+            });
+        });
+        $('.q_choice button').click(function(){
+            $.post('/front/ajax/aigo/furs/step03',{temp_grade:$(this).attr('data')},function(r){
                 location.href= '/front/furs/step04';
             });
         })

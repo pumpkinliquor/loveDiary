@@ -2,9 +2,6 @@ package com.plushih.controllers.ajax;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Map;
 
@@ -15,24 +12,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.plushih.common.ci.CoreController;
 import com.plushih.common.constant.Code;
 import com.plushih.common.constant.Default;
+import com.plushih.common.constant.LoginSession;
 import com.plushih.common.utils.HashUtils;
-import com.plushih.common.utils.StringUtils;
+import com.plushih.common.utils.NumberUtils;
+import com.plushih.controllers.front.service.FrontAlarmService;
 import com.plushih.controllers.front.service.FrontUserService;
 import com.plushih.entities.CommonResultEntity;
 import com.plushih.entities.UserMemberEntity;
-import com.plushih.services.front.SiteFileUploadService;
 
 @Controller
 @RequestMapping("front/ajax/user")
@@ -41,8 +38,8 @@ public class AjaxUserController extends CoreController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSnsController.class);
 
 	@Autowired
-    private SiteFileUploadService siteFileUploadService;
-
+	private FrontAlarmService frontAlarmService;
+	
 	@Autowired
 	private FrontUserService frontUserService;
 
@@ -192,5 +189,64 @@ public class AjaxUserController extends CoreController {
 		CommonResultEntity commonResultEntity = new CommonResultEntity();
 
 		return frontUserService.updateSettingInfo(request, userMemberEntity, commonResultEntity);
+	}
+	
+	/**
+	 * @ClassName : AjaxUserController.java
+	 * @Method : settingUpdate
+	 * @Date : 2021. 1. 25.
+	 * @author : dev.khko
+	 * @Description : 설정 정보 수정
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"/readAlarm"}, method = {RequestMethod.POST})
+	public CommonResultEntity readAlarm (@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, ModelMap model, Locale localeParam) throws Exception {
+		CommonResultEntity commonResultEntity = new CommonResultEntity();
+		
+		// 필요한 데이터 조회
+		paramMap.put("memUserid",LoginSession.getLoginId(request.getSession()));
+		paramMap.put("memId", LoginSession.getSeq(request.getSession()));
+		
+		return frontAlarmService.readAlarm(paramMap, commonResultEntity);
+	}
+	
+	/**
+	 * @ClassName : AjaxUserController.java
+	 * @Method : settingUpdate
+	 * @Date : 2021. 1. 25.
+	 * @author : dev.khko
+	 * @Description : 설정 정보 수정
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"/notReadAlarm"}, method = {RequestMethod.POST})
+	public CommonResultEntity notReadAlarm (@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response, ModelMap model, Locale localeParam) throws Exception {
+		CommonResultEntity commonResultEntity = new CommonResultEntity();
+		
+		// 필요한 데이터 조회
+		paramMap.put("memUserid",LoginSession.getLoginId(request.getSession()));
+		paramMap.put("memId", LoginSession.getSeq(request.getSession()));
+		
+		commonResultEntity.setResultData(frontAlarmService.notReadAlarmCnt(paramMap));
+		
+		return commonResultEntity;
+	}
+	
+	/**
+	 * @ClassName	: AjaxUserController.java
+	 * @Method		: checkAccount
+	 * @Date		: 2021. 3. 12. 
+	 * @author		: dev.yklee
+	 * @Description	: 회원탈퇴 > 계정 확인
+	 */
+	@ResponseBody
+	@RequestMapping(value = {"/checkAccount"}, method = {RequestMethod.POST})
+	public CommonResultEntity checkAccount (UserMemberEntity userMemberEntity, HttpServletRequest request, HttpServletResponse response, ModelMap model, Locale localeParam) throws Exception {
+		
+		CommonResultEntity res = new CommonResultEntity();
+		// 필요한 데이터 조회
+		userMemberEntity.setMemId(NumberUtils.stringToInt(LoginSession.getSeq(request.getSession())));
+		res.setResultCode(frontUserService.checkUserAccount(userMemberEntity));
+		
+		return res;
 	}
 }

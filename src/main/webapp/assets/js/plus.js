@@ -101,6 +101,7 @@ $.extend({
             async: isAsync,
             success: callback
         },jsonExtend));
+
     },
     callJS: function (url, data, callback, isAsync) {
         isAsync = false;
@@ -188,8 +189,8 @@ $.fn.extend({
 
             if(element.is('.html-editor')){
 
-                var editorId = $('.html-editor').attr('id');
-                if(!$('.html-editor').is('.editoron')){
+                // var editorId = $('.html-editor').attr('id');
+                // if(!$('.html-editor').is('.editoron')){
 
                     // $('.html-editor').summernote({
                     //   height:400,
@@ -206,29 +207,36 @@ $.fn.extend({
                     //     ['height', ['height']]
                     //   ]
                     // });
-                    var editorid = $('.html-editor').attr('id');
-                       nhn.husky.EZCreator.createInIFrame({
-                        oAppRef : oEditors,
-                           width:'100%',
-                           height:'300px',
-                        elPlaceHolder : editorid,
-                        sSkinURI : "/assets/neditor/SmartEditor2Skin.html",
-                        //sSkinURI : "/main/w_mode/SmartEditor2Skin.html",
-                        htParams : {
-                            bUseToolbar : true,
-                            fOnBeforeUnload : function() {
+                    $(element).each(function(){
+                        var editorId = $(this).attr('id');
+                        if(!$(this).is('.editoron')){
+                            nhn.husky.EZCreator.createInIFrame({
+                            oAppRef : oEditors,
+                               width:'100%',
+                               height:'300px',
+                            elPlaceHolder : editorId,
+                            sSkinURI : "/assets/neditor/SmartEditor2Skin.html",
+                            //sSkinURI : "/main/w_mode/SmartEditor2Skin.html",
+                            htParams : {
+                                bUseToolbar : true,
+                                fOnBeforeUnload : function() {
 
-                            }
-                        }, //boolean
-                        fOnAppLoad : function() {
-                            oEditors.getById[editorId].exec("SET_IR", [val])
-                        },
-                        fCreator : "editor"
-                    });
-                    $('.html-editor').addClass('editoron');
-                } else {
-                    oEditors.getById[editorId].exec("SET_IR", [val]);
-                }
+                                }
+                            }, //boolean
+                            fOnAppLoad : function() {
+                                oEditors.getById[editorId].exec("SET_IR", [val])
+                            },
+                            fCreator : "editor"
+                        });
+                        $(this).addClass('editoron');
+                        } else {
+                            oEditors.getById[editorId].exec("SET_IR", [val]);
+                        }
+
+                    })
+
+
+                // }
             } else {
 
 
@@ -348,7 +356,7 @@ $.fn.extend({
         target.empty();
         var keysSorted = plus.jsonSort(jArray,desc);
         $.each(keysSorted,function(kk,vv){
-            plus.makeElement('li',plus.makeElement('button',jArray[vv]),{data:vv}).appendTo(target);
+            plus.makeElement('li',plus.makeElement('button',jArray[vv],{data:vv}),{data:vv}).appendTo(target);
         });
         //qSelect();
         $('.q_choice li button').click(function() {
@@ -457,6 +465,48 @@ $.fn.extend({
     }
 })
     var plus = {
+        lpad:function (str, padLen, padStr) {
+                if (padStr.length > padLen) {
+                    console.log("오류 : 채우고자 하는 문자열이 요청 길이보다 큽니다");
+                    return str;
+                }
+                str += ""; // 문자로
+                padStr += ""; // 문자로
+                while (str.length < padLen)
+                    str = padStr + str;
+                str = str.length >= padLen ? str.substring(0, padLen) : str;
+                return str;
+        },
+        strip_tags: function  (input, allowed) {
+            // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+            allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
+            var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi ,
+                commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+            return input.replace(commentsAndPhpTags, '')
+                        .replace(tags, function ($0, $1) {return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';});
+        },
+        formSubmit:function (action, paramMap, option) {
+            var $form = $('<form>').attr($.extend({
+                action : action,
+                enctype : 'multipart/form-data',
+                method : 'post'
+            }, option));
+
+            for ( var key in paramMap) {
+                try {
+                    $.each($.makeArray(paramMap[key]), function(index, element) {
+                        $form.append($('<input>').attr({
+                            name : key,
+                            type : 'hidden'
+                        }).val(typeof element === 'object' ? JSON.stringify(element) : element));
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            }
+
+            $form.appendTo(document.body).submit().remove();
+        },
         setEditorValue:function(val){
 
             if(oEditors.length>0){
@@ -558,6 +608,7 @@ $.fn.extend({
          * event객체를 선언하여 생성
          */
         event:{
+
             checkAll:function(rowData,tableElement,mode){
                 var res = '<div class="custom-control custom-checkbox">'+
                     '<input type="checkbox" id="jb-checkbox" class="custom-control-input">'+
@@ -675,8 +726,10 @@ $.fn.extend({
                 var filebox = plus.makeElement('div','',{'class':'filebox'}).appendTo(add_file_div);
                 var getId = plus.getId();
                 var lab = plus.makeElement('label','파일찾기',{'for':getId,'class':'btn btn-st1'}).appendTo(filebox);
-                var inp = plus.makeElement('input','',{'type':'text','class':'upload-name','disabled':'disabled'}).appendTo(filebox);
-                inp.attr('value',v['safOrFile']);
+                var inp = plus.makeElement('input','',{'type':'text','class':'upload-name','disabled':'disabled','value':v['safOrFile']}).appendTo(filebox);
+                // console.log('safOrFile',v);
+                // inp.attr('value',v['safOrFile']);
+                // inp.val(v['safOrFile']);
                 var inp = plus.makeElement('input','',{'type':'file','class':'upload-hidden',name:name,id:getId}).appendTo(filebox);
                 inp.data(v);
                 inp.change(function(){
@@ -723,6 +776,62 @@ $.fn.extend({
                 });
                 return add_file_div;
             },
+            bbsfileElement :function(name,v){
+
+                var add_file_div = plus.makeElement('div','',{'class':'add_file_div'});
+                var filebox = plus.makeElement('div','',{'class':'filebox'}).appendTo(add_file_div);
+                var getId = plus.getId();
+                var lab = plus.makeElement('label','파일찾기',{'for':getId,'class':'btn btn-st1'}).appendTo(filebox);
+                var inp = plus.makeElement('input','',{'type':'text','class':'upload-name','disabled':'disabled','value':v['bafOrFile']}).appendTo(filebox);
+                // console.log('bafOrFile',v);
+                // inp.attr('value',v['bafOrFile']);
+                // inp.val(v['bafOrFile']);
+                var inp = plus.makeElement('input','',{'type':'file','class':'upload-hidden',name:name,id:getId}).appendTo(filebox);
+                inp.data(v);
+                inp.change(function(){
+                    var fileOne = $(this).get(0).files[0];
+                      if(fileOne){
+                        $(this).closest('div').find('.upload-name').val(fileOne.name);
+                        $(this).closest('div').find('.del_file').css('display','inline-block');
+                        //$(this).closest('div').find('img').attr('src',URL.createObjectURL(fileOne));
+                      }
+                })
+                var a = plus.makeElement('a','다운로드',{'href':'javascript:;','class':'btn down_file' + (v['bafSeq']?'':' hidden')}).appendTo(add_file_div);
+                a.click(function(){
+                    window.open('/common/fileDown?bafCode='+v['bafCode']+'&bafSeq='+v['bafSeq'])
+                })
+                var a = plus.makeElement('a','삭제',{'href':'javascript:;','class':'btn del_file'}).appendTo(add_file_div);
+                a.unbind('click').click(function(){
+                    console.log($(this).closest('td').find('.add_file_div:not(.hidden)').length);
+                    if(confirm('해당 파일을 삭제하시겠습니까?')){
+                        if($(this).closest('td').find('.add_file_div:not(.hidden)').length==1){
+                            var tabGb = $(this).closest('td').attr('data');
+                            var getId = plus.getId();
+                            plus.event.fileElement(tabGb+'.'+getId, {}).appendTo($(this).closest('td'));
+                        }
+                        var fileTarget= $(this).closest('div').find(':file');
+                        if(fileTarget.data('bafSeq')){
+                            $(this).closest('div').addClass('hidden');
+                            fileTarget.data({'delBafSeq':fileTarget.data('bafSeq')});
+                        }else {
+                            $(this).closest('div').remove();
+                        }
+                    }
+
+
+                });
+                var a = plus.makeElement('a','추가',{'href':'javascript:;','class':'btn add_file'}).appendTo(add_file_div);
+                a.unbind('click').click(function() {
+
+                    var pElement = $(this).closest('td');
+
+                    var getId = plus.getId();
+                    var fileGb = pElement.attr('data');
+                    var fileGbName = [fileGb, getId].join('.');
+                    plus.event.fileElement(fileGbName, {}).appendTo(pElement);
+                });
+                return add_file_div;
+            },
             bbsfilechange:function(rowData){
                 $(':file').change(function(){
                   var fileOne = $(this).get(0).files[0];
@@ -746,16 +855,19 @@ $.fn.extend({
                 //     })
                 // });
 
-                if(rowData['filemap']){
+                if(rowData['filemap'])
+                {
+                  var fileMapCount= 0;
                   $.each(rowData['filemap'],function(k,v){
                     console.log('@@@',k,v);
                     if(k.indexOf('.')>-1){
                         return true;
                     }
+                    fileMapCount++;
                     console.log('e---------------e--');
                     var fileTarget =$('.fileMap :file[name='+k+']');
-                    if(fileTarget.length){
 
+                    if(fileTarget.length){
                         fileTarget.data(v);
                         var fileWrap =fileTarget.closest('td');
                         fileWrap.find('.file-upload').unbind('click').click(function(){
@@ -769,7 +881,7 @@ $.fn.extend({
                                 return false;
                             }
                         });
-                        fileWrap.find('.file-img2 img').attr('src','/common/siteImgView?safSeq='+v['safSeq']);
+                        fileWrap.find('.thumb_img img').attr('src','/common/siteImgView?safSeq='+v['safSeq']);
                         fileWrap.find('.upload-name').val(v['safOrFile']);
                         fileWrap.find('.file-bg').removeClass('hidden');
                         fileWrap.find('.fa-times').removeClass('hidden');
@@ -787,15 +899,33 @@ $.fn.extend({
                             fileWrap.find('.upload-name').val('파일 선택');
                         })
                     }
-                  })
+
+                  });
+                  if(fileMapCount==0){
+
+                        var fileTarget =$('.fileMap :file');
+                        var fileWrap =fileTarget.closest('td');
+                        fileWrap.find('.thumb_img img').attr('src','/admassets/images/sample.JPG');
+                        fileWrap.find('.file-bg').addClass('hidden');
+                        fileWrap.find('.fa-times').addClass('hidden');
+                        fileWrap.find('.upload-name').val('파일 선택');
+                        $('.fileMap :file').removeData();
+                  }
                 } else {
+                    var fileTarget =$('.fileMap :file');
+                    var fileWrap =fileTarget.closest('td');
+                    fileWrap.find('.thumb_img img').attr('src','/admassets/images/sample.JPG');
+                    fileWrap.find('.file-bg').addClass('hidden');
+                    fileWrap.find('.fa-times').addClass('hidden');
+                    fileWrap.find('.upload-name').val('파일 선택');
                     $('.fileMap :file').removeData();
                 }
                 if(rowData['filelist']){
+                    console.log("fileList",rowData['filelist']);
                     $.each(rowData['filelist'],function(k,v){
                         if(v['safCode'].indexOf('.')>-1){
                             var tabGb = v['safCode'].split('.')[0];
-                            $('.'+tabGb+'.file').empty();
+                            $('.'+tabGb+'.I .file').empty();
 
                         }
                     });
@@ -804,7 +934,9 @@ $.fn.extend({
                             var tabGb = v['safCode'].split('.')[0];
 
                             //plus.evnet.fileElement(v['safCode'],v).appendTo($('.'+tabGb+'.file'));
-                            plus.event.fileElement(v['safCode'],v).appendTo($('.'+tabGb+'.file'));
+                            console.log('.'+tabGb+'.file');
+                            var fileElement = plus.event.fileElement(v['safCode'],v).appendTo($('.'+tabGb+'.I .file'));
+                            fileElement.find('.upload-name').val(v['safOrFile']);
 
                         }
                         console.log(k,v);
@@ -851,8 +983,71 @@ $.fn.extend({
 
 
             },
-            formAfter:function(pageContentLast,rowData,mode){
+            bbsfilebbs:function(rowData){
+                var filexCheck = false;
+                if(rowData['filelist']){
+                    if(rowData['filelist'].length){
+                        filexCheck=true;
+                        $('.file').empty();
 
+                        $.each(rowData['filelist'],function(k,v){
+                                var fileElement = plus.event.bbsfileElement(v['bafCode'],v).appendTo($('.file'));
+                                fileElement.find('.upload-name').val(v['bafOrFile']);
+                        });
+
+                    } else {
+
+                    }
+
+                }
+                if(filexCheck==false){
+                    $('.file').empty();
+                    var fileElement = plus.event.bbsfileElement('file', {}).appendTo($('.file'));
+                            fileElement.find('.upload-name').val('');
+                }
+                $('td.file').each(function(){
+                    if($(this).find('.add_file_div').length==0){
+                        var getId = plus.getId();
+                        var fileGb = $(this).attr('data');
+                        var fileGbName = [fileGb,getId].join('.');
+                        plus.event.fileElement(fileGbName, {}).appendTo($(this));
+                    }
+                })
+                $('.add_file').unbind('click').click(function(){
+
+                   var pElement = $(this).closest('td');
+
+                    var getId = plus.getId();
+                    var fileGb = pElement.attr('data');
+                    var fileGbName = [fileGb,getId].join('.');
+                    plus.event.fileElement(fileGbName, {}).appendTo(pElement);
+
+                   //var fileWrap = $(this).closest('div').clone().appendTo(pElement);
+
+                   // var getId = plus.getId();
+                   // fileWrap.find('.btn-st1').attr('for',getId);
+                   // var del_file = fileWrap.find('.del_file');
+                   //  del_file.removeClass('hidden').click(function(){
+                   //      $(this).closest('div').hide();
+                   //  })
+                   // fileWrap.find('.upload-name').val('');
+                   // var name=  fileWrap.find('.upload-hidden').attr('name');
+                   // if(name.indexOf('.')>-1){
+                   //     var fileGbName = [name.split('.')[0],getId].join('.');
+                   //     fileWrap.find('.upload-hidden').attr('name',fileGbName).attr('id',getId);
+                   // } else {
+                   //     fileWrap.find('.upload-hidden').attr('name',getId).attr('id',getId);
+                   // }
+
+
+
+                });
+
+
+
+            },
+            formAfter:function(pageContentLast,rowData,mode){
+                $('.error').html('');
                 $(".select2_group",pageContentLast).select2({width:'100%'});
                 // $('.btnEditElement',pageContentLast).unbind('click')
                 // $('.btnEditElement',pageContentLast).click(function(){
@@ -867,6 +1062,13 @@ $.fn.extend({
                 // $('.inp.datepicker',pageContentLast).datetimepicker({
                 //     format: 'YYYY-MM-DD'
                 // });
+
+                try {
+                    pageContentLast.find('tr.EDIT,tr.NEW').addClass('hidden');
+                    pageContentLast.find('tr.'+mode).removeClass('hidden');
+                } catch (e){
+                    console.log(e);
+                }
 
 
 
@@ -913,7 +1115,7 @@ $.fn.extend({
                     if(forcheck==0){
 
                         $.each(Object.keys(rowData),function(ik,i){
-                            console.log("eachkeys",rowData,mode);
+
                             var el = $('#'+i,pageContentLast);
 
                             if(el.length!=0){
@@ -1133,6 +1335,14 @@ $.fn.extend({
             tplSubmit:function(thisObj){
 
                 console.log("tplSubmit !!!!");
+                if($('#lnb a.currMenu').attr('mggrant')!='A'){
+                    Swal.fire(
+                        '해당 메뉴는 수정 권한이 없습니다.',
+                        '',
+                        'error'
+                    );
+                    return false;
+                }
                 var formCheck=false;
                 var tplViewForm = null;
                 try {
@@ -1153,7 +1363,7 @@ $.fn.extend({
                     //
                     // }
                 }
-                console.log(tplViewForm,$(this));
+                //console.log(tplViewForm,$(this));
 
 
                 var rules = {};
@@ -1380,11 +1590,28 @@ $.fn.extend({
         },
         frontPage:{
             show:function(pageContentLast,rowData,mode){
+                if($('#lnb a.currMenu').attr('mggrant')!='A'&&mode=='NEW'){
+                    Swal.fire(
+                        '해당 메뉴는 쓰기 권한이 없습니다.',
+                        '',
+                        'error'
+                    );
+                    return false;
+                }
                 pageContentLast.show();
                 $('.file-img2 img').attr('src','/admassets/images/sample.JPG');
                 plus.event.tabAfter(pageContentLast,rowData,mode)
             },
             popup:function(pageContentLast,rowData,mode){
+
+                if($('#lnb a.currMenu').attr('mggrant')!='A'&&mode=='NEW'){
+                    Swal.fire(
+                        '해당 메뉴는 쓰기 권한이 없습니다.',
+                        '',
+                        'error'
+                    );
+                    return false;
+                }
                 $('.hidden').hide();
                 pageContentLast.show();
                 pageContentLast.find('.'+mode).show();
@@ -1862,8 +2089,8 @@ $.fn.extend({
                 return set['settings']['_iDisplayStart']+(set['row']+1);
             },
             rrownum:function(val,f,row ,set){
-                var ipage = -parseInt((set['settings']['_iRecordsTotal']-set['settings']['_iDisplayStart'])/set['settings']['_iDisplayLength']);
-                return set['settings']['_iRecordsTotal'] - ((ipage+2) * set['settings']['_iDisplayLength'] + set['row'])
+
+                return set['settings']['_iRecordsTotal'] - ( set['settings']['_iDisplayStart'] + set['row'])
             },
             iddate:function(val,f,row){
                 var strValue = [];
@@ -1884,7 +2111,7 @@ $.fn.extend({
 
                 }
                 row['show_iddate'] = strValue.join('');
-                return strValue.join('');
+                return '<span class="clickkbox">'+strValue.join('')+'</span>';
             },
             img:function(d, t, r){
                 if(!d){
@@ -1972,8 +2199,24 @@ $.fn.extend({
               return val;
             },
             clickbox:function(d, t, r){
-              var div = plus.makeElement('a',d,{'href':'javascript:;','class':'clickkbox'});
-              return div.prop('outerHTML')
+                d = $.trim(d);
+                if(d=='NULL'){
+                    d = '';
+                }
+                if(d=='null'){
+                    d = '';
+                }
+
+                console.log('ddddddddd',d);
+                var div = plus.makeElement('a',$.trim(d),{'href':'javascript:;','class':'clickkbox'});
+                return div.prop('outerHTML')
+            },
+            clickboxview:function(d, t, r){
+                if(d=='NULL'){
+                    d = '';
+                }
+                var div = plus.makeElement('a','보기',{'href':'javascript:;','class':'clickkbox'});
+                return div.prop('outerHTML')
             },
             select:function( data, type, row ,set){
                 //var gb = $.extend({},{'0':'그룹선택'},ibms.codes.GB);
@@ -2004,14 +2247,184 @@ $.fn.extend({
                 }
                 return r;
             },
-            time:function(r,f,row,s){
-                try{
+            time:function(r,f,row,s) {
+                try {
                     var a = new Date(r);
                     return a.format('yy-MM-dd');
-                } catch(e){
+                } catch (e) {
                     console.log(e);
                 }
                 return r;
+            },
+            date:function(r,f,row,s) {
+                try {
+                    var a = new Date(r);
+
+                    console.log(r,f,row,s);
+                    return a.format('yyyy-MM-dd');
+                } catch (e) {
+                    console.log(e);
+                }
+                return r;
+            },
+            os:function(r,f,row,s){
+                var AgentUserOs=r;
+
+
+
+
+
+                    if(AgentUserOs.indexOf("WindowsCE") != -1) OSName="Windows CE";
+
+                    else if(AgentUserOs.indexOf("Windows95") != -1) OSName="Windows 95";
+
+                    else if(AgentUserOs.indexOf("Windows98") != -1) {
+
+                        if (AgentUserOs.indexOf("Win9x4.90") != -1) OSName="Windows Millennium Edition (Windows Me)"
+
+                            else OSName="Windows 98";
+
+                    }
+
+                    else if(AgentUserOs.indexOf("WindowsNT4.0") != -1) OSName="Microsoft Windows NT 4.0";
+
+                    else if(AgentUserOs.indexOf("WindowsNT5.0") != -1) OSName="Windows 2000";
+
+                    else if(AgentUserOs.indexOf("WindowsNT5.01") != -1) OSName="Windows 2000, Service Pack 1 (SP1)";
+
+                    else if(AgentUserOs.indexOf("WindowsNT5.1") != -1) OSName="Windows XP";
+
+                    else if(AgentUserOs.indexOf("WindowsNT5.2") != -1) OSName="Windows 2003";
+
+                    else if(AgentUserOs.indexOf("WindowsNT6.0") != -1) OSName="Windows Vista/Server 2008";
+
+                    else if(AgentUserOs.indexOf("WindowsNT6.1") != -1) OSName="Windows 7";
+
+                    else if(AgentUserOs.indexOf("WindowsNT6.2") != -1) OSName="Windows 8";
+
+                    else if(AgentUserOs.indexOf("WindowsNT6.3") != -1) OSName="Windows 8.1";
+
+                    else if(AgentUserOs.indexOf("WindowsNT6.4") != -1) OSName="Windows 10";
+
+                    else if(AgentUserOs.indexOf("WindowsPhone8.0") != -1) OSName="Windows Phone 8.0";
+
+                    else if(AgentUserOs.indexOf("WindowsPhoneOS7.5") != -1) OSName="Windows Phone OS 7.5";
+
+                    else if(AgentUserOs.indexOf("Xbox") != -1) OSName="Xbox 360";
+
+                    else if(AgentUserOs.indexOf("XboxOne") != -1) OSName="Xbox One";
+
+                    else if(AgentUserOs.indexOf("Win16") != -1) OSName="Windows 3.x";
+
+                    else if(AgentUserOs.indexOf("ARM") != -1) OSName="Windows RT";
+
+                    else OSName="Windows (Unknown)";
+
+
+
+                    if(AgentUserOs.indexOf("WOW64") != -1) OsVers=", WOW64";
+
+                    else if(AgentUserOs.indexOf("Win64;x64;") != -1) OsVers=", Win64 on x64";
+
+                    else if(AgentUserOs.indexOf("Win16") != -1) OsVers=" 16-bit";
+
+                    else OsVers=" on x86";
+
+
+                    if(AgentUserOs.indexOf("BlackBerry9000") != -1) OSName="BlackBerry9000";
+
+                    else if(AgentUserOs.indexOf("BlackBerry9300") != -1) OSName="BlackBerry9300";
+
+                    else if(AgentUserOs.indexOf("BlackBerry9700") != -1) OSName="BlackBerry9700";
+
+                    else if(AgentUserOs.indexOf("BlackBerry9780") != -1) OSName="BlackBerry9780";
+
+                    else if(AgentUserOs.indexOf("BlackBerry9900") != -1) OSName="BlackBerry9900";
+
+                    else if(AgentUserOs.indexOf("BlackBerry;Opera Mini") != -1) OSName="Opera/9.80";
+
+                    else if(AgentUserOs.indexOf("Symbian/3") != -1) OSName="Symbian OS3";
+
+                    else if(AgentUserOs.indexOf("SymbianOS/6") != -1) OSName="Symbian OS6";
+
+                    else if(AgentUserOs.indexOf("SymbianOS/9") != -1) OSName="Symbian OS9";
+
+                    else if(AgentUserOs.indexOf("Ubuntu") != -1) OSName="Ubuntu";
+
+                    else if(AgentUserOs.indexOf("PDA") != -1) OSName="PDA";
+
+                    else if(AgentUserOs.indexOf("NintendoWii") != -1) OSName="Nintendo Wii";
+
+                    else if(AgentUserOs.indexOf("PSP") != -1) OSName="PlayStation Portable";
+
+                    else if(AgentUserOs.indexOf("PS2;") != -1) OSName="PlayStation 2";
+
+                    else if(AgentUserOs.indexOf("PLAYSTATION3") != -1) OSName="PlayStation 3";
+
+                    else OSName="Linux (Unknown)";
+
+
+
+                    if(AgentUserOs.indexOf("x86_64") != -1) OsVers=", x86_64";
+
+                    else if(AgentUserOs.indexOf("i686") != -1) OsVers=", i686";
+
+                    else if(AgentUserOs.indexOf("i686 on x86_64") != -1) OsVers=", i686 running on x86_64";
+
+                    else if(AgentUserOs.indexOf("armv7l") != -1) OsVers=" Nokia N900 Linux mobile, on the Fennec browser";
+
+                    else if(AgentUserOs.indexOf("IA-32") != -1) OsVers=" 32-bit";
+
+                    else OsVers="";
+
+
+
+                    if(AgentUserOs.indexOf("iPhoneOS3") != -1) OSName="iPhone OS 3";
+
+                    else if(AgentUserOs.indexOf("iPhoneOS4") != -1) OSName="iPhone OS 4";
+
+                    else if(AgentUserOs.indexOf("iPhoneOS5") != -1) OSName="iPhone OS 5";
+
+                    else if(AgentUserOs.indexOf("iPhoneOS6") != -1) OSName="iPhone OS 6";
+
+                    else if(AgentUserOs.indexOf("iPhoneOS7") != -1) OSName="iPhone OS 7";
+
+                    else if(AgentUserOs.indexOf("iPhoneOS8") != -1) OSName="iPhone OS 8";
+
+                    else if(AgentUserOs.indexOf("iPad") != -1) OSName="iPad";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_1")||AgentUserOs.indexOf("MacOSX10.1")) != -1) OSName="Mac OS X Puma";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_2")||AgentUserOs.indexOf("MacOSX10.2")) != -1) OSName="Mac OS X Jaguar";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_3")||AgentUserOs.indexOf("MacOSX10.3")) != -1) OSName="Mac OS X Panther";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_4")||AgentUserOs.indexOf("MacOSX10.4")) != -1) OSName="Mac OS X Tiger";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_5")||AgentUserOs.indexOf("MacOSX10.5")) != -1) OSName="Mac OS X Leopard";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_6")||AgentUserOs.indexOf("MacOSX10.6")) != -1) OSName="Mac OS X Snow Leopard";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_7")||AgentUserOs.indexOf("MacOSX10.7")) != -1) OSName="Mac OS X Lion";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_8")||AgentUserOs.indexOf("MacOSX10.8")) != -1) OSName="Mac OS X Mountain Lion";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_9")||AgentUserOs.indexOf("MacOSX10.9")) != -1) OSName="Mac OS X Mavericks";
+
+                    else if((AgentUserOs.indexOf("MacOSX10_10")||AgentUserOs.indexOf("MacOSX10.10")) != -1) OSName="Mac OS X Yosemite";
+
+                    else OSName="MacOS (Unknown)";
+
+
+
+                    if(AgentUserOs.indexOf("Intel") != -1) OsVers=" on Intel x86 or x86_64";
+
+                    else if(AgentUserOs.indexOf("PPC") != -1) OsVers=" on PowerPC";
+
+
+              var OSDev = OSName + OsVers;
+
+                return OSDev;
             },datetime:function(r,f,row,s){
                 try{
                     var a = new Date(r);
@@ -2099,12 +2512,12 @@ $.fn.extend({
             rownum:false,
             "columns" : [],
             "drawCallback":function( settings, json){
-              console.log('"drawCallback":function( settings, json){');
+              //console.log('"drawCallback":function( settings, json){');
               var dataTableEl = $('#'+settings.sInstance).closest(".dataTables_wrapper");
               plus.gridPageNavi(dataTableEl);
             },
             "initComplete":function( settings, json){
-                console.log('initComplete');
+                //console.log('initComplete');
 
                 //var dataTable = $('#'+settings.sInstance).DataTable();
                 var dataTableEl = $('#'+settings.sInstance).closest(".dataTables_wrapper");
@@ -2225,10 +2638,10 @@ $(document).ready(function(){
         $('body').css("overflow", "scroll");
     });
     var li =plus.makeElement('li');
-    var pburl = document.location.pathname.split('/')[2]
-    var a = plus.makeElement('a','퍼블',{href:'javascript:window.open(\'/admassets/pages/'+pburl+'.html\',\'pb\')'})
-    a.appendTo(li);
-    var a = plus.makeElement('a','퍼블사이트맵',{href:'javascript:window.open(\'/admassets/sitemap.html\',\'sitemap\')'})
+    // var pburl = document.location.pathname.split('/')[2]
+    // var a = plus.makeElement('a','퍼블',{href:'javascript:window.open(\'/admassets/pages/'+pburl+'.html\',\'pb\')'})
+    // a.appendTo(li);
+    var a = plus.makeElement('a','퍼블사이트맵',{href:'javascript:window.open(\'http://hsk3807nas.synology.me/aigo/admin/sitemap.html\',\'sitemap\')'})
     a.appendTo(li);
     li.appendTo($('.content-header .fR'))
 });

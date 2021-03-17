@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontPromotionDAO">
+
+	<!-- 성취기준 리스트 조회 -->
+	<select id="selectPromotionList" parameterType="map" resultType="camelMap">
+		/* FrontPromotionDAO.selectPromotionList*/
+		SELECT p.prm_id,
+		       p.prm_start_date,
+		       p.prm_end_date,
+		       p.prm_name,
+		       p.prm_event,
+		       p.prm_target,
+		       p.prm_date,
+		       p.prm_order,
+		       p.user_active,
+		       f.saf_seq
+		FROM   	  aigo.cb_aigo_promotion p
+		LEFT JOIN aigo.plus_site_attach_file f
+		ON		  p.prm_id = f.seq
+		AND		  f.saf_bbs = 'PRM'
+		WHERE  1 = 1
+		AND	   p.use_yn = 'y'
+		<choose>
+			<when test='!@com.plushih.common.utils.StringUtils@isEmpty(prmId)'>
+				AND p.prm_id = #{prmId}
+			</when>
+		</choose>
+	</select>
+
+</mapper>

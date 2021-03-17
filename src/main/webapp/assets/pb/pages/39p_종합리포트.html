@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>수능앱 Aigo</title>
+
+<link rel="stylesheet" href="../assets/css/style_m.css">
+
+<link rel="stylesheet" href="../assets/plugin/owlcarousel/owl.carousel.min.css">
+<link rel="stylesheet" href="../assets/plugin/owlcarousel/owl.theme.default.css">
+
+<script type="text/javascript" src="../assets/js/jquery-1.12.4.min.js"></script>
+<script src="../assets/js/script_m.js"></script>
+<script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+
+</head>
+
+<body class="report_body">
+<div class="wrapper">
+  <header class="header">
+    <a href="#" class="btn_allmenu">전체메뉴</a>
+    <h1 class="title"><span class="txt_AI">AI</span> 종합 리포트</h1>
+    <div class="my_cont">
+      <p class="my_id">jeehyun@aigo.com님</p>
+      <div class="my_grade">
+        <span>고 3 </span><span class="bar">최초 레벨1</span>
+        <span class="fc1">현재 레벨 3</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container report">
+    <section class="contents">
+      <p class="tit">최초 등급 6등급</p><!-- 수정0219 -->
+      <p class="txt_st3">현재까지의 성취도 예상 등급 #등급 (오차범위 ± #)</p><!-- 수정0219 -->
+
+      <!-- 수정0223 -->
+      <div class="chart_div2">
+        <canvas id="chartLine1" style="width:100%"></canvas>
+        <div class="my_label_wrap">
+          <span class="my_posi_box my_label"  style="top:55%">
+            <span>나의 레벨</span>
+            <span class="bg"></span>
+          </span>
+        </div>
+      </div>
+      <!-- //수정0223 -->
+    </section>
+
+    <section class="contents study_q_cont">
+      <div class="div1">
+        <div class="left">
+          <span>LD 학습 중</span>
+          <p><strong>9,999</strong> <span>시간</span></p>
+        </div>
+        <div class="right bg1">
+          <span>누적학습시간</span>
+          <p><strong>6,686</strong> <span>시간</span></p>
+        </div>
+      </div>
+      <!-- 수정0219 -->
+      <div class="div2">
+        <div class="left">
+          <p><span class="tit">최초 학습일</span><span>2019-08-25  12시 20분</span></p>
+          <p><span class="tit">최근 학습일</span><span>2019-08-25  12시 20분</span></p>
+        </div>
+       <div class="right">
+          <p><span class="tit">전월 대비시간</span><span>3,686시간</span></p>
+          <p><span class="tit">전일 대비시간</span><span class="increase">10시간</span></p>
+        </div>
+      </div>
+      <!-- //수정0219 -->
+    </section>
+
+    <section class="contents">
+      <h2>누적 학습시간 추이</h2>
+      <div class="chart_div mt30"><!-- 수정0219 -->
+        <canvas id="chartLine2" style="width:100%"></canvas>
+
+      </div>
+    </section>
+
+    <section class="contents study_q_cont">
+      <div class="div1">
+        <div class="left bg1">
+          <span>맞춘 문항수</span>
+          <p><strong>99,999</strong></p>
+        </div>
+        <div class="right">
+          <span>전체풀이 문항수</span>
+          <p><strong>99,999</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contents">
+      <h2>정답율 추이</h2>
+      <div class="tab_wrap mt35"><!-- 수정0219 -->
+        <div class="tab_div tab3">
+          <a href="#" class="tab_a1 tab_a active" type="button">6개월</a>
+          <a href="#" class="tab_a2 tab_a" type="button">30일</a>
+          <a href="#" class="tab_a3 tab_a" type="button">7일</a>
+        </div>
+      </div>
+      <div class="tab_cont_wrap">
+        <div class="tab_cont1 tab_cont active">
+          <div class="chart_div">
+            <canvas id="rateChart1" style="width:100%"></canvas>
+          </div>
+        </div>
+        <div class="tab_cont2 tab_cont">
+          <div class="chart_div">
+            <canvas id="rateChart2" style="width:100%"></canvas>
+          </div>
+        </div>
+        <div class="tab_cont3 tab_cont">
+          <div class="chart_div">
+            <canvas id="rateChart3" style="width:100%"></canvas>
+          </div>
+        </div>
+    </section>
+
+    <section class="contents study_pattern">
+      <h2>나의 학습 패턴</h2>
+      <div class="div_wrap">
+        <div class="left">
+          <div class="chart_div pattern_chart">
+            <div><canvas id="myChart1" width="110" height="110"></canvas></div>
+            <ul>
+              <li><i class="dot dot1"></i><span>월</span></li>
+              <li><i class="dot dot2"></i><span>화</span></li>
+              <li><i class="dot dot3"></i><span>수</span></li>
+              <li><i class="dot dot4"></i><span>목</span></li>
+              <li><i class="dot dot5"></i><span>금</span></li>
+              <li><i class="dot dot6"></i><span>토</span></li>
+              <li><i class="dot dot7"></i><span>일</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="chart_div pattern_chart">
+            <div><canvas id="myChart2" width="110" height="110"></canvas></div>
+            <ul>
+              <li><i class="dot dot1"></i><span>밤</span></li>
+              <li><i class="dot dot2"></i><span>오전</span></li>
+              <li><i class="dot dot2"></i><span>점심</span></li> <!-- 수정0304 -->
+              <li><i class="dot dot3"></i><span>저녁</span></li>
+              <li><i class="dot dot4"></i><span>아침</span></li>
+              <li><i class="dot dot5"></i><span>오후</span></li>
+              <li><i class="dot dot6"></i><span>새벽</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contents2">
+      <h2>문항별 분석</h2>
+      <button class="btn btn_st3 mb15">주간학습 상세 문항분석</button>
+      <button class="btn btn_st3" disabled="disabled">레벨평가 상세 문항분석</button>
+    </section>
+
+    <section class="contents unit_conts">
+      <h2 class="mbx">jeehyun@aigo.com님의 <br>강점 단원</h2>
+      <div class="unit_card_slide">
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math04"></i>
+            <span class="txt">삼각함수</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math03"></i>
+            <span class="txt">수열</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math07"></i>
+            <span class="txt">극한</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math04"></i>
+            <span class="txt">함수의 극한과 연속</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math05"></i>
+            <span class="txt">경우의 수</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math06"></i>
+            <span class="txt">확률</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math07"></i>
+            <span class="txt">수열의 극한</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math08"></i>
+            <span class="txt">이차곡선</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math09"></i>
+            <span class="txt">평면벡터</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+      </div>
+
+      <h3>AIGo 경쟁자들의 강점 단원</h3>
+      <div class="unit_st_div">
+        <div class="div">
+          <p class="tit fL"><i class="ico_math04"></i><span>삼각함수</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math03"></i><span>수열</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math07"></i><span>극한</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math02"></i><span>삼각함수</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math03"></i><span>수열</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="contents unit_conts">
+      <h2 class="mbx">jeehyun@aigo.com님 <br>취약 단원</h2>
+      <div class="unit_card_slide">
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math01"></i>
+            <span class="txt">지수함수와 로그함수</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math02"></i>
+            <span class="txt">삼각함수</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math03"></i>
+            <span class="txt">수열</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math04"></i>
+            <span class="txt">함수의 극한과 연속</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math05"></i>
+            <span class="txt">경우의 수</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math06"></i>
+            <span class="txt">확률</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math07"></i>
+            <span class="txt">수열의 극한</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math08"></i>
+            <span class="txt">이차곡선</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+        <div class="unit_card">
+          <div class="div">
+            <i class="ico_math09"></i>
+            <span class="txt">평면벡터</span>
+          </div>
+          <div class="btm"><span>정답률 <em>88%</em></span></div>
+        </div>
+      </div>
+
+      <h3>AIGo 경쟁자들의 취약 단원</h3>
+      <div class="unit_st_div">
+        <div class="div">
+          <p class="tit fL"><i class="ico_math04"></i><span>삼각함수</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math03"></i><span>수열</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math08"></i><span>이차곡선</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math02"></i><span>삼각함수</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+        <div class="div">
+          <p class="tit fL"><i class="ico_math03"></i><span>수열</span></p>
+          <span class="txt fR">정답율 <em>88%</em></span>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- //container -->
+
+
+</div>
+
+ <!-- 차트 -->
+<script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
+
+<script src="../assets/plugin/utils.js"></script>
+<script src="../assets/plugin/chartjs-plugin-doughnutlabel.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-deferred"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/ScrollTrigger.min.js"></script>
+<script src="../assets/plugin/owlcarousel/owl.carousel.min.js"></script>
+<script type="text/javascript">
+  aTab();
+  unitCardSlider();
+</script>
+
+<script>
+ function animateFrom(elem, direction) {
+		direction = direction | 1.5;
+
+		var x = 0,
+		y = direction * 100;
+
+		gsap.fromTo(elem, {x: x, y: y, autoAlpha: 0}, {
+			duration: 1,
+			x: 0,
+			y: 0,
+			autoAlpha: 1,
+			ease: "expo",
+			overwrite: "auto"
+		});
+}
+
+	function hide(elem) {
+		gsap.set(elem, {autoAlpha: 0});
+	}
+
+	document.addEventListener("DOMContentLoaded", function() {
+		gsap.registerPlugin(ScrollTrigger);
+
+		gsap.utils.toArray(".chart_div").forEach(function(elem) {
+			hide(elem); // assure that the element is hidden when scrolled into view
+
+			ScrollTrigger.create({
+				trigger: elem,
+				onEnter: function() { animateFrom(elem) },
+				onEnterBack: function() { animateFrom(elem, -1) },
+				onLeave: function() { hide(elem) } // assure that the element is hidden when scrolled into view
+			});
+		});
+	});
+
+
+//수정0223
+//나의 레벨 차트 
+if (!Array.prototype.find) {
+  Object.defineProperty(Array.prototype, 'find', {
+    value: function(predicate) {
+     // 1. Let O be ? ToObject(this value).
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If IsCallable(predicate) is false, throw a TypeError exception.
+      if (typeof predicate !== 'function') {
+        throw new TypeError('predicate must be a function');
+      }
+
+      // 4. If thisArg was supplied, let T be thisArg; else let T be undefined.
+      var thisArg = arguments[1];
+
+      // 5. Let k be 0.
+      var k = 0;
+
+      // 6. Repeat, while k < len
+      while (k < len) {
+        // a. Let Pk be ! ToString(k).
+        // b. Let kValue be ? Get(O, Pk).
+        // c. Let testResult be ToBoolean(? Call(predicate, T, « kValue, k, O »)).
+        // d. If testResult is true, return kValue.
+        var kValue = o[k];
+        if (predicate.call(thisArg, kValue, k, o)) {
+          return kValue;
+        }
+        // e. Increase k by 1.
+        k++;
+      }
+
+      // 7. Return undefined.
+      return undefined;
+    }
+  });
+}
+
+Chart.plugins.register({
+  afterDraw: function(chartInstance) {
+    if (chartInstance.config.options.pointReferenceLetters || chartInstance.config.options.pointReferenceLetters) {
+      var references = chartInstance.config.options.pointReferenceLetters.references || [];
+      var helpers = Chart.helpers;
+      var ctx = chartInstance.chart.ctx;
+      var fontColor = helpers.getValueOrDefault(chartInstance.config.options.pointReferenceLetters.fontColor, chartInstance.config.options.defaultFontColor);
+
+      // render the value of the chart above the bar
+      ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize + 5, 'normal', Chart.defaults.global.defaultFontFamily);
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'bottom';
+      ctx.fillStyle = fontColor;
+
+      chartInstance.data.datasets.forEach(function (dataset, dsindex) {
+        for (var i = 0; i < dataset.data.length; i++) {
+          // note, many browsers don't support the array.find() function.
+          // if you use this then be sure to provide a pollyfill
+          var refPoint = references.find(function(e) {
+            return e.datasetIndex == dsindex && e.dataIndex === i
+          });
+          
+          if (refPoint) {         
+            var model = dataset._meta[Object.keys(dataset._meta)[0]].data[i]._model;
+            ctx.fillText(refPoint.reference, model.x, model.y + 30);
+          }
+        }
+      });
+    }
+  }
+});
+var ctxLine1 = document.getElementById('chartLine1');
+
+var chartLine1 = new Chart(ctxLine1, {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: '',
+        backgroundColor: 'transparent',
+        borderColor: "rgba(59, 112, 219, 1)",
+        pointBorderColor: "rgba(59, 112, 219, 1)",
+        pointBackgroundColor: "rgba(59, 112, 219, 1)",
+        data: [
+          0,75,15,20,10
+        ],
+    pointRadius: [0, 0,  4, 0, 0],
+        fill: false,
+      }],
+      labels: ['1', '2',  '3', '4', '5'],
+    },
+    options: {
+    hover: {mode: null},
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      elements: {
+        line: {
+          borderWidth:1
+        },
+         point:{
+              radius: 0
+          }
+      },
+    tooltips: {
+     enabled: false,
+    },
+   plugins: {
+
+    datalabels: {
+      color: 'transparent',
+     }
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          ticks: {
+            fontColor: '#656565',
+            fontSize : 10,
+          },
+          gridLines: {
+            zeroLineColor: '#ddd',
+            drawBorder: false,
+          }
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            display: false,
+            min: 0,
+            stepSize : 25,
+            max: 101,
+            fontSize : 10,
+          },
+           gridLines: {
+            zeroLineColor: '#ddd',
+            drawBorder: false,
+          }
+        }]
+      },
+    tooltips:{
+        backgroundColor: '#102658',
+        titleFontSize: 12,
+        titleFontColor: '#fff',
+        bodyFontColor: '#fff',
+        bodyFontSize: 10,
+        displayColors: false
+      },
+   pointReferenceLetters: {
+      display: true,
+      fontColor: '#000',
+      references: [
+      {dataIndex: 2, reference: 'B'},
+      ]
+    },
+
+      
+
+    }
+  });
+//수정0223
+
+
+//누적 학습시간 추이
+var ctxLine2 = document.getElementById('chartLine2');
+var chartLine2 = new Chart(ctxLine2, {
+    type: 'line',
+    data: {
+      datasets: [{
+        backgroundColor: "rgba(59, 112, 219, 0.1)",
+        borderColor: "rgba(59, 112, 219, 1)",
+        pointBorderColor: "rgba(59, 112, 219, 1)",
+        pointBackgroundColor: "rgba(59, 112, 219, 1)",
+	    data:[0,340,400,510,600], //수정0219
+        fill: true,
+        lineTension: 0,
+      }],
+      labels: ['1', '2',  '3', '4', '5']
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false
+      },
+      elements: {
+        line: {
+          borderWidth:1
+        }
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+              display:false
+          },
+          //수정0219
+          ticks: {
+            fontSize : 10,
+            fontColor: '#656565'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            display: false,
+            min: 0,
+            stepSize : 200,
+            max: 800,
+            fontSize : 10,
+            fontColor: '#656565'//수정0219
+          },
+          gridLines: {
+            drawBorder: false,
+            zeroLineColor: '#ddd'//수정0219
+          }
+        }]
+      },
+       animation : {
+
+	   },
+      tooltips:{
+        backgroundColor: '#102658',
+        titleFontSize: 12,
+        titleFontColor: '#fff',
+        bodyFontColor: '#fff',
+        bodyFontSize: 10,
+        displayColors: false
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: '나의 레벨'
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        },
+        deferred: {
+          xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+          yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+          delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+        },
+              // Change options for ALL labels of THIS CHART
+        datalabels: {
+          color: '#000',//수정0219
+          font: {size: 12},//수정0219
+           align: function(context) {
+              var value = context.dataset.data[context.dataIndex];
+              return value > 0 ? 'end' : 'end';
+            },
+            anchor: function(context) {
+              var value = context.dataset.data[context.dataIndex];
+              return value > 0 ? 'end' : 'start';
+            }
+        }
+      }
+    }
+  });
+/*
+function next() {
+	var data = chartLine2.data.datasets[0].data;
+	var count = data.length;
+	data[count] = data[count - 1];
+	chartLine2.update({duration: 0});
+	data[count] = myData[count];
+	chartLine2.update();
+	if (count < data.length) {
+		setTimeout(next, 500);
+	}
+}
+setTimeout(next, 500);
+*/
+
+//정답율 차트
+var rctx1 = document.getElementById('rateChart1');
+
+var rateChart1 = new Chart(rctx1, {
+    type: 'line',
+    data: {
+      datasets: [{
+        label: '',
+        backgroundColor: "transparent",
+        borderColor: "rgba(59, 112, 219, 1)",
+        pointBorderColor: "rgba(59, 112, 219, 1)",
+        pointBackgroundColor: "rgba(59, 112, 219, 1)",
+        data: [78, 82, 90, 91, 92],
+        fill: false
+      }],
+      labels: ['1', '2',  '3', '4', '5']
+
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      legend: {
+        display: false ,
+      },
+      elements: {
+        line: {
+          borderWidth:1
+        }
+      },
+      plugins: {
+        title: {
+            display: true,
+            text: '나의 레벨'
+          },
+          tooltip: {
+          mode: 'index',
+          intersect: false,
+        },
+        deferred: {
+          xOffset: 150,   // defer until 150px of the canvas width are inside the viewport
+          yOffset: '50%', // defer until 50% of the canvas height are inside the viewport
+          delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+        },
+              // Change options for ALL labels of THIS CHART
+        datalabels: {
+          color: '#000',//수정0219
+          font: {size: 12},//수정0219
+          align: function(context) {
+            var value = context.dataset.data[context.dataIndex];
+            return value > 0 ? 'end' : 'end';
+          },
+          anchor: function(context) {
+            var value = context.dataset.data[context.dataIndex];
+            return value > 0 ? 'end' : 'start';
+          },
+          formatter: function(value, context) {
+           return  context.dataset.data[context.dataIndex] + '%';
+          }
+        }
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
+      scales: {
+        xAxes: [{
+          display: true,
+          gridLines: {
+              display:false
+          },
+          //수정0222
+          ticks: {
+            fontSize : 10,
+            fontColor: '#656565'
+          }
+        }],
+        yAxes: [{
+          display: true,
+          ticks: {
+            display: false,
+            min: 70,
+            stepSize : 5,
+            max: 100 
+          },
+          gridLines: {
+            drawBorder: false
+          }
+        }]
+      },
+      animation: {
+        duration: 1000,
+      },
+      tooltips:{
+        backgroundColor: '#102658',
+        titleFontSize: 12,
+        titleFontColor: '#fff',
+        bodyFontColor: '#fff',
+        bodyFontSize: 10,
+        displayColors: false
+      }
+    }
+  });
+
+//나의학습패턴 차트1
+var ctx1 = document.getElementById('myChart1');
+var myChart1 = new Chart(ctx1, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+        ],
+        backgroundColor: [
+          "#081985",
+          "#1242a6",
+          "#1c6abc",
+          "#1c6abc",
+          "#1c6abc",
+          "#2bb1e4",
+          "#2fc0ed",
+        ],
+        label: 'Dataset 1'
+      }],
+      labels: [
+        '월','화','수','목','금','토','일'
+      ]
+    },
+    options: {
+      //responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+
+        doughnutlabel: {
+          labels: [
+            {
+              text: '일요일',
+              font: {
+                size: 12,
+                lineHeight: 1.7 //수정0308
+              },
+              color: '#000' //수정0219
+            },
+            {
+              text: '23%',
+              font: {
+                size: 14,
+                weight: 'bold'
+              },
+              color: '#000' //수정0219
+            }
+          ]
+        },
+        deferred: {
+          delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+        },
+        datalabels: {
+          display:false
+        }
+      },
+      animation: {
+        duration: 1000,
+        animateScale: false,
+        animateRotate: true
+      },
+      cutoutPercentage: 70,
+      legend: {
+        display:false
+      },
+      tooltips: {
+           enabled: true,
+           mode: 'label',
+           callbacks: {
+              label: function(tooltipItem, data) {
+                  var indice = tooltipItem.index;
+                  return data.datasets[0].data[indice] + "% " + data.labels[indice] + '요일';
+              }
+           }
+       }
+    }
+  });
+
+var ctx2 = document.getElementById('myChart2');
+var myChart1 = new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+      datasets: [{
+        data: [
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor(),
+          randomScalingFactor()
+        ],
+        backgroundColor: [
+          "#081985",
+          "#1242a6",
+          "#1c6abc",
+          "#1c6abc",
+          "#1c6abc",
+          "#2bb1e4"
+        ],
+        label: 'Dataset 1'
+      }],
+      labels: [
+        '밤','오전','저녁','아침','오후','새벽'
+      ]
+    },
+    options: {
+      //responsive: true,
+      maintainAspectRatio: false,
+
+      plugins: {
+
+        doughnutlabel: {
+          labels: [
+            {
+              text: '밤시간',
+              font: {
+                size: 12,
+                lineHeight: 1.7 //수정0308
+              },
+              color: '#000' //수정0219
+            },
+            {
+              text: '25%',
+              font: {
+                size: 14,
+                weight: 'bold'
+              },
+              color: '#000' //수정0219
+            }
+          ]
+        },
+        deferred: {
+          delay: 500      // delay of 500 ms after the canvas is considered inside the viewport
+        },
+        datalabels: {
+          display:false
+        }
+      },
+      animation: {
+        duration: 1000,
+        animateScale: false,
+        animateRotate: true
+      },
+      cutoutPercentage: 70,
+      legend: {
+        display:false
+        // position:'bottom',
+        // align: 'start',
+        // labels: {
+        //   fontSize:12,
+        //   pointStyle:'circle',
+        //   usePointStyle:true,
+        //   fontSize:10,
+        //   padding:10
+        // }
+      },
+      tooltips: {
+           enabled: true,
+           mode: 'label',
+           callbacks: {
+              label: function(tooltipItem, data) {
+                  var indice = tooltipItem.index;
+                  return data.datasets[0].data[indice] + "% " + data.labels[indice] + '시간';
+              }
+           }
+       }
+    }
+  });
+/*
+Chart.Legend.prototype.afterFit = function() {
+    this.height = this.height + 50;
+};
+*/
+</script>
+
+</body>
+
+</html>

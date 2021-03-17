@@ -147,8 +147,22 @@ public class AjaxAigoCommentaryAdminController extends CoreController {
         plusActiveRecord db =new plusActiveRecord(functionName,request);
         db.from("cb_aigo_commentary");
         Integer insertID = aigoCommentaryService.setCommentaryExcute(db, aigoCommentaryEntity);
+
+         MultiValueMap<String, MultipartFile> fileuploads = request.getMultiFileMap();
+        Iterator<String> iterator = fileuploads.keySet().iterator();
+
+        while(iterator.hasNext()) {
+
+            String key = iterator.next();
+            LinkedList<MultipartFile> df = (LinkedList<MultipartFile>) fileuploads.get(key);
+
+            MultipartFile fileInfo = (MultipartFile) df.getFirst();
+            if (fileInfo.getSize() > 0) {
+                siteFileUploadService.uploadFile(fileInfo, 0, "/CMTR", "CMTR", insertID, key);
+            }
+        }
         
-        Debug.log("Debug.log(db.flag);+++++++++"+db.flag);
+        Debug.log("Debug.log(db.flag);++asdfa+++++++"+db.flag);
         commonResultEntity = db.getOut();
         logEnd(fullName);
         return commonResultEntity;

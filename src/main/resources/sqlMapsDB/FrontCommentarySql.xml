@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontCommentaryDAO">
+
+	<!-- 성취기준 상세 조회 -->
+	<select id="selectCommentaryDetail" parameterType="map" resultType="camelMap">
+		/* FrontAchieveDAO.selectCommentaryDetail*/
+		select * from (
+			select a.qst_id, a.sub_id, a.sub_name, a.lev_id, a.acv_id, a.acv_name
+				, a.all_true_cnt, a.all_test_cnt, a.all_cpt_id
+				, @val := round((a.all_true_cnt / a.all_test_cnt) * 100, 1) as valPer
+				, case when @val <![CDATA[<=]]> 25 then 'A'
+					when @val <![CDATA[>]]> 25 and @val <![CDATA[<=]]> 50 then 'B'
+					when @val <![CDATA[>]]> 50 and @val <![CDATA[<=]]> 75 then 'C'
+					when @val <![CDATA[>]]> 75 and @val <![CDATA[<=]]> 90 then 'D'
+					when @val <![CDATA[>]]> 90 and @val <![CDATA[<=]]> 100 then 'E'
+				end lev_name
+				, (a.all_true_cnt / a.all_test_cnt) as per, a.cmtr_id
+			from (
+				select a.qst_id, a.sub_id, a.sub_name, a.acv_id, a.acv_name, a.cmtr_id, a.cmtr_name, a.lev_id
+					, (select count(m.qst_id) from cb_aigo_my_answer_list m where 1=1 and a.qst_id = m.qst_id and m.use_yn = 'y') as all_test_cnt
+					, (select count(m.qst_id) from cb_aigo_my_answer_list m where 1=1 and a.qst_id = m.qst_id and m.use_yn = 'y' and m.pass_yn = 'y') as all_true_cnt
+                    , a.all_cpt_id
+				from (
+					select distinct q.qst_id, q.sub_id, s.sub_name, q.lev_id
+						, q.acv_id, ach.acv_name, q.cmtr_id, ct.cmtr_name
+						, case when q.qst_rel_not_id = 'NULL' then null else q.qst_rel_not_id end all_cpt_id
+					from cb_aigo_question q
+					left join cb_aigo_subject s on q.sub_id = s.sub_id and s.use_yn = 'y'
+					left join cb_aigo_achievement ach on q.acv_id = ach.acv_id and q.sub_id = ach.sub_id and q.lev_id = ach.lev_id and ach.use_yn = 'y'
+					left join cb_aigo_commentary ct on q.cmtr_id = ct.cmtr_id and q.qst_id = ct.qst_id and ct.use_yn = 'y'
+					where 1=1 and q.qst_id = #{qstId} and q.use_yn = 'y' and ct.cmtr_id = #{cmtrId}
+				) a
+			) a
+		) a
+	</select>
+	
+	<!-- 해설관리 컨텐츠 조회 -->
+	<resultMap id="commentaryResultMap" type="aigoCommentaryEntity">
+		<result property="cmtrId"		column="cmtr_id"/>
+		<result property="qstId"		column="qst_id"/>
+		<result property="cmtrKey"		column="cmtr_key"/>
+		<result property="cmtrName"		column="cmtr_name"/>
+		<result property="cmtrType"		column="cmtr_type"/>
+		<result property="cmtrValue"	column="cmtr_value"/>
+		<result property="cmtrOrder"	column="cmtr_order"/>
+		<result property="cmtrText"		column="cmtr_text"/>
+		<result property="useYn"		column="use_yn"/>
+		<result property="regDate"		column="reg_date"/>
+		<result property="regUmSeq"		column="reg_um_seq"/>
+		<result property="udtDate"		column="udt_date"/>
+		<result property="udtUmSeq"		column="udt_um_seq"/>
+		<result property="qstKey"		column="qst_key"/>
+		<result property="regUmName"	column="reg_um_name"/>
+		<result property="regUmId"		column="reg_um_id"/>
+		<collection property="fileList"	column="cmtr_id" javaType="java.util.ArrayList" ofType="siteAttachFileEntity" select="selectCommentaryFileList"/>
+	</resultMap>
+	<select id="selectCommentaryInfo" parameterType="aigoCommentaryEntity" resultMap="commentaryResultMap">
+		/* FrontCommentaryDAO.selectCommentaryInfo */
+		select
+			ac.cmtr_id
+			, ac.qst_id
+			, ac.cmtr_key
+			, ac.cmtr_name
+			, ac.cmtr_type
+			, ac.cmtr_value
+			, ac.cmtr_order
+			, ac.cmtr_text
+			, ac.use_yn
+			, ac.reg_date
+			, ac.reg_um_seq
+			, ac.udt_date
+			, ac.udt_um_seq
+			, ac.reg_sysdate
+			, ac.udt_sysdate
+			, ac.cmtr_play_path
+		from cb_aigo_commentary as ac
+		where ac.cmtr_id = #{cmtrId}
+			and ac.use_yn = 'y'
+		order by reg_date desc
+		limit 1
+	</select>
+	<select id="selectCommentaryFileList" resultType="siteAttachFileEntity">
+		/* FrontCommentaryDAO.selectCommentaryFileList */
+		select
+			saf.saf_seq
+			, saf.seq
+			, saf.saf_bbs
+			, saf.saf_type
+			, saf.saf_or_file
+			, saf.saf_file
+			, saf.saf_path
+			, saf.saf_code
+			, saf.saf_desc
+			, saf.reg_date
+			, saf.reg_sysdate
+			, saf.udt_sysdate
+		from plus_site_attach_file as saf
+		where
+			saf.seq = #{cmtrId}
+			and saf.saf_bbs = 'CMTR'
+	</select>
+	
+	<select id="selectCptNames" parameterType="map" resultType="camelMap">
+		/* FrontCommentaryDAO.selectCptNames */
+		select
+			ifnull(group_concat(c.cpt_id ORDER BY c.cpt_id SEPARATOR ','),'') as all_cpt_id
+			, ifnull(group_concat(c.acv_id ORDER BY c.cpt_id SEPARATOR ','),'') as all_acv_id
+			, ifnull(group_concat(c.cpt_name ORDER BY c.cpt_id SEPARATOR ','),'') as all_cpt_name
+		from aigo.cb_aigo_notion n, aigo.cb_aigo_concept c
+		where 1=1
+		and n.cpt_id = c.cpt_id 
+		and n.not_id in 
+		<foreach collection='allCptId' index='index' item='item' open='(' close=')' separator=','>
+			#{item}
+		</foreach>
+	</select>
+	
+</mapper>

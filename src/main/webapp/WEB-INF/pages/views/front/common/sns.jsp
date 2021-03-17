@@ -50,7 +50,7 @@
 	// SNS 가입
 	function fnJoinSns(type){
 		if(type == 'kakao'){
-			paramKakaoApi.redirectUri = sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.kakao;
+			paramKakaoApi.redirectUri = encodeURIComponent(sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.kakao+"&token=${dvicetoken}");
 			Kakao.init(sns.kakaoKey);
 			Kakao.Auth.authorize(paramKakaoApi);
 		} else if(type == 'facebook'){
@@ -60,11 +60,11 @@
 			facebookApiUrl += 'response_type=code';
 			facebookApiUrl += '&display=popup';
 			facebookApiUrl += '&app_id='+sns.facebookKey;
-			facebookApiUrl += '&redirect_uri='+sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.facebook;
+			facebookApiUrl += '&redirect_uri='+encodeURIComponent(sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.facebook+"&token=${dvicetoken}");
 			facebookApiUrl += '&scope=public_profile, email';
 			location.href = facebookApiUrl;
 		} else if(type == 'naver'){
-			var encodeReturnUri = encodeURIComponent(sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.naver);
+			var encodeReturnUri = encodeURIComponent(sns.serverDomain + sns.joinReturnUrl + '?type=' + sns.naver+"&token=${dvicetoken}");
 			var naverApiAuthUrl = '';
 			naverApiAuthUrl += sns.naverAuthUrl;
 			naverApiAuthUrl += '?client_id='+sns.naverKey;
@@ -77,7 +77,7 @@
 	// SNS 로그인
 	function fnLoginSns(type){
 		if(type == 'kakao'){
-			paramKakaoApi.redirectUri = sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.kakao;
+			paramKakaoApi.redirectUri = encodeURIComponent(sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.kakao+"&token=${dvicetoken}");
 			Kakao.init(sns.kakaoKey);
 			Kakao.Auth.authorize(paramKakaoApi);
 		} else if(type == 'facebook'){
@@ -87,11 +87,11 @@
 			facebookApiUrl += 'response_type=code';
 			facebookApiUrl += '&display=popup';
 			facebookApiUrl += '&app_id='+sns.facebookKey;
-			facebookApiUrl += '&redirect_uri='+sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.facebook;
+			facebookApiUrl += '&redirect_uri='+encodeURIComponent(sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.facebook+"&token=${dvicetoken}");
 			facebookApiUrl += '&scope=public_profile,email';
 			location.href = facebookApiUrl;
 		} else if(type == 'naver'){ 
-			var encodeReturnUri = encodeURIComponent(sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.naver);
+			var encodeReturnUri = encodeURIComponent(sns.serverDomain + sns.loginReturnUrl + '?type=' + sns.naver+"&token=${dvicetoken}");
 			var naverApiAuthUrl = '';
 			naverApiAuthUrl += sns.naverAuthUrl;
 			naverApiAuthUrl += '?client_id='+sns.naverKey;

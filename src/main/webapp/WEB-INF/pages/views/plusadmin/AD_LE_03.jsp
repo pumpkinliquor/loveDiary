@@ -15,8 +15,8 @@
 							<div class="mb10">
 								<span class="tit">등록일</span>
 								<div class="date_div">
-			                      <input type="date" class="ipt_date" id="sdate" name="sdate"><span>~</span>
-			                      <input type="date" class="ipt_date" id="edate" name="edate">
+			                      <span class="ipt_dates"><input type="date" class="ipt_date" id="sdate" name="sdate"></span><span>~</span>
+			                      <span class="ipt_dates"><input type="date" class="ipt_date" id="edate" name="edate"></span>
 			                    </div>
 		                    </div>
 		                    <div>
@@ -40,20 +40,20 @@
 									<option>대단원</option>
 									<option></option>
 								</select>
-								<select class="s_p2 codex ACV" type="select" data="acvId">
+								<select class="s_p4 codex ACV" type="select" data="acvId">
 									<option>성취기준</option>
 									<option></option>
 								</select>
 							</div>
 							<div class="srch_div">
-								<select class="s_p1">
-									<option>검색구분</option>
-									<option>문항코드</option>
-									<option>해설코드</option>
-									<option>개념코드</option>
+								<select class="s_p1" name="searchType" id="searchType">
+									<option value="">검색구분</option>
+
+									<option value="CMTR">해설코드</option>
+									<option value="NOT">개념코드</option>
 								</select>
 								<input type="text" name="searchString" id="searchString" class="ipt3">
-								<button type="submit" class="btn btn-st1">검색</button>
+								<button type="submit" class="btn btn-st1 btnSearch">검색</button>
 							</div>
 						</td>
 					</tr>
@@ -100,15 +100,15 @@
 			<h3>표준분류</h3>
 			<table class="tbl-st writeT mb">
 	        	<colgroup>
-	        		<col width="17%">
-	        		<col width="*">
-	        		<col width="17%">
+	        		<col width="15%">
+	        		<col width="25%">
+	        		<col width="15%">
 	        		<col width="*">
 	        	</colgroup>
 	        	<tbody>
-	        		<tr class="EDIT hidden">
-	        			<th>문항코드</th>
-	        			<td colspan="3" class="td_inblck">1234 <a href="#" class="btn btn-default">복제</a> <p class="point">※ 복제 시, 새로운 코드로 문항이 복제됩니다.</p></td>
+	        		<tr class="EDIT copy">
+	        			<th>개념코드</th>
+	        			<td colspan="3" class="td_inblck" >1234 <a href="#" class="btn btn-default">복제</a> <p class="point">※ 복제 시, 새로운 코드로 문항이 복제됩니다.</p></td>
 	        		</tr>
 	        		<tr>
 	        			<th>과목 <em class="point">*</em></th>
@@ -133,7 +133,7 @@
 <%--	        		</tr>--%>
 	        		<tr>
 	        			<th>개념요소명 <em class="point">*</em></th>
-	        			<td>
+	        			<td colspan="3">
 	        				<div class="radio_wrap rdo_wrap1 code CPT" type="select" data="cptId"></div>
 	        			</td>
 <%--	        			<th>성취기준 <em class="point">*</em></th>--%>
@@ -186,7 +186,7 @@
 		        				</div>
 <%--		        				<p class="point">※ 이미지 사이즈 000*000</p>--%>
 	        				</div>
-	        				<div class="thumb_img file-img2"><img src="/admassets/images/tmp_thumb.jpg"></div>
+	        				<div class="thumb_img file-img2"><img src="/admassets/images/tmp_thumb.jpg" onerror="this.src='/admassets/images/tmp_thumb.jpg'"></div>
 	        			</td>
 	        		</tr>
 	        		<tr class="CONTYPEALL P">
@@ -260,7 +260,7 @@ $(document).ready(function(){
 		$('tr.CONTYPEALL.'+$(this).attr('value')).show()
 	})
 
-
+	$('#notPlayRunTime').mask('00:00');
 
 	/* 날짜값 세팅 */
 	var sDate = new Date();
@@ -283,6 +283,11 @@ $(document).ready(function(){
         var tableElement =pageContentLast.find('table');
         plus.event.formAfter(pageContentLast,rowData,mode);
         plus.event.bbsfile(rowData);
+
+        $('.copy').hide();
+        if(rowData['notId']!='0'){
+        	$('.copy').css('display','table-row');
+		}
 
 
     }
@@ -323,18 +328,18 @@ $(document).ready(function(){
 		// 				<th>상태</th>
 		// 				<th>등록/수정</th>
         // gridColumn.push({'data': 'umSeq', 'title': plus.event.checkAll, 'type': 'checkbox', hidden: false,render:plus.event.seqCheckBox});
-        gridColumn.push({'data':'notId','title':'개념코드'});
+        gridColumn.push({'data':'notKey','title':'개념코드'});
         gridColumn.push({'data':'subName','title':'과목명'});
         gridColumn.push({'data':'acvName','title':'성취기준명','class':'tl',render:plus.renderer.clickbox});
 
-        gridColumn.push({'data':'notName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
+        gridColumn.push({'data':'cptName','title':'개념요소명','class':'tl',render:plus.renderer.clickbox});
         gridColumn.push({'data':'notType','title':'콘텐츠타입',code:plus.codes['CONTYPEALL'],render:plus.renderer.code});
-        gridColumn.push({'data':'notText','title':'내용'});
+        gridColumn.push({'data':'notText','title':'내용',render:plus.renderer.clickboxview});
 
         gridColumn.push({'data':'useYn','title':'상태',code:plus.codes['USE_YN'],render:plus.renderer.code});
         gridColumn.push({'data':'regDate','title':'등록/수정',render:plus.renderer.iddate});
 
-        gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/notionList',{},'resultList'),{attr:'속성'});
+        gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/notionList',$('.srchT:first').domJson(),'resultList'),{attr:'속성'});
 
 
 
@@ -378,7 +383,7 @@ $(document).ready(function(){
     /* 등록 버튼*/
     $('.btnReg').click(function(){
     	$('#wrapList').hide();
-      plus.frontPage.show($('#wrapEdit'), {notId:'0','start':0,length:0,useYn:'',acaId:0,subAcaId:0,notType:'T',notText:'',bbDate:(new Date()).format('yyyy-MM-dd')},'NEW');
+      plus.frontPage.show($('#wrapEdit'), {notId:'0','start':0,length:0,useYn:'y',acaId:0,subAcaId:0,notType:'T',notText:'',bbDate:(new Date()).format('yyyy-MM-dd')},'NEW');
     });
     /* 삭제 버튼*/
     $('.btnDelete').click(function(){
@@ -437,6 +442,9 @@ $(document).ready(function(){
       return false;
     });
 
+    $('.btnSearch').click(function(){
+        gridElement = plus.makeGrid('#gridElement',gridColumn,plus.makeAjax('/plusadmin/ajax/aigo/notionList',$('.srchT:first').domJson(),'resultList'),{attr:'속성'});
+    });
 
 
 });

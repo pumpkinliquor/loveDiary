@@ -1,10 +1,14 @@
 package com.plushih.services.apple;
 
+import com.google.gson.Gson;
 import com.plushih.common.utils.AppleUtils;
 import com.plushih.entities.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 @Service
@@ -20,13 +24,15 @@ public class AppleServiceImpl implements AppleService {
      * @return
      */
     @Override
-    public String getAppleClientSecret(String id_token) {
+    public String getAppleClientSecret(String id_token, HttpServletResponse resp) {
 
-        if (appleUtils.verifyIdentityToken(id_token)) {
-            return appleUtils.createClientSecret();
-        }
 
-        return null;
+        return appleUtils.createClientSecret(resp);
+//        if (appleUtils.verifyIdentityToken(id_token, resp)) {
+//
+//        }
+//
+//        return null;
     }
 
     /**

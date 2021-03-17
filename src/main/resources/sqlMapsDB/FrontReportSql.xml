@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FrontReportDAO">
+
+	<!-- 학습 결과와 상세 분석 -->
+	<select id="selectLevelReportDtl" parameterType="HashMap" resultType="camelMap">
+		/* FrontReportDAO.selectLevelReportDtl */
+		SELECT Sec_to_time(a.dur_time)                     AS my_time,
+		       Sec_to_time(Round(a.dur_time / a.qst_cnt))  AS my_sec,
+		       Sec_to_time(Round(a.qst_etc / a.qst_cnt))   AS choice_sec,
+		       a.qst_cnt,
+		       a.true_cnt,
+		       Round(a.true_cnt / a.qst_cnt * 100)         AS per,
+		       b.all_qst_cnt,
+		       b.all_true_cnt,
+		       Round(b.all_true_cnt / b.all_qst_cnt * 100) AS all_per
+		FROM   (SELECT Count(a.qst_id) AS qst_cnt,
+		               Sum(a.dur_time) AS dur_time,
+		               Sum(b.qst_etc)  AS qst_etc,
+		               Count(c.qst_id) AS true_cnt
+		        FROM   (SELECT m.qst_id,
+		                       m.dur_time
+		                FROM   aigo.cb_aigo_my_answer_list m,
+		                       aigo.cb_aigo_question q
+		                WHERE  1 = 1
+		                       AND m.qst_id = q.qst_id
+		                       AND m.use_yn = 'y'
+		                       AND q.use_yn = 'y'
+		                       AND q.aca_id = 5
+		                       AND q.lev_id = #{levId}
+		                       AND m.mem_id = #{memId}
+		                GROUP  BY m.qst_id) a
+		               LEFT JOIN (SELECT m.qst_id,
+		                                 Round(Time_to_sec(Concat('00:',
+		                                                   q.qst_add_etc07))) AS
+		                                 qst_etc
+		                          FROM   aigo.cb_aigo_my_answer_list m,
+		                                 aigo.cb_aigo_question q
+		                          WHERE  1 = 1
+		                                 AND m.qst_id = q.qst_id
+		                                 AND m.use_yn = 'y'
+		                                 AND q.use_yn = 'y'
+		                                 AND q.aca_id = 5
+		                                 AND q.lev_id = #{levId}
+		                                 AND m.mem_id = #{memId}
+		                          GROUP  BY m.qst_id) b
+		                      ON a.qst_id = b.qst_id
+		               LEFT JOIN (SELECT m.qst_id
+		                          FROM   aigo.cb_aigo_my_answer_list m,
+		                                 aigo.cb_aigo_question q
+		                          WHERE  1 = 1
+		                                 AND m.qst_id = q.qst_id
+		                                 AND m.use_yn = 'y'
+		                                 AND q.use_yn = 'y'
+		                                 AND m.pass_yn = 'y'
+		                                 AND q.aca_id = 5
+		                                 AND q.lev_id = #{levId}
+		                                 AND m.mem_id = #{memId}
+		                          GROUP  BY m.qst_id) c
+		                      ON a.qst_id = c.qst_id) a
+		       LEFT JOIN (SELECT Count(a.qst_cnt) AS mem_cnt,
+		                         Sum(a.qst_cnt)   AS all_qst_cnt,
+		                         a.true_cnt       AS all_true_cnt
+		                  FROM   (SELECT Count(m.qst_id)           AS qst_cnt,
+		                                 (SELECT Count(mm.qst_id)
+		                                  FROM   aigo.cb_aigo_my_answer_list mm,
+		                                         aigo.cb_aigo_question qq
+		                                  WHERE  1 = 1
+		                                         AND mm.qst_id = qq.qst_id
+		                                         AND mm.pass_yn = 'y'
+		                                         AND mm.use_yn = 'y'
+		                                         AND qq.use_yn = 'y'
+		                                         AND qq.aca_id = 5
+		                                         AND qq.lev_id = q.lev_id) AS true_cnt
+		                          FROM   aigo.cb_aigo_my_answer_list m,
+		                                 aigo.cb_aigo_question q
+		                          WHERE  1 = 1
+		                                 AND m.qst_id = q.qst_id
+		                                 AND m.use_yn = 'y'
+		                                 AND q.use_yn = 'y'
+		                                 AND q.aca_id = 5
+		                                 AND q.lev_id = #{levId}
+		                          GROUP  BY m.mem_id) a) b
+		              ON 1 = 1
+	</select>
+	
+	<!-- 리포트 > 레벨평가 > 리스트 -->
+	<select id="selectLevelReportList" parameterType="HashMap" resultType="camelMap">
+		/* FrontReportDAO.selectLevelReportList */
+		SELECT     b.*
+		FROM       (
+		                    SELECT   m.qst_id,
+		                             @outnum :=   0,
+		                             @outqstid := 0,
+		                             @num :=      0,
+		                             @qstid :=    0
+		                    FROM     aigo.cb_aigo_my_answer_list m,
+		                             aigo.cb_aigo_question q
+		                    WHERE    1=1
+		                    AND      m.qst_id = q.qst_id
+		                    AND      m.mem_id = #{memId}
+		                    AND      q.lev_id = #{levId}
+		                    AND      m.use_yn = 'y'
+		                    AND      q.use_yn = 'y'
+		                    AND      q.aca_id IN ( 5 )
+		                    GROUP BY m.qst_id ) a
+		INNER JOIN
+		           (
+		                     SELECT    a.qst_id,
+		                               a.aca_name,
+		                               q.qst_value,
+		                               a.pass_yn,
+		                               a.all_test_cnt,
+		                               a.all_true_cnt,
+		                               a.all_per,
+		                               Round(a.all_per * 100) AS all_per_str,
+		                               a.top_user_test_cnt,
+		                               a.top_user_true_cnt,
+		                               a.top_per,
+		                               a.top_per_str,
+		                               CASE
+		                                         WHEN a.all_per <![CDATA[<=]]> 0.2500 THEN 'A'
+												 WHEN a.all_per <![CDATA[>]]> 0.2500
+												 AND       a.all_per <![CDATA[<=]]> 0.5000 THEN 'B'
+												 WHEN a.all_per <![CDATA[>]]> 0.5000
+												 AND       a.all_per <![CDATA[<=]]> 0.7500 THEN 'C'
+												 WHEN a.all_per <![CDATA[>]]> 0.7500
+												 AND       a.all_per <![CDATA[<=]]> 0.9000 THEN 'D'
+												 WHEN a.all_per <![CDATA[>]]> 0.9000
+												 AND       a.all_per <![CDATA[<=]]> 1.0000 THEN 'E'
+		                               end test_lev,
+		                               ach.acv_id,
+		                               ach.acv_name,
+		                               a.cpt_id_str,
+		                               a.cpt_nm_str,
+		                               s.sub_name,
+		                               b.max_false_value
+		                     FROM      (
+		                                        SELECT   *
+		                                        FROM     (
+		                                                          SELECT   a.qst_id,
+		                                                                   a.aca_name,
+		                                                                   a.pass_yn,
+		                                                                   a.all_test_cnt,
+		                                                                   a.all_true_cnt,
+		                                                                   a.all_per,
+		                                                                   a.top_user_test_cnt,
+		                                                                   a.top_user_true_cnt,
+		                                                                   a.top_per,
+		                                                                   a.top_per_str,
+		                                                                   a.cpt_id_str,
+		                                                                   a.cpt_nm_str
+		                                                          FROM     (
+		                                                                          SELECT a.aca_name,
+		                                                                                 a.pass_yn,
+		                                                                                 a.all_test_cnt,
+		                                                                                 a.all_true_cnt,
+		                                                                                 a.all_per,
+		                                                                                 a.top_user_test_cnt,
+		                                                                                 a.top_user_true_cnt,
+		                                                                                 a.top_per,
+		                                                                                 Round(a.top_per * 100) AS top_per_str,
+		                                                                                 a.qst_id,
+		                                                                                 a.cpt_id_str,
+		                                                                                 a.cpt_nm_str
+		                                                                          FROM   (
+		                                                                                          SELECT   a.*
+		                                                                                          FROM     (
+		                                                                                                            SELECT   a.aca_name,
+		                                                                                                                     a.all_test_cnt,
+		                                                                                                                     a.all_true_cnt,
+		                                                                                                                     a.all_per,
+		                                                                                                                     a.top_user_test_cnt,
+		                                                                                                                     a.top_user_true_cnt,
+		                                                                                                                     nvl(( cast(a.top_user_true_cnt AS integer) / cast(a.top_user_test_cnt AS INTEGER) ), 0) AS top_per,
+		                                                                                                                     a.qst_id,
+		                                                                                                                     a.pass_yn,
+		                                                                                                                     a.cpt_id_str,
+		                                                                                                                     (
+		                                                                                                                            SELECT group_concat(cpt_name SEPARATOR ',')
+		                                                                                                                            FROM   aigo.cb_aigo_concept
+		                                                                                                                            WHERE  find_in_set(cpt_id, a.cpt_id_str)) AS cpt_nm_str
+		                                                                                                            FROM     (
+		                                                                                                                               SELECT    a.aca_name,
+		                                                                                                                                         a.all_test_cnt,
+		                                                                                                                                         a.all_true_cnt,
+		                                                                                                                                         nvl(( cast(a.all_true_cnt AS INTEGER) / cast(a.all_test_cnt AS INTEGER) ), 0) AS all_per,
+		                                                                                                                                         a.pass_yn,
+		                                                                                                                                         a.qst_id,
+		                                                                                                                                         b.top_user_test_cnt,
+		                                                                                                                                         b.top_user_true_cnt,
+		                                                                                                                                         (
+		                                                                                                                                                SELECT group_concat(cpt_id SEPARATOR ',')
+		                                                                                                                                                FROM   aigo.cb_aigo_notion
+		                                                                                                                                                WHERE  find_in_set(not_id, a.qst_rel_not_id)) AS cpt_id_str
+		                                                                                                                               FROM      (
+		                                                                                                                                                SELECT a.aca_name,
+		                                                                                                                                                       a.qst_id,
+		                                                                                                                                                       a.pass_yn,
+		                                                                                                                                                       a.qst_rel_not_id,
+		                                                                                                                                                       nvl(
+		                                                                                                                                                             (
+		                                                                                                                                                             SELECT count(m.qst_id)
+		                                                                                                                                                             FROM   aigo.cb_aigo_my_answer_list m,
+		                                                                                                                                                                    aigo.cb_aigo_question q
+		                                                                                                                                                             WHERE  1 = 1
+		                                                                                                                                                             AND    m.qst_id = q.qst_id
+		                                                                                                                                                             AND    q.qst_id = a.qst_id
+		                                                                                                                                                             AND    q.use_yn = 'y'
+		                                                                                                                                                             AND    m.use_yn = 'y'), 0) AS all_test_cnt,
+		                                                                                                                                                       nvl(
+		                                                                                                                                                             (
+		                                                                                                                                                             SELECT count(m.qst_id)
+		                                                                                                                                                             FROM   aigo.cb_aigo_my_answer_list m,
+		                                                                                                                                                                    aigo.cb_aigo_question q
+		                                                                                                                                                             WHERE  1 = 1
+		                                                                                                                                                             AND    m.qst_id = q.qst_id
+		                                                                                                                                                             AND    q.qst_id = a.qst_id
+		                                                                                                                                                             AND    m.pass_yn = 'y'
+		                                                                                                                                                             AND    q.use_yn = 'y'
+		                                                                                                                                                             AND    m.use_yn = 'y'), 0) AS all_true_cnt
+		                                                                                                                                                FROM   (
+		                                                                                                                                                                SELECT   m.qst_id,
+		                                                                                                                                                                         c.aca_name,
+		                                                                                                                                                                         m.pass_yn,
+		                                                                                                                                                                         q.qst_rel_not_id
+		                                                                                                                                                                FROM     aigo.cb_aigo_my_answer_list m,
+		                                                                                                                                                                         aigo.cb_aigo_question q,
+		                                                                                                                                                                         aigo.cb_aigo_category c
+		                                                                                                                                                                WHERE    1 = 1
+		                                                                                                                                                                AND      m.qst_id = q.qst_id
+		                                                                                                                                                                AND      q.aca_id = c.aca_id
+		                                                                                                                                                                AND      m.mem_id = #{memId}
+		                                                                                                                                                                AND      q.lev_id = #{levId}
+		                                                                                                                                                                AND      m.use_yn = 'y'
+		                                                                                                                                                                AND      q.use_yn = 'y'
+		                                                                                                                                                                AND      q.aca_id IN ( 5 )
+		                                                                                                                                                                GROUP BY m.qst_id
+		                                                                                                                                                                ORDER BY m.qst_id,
+		                                                                                                                                                                         m.udt_sysdate DESC) a
+		                                                                                                                                                       /* 단원별 풀이 수, 정답 수 */
+		                                                                                                                                         ) a
+		                                                                                                                               LEFT JOIN
+		                                                                                                                                         (
+		                                                                                                                                                    SELECT     nvl(a.top_user_test_cnt, 0) AS top_user_test_cnt,
+		                                                                                                                                                               nvl(b.top_user_true_cnt, 0) AS top_user_true_cnt,
+		                                                                                                                                                               a.qst_id
+		                                                                                                                                                    FROM       (
+		                                                                                                                                                                        SELECT   count(a.qst_id) AS top_user_test_cnt,
+		                                                                                                                                                                                 qst_id
+		                                                                                                                                                                        FROM     (
+		                                                                                                                                                                                        SELECT *
+                                                                                                                                                                                        FROM   (
+                                                                                                                                                                                                        SELECT     a.*,
+                                                                                                                                                                                                        b.qst_id
+                                                                                                                                                                                                        FROM       (
+                                                                                                                                                                                                        SELECT   a.mem_id,
+                                                                                                                                                                                                        1 - ((a.my_avg_high_cnt + (a.my_avg_same_cnt / 2)) / a.all_member_cnt) AS user_per
+                                                                                                                                                                                                        FROM     (
+                                                                                                                                                                                                        SELECT   m.mem_id,
+                                                                                                                                                                                                        m.per,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   count(a.mem_id)
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg a
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND      a.per <![CDATA[>]]> m.per
+                                                                                                                                                                                                        ORDER BY a.per) AS my_avg_high_cnt,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   count(a.mem_id)
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg a
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND      a.per = m.per
+                                                                                                                                                                                                        ORDER BY a.per) AS my_avg_same_cnt,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT count(a.mem_id)
+                                                                                                                                                                                                        FROM   aigo.v_cb_member_avg a) AS all_member_cnt
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg m
+                                                                                                                                                                                                        ORDER BY m.per ) a
+                                                                                                                                                                                                        GROUP BY a.mem_id ) a
+                                                                                                                                                                                                        INNER JOIN
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   m.mem_id,
+                                                                                                                                                                                                        m.qst_id
+                                                                                                                                                                                                        FROM     aigo.cb_aigo_my_answer_list m,
+                                                                                                                                                                                                        aigo.cb_aigo_question q
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND		 m.qst_id = q.qst_id
+                                                                                                                                                                                                        AND      m.use_yn = 'y'
+                                                                                                                                                                                                        AND      q.use_yn = 'y'
+                                                                                                                                                                                                        AND      m.pass_yn = 'y'
+                                                                                                                                                                                                        AND      q.aca_id     IN ( 5 )
+                                                                                                                                                                                                        GROUP BY m.qst_id ) b
+                                                                                                                                                                                                        ON         a.mem_id = b.mem_id ) a
+                                                                                                                                                                                        HAVING a.user_per <![CDATA[>]]> 0.5000 ) a
+		                                                                                                                                                                        GROUP BY a.qst_id ) a
+		                                                                                                                                                    INNER JOIN
+		                                                                                                                                                               (
+		                                                                                                                                                                        SELECT   count(a.qst_id) AS top_user_true_cnt,
+		                                                                                                                                                                                 qst_id
+		                                                                                                                                                                        FROM     (
+		                                                                                                                                                                                        SELECT *
+                                                                                                                                                                                        FROM   (
+                                                                                                                                                                                                        SELECT     a.*,
+                                                                                                                                                                                                        b.qst_id
+                                                                                                                                                                                                        FROM       (
+                                                                                                                                                                                                        SELECT   a.mem_id,
+                                                                                                                                                                                                        1 - ((a.my_avg_high_cnt + (a.my_avg_same_cnt / 2)) / a.all_member_cnt) AS user_per
+                                                                                                                                                                                                        FROM     (
+                                                                                                                                                                                                        SELECT   m.mem_id,
+                                                                                                                                                                                                        m.per,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   count(a.mem_id)
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg a
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND      a.per <![CDATA[>]]> m.per
+                                                                                                                                                                                                        ORDER BY a.per) AS my_avg_high_cnt,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   count(a.mem_id)
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg a
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND      a.per = m.per
+                                                                                                                                                                                                        ORDER BY a.per) AS my_avg_same_cnt,
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT count(a.mem_id)
+                                                                                                                                                                                                        FROM   aigo.v_cb_member_avg a) AS all_member_cnt
+                                                                                                                                                                                                        FROM     aigo.v_cb_member_avg m
+                                                                                                                                                                                                        ORDER BY m.per ) a
+                                                                                                                                                                                                        GROUP BY a.mem_id ) a
+                                                                                                                                                                                                        INNER JOIN
+                                                                                                                                                                                                        (
+                                                                                                                                                                                                        SELECT   m.mem_id,
+                                                                                                                                                                                                        m.qst_id
+                                                                                                                                                                                                        FROM     aigo.cb_aigo_my_answer_list m,
+                                                                                                                                                                                                        aigo.cb_aigo_question q
+                                                                                                                                                                                                        WHERE    1=1
+                                                                                                                                                                                                        AND		 m.qst_id = q.qst_id
+                                                                                                                                                                                                        AND      m.use_yn = 'y'
+                                                                                                                                                                                                        AND      q.use_yn = 'y'
+                                                                                                                                                                                                        AND      m.pass_yn = 'y'
+                                                                                                                                                                                                        AND      q.aca_id     IN ( 5 )
+                                                                                                                                                                                                        GROUP BY m.qst_id ) b
+                                                                                                                                                                                                        ON         a.mem_id = b.mem_id ) a
+                                                                                                                                                                                        HAVING a.user_per <![CDATA[>]]> 0.5000 ) a
+		                                                                                                                                                                        GROUP BY a.qst_id ) b
+		                                                                                                                                                    ON         a.qst_id = b.qst_id ) b
+		                                                                                                                               ON        a.qst_id = b.qst_id
+		                                                                                                                                         /* 해당 문제를 푼 상위 50퍼센트 이상 유저의 수, 맞춘 수 */
+		                                                                                                                     ) a
+		                                                                                                            ORDER BY a.qst_id) a
+		                                                                                          GROUP BY a.qst_id) a) a
+		                                                          ORDER BY a.qst_id DESC) a
+		                                        GROUP BY a.qst_id) a
+		                     LEFT JOIN aigo.cb_aigo_question q
+		                     ON        a.qst_id = q.qst_id
+		                     AND	   q.use_yn = 'y'
+		                     LEFT JOIN aigo.cb_aigo_achievement ach
+		                     ON        q.acv_id = ach.acv_id
+		                     AND	   ach.use_yn = 'y'
+		                     LEFT JOIN aigo.cb_aigo_notion n
+		                     ON        q.sub_id = n.sub_id
+		                     AND       q.acv_id = n.acv_id
+		                     AND	   n.use_yn = 'y'
+		                     LEFT JOIN aigo.cb_aigo_subject s
+                             ON		   q.sub_id = s.sub_id
+                             AND	   s.use_yn = 'y'
+		                     LEFT JOIN
+		                               (
+		                                        SELECT   a.qst_id,
+		                                                 a.max_false_value
+		                                        FROM     (
+		                                                          SELECT   *
+		                                                          FROM     (
+		                                                                            SELECT   *
+		                                                                            FROM     (
+		                                                                                              SELECT   m.qst_id,
+		                                                                                                       m.ans_value        AS max_false_value,
+		                                                                                                       count(m.ans_value) AS max_false_cnt
+		                                                                                              FROM     aigo.cb_aigo_my_answer_list m,
+		                                                                                                       aigo.cb_aigo_question q
+		                                                                                              WHERE    1=1
+		                                                                                              AND      m.qst_id = q.qst_id
+		                                                                                              AND      m.pass_yn = 'n'
+		                                                                                              AND      m.use_yn = 'y'
+		                                                                                              AND      q.use_yn = 'y'
+		                                                                                              AND      q.aca_id IN ( 5 )
+		                                                                                              GROUP BY m.qst_id,
+		                                                                                                       m.ans_value ) a
+		                                                                            ORDER BY a.qst_id,
+		                                                                                     a.max_false_cnt DESC ) a
+		                                                          GROUP BY a.qst_id) a
+		                                        GROUP BY a.qst_id ) b
+		                     ON        a.qst_id = b.qst_id
+		                     WHERE     1=1
+		                     AND       q.lev_id = #{levId} ) b
+		ON         a.qst_id = b.qst_id
+		GROUP BY   b.qst_id
+	</select>
+	
+	<select id="selectTotalLevelInfo" resultType="aigoLearnHistoryEntity">
+		/* FrontLearnDAO.selectTotalLevelInfo */
+		select
+			alh.thi_id
+			, alh.thi_test_type
+			, alh.sub_id
+			, alh.aca_id
+			, alh.lev_id
+			, alh.acv_id
+			, alh.mem_id
+			, alh.reg_mem_id
+			, alh.reg_date
+			, case when date_sub(now(), interval 1 day) <![CDATA[ <= ]]> alh.reg_date then 'y'
+			  else 'n' end as new_yn
+			, al.lev_name
+		from cb_aigo_learn_history as alh
+		left join cb_aigo_level as al
+			on alh.lev_id = al.lev_id
+		where mem_id = #{memId}
+		and thi_test_type = #{thiTestType}
+		order by alh.lev_id 
+	</select>
+	
+</mapper>

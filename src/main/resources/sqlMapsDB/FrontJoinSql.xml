@@ -124,4 +124,17 @@
 			,#{memRegisterIp}
 		)
 	</insert>
+
+	<!-- 회원가입 > 템프에 테이블 수정 -->
+	<insert id="updateTempInfo" parameterType="userMemberEntity">
+		/* FrontJoinDAO.updateTempInfo */
+		update cb_aigo_temp_info set
+		mem_id =#{memId}
+		where temp_id = #{memTempId}
+
+	</insert>
+	
+	<select id="selectEmailCnt" parameterType="map" resultType="int">
+		select count(m.mem_id) from cb_member m where 1=1 and m.mem_userid = #{emailCheck}
+	</select>
 </mapper>

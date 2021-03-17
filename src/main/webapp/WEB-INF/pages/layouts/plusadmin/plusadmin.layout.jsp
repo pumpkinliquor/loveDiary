@@ -62,7 +62,7 @@
         .table-footer_fix .dataTables_paginate {
             position: absolute;
             top: 25px;
-            left: 45%;
+            left: 43%;
         }
 
         /* On screens that are 992px or less, set the background color to blue */
@@ -93,7 +93,24 @@
         .paging_full_numbers{margin-top:20px;}
         .paging_full_numbers span,.paging_full_numbers a{padding:0.5rem 0.75rem;}
         .paging_full_numbers span.on,.paging_full_numbers a.on{border-bottom:3px solid #752cdd}
-    </style>
+        .ipt_dates {position: relative;width:unset !important;}
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            /*background: transparent;*/
+            /*background-position-y: 50%;*/
+            background-position-x: 90%;
+            bottom: 0;
+            /*color: transparent;*/
+            cursor: pointer;
+            height: auto;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: auto;
+        }
+        .fade {display: none;}
+</style>
 
 
   <!-- jQuery -->
@@ -101,7 +118,7 @@
   <!-- jQuery UI 1.11.4 -->
   <script src="/assets/admin-lte/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.cookie.js"></script>
   <!-- Bootstrap 4 -->
 <%--  <script src="/assets/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>--%>
@@ -132,10 +149,11 @@
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.toast.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.form.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.mask.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.validate.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery.validate.add-method.js"></script>
 <%--    <script type="text/javascript" charset="utf-8" src="/assets/js/jquery/jquery-ui-tab.min.js"></script>--%>
-    <script type="text/javascript" charset="utf-8" src="/assets/js/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/assets/js/datatables.min.js?v=<%=Math.random()+""%>"></script>
     <script src="/assets/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/assets/js/global.js?v=1"></script>
 <script type="text/javascript" charset="utf-8" src="/assets/js/plus.js?v=<%=Math.random()+""%>"></script>

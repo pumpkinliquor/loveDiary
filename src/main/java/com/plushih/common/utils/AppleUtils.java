@@ -23,8 +23,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import sun.security.ec.ECPrivateKeyImpl;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.InvalidKeyException;
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -36,28 +38,28 @@ import java.util.Map;
 @Component
 public class AppleUtils {
 
-    @Value("${APPLE.PUBLICKEY.URL}")
+    @Value("#{APPLE['PUBLICKEY_URL']}")
     private String APPLE_PUBLIC_KEYS_URL;
 
-    @Value("${APPLE.ISS}")
+    @Value("#{APPLE['ISS']}")
     private String ISS;
 
-    @Value("${APPLE.AUD}")
+    @Value("#{APPLE['AUD']}")
     private String AUD;
 
-    @Value("${APPLE.TEAM.ID}")
+    @Value("#{APPLE['TEAM_ID']}")
     private String TEAM_ID;
 
-    @Value("${APPLE.KEY.ID}")
+    @Value("#{APPLE['KEY_ID']}")
     private String KEY_ID;
 
-    @Value("${APPLE.KEY.PATH}")
+    @Value("#{APPLE['KEY_PATH']}")
     private String KEY_PATH;
 
-    @Value("${APPLE.AUTH.TOKEN.URL}")
+    @Value("#{APPLE['AUTH_TOKEN_URL']}")
     private String AUTH_TOKEN_URL;
 
-    @Value("${APPLE.WEBSITE.URL}")
+    @Value("#{APPLE['WEBSITE_URL']}")
     private String APPLE_WEBSITE_URL;
 
     /**
@@ -67,7 +69,7 @@ public class AppleUtils {
      * @param id_token
      * @return boolean
      */
-    public boolean verifyIdentityToken(String id_token) {
+    public boolean verifyIdentityToken(String id_token, HttpServletResponse resp) {
 
         try {
             SignedJWT signedJWT = SignedJWT.parse(id_token);
@@ -129,7 +131,7 @@ public class AppleUtils {
      *
      * @return client_secret(jwt)
      */
-    public String createClientSecret() {
+    public String createClientSecret(HttpServletResponse resp) {
 
         JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(KEY_ID).build();
         JWTClaimsSet claimsSet = new JWTClaimsSet();
@@ -141,17 +143,40 @@ public class AppleUtils {
         claimsSet.setAudience(ISS);
         claimsSet.setSubject(AUD);
 
+        resp.setContentType("text/html; charest=UTF-8"); //브라우저에 포함되는 문서내용 타입 정의
+        PrintWriter out = null; //
+
+
         SignedJWT jwt = new SignedJWT(header, claimsSet);
 
+        String addStr = "";
         try {
             ECPrivateKey ecPrivateKey = new ECPrivateKeyImpl(readPrivateKey());
             JWSSigner jwsSigner = new ECDSASigner(ecPrivateKey.getS());
+            addStr += "<br>,ecPrivateKey.getS()=" + ecPrivateKey.getS();
 
             jwt.sign(jwsSigner);
 
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (JOSEException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            out = resp.getWriter();
+            out.println("gson : "
+                    +"<br>,TEAM_ID=" + TEAM_ID
+                    +"<br>,ISS=" + ISS
+                    +"<br>,AUD=" + AUD
+                    +"<br>,KEY_ID=" + KEY_ID
+                    +"<br>,readPrivateKey()=" + readPrivateKey()
+                    +"<br>,APPLE_PUBLIC_KEYS_URL=" + APPLE_PUBLIC_KEYS_URL
+                    + addStr
+                    + "<br/>"
+                    + jwt.serialize()
+            );
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -163,7 +188,7 @@ public class AppleUtils {
      *
      * @return Private Key
      */
-    private byte[] readPrivateKey() {
+    public byte[] readPrivateKey() {
 
         Resource resource = new ClassPathResource(KEY_PATH);
         byte[] content = null;

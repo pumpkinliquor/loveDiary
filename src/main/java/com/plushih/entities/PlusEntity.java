@@ -32,6 +32,15 @@ public class PlusEntity implements Serializable{
      * benefits of server-side processing!)
      */
     private int length;
+    public String useYn;
+
+	public String getUseYn() {
+		return useYn;
+	}
+
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
 
 	public int getDraw() {
 		return draw;
@@ -201,5 +210,23 @@ public class PlusEntity implements Serializable{
 			e.printStackTrace();
 		}
 		return res;
+	}
+	private String regSysdate;
+	private String udtSysdate;
+
+	public String getRegSysdate() {
+		return regSysdate;
+	}
+
+	public void setRegSysdate(String regSysdate) {
+		this.regSysdate = regSysdate;
+	}
+
+	public String getUdtSysdate() {
+		return udtSysdate;
+	}
+
+	public void setUdtSysdate(String udtSysdate) {
+		this.udtSysdate = udtSysdate;
 	}
 }
